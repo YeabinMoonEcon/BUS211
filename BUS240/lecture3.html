@@ -30,7 +30,14 @@
 					<li>Your team needs to consult me regarding your choice</li>
 				</ul> 
 				  </section>
+				  <section>
+					
+					If you wan to download this slide, just put <br>
+					?print-pdf after html adress
+				  </section>
 				 
+
+
 				  <section>
 						<ul>
 						<li >Learn how to create pictures of data</li>
@@ -135,7 +142,7 @@
 							<pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers>
 							mean()
 						</code></pre>
-						<em class="fragment">Error in mean.default() : argument "x" is missing, with no default</em>						<br>
+						<em class="">Error in mean.default() : argument "x" is missing, with no default</em>						<br>
 
 						<li>Try again </li><pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers>
 							mean(x = df)
@@ -159,6 +166,7 @@
 							df * 10
 							df + df
 							</code></pre>
+							Vectorization?
 						</section>
 						<section>
 							You will use class() quite often 
@@ -170,9 +178,11 @@
 								</code></pre>
 						</section>
 						<section>
-							Think about what these codes are doing
+							Imainge what's going to happen
 							<pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers>
-							df
+							mean()
+							x <- 20
+							mean()
 							</code></pre>
 						</section>
 
@@ -189,9 +199,9 @@
 					<h4>more friends</h4>
 					<ul>
 						<li>You will see <em>tibble</em> a lot</li>
-						<li>tidyverse libraries make it popular</li>
-						<li>Like data frames, they store vraibles of different classes in a single table</li>
-						<li>more friendly</li>
+						<li>tidyverse libraries make even more R popular</li>
+						<li>Like data frames, they store vriables of different classes in a single table
+						more friendly</li>
 					
 					<pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers>
 						df_tibble <- as_tibble(df)
@@ -236,7 +246,7 @@
 				</ul>
 			</section>
 			<section>
-				<h4>Creat a figure</h4>
+				<h4>Create a figure</h4>
 				<pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers>
 					install.packages("gapminder")
 					library(gapminder)
@@ -248,17 +258,6 @@
 					</code></pre>		
 			</section>
 			
-			<section>
-				<h4>Creat a figure</h4>
-				<pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers>
-					install.packages("gapminder")
-					library(gapminder)
-					gapminder
-
-					first_plot <- ggplot(data = gapminder,
-										mapping = aes(x = gdpPercap, y = lifeExp)) + geom_point()
-					</code></pre>		
-			</section>
 
 			<section>
 				R Markdown<br>
