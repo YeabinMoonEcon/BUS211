@@ -1,0 +1,248 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>BUS211:lecture3</title>
+
+		<link rel="stylesheet" href="../dist/reset.css">
+		<link rel="stylesheet" href="../dist/reveal.css">
+		<link rel="stylesheet" href="../dist/theme/black.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="../plugin/highlight/monokai.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section data-markdown>
+					<textarea data-template>
+						## Lecture 3 
+						### BUS 211A-3<br>Foundations of Data Analytics
+					
+					</textarea>
+				  </section>
+				  <section>
+					<h2>Access problem?</h2>
+					<ul>
+						<li class="fragment">DataCamp?</li>
+						<li class="fragment">SafeGraph?</li>
+					</ul>
+				</section>
+				<section>
+					<ul>
+					<li class="fragment">Analyzing an algorithm means that predicting the resources that the algorithm requires</li>
+					<ul>
+						<li class="fragment">memory, bandwidth, power</li>
+					</ul>
+					<li class="fragment">Conventionally, it refers to computational time</li>
+					<li class="fragment">Precision is important criteria, but it is far beyond what we need to know </li>
+					
+					</ul>
+              </section>
+               
+                <section>
+					<h4>Analysis of algorithm</h4>
+					<ul>
+						<li class="fragment">How long does the insertion-sort procedure take?</li>
+						<li class="fragment">Run it on your machine</li>
+						<ul>
+							<li class="fragment">What's the problem?</li>
+							<li class="fragment">timing a run is subject to almost everything</li>
+						</ul>
+						<li class="fragment">Analyze the algorithm itself!</li>
+						<ul>
+							<li class="fragment">Use pseudocode</li>
+							<li class="fragment">examine how many times it executes each line</li>
+							<li class="fragment">examine how long each line of code takes to run</li>
+							<li class="fragment">most softwares have this time function</li>
+						</ul>
+					</ul>
+				</section>
+				<section>
+					<h3>Insertion Sort</h2>
+					<img src="pics/lecture3_1.png" width=600>
+				</section>
+                <section>
+					<ul>
+					<li class="fragment">Let's analyze insertion sort</li>
+					<li class="fragment">The running time depnds on the input</li>
+					<ul>
+						<li class="fragment">Two factors</li>
+						<ul>
+						<li class="fragment">input size</li>
+						<li class="fragment">initial position</li>
+					
+					<li class="fragment">Assume input size as the number of items in the input</li>
+					<li class="fragment">The input size $n$ will impact on the running time more and more</li>
+					</ul>
+              </section>
+			  
+			  <section>
+	
+				<img src="pics/lecture3_2.png" width=600>
+			</ul>
+			<li class="fragment">Array $A$ contains the values to be sorted</li> 
+			<li class="fragment">The number $n$ of values of sort</li>
+			<li class="fragment">The values occupy positions $A[1]$ through $A[n]$</li>
+			</ul>
+			  </section>
+			
+			<section>
+				\[\begin{aligned}
+				T(n) &= c_1n + c_2(n-1)+c_4(n-1) + c_5 \sum_{i=2}^{n}t_i  \\
+				&+c_6 \sum_{i=2}^{n}(t_i-1)+c_7 \sum_{i=2}^{n}(t_i-1) \\
+				&+c_8(n-1)
+				\end{aligned} \]
+			</section>
+			
+			<section>
+				<img src="pics/lecture3_2.png" width=600><br>
+				<ul>
+					<li class="fragment">Consider the input list is sorted already</li>
+					<ul>
+						<li class="fragment">$A[i]$ is greater than $A[1:i-1]$</li>
+						<li class="fragment">$t_i$ = 1</li>
+					</ul>
+
+				</ul>
+			</section>
+			<section>
+				<ul>
+					\[\begin{aligned}
+				T(n) &= c_1n+c_2(n-1)+c_4(n-1)\\
+				&+c_5(n-1)+c_8(n-1)
+				\end{aligned} \]
+
+					<li class="fragment">This is <em>the best case</em></li>
+					<ul>
+						<li class="fragment">The running time is a linear function of $n$</li>
+					</ul>
+			</section>
+		<section>
+			<ul>
+				<li class="fragment">Think about <em>the worst case</em></li>
+				<ul>
+					<li class="fragment">the reverse sorted order</li>
+					<li class="fragment">For each $A[i]$, need to consider all $A[1:i-1]$</li>
+				</ul>
+				<li class="fragment">So $t_i=i$, for $i=2,3,...,n$</li>
+				<ul>
+				<li class="fragment">need to calculate $\sum_{i=2}^{n}i$ and $\sum_{i=2}^{n}(i-1)$</li>
+				<li class="fragment">since the while loop exists only when $j$ reaches 0</li>
+			</ul>
+			</ul>
+		</section>	
+		
+		<section>
+			<ul>
+				\[\begin{aligned}
+			T(n) &= c_1n+c_2(n-1)+c_4(n-1)\\
+			&+c_5(\frac{n(n+1)}{2} -1)+c_6(\frac{n(n-1)}{2})\\
+			&+c_7(\frac{n(n-1)}{2})+c_8(n-1)
+			\end{aligned} \]
+
+				<li class="fragment">This is <em>the worst case</em></li>
+				<ul>
+					<li class="fragment">The running time is a quadratic function of $n$</li>
+					<li class="fragment">$an^2+bn+c$</li>
+				</ul>
+		</section>
+		
+		<section>
+			<ul>
+					<li class="fragment">Usually concentrate on finding only the worst-case running time. Why?</li>
+				<ul>
+					<li class="fragment">It gives an upper bound on the running time for any input</li>
+					<li class="fragment">The worst case occurs faily often</li>
+					<li class="fragment">The average case is often roughly as bad as the worst case</li>
+				</ul>
+		</section>
+		
+		<section>
+			<ul>
+					<li class="fragment">In practice, ignore the actual cost of each step, $c_k$</li>
+				<ul>
+					<li class="fragment">express $an^2+bn+c$</li>
+					<li class="fragment">$c_k$ would provide more detail than we need</li>
+					<li class="fragment">consider only the leading term of a formula $an^2$</li>
+					<ul>
+						<li class="fragment">the lower-order tems are relatively insignificant for large $n$</li>
+					</ul>
+				</ul>
+		</section>
+
+		<section>
+			<ul>
+					<li class="fragment">For example, suppose an algorithm implemented takes $0.01 n^2 + 100n$</li>
+				<ul>
+					<li class="fragment">$0.01 n^2$ dominates the $100n$ term once $n$ exceeds 10,000</li>
+					<li class="fragment">Many real-world problems have much larger input sizes</li>
+					
+					
+				</ul>
+		</section>
+		<section>
+			<h3>Order of growth</h3>
+			<ul>
+					<li class="fragment">This expression is called the order of growth</li>
+					<li class="fragment">Use the Greek letter $\Theta$ (theta)</li>	
+				<ul>
+					<li class="fragment">insertion sort has a worst-case running time of $\Theta(n^2)$</li>
+					<ul>
+						<li class="fragment">roughly proportional to $n^2$ when $n$ is large</li>
+					</ul>
+					<li class="fragment">insertion sort has a best-case running time of $\Theta(n)$</li>
+					<ul>
+						<li class="fragment">roughly proportional to $n$ when $n$ is large</li>
+					</ul>
+					
+					
+				</ul>
+		</section>
+
+		<section>
+			<ul>
+					<li class="fragment">Usually consider one algorithm to be more efficient than another if its worst-case running time has a lower order of growth</li>
+					<li class="fragment">Due to constant factors and lower-order terms, hard to predict small input algorithm</li>	
+					<li class="fragment">There is always some number $n_0$ such that for all input size $n\ge n_0$, $\Theta(n^2)$ beats $\Theta(n^3)$ in the worst case</li>	
+				
+		</section>
+
+		<section>
+			If computers were infinitely fast and computer memory were free, would you have any reason to study algorithms?
+				
+		</section>
+		<section>
+			More efficient algorithm produces the results faster!
+		</section>
+		<section>
+			Introduction to GitHub: <a href="https://skills.github.com" target="_blank">Link</a>
+			
+		</section>
+		
+		</div>
+		</div>
+
+		<script src="../dist/reveal.js"></script>
+		<script src="../plugin/notes/notes.js"></script>
+		<script src="../plugin/markdown/markdown.js"></script>
+		<script src="../plugin/highlight/highlight.js"></script>
+		<script src="../plugin/math/math.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+				progress: false,
+				touch: true,
+				slideNumber: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX ]
+			});
+		</script>
+	</body>
+</html>
