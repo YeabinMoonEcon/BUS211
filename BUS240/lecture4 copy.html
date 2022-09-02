@@ -1,0 +1,247 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>BUS240:lecture4</title>
+
+		<link rel="stylesheet" href="../dist/reset.css">
+		<link rel="stylesheet" href="../dist/reveal.css">
+		<link rel="stylesheet" href="../dist/theme/black.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="../plugin/highlight/monokai.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section data-markdown>
+					<textarea data-template>
+						## Lecture 4 <br>Grammar of Graphics
+						### BUS 240F: Information Visualization
+					</textarea>
+				  </section>
+				  <section>
+					<h3>Today</h3>
+					<ul>
+						<li class="fragment">Produce scatterplots</li>
+						<li class="fragment">Undersatnd the logic behind the commands</li>
+						<li class="fragment">Visualizing data with ggplot involves the same sequence of steps</li>
+						<ul>
+
+							<li class="fragment">almost always</li>
+							<li class="fragment">applicable to other programming language</li>
+						</ul>
+					</ul> 
+				  </section>
+
+				  <section>
+					<h4>Recall the last slide</h4>
+					<pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers>
+						install.packages("gapminder")
+						library(gapminder)
+						gapminder
+					</code></pre>		
+					<pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers>
+						first_plot <- ggplot(data = gapminder,
+											mapping = aes(x = gdpPercap, y = lifeExp)) + 
+											geom_point()
+						</code></pre>		
+				</section>
+
+				  <section>
+					<h3>1. Understanding ggplot</h3>
+					<ul>
+						<li class="fragment">Some structured relationship between the variables in your data and their representation in the plot </li>
+						<ul>
+							<li class="fragment"><em>mapping</em></li>
+							<li class="fragment">basic tools: lines, shapes, colors</li>
+							<li class="fragment">some representations are harder to understand</li>
+						</ul>
+						<li class="fragment">ggplot provides you tools</li>
+						<ul>
+							<li class="fragment">map data to visual elements on your plot</li>
+							<li class="fragment">specify plot</li>
+							<li class="fragment">add details</li>
+						</ul>
+					</ul> 
+				  </section>
+
+				  <section>
+					<h4>5 steps</h4>
+					<ul>
+						<li class="fragment">Tidy data</li>
+						<li class="fragment">Mapping</li>
+						<li class="fragment">Geom</li>
+						<li class="fragment">Scales and co-ordinates</li>
+						<li class="fragment">Lables </li>
+						
+					</ul> 
+					<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+						first_plot <- ggplot(data = gapminder,
+											mapping = aes(x = gdpPercap, y = lifeExp)) + 
+											geom_point()
+						</code></pre>		
+				  </section>
+
+
+				  <section>
+					<h4><em>Minimum requirement</em></h4>
+					<ul>
+					<li class="fragment">Think about the logical structure of your plot</li>
+					<li class="fragment">Code specifies the connections between the variables in your data, colors, points,shapes</li>
+						<ul>
+						<li class="fragment"><em>aesthetics</em> or <em>aes</em> does it for you</li>
+						</ul>
+					<li class="fragment"><em>geom</em> selects the plot </li>
+						<ul>
+						<li class="fragment">geom_point(), geom_bar(), geom_boxplot()</li>
+						<li class="fragment">need to combine ggplot() object with geom by "+"</li>
+					</ul>
+					<li class="fragment">The rest is just details </li>
+					</ul>
+
+				  </section>
+				 
+
+
+				  <section>
+						<ul>
+						<li >Learn how to create pictures of data</li>
+						<li >R and ggplot mostly</li>
+						<li >Typing out the codes, instead of copy and paste</li>
+						<li>Let's open up R</li>
+					</ul>
+				</section>
+				<section>
+				<img src="pics/lecture3_1.png" width=400>
+				<ul>
+					<li>Everything works through a command line</li>
+					<ul><li>console</li>
+						<li> > connects you and machine</li>
+						<li> interpret your instruction and gives you output to the console</li>
+					</ul>
+					
+				</ul>
+
+				</section>
+
+
+				<section>
+				<ul>
+					<li>Many write codes in a text file and send it to R</li>
+					<ul><li>use any text editor to write .r script</li></ul>
+					<li>Rstudio is an IDE: integrated development environment</li>
+					<ul><li>independent application from R</li></ul>
+					<li>It collects various elements in R to help your work</li>
+				</ul>
+				</section>
+
+				<section>
+					<img src="pics/lecture3_2.png" width=900>
+				</section>
+				<section>
+					<img src="pics/lecture3_3.png" width=600>
+					<li>install.packages("tidyverse")</li>
+					<li>Make sure: library(tidyverse)</li>
+				</section>
+
+			
+						
+						<section>
+							Think about this
+							<pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers>
+							df <- c(1,23,4,5)
+							table(df)
+							sd(df)
+							df + 1
+							df * 10
+							df + df
+							</code></pre>
+							Vectorization?
+						</section>
+						<section>
+							You will use class() quite often 
+							<pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers>
+								class(df)
+								sum_df <- summary(df)
+								class(sum_df)
+								class(summary)
+								</code></pre>
+						</section>
+						<section>
+							Imainge what's going to happen
+							<pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers>
+							mean()
+							x <- 20
+							mean()
+							</code></pre>
+						</section>
+
+
+				<section>
+					<h4>dataframe will be your close friend</h4>
+					<pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers>
+						df <- anscombe
+						class(df)
+						df$x1
+						</code></pre>
+				</section>
+				<section>
+					<h4>more friends</h4>
+					<ul>
+						<li>You will see <em>tibble</em> a lot</li>
+						<li>tidyverse libraries make even more R popular</li>
+						<li>Like data frames, they store vriables of different classes in a single table
+						more friendly</li>
+					
+					<pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers>
+						df_tibble <- as_tibble(df)
+						df_tibble
+						</code></pre>
+					
+						<li>What's the difference?</li>
+					</ul>
+				</section>
+
+				<section> Some tips<br>
+					<ul>
+						<li>Make sure parentheses are balanced	</li>
+						<ul>need to check proper opening "(" and closing ")"</ul>
+						<li>Complete your expressions</li>
+						<ul>you will see + in the console</ul>
+						<li>R Studio will help your coding</li>
+						<ul>watch out auto completion</ul>
+					</ul>
+				</section>
+				
+				
+			<section>
+				<img src="pics/lecture3_6.png" width=700>
+			</section>
+
+		</div>
+		</div>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js"></script>
+		<script src="../dist/reveal.js"></script>
+		<script src="../plugin/notes/notes.js"></script>
+		<script src="../plugin/markdown/markdown.js"></script>
+		<script src="../plugin/copycode/copycode.js"></script>
+		<script src="../plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+				progress: false,
+				touch: true,
+				slideNumber: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
+</html>
