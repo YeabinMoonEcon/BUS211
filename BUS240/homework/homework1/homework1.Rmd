@@ -64,8 +64,8 @@ Write your answer in words
 
 ## Data Manipulation basic
 
-Read the following data
-```{r}
+Read the following data.
+```{r include=FALSE}
 library(readr)
 url <- "https://yeabinmoonecon.github.io/ibs_course/BUS240/homework/homework1/monster_jobs_clean.csv"
 df <- read_csv(url)
@@ -114,12 +114,16 @@ Write about 100 words
 
 ## Introduction to Visualization
 The following codes produce the same figures. Search online ggplot and qplot and comment below. You need to explain how each function works and what arguments are necessary to produce. Also, try to comment on the role of geom_point()
-```{r}
+```{r include=FALSE}
 library(tidyverse)
+library(ggplot2)
+```
+
+```{r}
 ggplot(data = df,	mapping = aes(x = job_id, y = salary_min)) + geom_point()
 # comment here
-
-library(ggplot2)
+```
+```{r}
 qplot(data = df, x = job_id, y = salary_min )
 # comment here
 ```
