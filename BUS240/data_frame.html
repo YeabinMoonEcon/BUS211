@@ -590,8 +590,8 @@ contains all of the data that recent_grads has, with two additional
 columns prop_male and prop_male_gt_half. The mutate() function is what
 creates both of these new columns.</p>
 </div>
-<div id="practice" class="section level2">
-<h2>Practice?</h2>
+<div id="practice-all" class="section level2">
+<h2>Practice all?</h2>
 <p>After creating columns of interest, it’s good practice to reexamine
 the data to see if it matches your expectations. Sometimes mistakes will
 be made in calculations, and it’s better to catch them early.</p>
@@ -625,6 +625,75 @@ in descending order.</p>
 ## 4   756   679     0.898
 ## 5  1258  1123     0.893
 ## 6 91227 80320     0.880</code></pre>
+<p>Practice here: What major has the lowest proportion of employed
+graduates?</p>
+<pre class="r"><code>print(&quot;show your code&quot;)</code></pre>
+<pre><code>## [1] &quot;show your code&quot;</code></pre>
+</div>
+<div id="summarize-data" class="section level2">
+<h2>Summarize data</h2>
+<p>In the last screen, we inspected a tibble visually after doing some
+sorting. While visual inspection is useful in a lot of situations, it’s
+better used for quick glances and checks.</p>
+<p>In other cases, we’ll want to gather some summary statistics to get a
+better understanding of our data. Instead of calculating these by hand,
+we can use the summarize() function to get these values with a short
+line of code. For example, if we want to see what the average
+unemployment rate was across the majors:</p>
+<pre class="r"><code>summary_table &lt;- recent_grads %&gt;% 
+  summarize(
+    avg_unemp = mean(Unemployment_rate),
+    min_unemp = min(Unemployment_rate),
+    max_unemp = max(Unemployment_rate)
+  )</code></pre>
+<p>The summarize() function is often combined with the group_by()
+function which allows splitting the dataframe into several subsets on
+which we can apply functions. This workflow is known as
+split-apply-combine workflow. It is widely used in data analysis. It
+consists in three steps:</p>
+<ol style="list-style-type: decimal">
+<li><p>Split the dataset into subsets using the function
+group_by().</p></li>
+<li><p>Apply functions to those subsets using the summarize()
+function.</p></li>
+<li><p>Combine the results back together using again the summarize()
+function.</p></li>
+</ol>
+<p>In the above example, we can introduce the group_by() function to
+summarize the dataframe by Major_category.</p>
+<pre class="r"><code>summary_by_Major_category &lt;- recent_grads %&gt;% 
+  group_by(Major_category) %&gt;%
+  summarize(
+    avg_unemp = mean(Unemployment_rate),
+    min_unemp = min(Unemployment_rate),
+    max_unemp = max(Unemployment_rate)
+  )
+head(summary_by_Major_category, 3)</code></pre>
+<pre><code>## # A tibble: 3 × 4
+##   Major_category                  avg_unemp min_unemp max_unemp
+##   &lt;chr&gt;                               &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+## 1 Agriculture &amp; Natural Resources    0.0563    0         0.0969
+## 2 Arts                               0.0902    0.0760    0.106 
+## 3 Biology &amp; Life Science             0.0609    0         0.0855</code></pre>
+<p>Try this: 1. Create a new tibble called minmax_median_income that
+calculates the minimum and maximum value in the Median column.</p>
+<ol start="2" style="list-style-type: decimal">
+<li>Create a new tibble called minmax_median_income_by_major that
+calculates the minimum and maximum value in the Median column grouping
+by the Major column.</li>
+</ol>
+</div>
+<div id="helpful-tips" class="section level2">
+<h2>Helpful tips</h2>
+<p>As we wrap up this lesson, we’ll cover one last function that will
+prove useful in your data analysis tasks. There are times where we’ll
+want to isolate a column from a tibble and use it as a vector so that we
+can perform some calculations on it. There are 3 ways to do this, one of
+which we will recommend over the others.</p>
+<p>The first way we can use a column as a vector is through $ (read as
+“dollar sign”) notation. The syntax for this is [tibble]$[column_name],
+and we’ll use it to get the Sample_size column from the recent_grads
+tibble:</p>
 </div>
 
 
