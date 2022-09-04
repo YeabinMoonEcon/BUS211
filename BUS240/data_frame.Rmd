@@ -1,0 +1,156 @@
+---
+title: "mini lecture"
+author: "Yeabin"
+date: "2022-09-04"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(readr)
+recent_grads <- read_csv("https://yeabinmoonecon.github.io/ibs_course/BUS240/data/recent_grads.csv")
+```
+
+## Navigate your data
+
+There are many ways that we can get to know about the data, but we'll explore a few different methods. If we just wanted to get a quick summary of the data itself, we can use the glimpse() function from the tibble library. The glimpse() function will help answer all three of the above questions for us. We show a truncated version of the function output below.
+
+```{r summary}
+library(tidyverse)
+glimpse(recent_grads)
+summary(recent_grads)
+```
+
+The number of "Observations" corresponds to the number of rows in the dataset, while the number of "Variables" tells us the number of columns. After these numbers, we see each of the variables/columns in more detail, including the column name, its type and a small sample of the values contained in the column. For example, the Rank column is the first column in the data and contains numbers in the form of doubles (dbl). Since each row represents a major, the Rank column represents the ranking of each major.
+
+```{r}
+nrow(recent_grads) # returns the number of rows in `data`
+ncol(recent_grads) # returns the number of columns in `data`
+```
+
+## Data manipulation
+
+Now that we're more familiar with the recent_grads data, we can start manipulating it so that we can use it for later data analysis. In general, most analyses won't need all of the columns of a dataset. In these cases, it's good practice to pare down the data to just the columns that you need.
+
+To filter the data by columns, we can use the select() function which comes from the dplyr library. Notice that this is also a tidyverse library. The select() function actually takes a variable number of arguments since it doesn't know ahead of time how many columns a programmer may need from it. The first argument that the select() function takes is a tibble, and the following arguments are column names that are in the tibble. An example follows using the recent_grads dataset:
+
+```{r}
+selected_col_data <- select(recent_grads, Rank, Major)
+```
+
+See this:
+```{r}
+removed_col_data <- select(recent_grads, -Rank, Major)
+```
+When we prefix a column name with a - ("minus sign"), we indicate to the select() function that we actually want to remove it.
+
+Recall that each of the rows represents information on a single thing (or in this case, major), so filtering the rows means looking for a subset of the rows that have a particular quality. We want to filter rows using the filter() function.
+
+Explain:
+```{r}
+top_100_majors <- filter(recent_grads, Rank < 100)
+```
+
+If we had multiple conditions, then we would separate them using commas:
+```{r}
+large_engineering_majors <- filter(recent_grads, 
+                                   Total > 5000, 
+                                   Major_category == "Engineering")
+```
+
+Since the filter() function requires conditions, we need to know some comparison operators. This is just a fancy name for the symbols we use to compare objects. We'll learn more about comparison operators in the next lesson, but knowing how to use the operators below will be enough for this lesson.
+
+1. column == a: equality, "Filter for where the column equals 'a'"
+
+2. column != b: not equals, "Filter for where the column is not 'b'"
+
+3. column < 5: less than, "Filter for where the column is less than 5"
+
+4. column <= 5: less than or equal, "Filter for where the column is less than or equal to 5"
+
+5. column > 10: greater than, "Filter for where the column is greater than 10"
+
+6. column >= 10: greater than or equal, "Filter for where the column is greater than or equal to 10"
+
+## Pipe operator
+So far in this lesson, we have taken tibbles and passed them into either the select() function or the filter() function to get a subset of the tibble. Both of these functions return an altered version of the original tibble.
+
+Consider:
+```{r}
+ranked_majors <- select(recent_grads, Rank, Major, Total)
+low_total_ranked_majors <- filter(ranked_majors, Total < 2000)
+```
+
+There's nothing wrong with this approach, but imagine a scenario where there are multiple data manipulation steps we need to take. Each step creates a new tibble, assign it to a new variable and then pass this variable into a new function. This creates a situation where we're creating a lot of tibbles that are just used once, and we have to keep track of all these new variables.
+
+The tidyverse provides us with a beautiful tool that will allow us to streamline this process and do all of our data manipulation in one place. That tool is the %>% function, named the pipe operator. The pipe operator allows us to take the output of one function and have it be used directly as the input of another function. In terms of code, we can rewrite the above using %>%:
+
+```{r}
+low_total_ranked_majors <- recent_grads %>%
+  select(Rank, Major, Total) %>%
+  filter(Total < 2000)
+```
+
+The two code blocks produce exactly the same result, but the %>% operator allows us to better see the flow of our data manipulation. In the first line of the new code, the recent_grads tibble is piped into the select() function. Similarly, the output of select() is passed into the filter() function, where the pipeline ends.
+
+```{r}
+# Old way of summing a vector
+sum(c(1, 2, 3, 4, 5))
+
+# "Piping" the vector into the sum function
+c(1, 2, 3, 4, 5) %>% sum()
+
+# Old way of printing a string in the R console
+print("Learning about the pipe!")
+
+# "Piping" a string into the print function
+"Learning about the pipe!" %>% print
+```
+
+Try this:Starting with the recent_grads tibble, create a pipeline using %>% that does the following
+
+1. Removes the Rank and Major columns and
+
+2. Filters for majors with a Median pay less than 50000
+
+```{r}
+print("show your code here")
+```
+
+## Construct new columns
+Now that we know how to filter our tibbles down based on row or column, we can move onto a new method of manipulating our data. Once we've filtered our data down to what we need, the next step is often to create new columns from the existing data.
+
+One common example of creating new data from existing columns is converting counts into percentages. In the recent_grads data, we have a Total column and a Men column. Total indicates the number of people surveyed with the major, while Men indicates how many of these people are male. These numbers by themselves don't tell us much since the Totals vary so much, but if we create a new column based on percentages, this will allow us to better compare majors.
+
+In order to create a new column based on other columns, we need to use the mutate() function. Within a mutate() function, we name new columns and define how they should be calculated. For example, we can do the following:
+
+```{r}
+new_recent_grads <- recent_grads %>%
+  mutate(
+    prop_male = Men / Total,
+    prop_male_gt_half = prop_male > 0.5
+  )
+
+```
+
+The result of the code is another new tibble new_recent_grads that contains all of the data that recent_grads has, with two additional columns prop_male and prop_male_gt_half. The mutate() function is what creates both of these new columns.
+
+## Practice?
+After creating columns of interest, it's good practice to reexamine the data to see if it matches your expectations. Sometimes mistakes will be made in calculations, and it's better to catch them early.
+
+Let's say that we're not sure if the prop_male column we calculated came out correctly. We would expect the higher values of prop_male to have either high numbers of Men, low Total or both. To examine this, we need to sort the data based on the prop_male column in descending order and examine the first few values.
+
+The arrange() function can help us with that. This function takes in one or more columns that we want to sort the tibble by. Taking the example from the last screen, we can sort by prop_male by doing the following:
+
+```{r}
+new_recent_grads <- recent_grads %>%
+  mutate(
+    prop_male = Men / Total
+  ) %>% 
+  arrange(-prop_male) %>% 
+  select(Total, Men, prop_male)
+```
+By default, the arrange() function sorts things into ascending order. If we were just to supply prop_male by itself to arrange(), then the tibble would start with the row with the smallest value. To reverse this, we just need to add a - sign to the beginning to indicate sorting in descending order.
+
+```{r}
+head(new_recent_grads)
+```
