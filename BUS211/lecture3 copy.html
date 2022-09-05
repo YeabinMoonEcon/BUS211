@@ -24,24 +24,30 @@
 					</textarea>
 				  </section>
 				  <section>					
-					We talk about code sharing, programming language, and homework
-				  </section>
+					
+					<h2>Today</h2>
+					<ul>
+						<li class="fragment">Version-control tool</li>
+						<li class="fragment">Overview of programming language and data analysis</li>
+						<li class="fragment">Some thoughts on assignment</li>
+					</ul>
+				</section>
 
 				  <section>
 					<h2>1. Version control</h2>
 						<img src="pics/lecture4_1.png" width=200 class=""fragment><br>
 						<ul>
-							<li class="fragment">You may exerience</li>
-						
-		
-							<li class="fragment">Worse yet, more than 2 writers</li>
+							<li class="fragment">You may exerience this</li>
 						</ul>
 				</section>
 				<section>
 					<ul>
-					<li class="fragment">Revision and replication control are class of systems for code management </li>
+					<li class="fragment">Revision and Reproducibility </li>
 					<ul>
-						<li class="fragment">whole project / a single code snippet</li>
+						<li class="fragment">whole project / single code snippet</li>
+						<li class="fragment">you, future you, collaborators, or public</li>
+						<li class="fragment">run / study the code </li>
+						<li class="fragment">roll back to the past to compare / fix</li>
 					</ul>
 					
 					<li class="fragment">Need some structures</li>
@@ -50,31 +56,43 @@
 						<li class="fragment">who approved the changes</li>
 						<li class="fragment">when the change were implemented</li>
 					</ul>
-					<li class="fragment">Introduction to GitHub: <a href="https://skills.github.com" target="_blank">Link</a></li>
+		
 					</ul>
               </section>
                
                 <section>
-					<h2>2. Version control</h2>
+					
 					<ul>
-						<li class="fragment">Centalized Repository</li>
-						<li class="fragment">Run it on your machine</li>
+						<li class="fragment">Git: the industry leading open-source version-control tool</li>
 						<ul>
-							<li class="fragment">what's the problem?</li>
-							<li class="fragment">timing a run is subject to almost everything</li>
-						</ul>
-						<li class="fragment">Analyze the algorithm itself!</li>
-						<ul>
-							<li class="fragment">use pseudocode</li>
-							<ul>
-								<li class="fragment">plain language description</li>
-							</ul>
-							<li class="fragment">examine how many times it executes each line</li>
-							<li class="fragment">examine how long each line of code takes to run</li>
-							<li class="fragment">most softwares have this time function</li>
+							<li class="fragment">infrastructure for versioning and merging files</li>
+							<li class="fragment">commandline access locally/online</li>
 						</ul>
 					</ul>
+						<img src="https://miro.medium.com/max/700/1*E1jdYRKin1hraL67-cKALw.png" width=600>
+	
 				</section>
+	
+	
+                <section>
+					
+					<ul>
+						<li class="fragment">GitHub is a Graphical User Interface (GUI) for Git</li>
+						<ul>
+							<li class="fragment">provide an online repository service like dropbox</li>
+							<li class="fragment">many useful features</li>
+						</ul>
+						
+						<li class="fragment">Introduction to GitHub: <a href="https://skills.github.com" target="_blank">Link</a></li>
+						<li class="fragment">Some companies/users use private repository system</li>
+						
+					</ul>
+		
+				</section>
+	
+	
+	
+	
 				<section>
 					<h2>2. Data wrangling</h2>
 					<ul>
@@ -83,29 +101,147 @@
 				</section>
                 
 				<section>
-					<h2>3. Language language language</h2>
+					<h2>3. What's Programming?</h2>
 					<ul>
-						<li class="fragment">We will be back later</li>
+						<li class="fragment">Mathematics, statitsics, data science, graphic designer,....</li>
+						<li class="fragment">Programmer, developer, software engineer</li>
+						<li class="fragment">Most of them code</li>
 					</ul>
 				</section>
 			  
+				<section>
+					<h4>Classification (lossely)</h4>
+					<ul>
+						<li class="fragment">General programming languages</li>
+						<ul>
+							<li class="fragment">Fortran, C/C++, Java, Swift, C#, Go, JavaScript, or Python</li>
+						</ul>
+						<li class="fragment">More mathematical / statistical programming languages</li>
+						<ul>
+							<li class="fragment">Mathematica, MATLAB/Octave, R, or Maple</li>
+						</ul>
+						<li class="fragment">At the end, speed</li>
+					</ul>
+				</section>
+				<section>
+					<h4>Speed again</h4>
+					<ul>
+						<li class="fragment">Quantify speed overall</li>
+						<ul>
+							<li class="fragment"><em>runtime speed</em>: how fast a piece of computer code runs</li>
+							<li class="fragment"><em>development speed</em>: how long it takes to code, debug, improve solution</li>
+						</ul>
+	
+					</ul>
+				</section>
+				<section>
+					<ul>
+						<li class="fragment">Consider statistical computing</li>
+						<ul>
+							<li class="fragment">Fortran, C/C++ generally fast runtime</li>
+							<ul>
+								<li class="fragment">require more care in coding</li>
+								<li class="fragment">fast in runtime but slow in development time</li>
+							</ul>
+							<li class="fragment">Mathematically specialized languages, Mathematica, R, MATLAB, Python</li>
+							<ul>
+								<li class="fragment">more flexibility when creating code</li>
+								<li class="fragment">yield quicker development times</li>
+								<li class="fragment">significantly slower than a low-level language</li>
+							</ul>
+							<li class="fragment">In fact many packages/libraries are written in low-level language</li>
+						</ul>		
+						<li class="fragment">Where is an entry hurdle?</li>
+					</ul>
+				</section>
+				
+				<section>
+					<h4>Then, where is SQL?</h4>
+					<ul>
+						
+						<li class="fragment">Need to think about database</li>
+						<li class="fragment">We load the data from files like spreadsheets and text files</li>
+						<li class="fragment">Some situations we need to handle</li>
+						<ul>
+							<li class="fragment">too big data</li>
+							<li class="fragment">sharing and collaboratations</li>
+							<li class="fragment">sensitive information</li>
+							
+							
+							
+							
+						</ul>		
+						<li class="fragment">A <b>database</b> structures data just like a spreadsheet, by organizing data in different tables comprised of rows and columns</li>
+					</ul>
+				</section>
+
+				<section>
+					<h4>Communicate with a database</h4>
+					<ul>
+						
+						<li class="fragment">A database can store (big) data much more securely than a spreadsheet or a text file</li>
+
+						<li class="fragment">Unlike simply opening a spreadsheet, we need to <b>ASK</b> for data from the database</li>
+			
+						<ul>
+							<li class="fragment">we write queries to extract and manage data</li>
+						</ul>		
+
+						<li class="fragment">Structured query language (SQL) is used for the relational database</li>
+						<ul>
+							<li class="fragment">imagine Table</li>
+							<li class="fragment">MS SQL Server, IBM DB2, Oracle, and MySQL</li>								
+					
+							
+						</ul>		
+						<li class="fragment">Non relational database?</li>
+						<ul>
+						<li class="fragment">real-time web applications and big data</li>
+					</ul>
+					</ul>
+				</section>
+				<section>
+					<h2>3. Data Analysis</h2>
+					$$Y=f(X)+\epsilon$$
+					<ul>
+						<li class="fragment">Prepare $(X,Y)$ for analysis</li>
+						<ul><li class="fragment">context</li></ul>	
+						<li class="fragment">Find $\hat{f}$ to make $\hat{f}(X)$ close to $Y$</li>
+						<ul><li class="fragment">$\hat{Y} = \hat{f}(X)$</li></ul>	
+					</ul>
+				</section>
+				<section>
+					
+					$$E(Y-\hat{Y})^2=[f(X)-\hat{f}(X)]^2+Var(\epsilon)$$
+					<ul>
+						<li class="fragment">Focus is estimating $f$ to minimize $[f(X)-\hat{f}(X)]^2$</li>
+						
+						<li class="fragment">Causality is a somewhat different problem</li>
+						<ul><li class="fragment">what do we assume in the equality?</li></ul>
+					</ul>
+				</section>
+
+
 				<section>
 					<h2>4. Homework</h2>
 					<ul>
 						
 						<li class="fragment">I wrote the suggested solution</li>
 						<li class="fragment">I changed my mind in the morming after reading yours</li>
-						<li class="fragment">The question is deisgned to check your writing style/habit</li>
-						<li class="fragment">In fact, it compressed all we have learned</li>
+						<li class="fragment">The question is deisgned to check your writing style/habit and general understanding of coding</li>
+						
 						<li class="fragment">Many of you got the right answer</li>
-						<li class="fragment">However, the right answer should depend how you understand the question</li>
+						<li class="fragment">Many of you got the right answers</li>
+						<li class="fragment">The right answer should depend how you understand the question</li>
 						<li class="fragment">If you don't provide this, there is only one answer</li>
 						<ul>
 							<li class="fragment">written by me</li>
 						</ul>
 					</ul>
 				</section>
-		
+
+
+				
 		</div>
 		</div>
 
