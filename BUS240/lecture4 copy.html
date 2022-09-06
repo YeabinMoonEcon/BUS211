@@ -27,7 +27,7 @@
 				
 				  </section>
 
-					<section>
+				<section>
 					<h4>Recall the role of aesthetics</h4>
 						<pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers>
 						p <- ggplot(data = gapminder,
@@ -40,91 +40,117 @@
 						</code></pre>		
 				</section>
 
-				  <section>
-					<h3>1. Understanding ggplot</h3>
-					<ul>
-						<li class="fragment">Some structured relationship between the variables in your data and their representation in the plot </li>
+				<section>
+					<h4>Try this</h4>
+						<pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers>
+						p <- ggplot(data = gapminder,
+												mapping = aes(x = gdpPercap, 
+																			y = lifeExp, 
+																			color = "pink")) 
+						p + geom_point() + 
+								geom_smooth(method = "loess") +
+								scale_x_log10()
+						</code></pre>		
 						<ul>
-							<li class="fragment"><em>mapping</em></li>
-							<li class="fragment">basic tools: lines, shapes, colors</li>
-							<li class="fragment">some representations are harder to understand</li>
+							<li class="fragment">Change color aguments to "green"</li>
 						</ul>
-						<li class="fragment">ggplot provides you tools</li>
-						<ul>
-							<li class="fragment">map data to visual elements on your plot</li>
-							<li class="fragment">specify plot</li>
-							<li class="fragment">add details</li>
-						</ul>
-					</ul> 
-				  </section>
+					</section>
 
-				  <section>
-					<h4>5 steps</h4>
+
+				<section>
+					<h4>What's going on?</h4>
 					<ul>
-						<li class="fragment">Tidy data</li>
-						<li class="fragment">Mapping</li>
-						<li class="fragment">Geom</li>
-						<li class="fragment">Scales and co-ordinates</li>
-						<li class="fragment">Lables </li>
+						<li class="fragment">Look at a legend</li>
+						<li class="fragment"><em>Aesthetic</em> is a mapping of variables in your data to properties you can see on the graph</li>
+						
+						<ul>
+							
+							<li class="fragment"><em>aes()</em> will do its best to treat that word as though it were a variable</li>
+							<li class="fragment">it creates a column having a unique string <em>green</em> in all the rows </li>
+							<li class="fragment">R's recycling rules</li>
+							
+						</ul>
+						<li class="fragment"><em>aes()</em> function is for mappings only</li>
+						
 						
 					</ul> 
-					<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
-						first_plot <- ggplot(data = gapminder,
-											mapping = aes(x = gdpPercap, y = lifeExp)) + 
-											geom_point()
-						</code></pre>		
 				  </section>
 
-
 				  <section>
-					<h4><em>Minimum requirement</em></h4>
-					<ul>
-					<li class="fragment">Think about the logical structure of your plot</li>
-					<li class="fragment">Code specifies the connections between the variables in your data, colors, points,shapes</li>
+					<h2>5. Change the properties</h2>
+					<pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers>
+						p <- ggplot(data = gapminder,
+												mapping = aes(x = gdpPercap, 
+																			y = lifeExp)) 
+						p + geom_point(color = 'green') + 
+								geom_smooth(method = "loess") +
+								scale_x_log10()
+						</code></pre>		
 						<ul>
-						<li class="fragment"><em>aesthetics</em> or <em>aes</em> does it for you</li>
+							<li class="fragment">geom_point() function can take a color argument directly</li>
 						</ul>
-					<li class="fragment"><em>geom</em> selects the plot </li>
+				  </section>
+
+				  
+				  <section>
+					<pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers>
+						p + geom_point(alpha = 0.3) + 
+								geom_smooth(color = "orange", se = FALSE, size = 8,
+								 						method = "lm") +
+								scale_x_log10()
+						</code></pre>	
+					<ul>
+					<li class="fragment">geom_ functions can take many other arguments</li>
 						<ul>
-						<li class="fragment">geom_point(), geom_bar(), geom_boxplot()</li>
-						<li class="fragment">need to combine ggplot() object with geom by "+"</li>
+						<li class="fragment">but do not involve mapping variables to aesthetic elements</li>
+						<li class="fragment">those arguments will never go inside the aes() function</li>
+						<li class="fragment">what does alpha represent?</li>
 					</ul>
-					<li class="fragment">The rest is just details </li>
+					
+					
 					</ul>
 
 				  </section>
 				 
 
 				  <section>
-					<h3>2. Tidy data vs. messy data</h3>
+					<h4>Labels</h4>
+					<pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers>
+						p + geom_point(alpha = 0.3) +
+								geom_smooth(method = "gam") +
+								scale_x_log10(labels = scales::dollar) +
+							labs(x = "GDP Per Capita", y = "Life Expectancy in Years",
+									title = "Economic Growth and Life Expectancy",
+								subtitle = "Data points are country-years",
+								caption = "Source: Gapminder.")
+						</code></pre>	
 					<ul>
-						<li class="fragment">Softwares want data in a particular sort of shape</li>
+						<li class="fragment">labs() function can also set the text for title, subtitle, and caption</li>
 						<ul>
-							<li class="fragment">tidy data is opposed to untidy (dirty) data</li>
-							<li class="fragment">also indicates data suitable for softwares</li>
-							<li class="fragment">wide vs. long format</li>
+							<li class="fragment">controls the main labels of scales</li>
+							
 						</ul>
 
-						</ul>
+					</ul>
 				  </section>
 				  <section>
-					<h3>3. Mapping</h3>
+					<h4>What else?</h4>
 					<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
-						plot_object <- ggplot(data = data,
-											mapping = aes(aesthetic1 = variable,  
-																		aesthetic2 = variable,
-																		... = ...) 
-											
+			p <- ggplot(data = gapminder,
+									mapping = aes(x = gdpPercap, y = lifeExp,
+									color = continent))
+			p + geom_point() +
+				geom_smooth(method = "loess") +
+				scale_x_log10()
 						</code></pre>	
-						<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
-							plot_object + geom_(type)(...)
-													+ scale_(mapping)_(type)(...)
-													+ coor_(type)(...)
-													+ labs(type)(...)
-
-							</code></pre>
-							
-				  </section>
+					<ul>
+						<li class="fragment">All geoms layered on top of the original plot object will inherit that object's mappings</li>
+						<ul>
+							<li class="fragment">get both our points and smoothers colored by continent</li>
+							<li class="fragment">use <em>fill = continent</em> argument in aes</li>
+						</ul>
+					</ul>
+					</section>
 				  <section>
 				  <h4>Mapping template</h4>
 				  <pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
