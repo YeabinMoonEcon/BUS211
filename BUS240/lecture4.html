@@ -37,7 +37,7 @@
 				  </section>
 
 				  <section>
-					<h3>Mini lecture on dataframe/tibble in R</h3>
+					<h4>Mini lecture on dataframe/tibble in R</h4>
 					<img src="pics/lecture4_1.png" width=600>
 				  </section>
 				  <section>
@@ -52,7 +52,9 @@
 							
 							<li class="fragment">tidyverse packages have created a special data structure to represent tabular data called a tibble</li>
 						</ul>
+						<li class="fragment">Let's see: <a href="https://yeabinmoonecon.github.io/ibs_course/BUS240/data_frame.html" target="_blank">Link</a></li>
 						
+
 					</ul>
 					
 				  </section>
@@ -161,7 +163,7 @@
 				  <section>
 				  <h4>Mapping template</h4>
 				  <pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
-					  plot_object <- ggplot(data = data, ...)
+					  plot_object <- ggplot(data = data_var, ...)
 					</code></pre>				  
 					<ul>
 						<li class="fragment">Start with just one object: data</li>
@@ -177,7 +179,7 @@
 				<section>
 					<h4>Mapping template</h4>
 					<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
-						plot_object <- ggplot(data = data, ...) + geom(type)
+						plot_object <- ggplot(data = data, ...) + geom_(type)
 					  </code></pre>				  
 					  <ul>
 						  <li class="fragment">Choose a plot type, or <em>geom</em> and add it to <em>plot_object</em></li>
@@ -189,7 +191,7 @@
 				<section>
 					<h3>4. Example: Gapminder</h3>
 					<ul>
-						<li class="fragment">Use the gapminder ata to make the first plots</li>
+						<li class="fragment">Use the gapminder data to make the first plots</li>
 						<ul>
 							<li class="fragment">for data details, use <a href="https://www.gapminder.org/" target="_blank">link</a></li>
 						</ul>
@@ -276,11 +278,7 @@
 							<ul>
 								<li class="fragment">data argument indicates ggplot where to find the variables it is about to use</li>
 							</ul>
-							<li class="fragment"><em>mapping</em> argument accepts a function
-								<ul>
-									<li class="fragment"> links variables to things you will see on the plot</li>
-									<li class="fragment"> x, y, color, shape, size, line type</li>
-								</ul>
+							
 											  
 						</ul>
 					</section>
@@ -357,13 +355,14 @@
 				</section>
 
 				<section>
+					<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+						p + geom_point() + geom_smooth() 
+						## `geom_smooth()` using method 
+						= 'gam' and formula 'y ~ s(x, bs = "cs")'
+						</code></pre>
 						<ul>
 							<li class="fragment"> If we want to see the data points and the line together, we simply add geom_point() back in </li>												
-							<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
-							p + geom_point() + geom_smooth() 
-							## `geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'
-
-							</code></pre>
+							
 							<ul>
 								<li class="fragment"> suggests that maybe there are other methods that geom_smooth() understands, and which we might tell it to use instead</li>												
 							</ul>
