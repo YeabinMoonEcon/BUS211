@@ -1,0 +1,144 @@
+---
+title: "Lecture5"
+author: "Yeabin Moon"
+date: "2022-09-07"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# 1. Introduction to Introduction to R
+
+Here are a few topics we will cover in this lesson:
+
+- The basics of R syntax
+- Introduction to data types in R
+- How to perform calculations using comparison operators
+
+
+## 1.1 Console and script
+In the script or code editor, you can write the instructions. 
+```{r}
+1223189283+2
+```
+Run this commend either in the script or console.
+
+What is [1] in front of the result? Try this:
+```{r}
+1:100
+```
+
+## 1.2 Data type
+In R, there are five basic data types: Logical, Integer, Numeric, Character, and Complex.
+
+Logical data type consists of TRUE and FALSE
+```{r}
+TRUE == T
+TRUE == 1
+```
+```
+Try: TRUE == True
+```
+R is case-sensitive!
+
+There are two types of numbers in R: Integer and Numeric. You can think that whole numbers and other numbers. Note that R recognizes any number as Numeric type. We need to put "L" after whole number to make R understand it as Integer
+```{r}
+100L
+99999L
+```
+
+To represent character, we need either quotation marks " or apsstrophes '
+```{r}
+"Hi"
+"Have you put enough effort?"
+"'FALSE' is not logical literal any more"
+"'1' is a character"
+```
+
+# 2. Arithmetic
+You know how to do arithmetic. I want to show something more.
+
+## 2.1 R knows the operator priority rules
+```{r}
+1+2*3
+(1+2)*3
+```
+
+## 2.2 Data type
+Recall that there are two types of number. Operations among values of the same data type yield the same data type
+```{r}
+result1 <- 123L + 123L * 2L
+print(result1)
+class(result1)
+result2 <- 123 + 123 * 2
+print(result2)
+class(result2)
+```
+Note that data types has a descending order: Numeric, Integer, Logical. Operations among different data type yield the highest data type 
+```{r}
+result3 <- 123L + 123L * 2
+print(result3)
+class(result3)
+```
+
+## 2.3 Variables
+We save a result into a variable in many purposes. The variable is nothing but a position in your machine in which your computer saves the result. Each programming language has a rule on variable naming. Here is the R:
+
+1. Name consists of letters, numbers, ., _ (no comma)
+
+2. The first letter should be a letter or .
+  - You cannot start with a number
+  - You can start with . but then number cannot be followed
+```
+Try: .a<-2
+Try: .2<-2
+Try: 1998aa<-2
+```
+3. Special cahracters are not allowed (spaces, operators,", parentheses)
+
+4. Don't use a keyword already used in R
+
+```{r}
+here_are_some_examples_including_spaces_variables <- 10
+```
+
+## 2.4 Relational Operators
+Relational operators are used to compare between values. So it returns logical values either TRUE or FALSE.
+
+- Less than (<)
+- Greater than (>)
+- Less than or equal to (<=)
+- Greater than or equal to (>=)
+- Equal to (==)
+- Not equal to (!=)
+
+```{r}
+223L < 4000L
+!TRUE == FALSE
+```
+
+Consider this:
+```
+11 - 23123 > 11 + 111111111
+```
+Note that all arithmetic expression are evaluated before logical expressions.
+
+## 2.5 Logical operators
+- Logical NOT (!)
+- Logical AND (&&)
+- Logical OR (||)
+Consider:
+```
+TRUE && FALSE
+TRUE || FALSE
+!TRUE
+```
+<b>Try to think about how to code $-1< x< 2$. </b>
+
+# 3. Data basics
+R contains a lot of useful toolbox to perform data work. These tools are collection of functions which are stored in packages. 
+
+To install an R package, we use the function <b>install.packages()</b>.
+
