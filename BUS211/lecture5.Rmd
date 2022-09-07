@@ -138,7 +138,200 @@ TRUE || FALSE
 <b>Try to think about how to code $-1< x< 2$. </b>
 
 # 3. Data basics
+## 3.1 Packages
 R contains a lot of useful toolbox to perform data work. These tools are collection of functions which are stored in packages. 
 
 To install an R package, we use the function <b>install.packages()</b>.
+```
+install.packages("readr")
+```
+This command instruct R to install the packages from Comprehensive R Archive Network (CRAN) repository. Note that we need to indicate the package name as a character string. After installing it, we need to <em>load</em> it on the console. To laad the packages,
+```{r}
+library(readr)
+```
 
+## 3.2 Load your data
+The readr package is part of the tidyverse collection of packages, which is mainly used to import a dataset in R. The readr package contains a read_csv() function importing data in CSV format into R. It stores data as <em>dataframe</em>.
+
+```{r}
+library(tidyverse)
+url <- "https://yeabinmoonecon.github.io/ibs_course/BUS240/homework/homework1/monster_jobs_clean.csv"
+df <- read_csv(url)
+```
+
+What if you want to use data in your machine? There are two ways. First, you can type the exact location of your data. 
+```
+df_location <- "/Users/yeabinmoon/Downloads/monster_jobs_clean.csv"
+df <- read_csv(url)
+```
+Second, set the working directory in which your data is located.
+```
+setwd("/Users/yeabinmoon/Downloads/")
+df <- read_csv("monster_jobs_clean.csv")
+```
+
+## 3.3 Characterize dataset
+```{r}
+head(df,7)
+tail(df,7)
+glimpse(df)
+
+n_cols <- ncol(df)
+n_rows <- nrow(df)
+names <- colnames(df)
+```
+
+## 3.4 Plot
+```{r}
+library(ggplot2)
+```
+The qplot() function of ggplot2 package allows representing graphs quickly.
+```{r}
+p <- qplot(x = job_id, y = salary_min, data = df)
+p
+```
+
+```{r}
+p <- qplot(x = job_id, y = salary_min, color = job_type ,data = df)
+p
+```
+
+# 4. Data Structures 
+## 4.1 Vector
+We will explore four data structures:
+
+- Vector: one-dimensional structure for storing values of SAME TYPE.
+- Matrix: two-dimensional structure for storing values of SAME TYPE.
+- Lists: multi-dimensional stucture for storing values of ANY DATA TYPE/OBJECT.
+- Dataframe: two-dimensional structure for storing values of ANY DATA TYPE/OBJECT.
+
+
+## 4.2 Sequence
+A simple way to create vectors is to generate a sequence of values. 
+
+1. Use : to create a range of values
+```{r}
+sample_seq1 <- 1:10
+sample_seq1
+```
+2. Use seq() function
+```{r}
+sample_seq2 <- seq(from = 2, to = 20, by = 2)
+sample_seq2
+```
+3. Use rep() function to have a repeated value
+```{r}
+sample_seq3 <- rep(5, times = 10)
+sample_seq3
+```
+
+### Exercise
+1. Create a vector that contains the value 4 repeated ten times using the rep() function.
+2. Create a range of values from 1 to 12.
+3. Create a sequence of values from 2.0 to 5.50 by 0.25.
+
+## 4.3 Create a vector
+A vector is created thanks to the function c() (combine, concatenate, collect,...). 
+
+Note that there are four data types: name it!
+
+```{r}
+c(T,F,T)
+c(12L,3L,2323L)
+c(12,3.4,232/2)
+c("Hi","are","you still there?")
+```
+Without c() R throws a syntax error.
+
+## 4.4. Index
+
+```{r}
+BUS211_grade <- c(100L,90L,10L,88L)
+BUS240_grade <- c(88,23,44,99)
+good_class <- c(TRUE, F,F,F)
+```
+R is a 1-indexed programming language, which means that the first element in a vector is assigned a position of one. That is, to access the first grade in BUS211_grade
+```{r}
+BUS211_grade[1]
+```
+We can extract values from the vector by specifying their position in square brackets.
+
+To access the first two grades in BUS240_grade
+```{r}
+BUS240_grade[1:2]
+BUS240_grade[c(1,2)]
+```
+
+### Exercise
+```{r}
+math_grades <- c(92L, 87L, 85L)
+exam_grades <- c(92, 90, 84, 95, 77, 92, 85)
+```
+1. Write code to index the first element of the vector, math_grades
+2. Write code to select elements in the second, third, and sixth position of the exam_grades vector
+3. Write code to select the third through seventh elements of the exam_grades vector
+
+To access the first two grades in BUS240_grade
+```{r}
+BUS240_grade[1:2]
+BUS240_grade[c(T,T,F,F)]
+```
+Explain the last code.
+
+## 4.5 Replace
+Modify the second element in BUS240_grade
+```{r}
+BUS240_grade[2] <- 77
+print(BUS240_grade)
+```
+
+Predict the result of the codes:
+```
+BUS240_grade[c(T,T,F,F)] <- 89
+print(BUS240_grade)
+```
+### Exercise
+```{r}
+math_grades <- c(92L, 87L, 85L)
+exam_grades <- c(92, 90, 84, 95, 77, 92, 85)
+is_stem_classes <- c(TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE)
+```
+1. Replace the second element in math_grades by 80L
+2. Replace the STEM exam grades with 99
+
+## 4.6 Combine vectors
+```{r}
+BUS211_grade <- c(100L,90L,10L,88L)
+extra_BUS211_grade <- c(99L, 79L)
+new_BUS211_grade <- c(BUS211_grade, extra_BUS211_grade)
+print(new_BUS211_grade)
+```
+
+## 4.7 Remove elements
+```{r}
+BUS211_grade <- c(100L,90L,10L,88L)
+BUS240_grade <- c(88,23,44,99)
+```
+We can remove values from the vector by specifying their position preceded by a minus symbol (-) in square brackets
+```{r}
+BUS211_grade[-4]
+```
+But see:
+```{r}
+BUS211_grade
+```
+What's happening here?
+
+You can use a vector to specify which elements you want to remove
+```{r}
+BUS240_grade[c(-1,-4)]
+```
+Make sure that you need to assign it to an object. Otherwise, none of the operations are maintained.
+
+### Exercise
+```{r}
+math_grades <- c(92L, 87L, 85L)
+exam_grades <- c(92, 90, 84, 95, 77, 92, 85)
+```
+1. Write code to remove the first element of the vector, math_grades.
+2. Write code to remove exam grades less than 90, i.e., the element at the third, fifth and seventh positions of the exam_grades vector.
