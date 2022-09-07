@@ -1,0 +1,162 @@
+---
+title: "lecture 5"
+author: "Yeabin Moon"
+date: "2022-09-07"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width = 8, fig.height = 5)
+```
+
+```{r}
+library(tidyverse)
+library(gapminder)
+```
+
+### Consider the bare minimum requirement
+#### 1. Let ggplot fuction knows: data + mapping
+
+```{r}
+p <- ggplot(data = gapminder,	mapping = aes(x = gdpPercap, y = lifeExp))
+```
+
+#### 2. choose your plot
+
+```{r}
+p + geom_point()
+```
+<br>
+See the reference on plot functions: <a href="https://ggplot2.tidyverse.org/reference/" target="_blank">Link</a>. You need to play with some fuctions here!
+
+## Done. Class is over.
+I am quite serious here. With some of variations, you can produce what you want roughly. From now on let's add some details. Keep what you need. You have to make your own manual.
+
+### 1. Build plots layer by layer
+The process of adding layers to the plot really is <em>additive</em>, and it makes easier to assemble plots one piece at a time.
+```{r}
+p <- ggplot(data = gapminder,
+					mapping = aes(x = gdpPercap, y = lifeExp)) 
+p + geom_smooth()
+```
+
+<b>What does geom_smooth() do? Write here based on your understanding.</b>
+
+```{r}
+p+ geom_smooth() + geom_point()
+```
+<br>
+If we want to see the data points and the line together, we simply add geom_point() back in
+
+Note that geom_smooth and geom_point are the functions. Two things we need to think about.
+
+1. Don't have to tell geom_point() or geom_smooth() regarding data and aestitics
+
+2. They could accept inputs to give further instructions.
+```{r}
+p + geom_smooth(method = "lm") + geom_point()
+```
+
+### 2. Transform the axis
+
+Note that in the plot above, the value of GDP per capita is hihgly skewed. Let's try to scale the value of x
+
+<b>Wait. What does mean scaling value of $x$? Why do we do?</b>
+
+```{r}
+p + geom_point() + geom_smooth(method = "gam") + scale_x_log10() 
+```
+<br>
+<b>What does scale_x_log10() do? Is there any other scaling functions? Write here based on your understanding.</b>
+```{r}
+p + geom_point() + geom_smooth(method = "gam") + scale_x_log10(labels = scales::dollar) 
+```
+<br>
+<b>Explain the argument in scale_x_log10(labels = scales::dollar) </b>
+
+### 3. More on aesthetics I
+```{r}
+p <- ggplot(data = gapminder,
+            mapping = aes(x = gdpPercap,
+                          y = lifeExp,
+                          color = "pink"))
+p + geom_point() +
+    geom_smooth(method = "loess") + scale_x_log10()
+```
+Look at legend. It is a bit suspicious. Let's check out "green".
+```{r}
+p <- ggplot(data = gapminder,
+            mapping = aes(x = gdpPercap,
+                          y = lifeExp,
+                          color = "green"))
+p + geom_point() +
+    geom_smooth(method = "loess") + scale_x_log10()
+```
+Ok. Something wrong. Recall what the aes() does! Try now:
+```{r}
+p <- ggplot(data = gapminder,
+            mapping = aes(x = gdpPercap,
+                          y = lifeExp,
+                          color = continent))
+p + geom_point() +
+    geom_smooth(method = "loess") + scale_x_log10()
+unique(gapminder$continent)
+```
+Now, try to explain why the code with color = "green" produces the such pinkish graph.
+
+One more thing.
+```{r}
+p <- ggplot(data = gapminder,
+            mapping = aes(x = gdpPercap,
+                          y = lifeExp,
+                          color = continent,
+                          fill = continent))
+p + geom_point() +
+    geom_smooth(method = "loess") + scale_x_log10()
+```
+<br><b>What does fill argument do?</b>
+
+### 4. More on aesthetics II
+There are five smoothers based on continent. Suppose I want to have a one trend smoother, but want to maintain color scatterplot by continent. aes() can be used geom_functions. Try this
+```{r}
+p <- ggplot(data = gapminder, mapping = aes(x = gdpPercap, y = lifeExp))
+p + geom_point(mapping = aes(color = continent)) +
+    geom_smooth(method = "loess") + scale_x_log10()
+```
+<br>Mapping aesthetics on a per-geom basis. Here color is mapped to continent for the points but not the smoother.
+
+<b>Let's review the two figures in words.</b>
+
+#### Continuous variables to the color aesthetic
+What is a continous variable?
+
+```{r}
+p <- ggplot(data = gapminder,
+            mapping = aes(x = gdpPercap, y = lifeExp))
+p + geom_point(mapping = aes(color = pop)) + scale_x_log10()    
+p + geom_point(mapping = aes(color = log(pop))) + scale_x_log10()    
+```
+
+### 5. Figure size setting
+Look at the first code chuck. It sets the default figure size.
+```
+knitr::opts_chunk$set(fig.width = 8, fig.height = 5)
+```
+
+If you want to chage the figure size without changing the default size
+```{r, fig.width = 8, fig.height = 10}
+p <- ggplot(data = gapminder, mapping = aes(x = gdpPercap, y = lifeExp))
+p + geom_point(mapping = aes(color = continent)) +
+    geom_smooth(method = "loess") + scale_x_log10()
+```
+
+### 6. How to save your figure?
+```
+ggsave("your_figure_name.png", plot = plot_object)
+```
+```{r}
+ggsave("your_figure.png", plot = p)
+```
+Well, the saved figure looks wrong. What's wrong here?
+
+
