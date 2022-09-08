@@ -1,0 +1,135 @@
+---
+title: "Homework 1"
+author: "Your Name"
+date: "2022-09-01"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Learning R environment
+
+To program with R, it's important to understand how values and data types work. Let's start with literal values. 
+
+A literal value is part of a statement or expression used exactly as intended for interpretation. For instance, the numbers 125 and 3 are literal values because they literally represent the numbers 125 and 3.
+
+Every literal value has a type. In R, there are five basic data types: Logical, Integer, Numeric, Character, and Complex. First, we'll focus on the Logical data type.
+
+With the Logical data type, there are two literals, "true" and "false". In R, we write TRUE and FALSE — or simply T and F. All the letters are in UPPERCASE, because R is case-sensitive it differentiates between uppercase and lowercase.
+
+In programming languages, the logical literals represent two values: 1 (for true) and 0 (for false). Similarly, R also counts the TRUE literal as 1 and the FALSE literal as 0.
+
+Write TRUE or FALSE in the code block to indicate if the following statement is correct or incorrect.
+
+Q1. F or FALSE represents the "false" literal in R.
+```{r}
+TRUE
+
+```
+
+There are two types of numbers in R: integers (Integer) and decimal/real (Numeric) numbers. To force R to recognize numbers as integer literals (without the decimal part), the letter L must accompany the number for example 50L.
+
+Q2. Enter 100 so that R considers it an integer literal. Check your answer using class function
+```{r}
+print(100L)
+```
+
+R interprets a number as a Character if we enclose it in quotation marks or apostrophes (e.g., "3.14"). Play with your own numbers/characters in R
+
+## Data type transofrmation rules
+Operations between values of the same data type yield that same data type. For example, 2L+2L provides an Integer data type.
+
+Operations between values of different data types will result in the highest data type. From highest to lowest, the data types rank in this order: Numeric, Integer, and Logical.
+
+Q3. What is the type of the following expression: 2 * 2 * 2?
+```{r}
+class(2*2*2)
+
+```
+
+Q4. What is the type of the following expression: 2 * 2 * 2L?
+```{r}
+class(2*2*2L)
+```
+
+## Logical Expressions in R
+
+We use relational operators to compare between values. So, comparison operations return logical values TRUE or FALSE.
+
+Q5. List all the relational operators available in R:
+
+- Less than (<)
+- Greater than (>)
+- Less than or equal to (<=)
+- Greater than or equal to (>=)
+- Equal to (==)
+- Not equal to (!=)
+
+
+## Data Manipulation basic
+
+Read the following data.
+```{r include=FALSE}
+library(readr)
+url <- "https://yeabinmoonecon.github.io/ibs_course/BUS240/homework/homework1/monster_jobs_clean.csv"
+df <- read_csv(url)
+```
+This dataset contains 86 rows and 8 columns. Some features are:
+
+1. The job post identifier (job_id), from 1 to 86.
+
+2. The job title and its type: job_title, and job_type.
+
+3. The location of the job, location.
+
+4. The job sector, sector.
+
+5. The expected salary range (salary_min and salary_max) and the payment period: annually or hourly, payment_period.
+
+For the following three questions, please use the functions. If you don't know, try to search it online.
+
+Q6. How many columns are in this dataset?
+```{r}
+ncol(df)
+```
+
+Q7. How many rows are in this dataset?
+```{r}
+nrow(df)
+```
+
+Q8. What are the names of the columns in this ataset?
+```{r}
+colnames(df)
+```
+
+Q9. Examine the following commands and write the comments on the purpose of the functions 
+```{r}
+head(df) # show the first few rows of the data. Default setting is 5.
+```
+```{r}
+tail(df) # show the last few rows of the data. Default setting is 5.
+```
+
+Q10. Explain what type of questions you can answer using this dataset.
+```
+Write about 100 words
+```
+
+## Introduction to Visualization
+The following codes produce the same figures. Search online ggplot and qplot and comment below. You need to explain how each function works and what arguments are necessary to produce. Also, try to comment on the role of geom_point()
+```{r include=FALSE}
+library(tidyverse)
+library(ggplot2)
+```
+
+```{r}
+ggplot(data = df,	mapping = aes(x = job_id, y = salary_min)) + geom_point()
+# comment here
+```
+```{r}
+qplot(data = df, x = job_id, y = salary_min )
+# comment here
+```
