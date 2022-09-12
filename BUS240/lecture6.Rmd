@@ -18,10 +18,8 @@ We will continue to develop our understanding of ggplot. You should be familiar 
 When you practice coding, you will encounter a lot of errors. The error message seems to be mysterious, but it is not random. We have already seen a few problems when an aesthetic is mistakenly set to a constant value instead of being mapped to a variable. 
 
 ```{r}
-p <- ggplot(data = gapminder, 
-            mapping = aes(x = gdpPercap, y = lifeExp, color = "pink"))
-p + geom_point() +
-    geom_smooth(method = "loess") + scale_x_log10()
+p <- ggplot(data = gapminder, mapping = aes(x = gdpPercap, y = lifeExp, color = "pink"))
+p + geom_point() + geom_smooth(method = "loess") + scale_x_log10()
 ```
 In this lecture, we will discuss some useful features of ggplot that also commonly cause trouble.
 
@@ -38,8 +36,7 @@ Let's see some common errors.
 ## 2. group argument in aes()
 Go back to gapminder dataset. Suppose I want to each country's GDP per capita by time. We have year, lifeExp, and country variables, so running 
 ```
-p <- ggplot(data = gapminder,
-            mapping = aes(x = year, y = gdpPercap))
+p <- ggplot(data = gapminder, mapping = aes(x = year, y = gdpPercap))
 p + geom_line() 
 ```
 would provide the general trend line. Let's see:
@@ -52,6 +49,9 @@ You can guess what geom_line() does from:
 ```{r}
 p <- ggplot(data = gapminder, mapping = aes(x = year, y = gdpPercap))
 p + geom_point() 
+
+gapminder %>% arrange(year) %>% head(10)
+
 ```
 <br>
 While ggplot will make a pretty good guess as to the structure of the data, it does not know that the yearly observations in the data are grouped by country. We have to tell it. In fact, geom_line() starts with observation in 1952 in the first row of data and joins all 1952 data.
@@ -63,6 +63,7 @@ In this case, we can use the group argument in aes() to tell ggplot explicitly a
 p <- ggplot(data = gapminder, mapping = aes(x = year, y = gdpPercap))
 p + geom_line(aes(group = country)) 
 ```
+<br>
 It looks rough, but you will see that each line represents country's
 
 Think about what's happening here?:
