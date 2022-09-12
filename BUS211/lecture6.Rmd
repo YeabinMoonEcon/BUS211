@@ -273,3 +273,210 @@ colSums(ranks_university_matrix)
 
 ### Exercise 9
 1. Calculate the average of each university's rankings in ranks_university_matrix using the colMeans() function.
+
+# 3. Lists
+
+A list, is a multi-dimensional data structure which contains <em>MULTIPLE DATA TYPE</em> of objects. The objects may consist of different data structures, including single data elements (literal values), vectors, matrices, and lists. Why would we want to create lists of objects in R? The answer is that storing objects in lists allows us to make use of some very powerful R features for performing the same operation on each object in our list, which can let us avoid repetitively typing the same function.
+
+```{r}
+list("tennis", 'film','outdoors')
+c("tennis", 'film','outdoors')
+list("harvard", 1, 1, 1, 1, 3, TRUE)
+c("harvard", 1, 1, 1, 1, 3, TRUE)
+
+```
+Consider this list of list
+```{r}
+list("harvard", c(1, 1, 1, 1, 3), TRUE)
+```
+You can name the elements in the list as well. To specify names we can use =: name = the_object.
+```{r}
+list(name = "harvard", ranking = c(1, 1, 1, 1, 3), is_in_usa = TRUE)
+```
+
+### Exercise 10
+1. Write code to store the following club names in a list called university_clubs: "ballroom dancing", "rugby", "bird watching", and "pottery"
+2. Write code to store the following objects in a list called mit_list: "MIT", c(3,3,2,2,1), TRUE
+3. Write code to create a new list called mit_named_list that modifies the previous list, mit_list, by naming each list element:
+
+## 3.1 List of Lists
+```{r}
+club_title <- c("Chess Club")
+club_description <- c("Meets two nights a week for members to play chess. Snacks are provided.")
+club_dues <- c(50, 20, 15)
+meeting_days <- c("Monday", "Wednesday")
+meeting_times <- c("6:00 pm", "8:00 pm")
+
+# Type your code below
+club_meetings <- rbind(meeting_days, meeting_times)
+chess_club <- list(club_title, club_description, club_dues, club_meetings)
+chess_club
+```
+Note that names of the objects are not retained in the list, but the original data types of each object are. We can add names as we learned before.
+```{r}
+rugby_club <- list(club_title = c("Rugby Club"), club_description = c("Plays matches against clubs from local universities"), club_dues = c(100, 50))
+print(rugby_club)
+```
+However, we're learning to use R with larger datasets. Instead of assigning a name to each element manually, we can use a vector of character data to assign names to objects of a list. Assigning names to list objects is similar to assigning names to vector elements: We'll use the names() accessor function.
+```{r}
+ballroom_dancing <- list(c("Ballroom Dancing Club"), c("Practices waltz, salsa, and tango dancing for competitions with local university dance teams"), c(150))
+names(ballroom_dancing) <- c("club_title", "club_description", "club_dues")
+print(ballroom_dancing)
+```
+
+### Exercise 11
+1. Use the names() function to assign the chess_club_names vector as names to elements of the chess_club list.
+```{r}
+club_meetings <- rbind(meeting_days, meeting_times)
+chess_club <- list(club_title, club_description, club_dues, club_meetings)
+chess_club_names <- c("club_title", "club_description", "club_dues", "club_meetings")
+```
+
+## 3.2 Index lists
+We generally use two different indexing operations on lists:
+- Single brackets to return a list of selected elements ([])
+- Double brackets to return a single element ([[]])
+```{r}
+print(rugby_club)
+print(rugby_club[2])
+```
+Let's interpret this:
+```{r}
+class(rugby_club[2])
+print(rugby_club[[2]])
+class(rugby_club[[2]])
+```
+
+Gues the following command:
+```
+rugby_club[c(1,3)]
+rugby_club[[c(3,2)]]
+```
+
+The following three lines of code extract the elements contained in the third object in the rugby_club list:
+```{r}
+rugby_club$club_dues
+rugby_club[['club_dues']]
+rugby_club[[3]]
+```
+
+
+### Exercise 12
+See chess_club list:
+```{r}
+print(chess_club)
+```
+1. Index the chess_club list to return the fourth object, a matrix
+2. Index the third object of the chess_club list, club_dues, to return the second element of that object.
+
+## 3.3 Replacement
+```{r}
+print(rugby_club)
+rugby_club[[3]] <- c(110, 60)
+print(rugby_club)
+rugby_club[["club_dues"]] <- c(110, 60)
+print(rugby_club)
+rugby_club$club_dues <- c(110, 60)
+print(rugby_club)
+rugby_club[[c(3, 1)]] <- 60 
+print(rugby_club)
+```
+
+### Exercise 13
+```{r}
+print(chess_club)
+```
+1. Write code to replace the third element of club_dues to 5.
+
+## 3.4 Add more information
+```{r}
+fall <- c(8, 12, 13, 2)
+spring <- c(6, 11, 14, 3)
+
+member_years_rugby <- rbind(fall, spring)
+colnames(member_years_rugby) <- c("first_yr", "second_yr", "third_yr", "fourth_yr")
+print(member_years_rugby)
+
+rugby_club[[4]] <- member_years_rugby
+print(rugby_club)
+
+rugby_club[["member_years_rugby"]] <- member_years_rugby
+print(rugby_club)
+```
+
+### Exercise 14
+```{r}
+first_years <- c(12, 15)
+names(first_years) <- c("fall", "spring")
+```
+1. Add the first_years vector as an object, of the same name, to the end of the chess_club list.
+2. Index chess_club to display the number of first-year students that participated in chess club during last year's spring semester.
+
+## 3.5 Remove
+To remove an element from a vector we index that element negatively. The same trick is used to remove elements from a list.
+```{r}
+print(chess_club)
+print(chess_club[-2])
+print(chess_club[c(-1,-3)])
+```
+
+
+### Exercise 15
+```{r}
+chess_club <- list("club_title" = c("Chess Club"), 
+                   "club_description" = c("Meets two nights a week for members to play chess. Snacks are provided."), 
+                   "club_dues" = c(50, 20, 15), 
+                   "club_meetings" = rbind(c("Monday", "Wednesday"),  c("6:00 pm", "8:00 pm")),
+                   "first_years" = c("fall" = 12, "spring" = 15))
+print(chess_club)
+```
+1. Write code to remove the first object of the list, chess_club.
+2. Write code to remove the object at the third and fourth positions of the chess_club list.
+
+## 3.6 Combining all
+```{r}
+university_club_data <- c(rugby_club, ballroom_dancing)
+print(university_club_data)
+
+university_club_list <- list(rugby_club = rugby_club, ballroom_dancing = ballroom_dancing)
+print(university_club_list)
+```
+
+
+
+
+####
+new_recent_grads <- recent_grads %>% 
+  mutate(
+    is_engineering = if_else(Major_category == "Engineering", TRUE, FALSE)
+  )
+
+
+new_recent_grads <- recent_grads %>% 
+  mutate(
+    size_classification = case_when(
+      Total < 2000 ~ "Small",
+      Total > 20000 ~ "Large",
+      TRUE ~ "Medium"
+    ) 
+  )
+  
+difference between || and |
+
+
+recent_grads %>% 
+  filter(
+    Major == "AEROSPACE ENGINEERING" | Major == "BIOMEDICAL ENGINEERING" | Major == "CHEMICAL ENGINEERING"
+  )
+  
+  recent_grads %>% 
+  filter(
+    Major %in% c("AEROSPACE ENGINEERING", "BIOMEDICAL ENGINEERING", "CHEMICAL ENGINEERING")
+  )
+  
+  Inverting!
+  
+  recent_grads %>% 
+  filter(
+    !(Major %in% c("AEROSPACE ENGINEERING", "BIOMEDICAL ENGINEERING", "CHEMICAL ENGINEERING"))
+  )

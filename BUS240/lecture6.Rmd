@@ -1,0 +1,136 @@
+---
+title: "Lecture 6"
+author: "Yeabin Moon"
+date: "2022-09-10"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(gapminder)
+```
+
+# Understanding ggplot (continued)
+
+We will continue to develop our understanding of ggplot. You should be familiar with the baseline property to proceed.
+
+When you practice coding, you will encounter a lot of errors. The error message seems to be mysterious, but it is not random. We have already seen a few problems when an aesthetic is mistakenly set to a constant value instead of being mapped to a variable. 
+
+```{r}
+p <- ggplot(data = gapminder, 
+            mapping = aes(x = gdpPercap, y = lifeExp, color = "pink"))
+p + geom_point() +
+    geom_smooth(method = "loess") + scale_x_log10()
+```
+In this lecture, we will discuss some useful features of ggplot that also commonly cause trouble.
+
+Some keywords you need to know:
+
+- grouping
+- faceting
+- transforming
+
+The ggplot library is an implementation of the <em>Grammar of graphics</em>, an idea developed by Wilkinson (2005). It consists of several rules. If you break a rule, it will throw an error without any result. For example, you omitted + sign between ggplot object and geom_ functions. It is usually referred to as syntax error, which is easily captured. Other times, you made mistakes in your codes, but the codes did not break any rules. Or you might use wrong information, for example, different column inputs. How could we handle them?
+
+Let's see some common errors.
+
+## 2. group argument in aes()
+Go back to gapminder dataset. Suppose I want to each country's GDP per capita by time. We have year, lifeExp, and country variables, so running 
+```
+p <- ggplot(data = gapminder,
+            mapping = aes(x = year, y = gdpPercap))
+p + geom_line() 
+```
+would provide the general trend line. Let's see:
+```{r}
+p <- ggplot(data = gapminder, mapping = aes(x = year, y = gdpPercap))
+p + geom_line() 
+```
+<br>
+You can guess what geom_line() does from:
+```{r}
+p <- ggplot(data = gapminder, mapping = aes(x = year, y = gdpPercap))
+p + geom_point() 
+```
+<br>
+While ggplot will make a pretty good guess as to the structure of the data, it does not know that the yearly observations in the data are grouped by country. We have to tell it. In fact, geom_line() starts with observation in 1952 in the first row of data and joins all 1952 data.
+
+When you produce a plot but it looks weird, the problem is most likely in the mapping between the data and aesthetics for the geom_ being used. 
+
+In this case, we can use the group argument in aes() to tell ggplot explicitly about this structure.
+```{r}
+p <- ggplot(data = gapminder, mapping = aes(x = year, y = gdpPercap))
+p + geom_line(aes(group = country)) 
+```
+It looks rough, but you will see that each line represents country's
+
+Think about what's happening here?:
+```{r}
+p <- ggplot(data = gapminder, mapping = aes(x = year, y = gdpPercap))
+p + geom_line(aes(group = continent)) 
+```
+
+## 3. Facet: multi plots
+The last plot would be the one, but it is messy. Creating multiple plots in one panel would help. It would allow a lot of information to be compactly and comparably presented. This is called faceting data by some other variables. We have continent variable, which splits the data into 5.    
+
+The facet_wrap() function can take a series of arguments, but the most important is the first one. 
+```{r}
+p <- ggplot(data = gapminder, mapping = aes(x = year, y = gdpPercap))
+p + geom_line(aes(group = country))  + facet_wrap(~ continent)
+```
+<br>
+~, tilde, is used for a formula in R syntax, and facets have only one side. Most of the time, you will just want a single variable on the right side of the formula.
+
+Each facet is labeled at the top. The overall layout minimizes the duplication of axis labels and other scales. In fact, we can add the features we have learned in each facet. Let's develop:
+```{r}
+p <- ggplot(data = gapminder, mapping = aes(x = year, y = gdpPercap))
+p + geom_line(aes(group = country), color = "honeydew3")  + 
+    facet_wrap(~ continent, ncol = 5)
+# see where color argument is located!
+# what's the role of ncol argument?
+```
+<br>Add smoother
+```{r}
+p + geom_line(aes(group = country), color = "honeydew3")  + 
+    facet_wrap(~ continent, ncol = 5) +
+    geom_smooth(size = 1 , method = "loess", se = FALSE)
+# check out the arguments in geom_smooth
+```
+<br>Scale 
+```{r}
+p + geom_line(aes(group = country), color = "honeydew3")  + 
+    facet_wrap(~ continent, ncol = 5) +
+    geom_smooth(size = 1 , method = "loess", se = FALSE) +
+    scale_y_log10(labels=scales::dollar)
+```
+<br>Add labels
+```{r}
+p + geom_line(aes(group = country), color = "honeydew3")  + 
+    facet_wrap(~ continent, ncol = 3) +
+    geom_smooth(size = 1 , method = "loess", se = FALSE) +
+    scale_y_log10(labels=scales::dollar) +
+    labs(x = "Year", y = "GDP per capita", title = "GDP per capita on Five Continents")
+```
+
+The facet_wrap() function is best used when you want a series of small multiples based on a single categorical variable. Your panels will be laid out in order and then wrapped into a grid.
+
+facet_grid() might be useful when you want to facet your data more than 2 categorical variables. See the <a href="https://ggplot2.tidyverse.org/reference/facet_grid.html" target="_blank">Link</a>
+
+## 4. <b> HERE HERE HERE HERE </b>
+```{r}
+library(socviz)
+view(gss_sm)
+p <- ggplot(data = gss_sm, mapping = aes(x = bigregion))
+p + geom_bar()
+```
+
+```{r}
+p + geom_bar(mapping = aes(y = ..prop..))
+p + geom_bar(mapping = aes(y = ..prop.., group = 1))
+p <- ggplot(data = gss_sm, mapping = aes(x = religion, color = religion))
+p + geom_bar()
+p <- ggplot(data = gss_sm, mapping = aes(x = religion, fill = religion))
+p + geom_bar()
+p + geom_bar() + guides()
+```

@@ -854,6 +854,471 @@ ranks_university_matrix using the colMeans() function.</li>
 </div>
 </div>
 </div>
+<div id="lists" class="section level1">
+<h1>3. Lists</h1>
+<p>A list, is a multi-dimensional data structure which contains
+<em>MULTIPLE DATA TYPE</em> of objects. The objects may consist of
+different data structures, including single data elements (literal
+values), vectors, matrices, and lists. Why would we want to create lists
+of objects in R? The answer is that storing objects in lists allows us
+to make use of some very powerful R features for performing the same
+operation on each object in our list, which can let us avoid
+repetitively typing the same function.</p>
+<pre class="r"><code>list(&quot;tennis&quot;, &#39;film&#39;,&#39;outdoors&#39;)</code></pre>
+<pre><code>## [[1]]
+## [1] &quot;tennis&quot;
+## 
+## [[2]]
+## [1] &quot;film&quot;
+## 
+## [[3]]
+## [1] &quot;outdoors&quot;</code></pre>
+<pre class="r"><code>c(&quot;tennis&quot;, &#39;film&#39;,&#39;outdoors&#39;)</code></pre>
+<pre><code>## [1] &quot;tennis&quot;   &quot;film&quot;     &quot;outdoors&quot;</code></pre>
+<pre class="r"><code>list(&quot;harvard&quot;, 1, 1, 1, 1, 3, TRUE)</code></pre>
+<pre><code>## [[1]]
+## [1] &quot;harvard&quot;
+## 
+## [[2]]
+## [1] 1
+## 
+## [[3]]
+## [1] 1
+## 
+## [[4]]
+## [1] 1
+## 
+## [[5]]
+## [1] 1
+## 
+## [[6]]
+## [1] 3
+## 
+## [[7]]
+## [1] TRUE</code></pre>
+<pre class="r"><code>c(&quot;harvard&quot;, 1, 1, 1, 1, 3, TRUE)</code></pre>
+<pre><code>## [1] &quot;harvard&quot; &quot;1&quot;       &quot;1&quot;       &quot;1&quot;       &quot;1&quot;       &quot;3&quot;       &quot;TRUE&quot;</code></pre>
+<p>Consider this list of list</p>
+<pre class="r"><code>list(&quot;harvard&quot;, c(1, 1, 1, 1, 3), TRUE)</code></pre>
+<pre><code>## [[1]]
+## [1] &quot;harvard&quot;
+## 
+## [[2]]
+## [1] 1 1 1 1 3
+## 
+## [[3]]
+## [1] TRUE</code></pre>
+<p>You can name the elements in the list as well. To specify names we
+can use =: name = the_object.</p>
+<pre class="r"><code>list(name = &quot;harvard&quot;, ranking = c(1, 1, 1, 1, 3), is_in_usa = TRUE)</code></pre>
+<pre><code>## $name
+## [1] &quot;harvard&quot;
+## 
+## $ranking
+## [1] 1 1 1 1 3
+## 
+## $is_in_usa
+## [1] TRUE</code></pre>
+<div id="exercise-10" class="section level3">
+<h3>Exercise 10</h3>
+<ol style="list-style-type: decimal">
+<li>Write code to store the following club names in a list called
+university_clubs: “ballroom dancing”, “rugby”, “bird watching”, and
+“pottery”</li>
+<li>Write code to store the following objects in a list called mit_list:
+“MIT”, c(3,3,2,2,1), TRUE</li>
+<li>Write code to create a new list called mit_named_list that modifies
+the previous list, mit_list, by naming each list element:</li>
+</ol>
+</div>
+<div id="list-of-lists" class="section level2">
+<h2>3.1 List of Lists</h2>
+<pre class="r"><code>club_title &lt;- c(&quot;Chess Club&quot;)
+club_description &lt;- c(&quot;Meets two nights a week for members to play chess. Snacks are provided.&quot;)
+club_dues &lt;- c(50, 20, 15)
+meeting_days &lt;- c(&quot;Monday&quot;, &quot;Wednesday&quot;)
+meeting_times &lt;- c(&quot;6:00 pm&quot;, &quot;8:00 pm&quot;)
+
+# Type your code below
+club_meetings &lt;- rbind(meeting_days, meeting_times)
+chess_club &lt;- list(club_title, club_description, club_dues, club_meetings)
+chess_club</code></pre>
+<pre><code>## [[1]]
+## [1] &quot;Chess Club&quot;
+## 
+## [[2]]
+## [1] &quot;Meets two nights a week for members to play chess. Snacks are provided.&quot;
+## 
+## [[3]]
+## [1] 50 20 15
+## 
+## [[4]]
+##               [,1]      [,2]       
+## meeting_days  &quot;Monday&quot;  &quot;Wednesday&quot;
+## meeting_times &quot;6:00 pm&quot; &quot;8:00 pm&quot;</code></pre>
+<p>Note that names of the objects are not retained in the list, but the
+original data types of each object are. We can add names as we learned
+before.</p>
+<pre class="r"><code>rugby_club &lt;- list(club_title = c(&quot;Rugby Club&quot;), club_description = c(&quot;Plays matches against clubs from local universities&quot;), club_dues = c(100, 50))
+print(rugby_club)</code></pre>
+<pre><code>## $club_title
+## [1] &quot;Rugby Club&quot;
+## 
+## $club_description
+## [1] &quot;Plays matches against clubs from local universities&quot;
+## 
+## $club_dues
+## [1] 100  50</code></pre>
+<p>However, we’re learning to use R with larger datasets. Instead of
+assigning a name to each element manually, we can use a vector of
+character data to assign names to objects of a list. Assigning names to
+list objects is similar to assigning names to vector elements: We’ll use
+the names() accessor function.</p>
+<pre class="r"><code>ballroom_dancing &lt;- list(c(&quot;Ballroom Dancing Club&quot;), c(&quot;Practices waltz, salsa, and tango dancing for competitions with local university dance teams&quot;), c(150))
+names(ballroom_dancing) &lt;- c(&quot;club_title&quot;, &quot;club_description&quot;, &quot;club_dues&quot;)
+print(ballroom_dancing)</code></pre>
+<pre><code>## $club_title
+## [1] &quot;Ballroom Dancing Club&quot;
+## 
+## $club_description
+## [1] &quot;Practices waltz, salsa, and tango dancing for competitions with local university dance teams&quot;
+## 
+## $club_dues
+## [1] 150</code></pre>
+<div id="exercise-11" class="section level3">
+<h3>Exercise 11</h3>
+<ol style="list-style-type: decimal">
+<li>Use the names() function to assign the chess_club_names vector as
+names to elements of the chess_club list.</li>
+</ol>
+<pre class="r"><code>club_meetings &lt;- rbind(meeting_days, meeting_times)
+chess_club &lt;- list(club_title, club_description, club_dues, club_meetings)
+chess_club_names &lt;- c(&quot;club_title&quot;, &quot;club_description&quot;, &quot;club_dues&quot;, &quot;club_meetings&quot;)</code></pre>
+</div>
+</div>
+<div id="index-lists" class="section level2">
+<h2>3.2 Index lists</h2>
+<p>We generally use two different indexing operations on lists: - Single
+brackets to return a list of selected elements ([]) - Double brackets to
+return a single element ([[]])</p>
+<pre class="r"><code>print(rugby_club)</code></pre>
+<pre><code>## $club_title
+## [1] &quot;Rugby Club&quot;
+## 
+## $club_description
+## [1] &quot;Plays matches against clubs from local universities&quot;
+## 
+## $club_dues
+## [1] 100  50</code></pre>
+<pre class="r"><code>print(rugby_club[2])</code></pre>
+<pre><code>## $club_description
+## [1] &quot;Plays matches against clubs from local universities&quot;</code></pre>
+<p>Let’s interpret this:</p>
+<pre class="r"><code>class(rugby_club[2])</code></pre>
+<pre><code>## [1] &quot;list&quot;</code></pre>
+<pre class="r"><code>print(rugby_club[[2]])</code></pre>
+<pre><code>## [1] &quot;Plays matches against clubs from local universities&quot;</code></pre>
+<pre class="r"><code>class(rugby_club[[2]])</code></pre>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+<p>Gues the following command:</p>
+<pre><code>rugby_club[c(1,3)]
+rugby_club[[c(3,2)]]</code></pre>
+<p>The following three lines of code extract the elements contained in
+the third object in the rugby_club list:</p>
+<pre class="r"><code>rugby_club$club_dues</code></pre>
+<pre><code>## [1] 100  50</code></pre>
+<pre class="r"><code>rugby_club[[&#39;club_dues&#39;]]</code></pre>
+<pre><code>## [1] 100  50</code></pre>
+<pre class="r"><code>rugby_club[[3]]</code></pre>
+<pre><code>## [1] 100  50</code></pre>
+<div id="exercise-12" class="section level3">
+<h3>Exercise 12</h3>
+<p>See chess_club list:</p>
+<pre class="r"><code>print(chess_club)</code></pre>
+<pre><code>## [[1]]
+## [1] &quot;Chess Club&quot;
+## 
+## [[2]]
+## [1] &quot;Meets two nights a week for members to play chess. Snacks are provided.&quot;
+## 
+## [[3]]
+## [1] 50 20 15
+## 
+## [[4]]
+##               [,1]      [,2]       
+## meeting_days  &quot;Monday&quot;  &quot;Wednesday&quot;
+## meeting_times &quot;6:00 pm&quot; &quot;8:00 pm&quot;</code></pre>
+<ol style="list-style-type: decimal">
+<li>Index the chess_club list to return the fourth object, a matrix</li>
+<li>Index the third object of the chess_club list, club_dues, to return
+the second element of that object.</li>
+</ol>
+</div>
+</div>
+<div id="replacement-1" class="section level2">
+<h2>3.3 Replacement</h2>
+<pre class="r"><code>print(rugby_club)</code></pre>
+<pre><code>## $club_title
+## [1] &quot;Rugby Club&quot;
+## 
+## $club_description
+## [1] &quot;Plays matches against clubs from local universities&quot;
+## 
+## $club_dues
+## [1] 100  50</code></pre>
+<pre class="r"><code>rugby_club[[3]] &lt;- c(110, 60)
+print(rugby_club)</code></pre>
+<pre><code>## $club_title
+## [1] &quot;Rugby Club&quot;
+## 
+## $club_description
+## [1] &quot;Plays matches against clubs from local universities&quot;
+## 
+## $club_dues
+## [1] 110  60</code></pre>
+<pre class="r"><code>rugby_club[[&quot;club_dues&quot;]] &lt;- c(110, 60)
+print(rugby_club)</code></pre>
+<pre><code>## $club_title
+## [1] &quot;Rugby Club&quot;
+## 
+## $club_description
+## [1] &quot;Plays matches against clubs from local universities&quot;
+## 
+## $club_dues
+## [1] 110  60</code></pre>
+<pre class="r"><code>rugby_club$club_dues &lt;- c(110, 60)
+print(rugby_club)</code></pre>
+<pre><code>## $club_title
+## [1] &quot;Rugby Club&quot;
+## 
+## $club_description
+## [1] &quot;Plays matches against clubs from local universities&quot;
+## 
+## $club_dues
+## [1] 110  60</code></pre>
+<pre class="r"><code>rugby_club[[c(3, 1)]] &lt;- 60 
+print(rugby_club)</code></pre>
+<pre><code>## $club_title
+## [1] &quot;Rugby Club&quot;
+## 
+## $club_description
+## [1] &quot;Plays matches against clubs from local universities&quot;
+## 
+## $club_dues
+## [1] 60 60</code></pre>
+<div id="exercise-13" class="section level3">
+<h3>Exercise 13</h3>
+<pre class="r"><code>print(chess_club)</code></pre>
+<pre><code>## [[1]]
+## [1] &quot;Chess Club&quot;
+## 
+## [[2]]
+## [1] &quot;Meets two nights a week for members to play chess. Snacks are provided.&quot;
+## 
+## [[3]]
+## [1] 50 20 15
+## 
+## [[4]]
+##               [,1]      [,2]       
+## meeting_days  &quot;Monday&quot;  &quot;Wednesday&quot;
+## meeting_times &quot;6:00 pm&quot; &quot;8:00 pm&quot;</code></pre>
+<ol style="list-style-type: decimal">
+<li>Write code to replace the third element of club_dues to 5.</li>
+</ol>
+</div>
+</div>
+<div id="add-more-information" class="section level2">
+<h2>3.4 Add more information</h2>
+<pre class="r"><code>fall &lt;- c(8, 12, 13, 2)
+spring &lt;- c(6, 11, 14, 3)
+
+member_years_rugby &lt;- rbind(fall, spring)
+colnames(member_years_rugby) &lt;- c(&quot;first_yr&quot;, &quot;second_yr&quot;, &quot;third_yr&quot;, &quot;fourth_yr&quot;)
+print(member_years_rugby)</code></pre>
+<pre><code>##        first_yr second_yr third_yr fourth_yr
+## fall          8        12       13         2
+## spring        6        11       14         3</code></pre>
+<pre class="r"><code>rugby_club[[4]] &lt;- member_years_rugby
+print(rugby_club)</code></pre>
+<pre><code>## $club_title
+## [1] &quot;Rugby Club&quot;
+## 
+## $club_description
+## [1] &quot;Plays matches against clubs from local universities&quot;
+## 
+## $club_dues
+## [1] 60 60
+## 
+## [[4]]
+##        first_yr second_yr third_yr fourth_yr
+## fall          8        12       13         2
+## spring        6        11       14         3</code></pre>
+<pre class="r"><code>rugby_club[[&quot;member_years_rugby&quot;]] &lt;- member_years_rugby
+print(rugby_club)</code></pre>
+<pre><code>## $club_title
+## [1] &quot;Rugby Club&quot;
+## 
+## $club_description
+## [1] &quot;Plays matches against clubs from local universities&quot;
+## 
+## $club_dues
+## [1] 60 60
+## 
+## [[4]]
+##        first_yr second_yr third_yr fourth_yr
+## fall          8        12       13         2
+## spring        6        11       14         3
+## 
+## $member_years_rugby
+##        first_yr second_yr third_yr fourth_yr
+## fall          8        12       13         2
+## spring        6        11       14         3</code></pre>
+<div id="exercise-14" class="section level3">
+<h3>Exercise 14</h3>
+<pre class="r"><code>first_years &lt;- c(12, 15)
+names(first_years) &lt;- c(&quot;fall&quot;, &quot;spring&quot;)</code></pre>
+<ol style="list-style-type: decimal">
+<li>Add the first_years vector as an object, of the same name, to the
+end of the chess_club list.</li>
+<li>Index chess_club to display the number of first-year students that
+participated in chess club during last year’s spring semester.</li>
+</ol>
+</div>
+</div>
+<div id="remove" class="section level2">
+<h2>3.5 Remove</h2>
+<p>To remove an element from a vector we index that element negatively.
+The same trick is used to remove elements from a list.</p>
+<pre class="r"><code>print(chess_club)</code></pre>
+<pre><code>## [[1]]
+## [1] &quot;Chess Club&quot;
+## 
+## [[2]]
+## [1] &quot;Meets two nights a week for members to play chess. Snacks are provided.&quot;
+## 
+## [[3]]
+## [1] 50 20 15
+## 
+## [[4]]
+##               [,1]      [,2]       
+## meeting_days  &quot;Monday&quot;  &quot;Wednesday&quot;
+## meeting_times &quot;6:00 pm&quot; &quot;8:00 pm&quot;</code></pre>
+<pre class="r"><code>print(chess_club[-2])</code></pre>
+<pre><code>## [[1]]
+## [1] &quot;Chess Club&quot;
+## 
+## [[2]]
+## [1] 50 20 15
+## 
+## [[3]]
+##               [,1]      [,2]       
+## meeting_days  &quot;Monday&quot;  &quot;Wednesday&quot;
+## meeting_times &quot;6:00 pm&quot; &quot;8:00 pm&quot;</code></pre>
+<pre class="r"><code>print(chess_club[c(-1,-3)])</code></pre>
+<pre><code>## [[1]]
+## [1] &quot;Meets two nights a week for members to play chess. Snacks are provided.&quot;
+## 
+## [[2]]
+##               [,1]      [,2]       
+## meeting_days  &quot;Monday&quot;  &quot;Wednesday&quot;
+## meeting_times &quot;6:00 pm&quot; &quot;8:00 pm&quot;</code></pre>
+<div id="exercise-15" class="section level3">
+<h3>Exercise 15</h3>
+<pre class="r"><code>chess_club &lt;- list(&quot;club_title&quot; = c(&quot;Chess Club&quot;), 
+                   &quot;club_description&quot; = c(&quot;Meets two nights a week for members to play chess. Snacks are provided.&quot;), 
+                   &quot;club_dues&quot; = c(50, 20, 15), 
+                   &quot;club_meetings&quot; = rbind(c(&quot;Monday&quot;, &quot;Wednesday&quot;),  c(&quot;6:00 pm&quot;, &quot;8:00 pm&quot;)),
+                   &quot;first_years&quot; = c(&quot;fall&quot; = 12, &quot;spring&quot; = 15))
+print(chess_club)</code></pre>
+<pre><code>## $club_title
+## [1] &quot;Chess Club&quot;
+## 
+## $club_description
+## [1] &quot;Meets two nights a week for members to play chess. Snacks are provided.&quot;
+## 
+## $club_dues
+## [1] 50 20 15
+## 
+## $club_meetings
+##      [,1]      [,2]       
+## [1,] &quot;Monday&quot;  &quot;Wednesday&quot;
+## [2,] &quot;6:00 pm&quot; &quot;8:00 pm&quot;  
+## 
+## $first_years
+##   fall spring 
+##     12     15</code></pre>
+<ol style="list-style-type: decimal">
+<li>Write code to remove the first object of the list, chess_club.</li>
+<li>Write code to remove the object at the third and fourth positions of
+the chess_club list.</li>
+</ol>
+</div>
+</div>
+<div id="combining-all" class="section level2">
+<h2>3.6 Combining all</h2>
+<pre class="r"><code>university_club_data &lt;- c(rugby_club, ballroom_dancing)
+print(university_club_data)</code></pre>
+<pre><code>## $club_title
+## [1] &quot;Rugby Club&quot;
+## 
+## $club_description
+## [1] &quot;Plays matches against clubs from local universities&quot;
+## 
+## $club_dues
+## [1] 60 60
+## 
+## [[4]]
+##        first_yr second_yr third_yr fourth_yr
+## fall          8        12       13         2
+## spring        6        11       14         3
+## 
+## $member_years_rugby
+##        first_yr second_yr third_yr fourth_yr
+## fall          8        12       13         2
+## spring        6        11       14         3
+## 
+## $club_title
+## [1] &quot;Ballroom Dancing Club&quot;
+## 
+## $club_description
+## [1] &quot;Practices waltz, salsa, and tango dancing for competitions with local university dance teams&quot;
+## 
+## $club_dues
+## [1] 150</code></pre>
+<pre class="r"><code>university_club_list &lt;- list(rugby_club = rugby_club, ballroom_dancing = ballroom_dancing)
+print(university_club_list)</code></pre>
+<pre><code>## $rugby_club
+## $rugby_club$club_title
+## [1] &quot;Rugby Club&quot;
+## 
+## $rugby_club$club_description
+## [1] &quot;Plays matches against clubs from local universities&quot;
+## 
+## $rugby_club$club_dues
+## [1] 60 60
+## 
+## $rugby_club[[4]]
+##        first_yr second_yr third_yr fourth_yr
+## fall          8        12       13         2
+## spring        6        11       14         3
+## 
+## $rugby_club$member_years_rugby
+##        first_yr second_yr third_yr fourth_yr
+## fall          8        12       13         2
+## spring        6        11       14         3
+## 
+## 
+## $ballroom_dancing
+## $ballroom_dancing$club_title
+## [1] &quot;Ballroom Dancing Club&quot;
+## 
+## $ballroom_dancing$club_description
+## [1] &quot;Practices waltz, salsa, and tango dancing for competitions with local university dance teams&quot;
+## 
+## $ballroom_dancing$club_dues
+## [1] 150</code></pre>
+</div>
+</div>
 
 
 
