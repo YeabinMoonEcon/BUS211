@@ -7,6 +7,7 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
 ```
 
 # 1. Vector (continued)
@@ -443,3 +444,9 @@ print(university_club_list)
 ```
 
 
+## Tips for the homework
+```{r}
+test <- 11234
+test_str <- as.character(test)
+str_sub(test_str,1,2)
+```

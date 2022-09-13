@@ -1,0 +1,99 @@
+---
+title: "homework1"
+output: html_document
+date: "2022-09-05"
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+# Part I
+
+#### Q1.1 In homework 0, we examined the following question: <b>Which countries have had the highest number of positive cases against the number of tests?</b> In what settings could we conclude that this question is unanswerable?
+
+```{r}
+print("In class disucssion")
+```
+
+#### Q1.2 What is the smallest value of *n* such that an algorithm whose running time is $100n^2$ runs faster than an algorithm whose running time is $2^n$ on the same machine? Use R to calcuate your answer.
+
+```{r}
+n <- 1
+while (100 * n^2 - 2^n > 0) {
+  n <- n+1
+}
+print(n)
+```
+```
+You don't have to use the looping commands.
+```
+
+#### Q1.3 Other than speed, what other measures of algorithm efficiency might you need to consider in a real-world setting?
+
+```{r}
+print("In class disucssion")
+```
+
+# Part II
+
+Part II sets the tone for your final project. For this exercise, you will work with <b>Places</b>. It consists of three files. README.txt, brand_info.csv, your_data_***.csv.gz. In general, data packages contain README files for a data guide, but the information here is partial. See the data descriptions from the following <a href="https://docs.safegraph.com/docs/places" target="_blank">Link</a>.
+
+#### Q2.1. Describe in words what these two data sets present.
+
+```
+You'd see it in the documents. brand_info.csv contains every POIs that SafeGrahs covers. It is nationwide data. On the other hand, your_data_<access date>.csv.gz contains all POIs located in Boston, MA. Some POIs have multiple locations, so the number of observations depends on the area coverage.  
+```
+
+#### Q2.2. Why does <em>brand_info.csv</em> include fewer observations?
+```
+Each row in this data represents a unique POIs. There are no multiple POIs. 
+```
+#### Q2.3 Which location (postal code) has the largest number of POIs? 
+```{r}
+setwd("~/Downloads/safegraph_data_purchase_aug-29-2022") # locate your file?
+df_pois <- read_csv('your_data_aug_29_2022_0238pm.csv.gz')
+class(df_pois$postal_code) # You should check whether postal_code class is character
+df_pois %>% count(postal_code, sort = TRUE) %>% head(1)
+```
+  
+#### Q2.4 Postal-code location may cover too small area for spatial analysis. The data set has longitude, latitude, street address, city, and state geographical information. You may need to transform (or merge) the existing geo code to a common set of geographical units (See [Link](https://www.huduser.gov/portal/datasets/usps_crosswalk.html) for reference). Describe your strategy (you don't need to show your code.)
+
+```
+One of the ways is to convert a zip code into other geographic units, for example, a county level. Note that the U.S. consists of states, and each state consists of counties. A county tends to be bigger than a zip-code area, but some counties share the same zip code. To mitigate these issues, there is a crosswalk file providing a guideline for merging these two units. Another potential way is to use a GIS to process zip codes. Safegraph has longitude and latitude so that we can make some zones accordingly. 
+```
+
+#### Q2.5: You may want to classify POIs in Boston by industry type. Columns *top_category*, and *naics_code* look fit. (See  [Link](https://www.census.gov/naics/reference_files_tools/2022_NAICS_Manual.pdf) for NAICS explanations). Describe what these two columns represent in your words.
+
+```
+See documentations
+```
+
+
+#### Q2.6 Present the number of POIs by *top_category*.
+```{r}
+df_pois %>% count(top_category, sort = TRUE)
+```
+
+#### Q2.7 Present the number of POIs by the first two leading digits in *naics_code*.
+```{r}
+class(df_pois$naics_code) # need to check whether naics_code is string
+
+new_df_pois <- df_pois %>% # need to change naics_code into string
+  mutate(naics_code = as.character(naics_code))
+class(new_df_pois$naics_code)
+
+final_df_pois <- new_df_pois %>% # split the string (first two digits)
+  mutate(two_naics_code = str_sub(naics_code, 1,2))
+
+final_df_pois %>% select(naics_code, two_naics_code) # check whether the split function works well
+
+final_df_pois %>% count(two_naics_code, sort = TRUE)
+```
+
+
+#### Q2.8 Suppose you want to research POIs in Boston by the first two leading digits in *naics_code*. You might notice that the number of POIs in the bottom eight industries are too low compared to the top six. Describe how you manage data and approach research in words.
+
+```{r}
+print("In class disucssion")
+```

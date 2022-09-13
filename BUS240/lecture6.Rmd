@@ -21,6 +21,7 @@ When you practice coding, you will encounter a lot of errors. The error message 
 p <- ggplot(data = gapminder, mapping = aes(x = gdpPercap, y = lifeExp, color = "pink"))
 p + geom_point() + geom_smooth(method = "loess") + scale_x_log10()
 ```
+
 In this lecture, we will discuss some useful features of ggplot that also commonly cause trouble.
 
 Some keywords you need to know:
@@ -217,6 +218,7 @@ p + geom_bar(position = 'dodge',
 p + geom_bar(position = 'dodge',
              mapping = aes(y = ..prop.., group = religion))
 ```
+
 When we just wanted the overall proportions for one variable, we mapped group = 1 to tell ggplot to calculate the proportions with respect to the overall N. In this case our grouping variable is religion, so we might try mapping that to the group aesthetic.
 
 Or you can let facet function do the work
