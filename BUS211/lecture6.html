@@ -1317,6 +1317,22 @@ print(university_club_list)</code></pre>
 ## 
 ## $ballroom_dancing$club_dues
 ## [1] 150</code></pre>
+<div id="section" class="section level4">
+<h4></h4>
+<p>new_recent_grads &lt;- recent_grads %&gt;% mutate( is_engineering =
+if_else(Major_category == “Engineering”, TRUE, FALSE) )</p>
+<p>new_recent_grads &lt;- recent_grads %&gt;% mutate(
+size_classification = case_when( Total &lt; 2000 ~ “Small”, Total &gt;
+20000 ~ “Large”, TRUE ~ “Medium” ) )</p>
+<p>difference between || and |</p>
+<p>recent_grads %&gt;% filter( Major == “AEROSPACE ENGINEERING” | Major
+== “BIOMEDICAL ENGINEERING” | Major == “CHEMICAL ENGINEERING” )</p>
+<p>recent_grads %&gt;% filter( Major %in% c(“AEROSPACE ENGINEERING”,
+“BIOMEDICAL ENGINEERING”, “CHEMICAL ENGINEERING”) )</p>
+<p>Inverting!</p>
+<p>recent_grads %&gt;% filter( !(Major %in% c(“AEROSPACE ENGINEERING”,
+“BIOMEDICAL ENGINEERING”, “CHEMICAL ENGINEERING”)) )</p>
+</div>
 </div>
 </div>
 
