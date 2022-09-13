@@ -1,0 +1,52 @@
+---
+title: "Lecture7"
+author: "Yeabin Moon"
+date: "2022-09-13"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+# 1. Vector (continued)
+
+
+
+
+####
+new_recent_grads <- recent_grads %>% 
+  mutate(
+    is_engineering = if_else(Major_category == "Engineering", TRUE, FALSE)
+  )
+
+
+new_recent_grads <- recent_grads %>% 
+  mutate(
+    size_classification = case_when(
+      Total < 2000 ~ "Small",
+      Total > 20000 ~ "Large",
+      TRUE ~ "Medium"
+    ) 
+  )
+  
+difference between || and |
+
+
+recent_grads %>% 
+  filter(
+    Major == "AEROSPACE ENGINEERING" | Major == "BIOMEDICAL ENGINEERING" | Major == "CHEMICAL ENGINEERING"
+  )
+  
+  recent_grads %>% 
+  filter(
+    Major %in% c("AEROSPACE ENGINEERING", "BIOMEDICAL ENGINEERING", "CHEMICAL ENGINEERING")
+  )
+  
+  Inverting!
+  
+  recent_grads %>% 
+  filter(
+    !(Major %in% c("AEROSPACE ENGINEERING", "BIOMEDICAL ENGINEERING", "CHEMICAL ENGINEERING"))
+  )
