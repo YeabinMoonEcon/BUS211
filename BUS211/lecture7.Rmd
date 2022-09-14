@@ -10,18 +10,286 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 ```
 
-# 1. Vector (continued)
+# 1. DataFrame
+
+For this lesson, we'll be working with a dataset containing information on the earning potential of various college majors. The data contains information such as the number of people surveyed for the data, the median salary of people who took the major, and graduate employment. As we learn more about how to manipulate tibbles, we'll use this dataset to practice the concepts and functions that you learn.
+
+```{r}
+recent_grads <- read_csv("https://yeabinmoonecon.github.io/ibs_course/BUS211/data/recent_grads.csv")
+```
+
+You can use read_csv() either from readr or tidyberse packages.
+
+Now that we have our data in a variable called recent_grads, we can inspect it directly in the "Variables" section of the Dataquest code editor. Since we read in a CSV file, we know that we're working with tabular data. If we try to look at recent_grads directly in RStudio, we'll find that it's actually imported as a tibble!
+
+```{r}
+recent_grads
+```
+
+Use the following functions to see what's in the data. Comment each function in your words.
+```{r}
+glimpse(recent_grads) 
+summary(recent_grads)
+nrow(recent_grads)
+ncol(recent_grads)
+names(recent_grads)
+```
+
+
+## 1.2 Column select 
+
+Basically, you can acces the columns in three ways:
+```{r}
+sample_sizes1 <- recent_grads$Sample_size
+sample_sizes2 <- recent_grads[['Sample_size']]
+sample_sizes3 <- pull(recent_grads, Sample_size)
+sum(sample_sizes1)
+sum(sample_sizes2)
+sum(sample_sizes3)
+```
+I recommend using the pull() function over '$' or double-bracket notation because it flows better with the %>% operator and increases readability. Also, if there's white space in a column name, then we are unable to use the '$' notation.
+
+To filter the data by columns, we can use the select() function which comes from the dplyr library. Notice that this is also a tidyverse library. The select() function actually takes a variable number of arguments since it doesn't know ahead of time how many columns a programmer may need from it. The first argument that the select() function takes is a tibble, and the following arguments are column names that are in the tibble. An example follows using the recent_grads dataset:
+
+```
+new_object <- select(your_data, col1, col2, ...)
+```
+```{r}
+filtered_data <- select(recent_grads, Rank, Major)
+filtered_data
+```
+
+The select() function can also be used to remove columns from a dataset
+```{r}
+filtered_data <- select(recent_grads, -College_jobs)
+filtered_data
+```
+
+### Exercise 1
+1. Create a dataset that only contains the Rank and Major columns from the recent_grads dataset. Assign this new, filtered data to the variable rank_major_tibble.
+2. Create a dataset that removes the Major_code column from the recent_grads dataset. Assign this new, filtered data to the variable no_major_code_tibble.
+
+## 1.3 Row select 
+We can access rows using [], for example,
+```{r}
+recent_grads[2,] # select the second row
+```
+There are many reasons why we would want to filter out particular rows in our data. Using our recent_grads data as an
+example, perhaps we have to do an analysis that only involves majors with more than 1000 people. Perhaps there is some missing data in one of the rows, and we want to remove them. In both of these cases, we need some kind of condition to filter out the rows.
+
+Recall that each of the rows represents information on a single thing (or in this case, major), so filtering the rows means looking for a subset of the rows that have a particular quality. We want to filter rows using the filter() function in the following way:
+```
+new_object <- filter(your_data, condition)
+```
+Example is:
+```{r}
+top_100_majors <- filter(recent_grads, Rank < 100)
+```
+You can add more conditions using comma ',':
+```{r}
+large_engineering_majors <- filter(recent_grads, Total > 5000, Major_category == "Engineering")
+```
+
+### Exercise 2
+1. Filter the recent_grads data for those with a Sample_size value greater than 100. Assign this filtered tibble to the variable large_sample_majors.
+2. Filter the recent_grads data:
+  - Where Total is less than or equal to 70,000
+  - Where Median is greater than 40,000
+  - Where the Major_category isn't Engineering
+3. Assign this tibble to the variable non_engineering_majors.
+
+
+## 1.4 Pipe operator
+The tidyverse provides us with a beautiful tool that will allow us to streamline the process and do all of our data manipulation in one place. That tool is the %>% function, named the pipe operator. The pipe operator allows us to take the output of one function and have it be used directly as the input of another function.
+
+Consider the following:
+```{r}
+ranked_majors <- select(recent_grads, Rank, Major, Total)
+low_total_ranked_majors <- filter(ranked_majors, Total < 2000)
+```
+In the code above, we create a new variable ranked_majors that contains three columns picked from recent_grads. After this, the ranked_majors tibble is fed into the filter() function and is assigned to another new variable low_total_ranked_majors. The lines get longer and longer if we want to extend this process, and more memory would be necessary.
+
+Let's see this:
+```{r}
+low_total_ranked_majors <- recent_grads %>%
+  select(Rank, Major, Total) %>%
+  filter(Total < 2000)
+```
+The two code blocks produce exactly the same result, but the %>% operator allows us to better see the flow of our data manipulation. In the first line of the new code, the recent_grads tibble is piped into the select() function. Similarly, the output of select() is passed into the filter() function, where the pipeline ends.
+
+Let's practice more
+```{r}
+recent_grads %>% count(Major_category, sort = T) %>% head(3) # try to explain every step here
+```
+
+### Exercise 3
+1. Starting with the recent_grads tibble, create a pipeline using %>% that does the following:
+  - Removes the Rank and Major columns and
+  - Filters for majors with a Median pay less than 50000
+2. Finally, assign the output of this pipeline to the variable pipeline_output.
+
+
+## 1.5 mutate(): column operations
+Let's start by an example.  In the recent_grads data, we have a Total column and a Men column. Total indicates the number of people surveyed with the major, while Men indicates how many of these people are male. These numbers by themselves don't tell us much since the Totals vary so much, but if we create a new column based on percentages, this will allow us to better compare majors.
+
+In order to create a new column based on other columns, we need to use the mutate() function. Within a mutate() function, we name new columns and define how they should be calculated. For example, we can do the following:
+```{r}
+new_recent_grads <- recent_grads %>% # Try to comment what the codes are doing here
+  mutate(
+    prop_male = Men / Total,
+    prop_male_gt_half = prop_male > 0.5
+  )
+```
+
+### Exercise 4
+1. Create three new columns in recent_grads and assign the result to the variable new_recent_grads:
+ - One column should be called prop_employed, and it should be the proportion of people employed by major.
+ - The second new column should be called prop_women, and it should be the proportion of women in the major.
+ - The final column should be called prop_women_gt_employed, and it should be a logical column where the proportion of women in the major is greater than (>) the proportion of people employed by major.
 
 
 
+## 1.6 Build up
+What major has the lowest proportion of employed graduates? How do you approach this quesiton?
+```
+1. need to construct the proportion of employed gradautes
+2. arrange the constructed column (ascending or descending?)
+3. select the highest (or lowest)
+```
+```{r}
+least_employed_major <- recent_grads %>% # pause here and ask yourself why the first line is necessary
+    mutate(
+          prop_em = Employed / Total
+          )   %>%
+    arrange(prop_em) %>% select(Major, prop_em) 
+head(least_employed_major)
+```
 
-####
+## 1.7 Summary
+In other cases, we'll want to gather some summary statistics to get a better understanding of our data. Instead of calculating these by hand, we can use the summarize() function to get these values with a short line of code. 
+
+For example, if we want to see what the average unemployment rate was across the majors:
+```{r}
+summary_table <- recent_grads %>% 
+  summarize(
+    avg_unemp = mean(Unemployment_rate),
+    min_unemp = min(Unemployment_rate),
+    max_unemp = max(Unemployment_rate)
+  )
+print(summary_table)
+```
+
+
+The summarize() function is often combined with the group_by() function which allows splitting the dataframe into several subsets on which we can apply functions. This workflow is known as split-apply-combine workflow. It is widely used in data analysis. It consists in three steps:
+
+1. Split the dataset into subsets using the function group_by().
+2. Apply functions to those subsets using the summarize() function.
+3. Combine the results back together using again the summarize() function.
+
+
+```{r}
+summary_by_Major_category <- recent_grads %>% 
+  group_by(Major_category) %>%
+  summarize(
+    avg_unemp = mean(Unemployment_rate),
+    min_unemp = min(Unemployment_rate),
+    max_unemp = max(Unemployment_rate)
+  )
+print(summary_by_Major_category)
+```
+summarise() also works.
+
+
+### Exercise 5
+1. Create a new tibble called minmax_median_income that calculates the minimum and maximum value in the Median column.
+  - use the column names: min_income, and max_income 
+2. Create a new tibble called minmax_median_income_by_major that calculates the minimum and maximum value in the Median column grouping by the Major column.
+  - use the column names: min_income, and max_income 
+  
+
+# 2 Control flow
+
+## 2.1 if statement
+In order to use control flow, we need to create statements that will turn out to be either TRUE or FALSE. In R, the most fundamental way to evaluate something as TRUE or FALSE is through comparison operators.
+
+Using a slightly different formatting, the if statement has this particular structure:
+```
+if (condition) { # If condition is true, this code will run } 
+else { # If condition is false, this code will run }
+```
+The essential characteristic of the if statement is that it helps us create a branching path in our code. Both the if and the else keywords are followed by curly brackets { }, which define code blocks. Each of the code blocks represent one of the paths shown in the diagram. R does not run both, and it uses the comparison operator to decide which code block to run.
+
+Consider the following if statement:
+```{r}
+major <- "Engineer"
+if (major == "Chemistry") { 
+    print("This person majored in Chemistry.")
+} else {
+  print("This person did not major in Chemistry.")
+}
+```
+
+### Exercise 6
+1. Write an if statement that creates a new variable data_size. If the number of rows in recent_grads is greater than 1000, then data_size should be equal to "Large". If not, then data_size should be equal to "Small".
+
+
+## 2.2 if_else()
+On the last screen, we learned about the if statement and its ability to create branching paths in our code. A singular if statement is useful if we need to perform different code for a single condition, but it's not useful in cases where there are a lot of values that need comparison.
+
+For example, let's say that we want to create a new column in the recent_grads dataset that helps us know whether or not a major was associated with Engineering. We have the Major_category column that contains information on the majors, but we need some way to vectorize the if statement to all of the values in this column. A single if statement won't be able to handle this.
+
+See the following:
+```{r}
 new_recent_grads <- recent_grads %>% 
   mutate(
     is_engineering = if_else(Major_category == "Engineering", TRUE, FALSE)
   )
+new_recent_grads[c('Major_category','is_engineering')]
+```
+
+In the above code, we are creating a new column is_engineering based on the values of the Major_category column. For each row, the if_else() function takes the value in Major_category and checks if it is equal to the string "Engineering". If that row's Major_category value is "Engineering", then the corresponding "is_engineering" value will be TRUE. If not, then it will be FALSE. The if_else() function takes that single comparison operator Major_category == "Engineering" and vectorizes it.
 
 
+### Exercise 7
+1. Create a new column median_level in the recent_grads data. If Median is greater than 50000, then median_level should take the value "Above Average". If not, then median_level should take the value "Below Average".
+
+2. Create another new column called greater_prop_gender. If the value in the Women column is greater than the Men column, then greater_prop_gender should be "Women". If not, then greater_prop_gender should be "Men".
+
+## 2.3 compound conditions
+```{r}
+x <- 7
+x > 5 & x < 10
+x > 5 && x < 10
+```
+
+What's the difference between & and &&?
+
+Consider the following:
+```
+a <- 1:3
+b <- 4:6
+
+c <- if_else(a > 2 && b > 5, TRUE, FALSE)
+```
+```{r}
+a <- 1:3
+b <- 4:6
+print(a > 2)
+print(b > 5)
+print(a > 2 && b > 5)
+```
+To summarize why only one value appears in c, it boils down to the fact that && and || are only expecting single values to be used in the multiple comparison. In this case, the multiple comparison a > 2 && b > 5 is only using the first values from the vectors a and b, which are 1 and 4. The other values in a and b are not used at all.
+```{r}
+a > 2 & b > 5
+```
+
+## 2.4 mutate again: case_when()
+
+We will learn about a new function that will allow us to vectorize a 2+ branch if statement. We know about the if_else() function, but it works best with simpler conditions that evaluate to TRUE or FALSE. We could potentially nest if_else() functions in other functions, but this could make for hard-to-read code. There is a more elegant solution in the case_when() function.
+
+You can think of the case_when() function as a generalization of the if_else() function, which incorporates more branches. We'll demonstrate a use case below with the recent_grads data:
+
+```{r}
 new_recent_grads <- recent_grads %>% 
   mutate(
     size_classification = case_when(
@@ -30,23 +298,48 @@ new_recent_grads <- recent_grads %>%
       TRUE ~ "Medium"
     ) 
   )
-  
-difference between || and |
+```
 
+Within the case_when() function, we have a series of conditions and assignments. The first example is Total < 2000 ~ "Small". The condition Total < 2000 is separated from the assignment "Small" by the character ~. You can think of each of these lines as shortened if branches. The last line, TRUE ~ "Medium", acts as a catch-all in case the Total amount does not fall into either of the conditions above. Another way of interpreting the TRUE ~ "Medium" line is that it is a safety net: if the Total satisfies neither the Total < 2000 or the Total > 20000 condition, then it will be "caught" by the TRUE ~ "Medium" line.
 
+### Exercise 8
+1. Use the case_when() function to create a new column in the recent_grads dataset called unemployment_level. This new column should have the following:
+  - If Unemployment_rate is less than 5%, unemployment_level should be "Low"
+  - Between 5% and less than 10%: "Moderate"
+  - Greater than or equal to 10%: "High"
+  - Assign your tibble with the new column to the variable new_recent_grads.
+
+## 2.5 group membership
+
+Currently, we know how to do comparisons on equality and how to determine whether or not one value is greater or smaller than another (==, !=, >, >=, <, and <=). One task that these comparison operators have trouble with is identifying membership in a group. That is to say, given a value, is it present in a collection of values like a vector?
+
+Say that we are performing an analysis on the recent_grads data that involves engineering majors, but only on a particular subset of them. It will be important for us to filter the dataset to just these majors, so we could do something like the following:
+```{r}
 recent_grads %>% 
   filter(
     Major == "AEROSPACE ENGINEERING" | Major == "BIOMEDICAL ENGINEERING" | Major == "CHEMICAL ENGINEERING"
   )
-  
-  recent_grads %>% 
+```
+The above compound condition let's us grab these three majors, but there are plenty more majors that we need for the analysis. As we add more, the compound condition will become longer and longer. There is a shorthand way to do this through a membership test. The below code performs the same operation as the one above.
+
+```{r}
+recent_grads %>% 
   filter(
     Major %in% c("AEROSPACE ENGINEERING", "BIOMEDICAL ENGINEERING", "CHEMICAL ENGINEERING")
   )
-  
-  Inverting!
-  
-  recent_grads %>% 
+```
+
+Here, we collect all of the three engineering majors and put them into a vector. Then, we use the %in% comparison operator to see if the Major column contains any of these values. If it is in the vector of engineering majors, then this will evaluate to TRUE. Using %in% also makes it much more apparent what the code is doing. Instead of having long streaks of ||, the %in% operator makes it immediately clear that we are testing for membership in a vector. It's important to note that the entire expression Major %in% c("AEROSPACE ENGINEERING", "BIOMEDICAL ENGINEERING", "CHEMICAL ENGINEERING") is a comparison operator.
+
+Try to think about the following:
+```{r}
+recent_grads %>% 
   filter(
     !(Major %in% c("AEROSPACE ENGINEERING", "BIOMEDICAL ENGINEERING", "CHEMICAL ENGINEERING"))
   )
+```
+
+### Exercise 9
+
+1. We want to conduct an analysis on all of the majors with "Arts" in its name. In the context of the data, these are rows where Major_category is either "Arts" or "Humanities & Liberal Arts". Filter the recent_grads data and assign this new tibble to the variable arts_grads.
+2. We want to conduct an analysis on all of the majors that are not "Engineering" or "Physical Sciences". Assign this new tibble to the variable non_engineering_science_grads.

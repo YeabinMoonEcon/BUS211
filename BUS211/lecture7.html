@@ -370,23 +370,688 @@ pre code {
 </div>
 
 
-<div id="vector-continued" class="section level1">
-<h1>1. Vector (continued)</h1>
-<div id="section" class="section level4">
-<h4></h4>
-<p>new_recent_grads &lt;- recent_grads %&gt;% mutate( is_engineering =
-if_else(Major_category == “Engineering”, TRUE, FALSE) )</p>
-<p>new_recent_grads &lt;- recent_grads %&gt;% mutate(
-size_classification = case_when( Total &lt; 2000 ~ “Small”, Total &gt;
-20000 ~ “Large”, TRUE ~ “Medium” ) )</p>
-<p>difference between || and |</p>
-<p>recent_grads %&gt;% filter( Major == “AEROSPACE ENGINEERING” | Major
-== “BIOMEDICAL ENGINEERING” | Major == “CHEMICAL ENGINEERING” )</p>
-<p>recent_grads %&gt;% filter( Major %in% c(“AEROSPACE ENGINEERING”,
-“BIOMEDICAL ENGINEERING”, “CHEMICAL ENGINEERING”) )</p>
-<p>Inverting!</p>
-<p>recent_grads %&gt;% filter( !(Major %in% c(“AEROSPACE ENGINEERING”,
-“BIOMEDICAL ENGINEERING”, “CHEMICAL ENGINEERING”)) )</p>
+<div id="dataframe" class="section level1">
+<h1>1. DataFrame</h1>
+<p>For this lesson, we’ll be working with a dataset containing
+information on the earning potential of various college majors. The data
+contains information such as the number of people surveyed for the data,
+the median salary of people who took the major, and graduate employment.
+As we learn more about how to manipulate tibbles, we’ll use this dataset
+to practice the concepts and functions that you learn.</p>
+<pre class="r"><code>recent_grads &lt;- read_csv(&quot;https://yeabinmoonecon.github.io/ibs_course/BUS211/data/recent_grads.csv&quot;)</code></pre>
+<pre><code>## Rows: 173 Columns: 18
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr  (2): Major, Major_category
+## dbl (16): Rank, Major_code, Total, Men, Women, Sample_size, Employed, Full_t...
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<p>You can use read_csv() either from readr or tidyberse packages.</p>
+<p>Now that we have our data in a variable called recent_grads, we can
+inspect it directly in the “Variables” section of the Dataquest code
+editor. Since we read in a CSV file, we know that we’re working with
+tabular data. If we try to look at recent_grads directly in RStudio,
+we’ll find that it’s actually imported as a tibble!</p>
+<pre class="r"><code>recent_grads</code></pre>
+<pre><code>## # A tibble: 173 × 18
+##     Rank Major…¹ Major Total   Men Women Major…² Sampl…³ Emplo…⁴ Full_…⁵ Part_…⁶
+##    &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+##  1     1    2419 PETR…  2339  2057   282 Engine…      36    1976    1849     270
+##  2     2    2416 MINI…   756   679    77 Engine…       7     640     556     170
+##  3     3    2415 META…   856   725   131 Engine…       3     648     558     133
+##  4     4    2417 NAVA…  1258  1123   135 Engine…      16     758    1069     150
+##  5     5    2405 CHEM… 32260 21239 11021 Engine…     289   25694   23170    5180
+##  6     6    2418 NUCL…  2573  2200   373 Engine…      17    1857    2038     264
+##  7     7    6202 ACTU…  3777  2110  1667 Busine…      51    2912    2924     296
+##  8     8    5001 ASTR…  1792   832   960 Physic…      10    1526    1085     553
+##  9     9    2414 MECH… 91227 80320 10907 Engine…    1029   76442   71298   13101
+## 10    10    2408 ELEC… 81527 65511 16016 Engine…     631   61928   55450   12695
+## # … with 163 more rows, 7 more variables: Full_time_year_round &lt;dbl&gt;,
+## #   Unemployed &lt;dbl&gt;, Unemployment_rate &lt;dbl&gt;, Median &lt;dbl&gt;,
+## #   College_jobs &lt;dbl&gt;, Non_college_jobs &lt;dbl&gt;, Low_wage_jobs &lt;dbl&gt;, and
+## #   abbreviated variable names ¹​Major_code, ²​Major_category, ³​Sample_size,
+## #   ⁴​Employed, ⁵​Full_time, ⁶​Part_time</code></pre>
+<p>Use the following functions to see what’s in the data. Comment each
+function in your words.</p>
+<pre class="r"><code>glimpse(recent_grads) </code></pre>
+<pre><code>## Rows: 173
+## Columns: 18
+## $ Rank                 &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15…
+## $ Major_code           &lt;dbl&gt; 2419, 2416, 2415, 2417, 2405, 2418, 6202, 5001, 2…
+## $ Major                &lt;chr&gt; &quot;PETROLEUM ENGINEERING&quot;, &quot;MINING AND MINERAL ENGI…
+## $ Total                &lt;dbl&gt; 2339, 756, 856, 1258, 32260, 2573, 3777, 1792, 91…
+## $ Men                  &lt;dbl&gt; 2057, 679, 725, 1123, 21239, 2200, 2110, 832, 803…
+## $ Women                &lt;dbl&gt; 282, 77, 131, 135, 11021, 373, 1667, 960, 10907, …
+## $ Major_category       &lt;chr&gt; &quot;Engineering&quot;, &quot;Engineering&quot;, &quot;Engineering&quot;, &quot;Eng…
+## $ Sample_size          &lt;dbl&gt; 36, 7, 3, 16, 289, 17, 51, 10, 1029, 631, 399, 14…
+## $ Employed             &lt;dbl&gt; 1976, 640, 648, 758, 25694, 1857, 2912, 1526, 764…
+## $ Full_time            &lt;dbl&gt; 1849, 556, 558, 1069, 23170, 2038, 2924, 1085, 71…
+## $ Part_time            &lt;dbl&gt; 270, 170, 133, 150, 5180, 264, 296, 553, 13101, 1…
+## $ Full_time_year_round &lt;dbl&gt; 1207, 388, 340, 692, 16697, 1449, 2482, 827, 5463…
+## $ Unemployed           &lt;dbl&gt; 37, 85, 16, 40, 1672, 400, 308, 33, 4650, 3895, 2…
+## $ Unemployment_rate    &lt;dbl&gt; 0.018380527, 0.117241379, 0.024096386, 0.05012531…
+## $ Median               &lt;dbl&gt; 110000, 75000, 73000, 70000, 65000, 65000, 62000,…
+## $ College_jobs         &lt;dbl&gt; 1534, 350, 456, 529, 18314, 1142, 1768, 972, 5284…
+## $ Non_college_jobs     &lt;dbl&gt; 364, 257, 176, 102, 4440, 657, 314, 500, 16384, 1…
+## $ Low_wage_jobs        &lt;dbl&gt; 193, 50, 0, 0, 972, 244, 259, 220, 3253, 3170, 98…</code></pre>
+<pre class="r"><code>summary(recent_grads)</code></pre>
+<pre><code>##       Rank       Major_code      Major               Total       
+##  Min.   :  1   Min.   :1100   Length:173         Min.   :   124  
+##  1st Qu.: 44   1st Qu.:2403   Class :character   1st Qu.:  4550  
+##  Median : 87   Median :3608   Mode  :character   Median : 15104  
+##  Mean   : 87   Mean   :3880                      Mean   : 39370  
+##  3rd Qu.:130   3rd Qu.:5503                      3rd Qu.: 38910  
+##  Max.   :173   Max.   :6403                      Max.   :393735  
+##                                                  NA&#39;s   :1       
+##       Men             Women        Major_category      Sample_size    
+##  Min.   :   119   Min.   :     0   Length:173         Min.   :   2.0  
+##  1st Qu.:  2178   1st Qu.:  1778   Class :character   1st Qu.:  39.0  
+##  Median :  5434   Median :  8386   Mode  :character   Median : 130.0  
+##  Mean   : 16723   Mean   : 22647                      Mean   : 356.1  
+##  3rd Qu.: 14631   3rd Qu.: 22554                      3rd Qu.: 338.0  
+##  Max.   :173809   Max.   :307087                      Max.   :4212.0  
+##  NA&#39;s   :1        NA&#39;s   :1                                           
+##     Employed        Full_time        Part_time      Full_time_year_round
+##  Min.   :     0   Min.   :   111   Min.   :     0   Min.   :   111      
+##  1st Qu.:  3608   1st Qu.:  3154   1st Qu.:  1030   1st Qu.:  2453      
+##  Median : 11797   Median : 10048   Median :  3299   Median :  7413      
+##  Mean   : 31193   Mean   : 26029   Mean   :  8832   Mean   : 19694      
+##  3rd Qu.: 31433   3rd Qu.: 25147   3rd Qu.:  9948   3rd Qu.: 16891      
+##  Max.   :307933   Max.   :251540   Max.   :115172   Max.   :199897      
+##                                                                         
+##    Unemployed    Unemployment_rate     Median        College_jobs   
+##  Min.   :    0   Min.   :0.00000   Min.   : 22000   Min.   :     0  
+##  1st Qu.:  304   1st Qu.:0.05031   1st Qu.: 33000   1st Qu.:  1675  
+##  Median :  893   Median :0.06796   Median : 36000   Median :  4390  
+##  Mean   : 2416   Mean   :0.06819   Mean   : 40151   Mean   : 12323  
+##  3rd Qu.: 2393   3rd Qu.:0.08756   3rd Qu.: 45000   3rd Qu.: 14444  
+##  Max.   :28169   Max.   :0.17723   Max.   :110000   Max.   :151643  
+##                                                                     
+##  Non_college_jobs Low_wage_jobs  
+##  Min.   :     0   Min.   :    0  
+##  1st Qu.:  1591   1st Qu.:  340  
+##  Median :  4595   Median : 1231  
+##  Mean   : 13284   Mean   : 3859  
+##  3rd Qu.: 11783   3rd Qu.: 3466  
+##  Max.   :148395   Max.   :48207  
+## </code></pre>
+<pre class="r"><code>nrow(recent_grads)</code></pre>
+<pre><code>## [1] 173</code></pre>
+<pre class="r"><code>ncol(recent_grads)</code></pre>
+<pre><code>## [1] 18</code></pre>
+<pre class="r"><code>names(recent_grads)</code></pre>
+<pre><code>##  [1] &quot;Rank&quot;                 &quot;Major_code&quot;           &quot;Major&quot;               
+##  [4] &quot;Total&quot;                &quot;Men&quot;                  &quot;Women&quot;               
+##  [7] &quot;Major_category&quot;       &quot;Sample_size&quot;          &quot;Employed&quot;            
+## [10] &quot;Full_time&quot;            &quot;Part_time&quot;            &quot;Full_time_year_round&quot;
+## [13] &quot;Unemployed&quot;           &quot;Unemployment_rate&quot;    &quot;Median&quot;              
+## [16] &quot;College_jobs&quot;         &quot;Non_college_jobs&quot;     &quot;Low_wage_jobs&quot;</code></pre>
+<div id="column-select" class="section level2">
+<h2>1.2 Column select</h2>
+<p>Basically, you can acces the columns in three ways:</p>
+<pre class="r"><code>sample_sizes1 &lt;- recent_grads$Sample_size
+sample_sizes2 &lt;- recent_grads[[&#39;Sample_size&#39;]]
+sample_sizes3 &lt;- pull(recent_grads, Sample_size)
+sum(sample_sizes1)</code></pre>
+<pre><code>## [1] 61602</code></pre>
+<pre class="r"><code>sum(sample_sizes2)</code></pre>
+<pre><code>## [1] 61602</code></pre>
+<pre class="r"><code>sum(sample_sizes3)</code></pre>
+<pre><code>## [1] 61602</code></pre>
+<p>I recommend using the pull() function over ‘<span class="math inline">\(&#39; or double-bracket notation because it flows
+better with the %&gt;% operator and increases readability. Also, if
+there&#39;s white space in a column name, then we are unable to use the
+&#39;\)</span>’ notation.</p>
+<p>To filter the data by columns, we can use the select() function which
+comes from the dplyr library. Notice that this is also a tidyverse
+library. The select() function actually takes a variable number of
+arguments since it doesn’t know ahead of time how many columns a
+programmer may need from it. The first argument that the select()
+function takes is a tibble, and the following arguments are column names
+that are in the tibble. An example follows using the recent_grads
+dataset:</p>
+<pre><code>new_object &lt;- select(your_data, col1, col2, ...)</code></pre>
+<pre class="r"><code>filtered_data &lt;- select(recent_grads, Rank, Major)
+filtered_data</code></pre>
+<pre><code>## # A tibble: 173 × 2
+##     Rank Major                                    
+##    &lt;dbl&gt; &lt;chr&gt;                                    
+##  1     1 PETROLEUM ENGINEERING                    
+##  2     2 MINING AND MINERAL ENGINEERING           
+##  3     3 METALLURGICAL ENGINEERING                
+##  4     4 NAVAL ARCHITECTURE AND MARINE ENGINEERING
+##  5     5 CHEMICAL ENGINEERING                     
+##  6     6 NUCLEAR ENGINEERING                      
+##  7     7 ACTUARIAL SCIENCE                        
+##  8     8 ASTRONOMY AND ASTROPHYSICS               
+##  9     9 MECHANICAL ENGINEERING                   
+## 10    10 ELECTRICAL ENGINEERING                   
+## # … with 163 more rows</code></pre>
+<p>The select() function can also be used to remove columns from a
+dataset</p>
+<pre class="r"><code>filtered_data &lt;- select(recent_grads, -College_jobs)
+filtered_data</code></pre>
+<pre><code>## # A tibble: 173 × 17
+##     Rank Major…¹ Major Total   Men Women Major…² Sampl…³ Emplo…⁴ Full_…⁵ Part_…⁶
+##    &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+##  1     1    2419 PETR…  2339  2057   282 Engine…      36    1976    1849     270
+##  2     2    2416 MINI…   756   679    77 Engine…       7     640     556     170
+##  3     3    2415 META…   856   725   131 Engine…       3     648     558     133
+##  4     4    2417 NAVA…  1258  1123   135 Engine…      16     758    1069     150
+##  5     5    2405 CHEM… 32260 21239 11021 Engine…     289   25694   23170    5180
+##  6     6    2418 NUCL…  2573  2200   373 Engine…      17    1857    2038     264
+##  7     7    6202 ACTU…  3777  2110  1667 Busine…      51    2912    2924     296
+##  8     8    5001 ASTR…  1792   832   960 Physic…      10    1526    1085     553
+##  9     9    2414 MECH… 91227 80320 10907 Engine…    1029   76442   71298   13101
+## 10    10    2408 ELEC… 81527 65511 16016 Engine…     631   61928   55450   12695
+## # … with 163 more rows, 6 more variables: Full_time_year_round &lt;dbl&gt;,
+## #   Unemployed &lt;dbl&gt;, Unemployment_rate &lt;dbl&gt;, Median &lt;dbl&gt;,
+## #   Non_college_jobs &lt;dbl&gt;, Low_wage_jobs &lt;dbl&gt;, and abbreviated variable names
+## #   ¹​Major_code, ²​Major_category, ³​Sample_size, ⁴​Employed, ⁵​Full_time,
+## #   ⁶​Part_time</code></pre>
+<div id="exercise-1" class="section level3">
+<h3>Exercise 1</h3>
+<ol style="list-style-type: decimal">
+<li>Create a dataset that only contains the Rank and Major columns from
+the recent_grads dataset. Assign this new, filtered data to the variable
+rank_major_tibble.</li>
+<li>Create a dataset that removes the Major_code column from the
+recent_grads dataset. Assign this new, filtered data to the variable
+no_major_code_tibble.</li>
+</ol>
+</div>
+</div>
+<div id="row-select" class="section level2">
+<h2>1.3 Row select</h2>
+<p>We can access rows using [], for example,</p>
+<pre class="r"><code>recent_grads[2,] # select the second row</code></pre>
+<pre><code>## # A tibble: 1 × 18
+##    Rank Major_…¹ Major Total   Men Women Major…² Sampl…³ Emplo…⁴ Full_…⁵ Part_…⁶
+##   &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+## 1     2     2416 MINI…   756   679    77 Engine…       7     640     556     170
+## # … with 7 more variables: Full_time_year_round &lt;dbl&gt;, Unemployed &lt;dbl&gt;,
+## #   Unemployment_rate &lt;dbl&gt;, Median &lt;dbl&gt;, College_jobs &lt;dbl&gt;,
+## #   Non_college_jobs &lt;dbl&gt;, Low_wage_jobs &lt;dbl&gt;, and abbreviated variable names
+## #   ¹​Major_code, ²​Major_category, ³​Sample_size, ⁴​Employed, ⁵​Full_time,
+## #   ⁶​Part_time</code></pre>
+<p>There are many reasons why we would want to filter out particular
+rows in our data. Using our recent_grads data as an example, perhaps we
+have to do an analysis that only involves majors with more than 1000
+people. Perhaps there is some missing data in one of the rows, and we
+want to remove them. In both of these cases, we need some kind of
+condition to filter out the rows.</p>
+<p>Recall that each of the rows represents information on a single thing
+(or in this case, major), so filtering the rows means looking for a
+subset of the rows that have a particular quality. We want to filter
+rows using the filter() function in the following way:</p>
+<pre><code>new_object &lt;- filter(your_data, condition)</code></pre>
+<p>Example is:</p>
+<pre class="r"><code>top_100_majors &lt;- filter(recent_grads, Rank &lt; 100)</code></pre>
+<p>You can add more conditions using comma ‘,’:</p>
+<pre class="r"><code>large_engineering_majors &lt;- filter(recent_grads, Total &gt; 5000, Major_category == &quot;Engineering&quot;)</code></pre>
+<div id="exercise-2" class="section level3">
+<h3>Exercise 2</h3>
+<ol style="list-style-type: decimal">
+<li>Filter the recent_grads data for those with a Sample_size value
+greater than 100. Assign this filtered tibble to the variable
+large_sample_majors.</li>
+<li>Filter the recent_grads data:</li>
+</ol>
+<ul>
+<li>Where Total is less than or equal to 70,000</li>
+<li>Where Median is greater than 40,000</li>
+<li>Where the Major_category isn’t Engineering</li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li>Assign this tibble to the variable non_engineering_majors.</li>
+</ol>
+</div>
+</div>
+<div id="pipe-operator" class="section level2">
+<h2>1.4 Pipe operator</h2>
+<p>The tidyverse provides us with a beautiful tool that will allow us to
+streamline the process and do all of our data manipulation in one place.
+That tool is the %&gt;% function, named the pipe operator. The pipe
+operator allows us to take the output of one function and have it be
+used directly as the input of another function.</p>
+<p>Consider the following:</p>
+<pre class="r"><code>ranked_majors &lt;- select(recent_grads, Rank, Major, Total)
+low_total_ranked_majors &lt;- filter(ranked_majors, Total &lt; 2000)</code></pre>
+<p>In the code above, we create a new variable ranked_majors that
+contains three columns picked from recent_grads. After this, the
+ranked_majors tibble is fed into the filter() function and is assigned
+to another new variable low_total_ranked_majors. The lines get longer
+and longer if we want to extend this process, and more memory would be
+necessary.</p>
+<p>Let’s see this:</p>
+<pre class="r"><code>low_total_ranked_majors &lt;- recent_grads %&gt;%
+  select(Rank, Major, Total) %&gt;%
+  filter(Total &lt; 2000)</code></pre>
+<p>The two code blocks produce exactly the same result, but the %&gt;%
+operator allows us to better see the flow of our data manipulation. In
+the first line of the new code, the recent_grads tibble is piped into
+the select() function. Similarly, the output of select() is passed into
+the filter() function, where the pipeline ends.</p>
+<p>Let’s practice more</p>
+<pre class="r"><code>recent_grads %&gt;% count(Major_category, sort = T) %&gt;% head(3) # try to explain every step here</code></pre>
+<pre><code>## # A tibble: 3 × 2
+##   Major_category                n
+##   &lt;chr&gt;                     &lt;int&gt;
+## 1 Engineering                  29
+## 2 Education                    16
+## 3 Humanities &amp; Liberal Arts    15</code></pre>
+<div id="exercise-3" class="section level3">
+<h3>Exercise 3</h3>
+<ol style="list-style-type: decimal">
+<li>Starting with the recent_grads tibble, create a pipeline using
+%&gt;% that does the following:</li>
+</ol>
+<ul>
+<li>Removes the Rank and Major columns and</li>
+<li>Filters for majors with a Median pay less than 50000</li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>Finally, assign the output of this pipeline to the variable
+pipeline_output.</li>
+</ol>
+</div>
+</div>
+<div id="mutate-column-operations" class="section level2">
+<h2>1.5 mutate(): column operations</h2>
+<p>Let’s start by an example. In the recent_grads data, we have a Total
+column and a Men column. Total indicates the number of people surveyed
+with the major, while Men indicates how many of these people are male.
+These numbers by themselves don’t tell us much since the Totals vary so
+much, but if we create a new column based on percentages, this will
+allow us to better compare majors.</p>
+<p>In order to create a new column based on other columns, we need to
+use the mutate() function. Within a mutate() function, we name new
+columns and define how they should be calculated. For example, we can do
+the following:</p>
+<pre class="r"><code>new_recent_grads &lt;- recent_grads %&gt;% # Try to comment what the codes are doing here
+  mutate(
+    prop_male = Men / Total,
+    prop_male_gt_half = prop_male &gt; 0.5
+  )</code></pre>
+<div id="exercise-4" class="section level3">
+<h3>Exercise 4</h3>
+<ol style="list-style-type: decimal">
+<li>Create three new columns in recent_grads and assign the result to
+the variable new_recent_grads:</li>
+</ol>
+<ul>
+<li>One column should be called prop_employed, and it should be the
+proportion of people employed by major.</li>
+<li>The second new column should be called prop_women, and it should be
+the proportion of women in the major.</li>
+<li>The final column should be called prop_women_gt_employed, and it
+should be a logical column where the proportion of women in the major is
+greater than (&gt;) the proportion of people employed by major.</li>
+</ul>
+</div>
+</div>
+<div id="build-up" class="section level2">
+<h2>1.6 Build up</h2>
+<p>What major has the lowest proportion of employed graduates? How do
+you approach this quesiton?</p>
+<pre><code>1. need to construct the proportion of employed gradautes
+2. arrange the constructed column (ascending or descending?)
+3. select the highest (or lowest)</code></pre>
+<pre class="r"><code>least_employed_major &lt;- recent_grads %&gt;% # pause here and ask yourself why the first line is necessary
+    mutate(
+          prop_em = Employed / Total
+          )   %&gt;%
+    arrange(prop_em) %&gt;% select(Major, prop_em) 
+head(least_employed_major)</code></pre>
+<pre><code>## # A tibble: 6 × 2
+##   Major                                     prop_em
+##   &lt;chr&gt;                                       &lt;dbl&gt;
+## 1 MILITARY TECHNOLOGIES                       0    
+## 2 HEALTH AND MEDICAL PREPARATORY PROGRAMS     0.554
+## 3 NAVAL ARCHITECTURE AND MARINE ENGINEERING   0.603
+## 4 OTHER FOREIGN LANGUAGES                     0.629
+## 5 MOLECULAR BIOLOGY                           0.633
+## 6 MICROBIOLOGY                                0.636</code></pre>
+</div>
+<div id="summary" class="section level2">
+<h2>1.7 Summary</h2>
+<p>In other cases, we’ll want to gather some summary statistics to get a
+better understanding of our data. Instead of calculating these by hand,
+we can use the summarize() function to get these values with a short
+line of code.</p>
+<p>For example, if we want to see what the average unemployment rate was
+across the majors:</p>
+<pre class="r"><code>summary_table &lt;- recent_grads %&gt;% 
+  summarize(
+    avg_unemp = mean(Unemployment_rate),
+    min_unemp = min(Unemployment_rate),
+    max_unemp = max(Unemployment_rate)
+  )
+print(summary_table)</code></pre>
+<pre><code>## # A tibble: 1 × 3
+##   avg_unemp min_unemp max_unemp
+##       &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+## 1    0.0682         0     0.177</code></pre>
+<p>The summarize() function is often combined with the group_by()
+function which allows splitting the dataframe into several subsets on
+which we can apply functions. This workflow is known as
+split-apply-combine workflow. It is widely used in data analysis. It
+consists in three steps:</p>
+<ol style="list-style-type: decimal">
+<li>Split the dataset into subsets using the function group_by().</li>
+<li>Apply functions to those subsets using the summarize()
+function.</li>
+<li>Combine the results back together using again the summarize()
+function.</li>
+</ol>
+<pre class="r"><code>summary_by_Major_category &lt;- recent_grads %&gt;% 
+  group_by(Major_category) %&gt;%
+  summarize(
+    avg_unemp = mean(Unemployment_rate),
+    min_unemp = min(Unemployment_rate),
+    max_unemp = max(Unemployment_rate)
+  )
+print(summary_by_Major_category)</code></pre>
+<pre><code>## # A tibble: 16 × 4
+##    Major_category                      avg_unemp min_unemp max_unemp
+##    &lt;chr&gt;                                   &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+##  1 Agriculture &amp; Natural Resources        0.0563   0          0.0969
+##  2 Arts                                   0.0902   0.0760     0.106 
+##  3 Biology &amp; Life Science                 0.0609   0          0.0855
+##  4 Business                               0.0711   0.0479     0.0964
+##  5 Communications &amp; Journalism            0.0755   0.0680     0.0898
+##  6 Computers &amp; Mathematics                0.0843   0          0.152 
+##  7 Education                              0.0517   0          0.108 
+##  8 Engineering                            0.0633   0.00633    0.177 
+##  9 Health                                 0.0659   0.0370     0.112 
+## 10 Humanities &amp; Liberal Arts              0.0810   0.0472     0.107 
+## 11 Industrial Arts &amp; Consumer Services    0.0481   0          0.0727
+## 12 Interdisciplinary                      0.0709   0.0709     0.0709
+## 13 Law &amp; Public Policy                    0.0908   0.0117     0.159 
+## 14 Physical Sciences                      0.0465   0.0212     0.0754
+## 15 Psychology &amp; Social Work               0.0721   0.0296     0.149 
+## 16 Social Science                         0.0957   0.0731     0.113</code></pre>
+<p>summarise() also works.</p>
+<div id="exercise-5" class="section level3">
+<h3>Exercise 5</h3>
+<ol style="list-style-type: decimal">
+<li>Create a new tibble called minmax_median_income that calculates the
+minimum and maximum value in the Median column.</li>
+</ol>
+<ul>
+<li>use the column names: min_income, and max_income</li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>Create a new tibble called minmax_median_income_by_major that
+calculates the minimum and maximum value in the Median column grouping
+by the Major column.</li>
+</ol>
+<ul>
+<li>use the column names: min_income, and max_income</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="control-flow" class="section level1">
+<h1>2 Control flow</h1>
+<div id="if-statement" class="section level2">
+<h2>2.1 if statement</h2>
+<p>In order to use control flow, we need to create statements that will
+turn out to be either TRUE or FALSE. In R, the most fundamental way to
+evaluate something as TRUE or FALSE is through comparison operators.</p>
+<p>Using a slightly different formatting, the if statement has this
+particular structure:</p>
+<pre><code>if (condition) { # If condition is true, this code will run } 
+else { # If condition is false, this code will run }</code></pre>
+<p>The essential characteristic of the if statement is that it helps us
+create a branching path in our code. Both the if and the else keywords
+are followed by curly brackets { }, which define code blocks. Each of
+the code blocks represent one of the paths shown in the diagram. R does
+not run both, and it uses the comparison operator to decide which code
+block to run.</p>
+<p>Consider the following if statement:</p>
+<pre class="r"><code>major &lt;- &quot;Engineer&quot;
+if (major == &quot;Chemistry&quot;) { 
+    print(&quot;This person majored in Chemistry.&quot;)
+} else {
+  print(&quot;This person did not major in Chemistry.&quot;)
+}</code></pre>
+<pre><code>## [1] &quot;This person did not major in Chemistry.&quot;</code></pre>
+<div id="exercise-6" class="section level3">
+<h3>Exercise 6</h3>
+<ol style="list-style-type: decimal">
+<li>Write an if statement that creates a new variable data_size. If the
+number of rows in recent_grads is greater than 1000, then data_size
+should be equal to “Large”. If not, then data_size should be equal to
+“Small”.</li>
+</ol>
+</div>
+</div>
+<div id="if_else" class="section level2">
+<h2>2.2 if_else()</h2>
+<p>On the last screen, we learned about the if statement and its ability
+to create branching paths in our code. A singular if statement is useful
+if we need to perform different code for a single condition, but it’s
+not useful in cases where there are a lot of values that need
+comparison.</p>
+<p>For example, let’s say that we want to create a new column in the
+recent_grads dataset that helps us know whether or not a major was
+associated with Engineering. We have the Major_category column that
+contains information on the majors, but we need some way to vectorize
+the if statement to all of the values in this column. A single if
+statement won’t be able to handle this.</p>
+<p>See the following:</p>
+<pre class="r"><code>new_recent_grads &lt;- recent_grads %&gt;% 
+  mutate(
+    is_engineering = if_else(Major_category == &quot;Engineering&quot;, TRUE, FALSE)
+  )
+new_recent_grads[c(&#39;Major_category&#39;,&#39;is_engineering&#39;)]</code></pre>
+<pre><code>## # A tibble: 173 × 2
+##    Major_category    is_engineering
+##    &lt;chr&gt;             &lt;lgl&gt;         
+##  1 Engineering       TRUE          
+##  2 Engineering       TRUE          
+##  3 Engineering       TRUE          
+##  4 Engineering       TRUE          
+##  5 Engineering       TRUE          
+##  6 Engineering       TRUE          
+##  7 Business          FALSE         
+##  8 Physical Sciences FALSE         
+##  9 Engineering       TRUE          
+## 10 Engineering       TRUE          
+## # … with 163 more rows</code></pre>
+<p>In the above code, we are creating a new column is_engineering based
+on the values of the Major_category column. For each row, the if_else()
+function takes the value in Major_category and checks if it is equal to
+the string “Engineering”. If that row’s Major_category value is
+“Engineering”, then the corresponding “is_engineering” value will be
+TRUE. If not, then it will be FALSE. The if_else() function takes that
+single comparison operator Major_category == “Engineering” and
+vectorizes it.</p>
+<div id="exercise-7" class="section level3">
+<h3>Exercise 7</h3>
+<ol style="list-style-type: decimal">
+<li><p>Create a new column median_level in the recent_grads data. If
+Median is greater than 50000, then median_level should take the value
+“Above Average”. If not, then median_level should take the value “Below
+Average”.</p></li>
+<li><p>Create another new column called greater_prop_gender. If the
+value in the Women column is greater than the Men column, then
+greater_prop_gender should be “Women”. If not, then greater_prop_gender
+should be “Men”.</p></li>
+</ol>
+</div>
+</div>
+<div id="compound-conditions" class="section level2">
+<h2>2.3 compound conditions</h2>
+<pre class="r"><code>x &lt;- 7
+x &gt; 5 &amp; x &lt; 10</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>x &gt; 5 &amp;&amp; x &lt; 10</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p>What’s the difference between &amp; and &amp;&amp;?</p>
+<p>Consider the following:</p>
+<pre><code>a &lt;- 1:3
+b &lt;- 4:6
+
+c &lt;- if_else(a &gt; 2 &amp;&amp; b &gt; 5, TRUE, FALSE)</code></pre>
+<pre class="r"><code>a &lt;- 1:3
+b &lt;- 4:6
+print(a &gt; 2)</code></pre>
+<pre><code>## [1] FALSE FALSE  TRUE</code></pre>
+<pre class="r"><code>print(b &gt; 5)</code></pre>
+<pre><code>## [1] FALSE FALSE  TRUE</code></pre>
+<pre class="r"><code>print(a &gt; 2 &amp;&amp; b &gt; 5)</code></pre>
+<pre><code>## Warning in a &gt; 2 &amp;&amp; b &gt; 5: &#39;length(x) = 3 &gt; 1&#39; in coercion to &#39;logical(1)&#39;</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<p>To summarize why only one value appears in c, it boils down to the
+fact that &amp;&amp; and || are only expecting single values to be used
+in the multiple comparison. In this case, the multiple comparison a &gt;
+2 &amp;&amp; b &gt; 5 is only using the first values from the vectors a
+and b, which are 1 and 4. The other values in a and b are not used at
+all.</p>
+<pre class="r"><code>a &gt; 2 &amp; b &gt; 5</code></pre>
+<pre><code>## [1] FALSE FALSE  TRUE</code></pre>
+</div>
+<div id="mutate-again-case_when" class="section level2">
+<h2>2.4 mutate again: case_when()</h2>
+<p>We will learn about a new function that will allow us to vectorize a
+2+ branch if statement. We know about the if_else() function, but it
+works best with simpler conditions that evaluate to TRUE or FALSE. We
+could potentially nest if_else() functions in other functions, but this
+could make for hard-to-read code. There is a more elegant solution in
+the case_when() function.</p>
+<p>You can think of the case_when() function as a generalization of the
+if_else() function, which incorporates more branches. We’ll demonstrate
+a use case below with the recent_grads data:</p>
+<pre class="r"><code>new_recent_grads &lt;- recent_grads %&gt;% 
+  mutate(
+    size_classification = case_when(
+      Total &lt; 2000 ~ &quot;Small&quot;,
+      Total &gt; 20000 ~ &quot;Large&quot;,
+      TRUE ~ &quot;Medium&quot;
+    ) 
+  )</code></pre>
+<p>Within the case_when() function, we have a series of conditions and
+assignments. The first example is Total &lt; 2000 ~ “Small”. The
+condition Total &lt; 2000 is separated from the assignment “Small” by
+the character ~. You can think of each of these lines as shortened if
+branches. The last line, TRUE ~ “Medium”, acts as a catch-all in case
+the Total amount does not fall into either of the conditions above.
+Another way of interpreting the TRUE ~ “Medium” line is that it is a
+safety net: if the Total satisfies neither the Total &lt; 2000 or the
+Total &gt; 20000 condition, then it will be “caught” by the TRUE ~
+“Medium” line.</p>
+<div id="exercise-8" class="section level3">
+<h3>Exercise 8</h3>
+<ol style="list-style-type: decimal">
+<li>Use the case_when() function to create a new column in the
+recent_grads dataset called unemployment_level. This new column should
+have the following:</li>
+</ol>
+<ul>
+<li>If Unemployment_rate is less than 5%, unemployment_level should be
+“Low”</li>
+<li>Between 5% and less than 10%: “Moderate”</li>
+<li>Greater than or equal to 10%: “High”</li>
+<li>Assign your tibble with the new column to the variable
+new_recent_grads.</li>
+</ul>
+</div>
+</div>
+<div id="group-membership" class="section level2">
+<h2>2.5 group membership</h2>
+<p>Currently, we know how to do comparisons on equality and how to
+determine whether or not one value is greater or smaller than another
+(==, !=, &gt;, &gt;=, &lt;, and &lt;=). One task that these comparison
+operators have trouble with is identifying membership in a group. That
+is to say, given a value, is it present in a collection of values like a
+vector?</p>
+<p>Say that we are performing an analysis on the recent_grads data that
+involves engineering majors, but only on a particular subset of them. It
+will be important for us to filter the dataset to just these majors, so
+we could do something like the following:</p>
+<pre class="r"><code>recent_grads %&gt;% 
+  filter(
+    Major == &quot;AEROSPACE ENGINEERING&quot; | Major == &quot;BIOMEDICAL ENGINEERING&quot; | Major == &quot;CHEMICAL ENGINEERING&quot;
+  )</code></pre>
+<pre><code>## # A tibble: 3 × 18
+##    Rank Major_…¹ Major Total   Men Women Major…² Sampl…³ Emplo…⁴ Full_…⁵ Part_…⁶
+##   &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+## 1     5     2405 CHEM… 32260 21239 11021 Engine…     289   25694   23170    5180
+## 2    12     2401 AERO… 15058 12953  2105 Engine…     147   11391   11106    2724
+## 3    13     2404 BIOM… 14955  8407  6548 Engine…      79   10047    9017    2694
+## # … with 7 more variables: Full_time_year_round &lt;dbl&gt;, Unemployed &lt;dbl&gt;,
+## #   Unemployment_rate &lt;dbl&gt;, Median &lt;dbl&gt;, College_jobs &lt;dbl&gt;,
+## #   Non_college_jobs &lt;dbl&gt;, Low_wage_jobs &lt;dbl&gt;, and abbreviated variable names
+## #   ¹​Major_code, ²​Major_category, ³​Sample_size, ⁴​Employed, ⁵​Full_time,
+## #   ⁶​Part_time</code></pre>
+<p>The above compound condition let’s us grab these three majors, but
+there are plenty more majors that we need for the analysis. As we add
+more, the compound condition will become longer and longer. There is a
+shorthand way to do this through a membership test. The below code
+performs the same operation as the one above.</p>
+<pre class="r"><code>recent_grads %&gt;% 
+  filter(
+    Major %in% c(&quot;AEROSPACE ENGINEERING&quot;, &quot;BIOMEDICAL ENGINEERING&quot;, &quot;CHEMICAL ENGINEERING&quot;)
+  )</code></pre>
+<pre><code>## # A tibble: 3 × 18
+##    Rank Major_…¹ Major Total   Men Women Major…² Sampl…³ Emplo…⁴ Full_…⁵ Part_…⁶
+##   &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+## 1     5     2405 CHEM… 32260 21239 11021 Engine…     289   25694   23170    5180
+## 2    12     2401 AERO… 15058 12953  2105 Engine…     147   11391   11106    2724
+## 3    13     2404 BIOM… 14955  8407  6548 Engine…      79   10047    9017    2694
+## # … with 7 more variables: Full_time_year_round &lt;dbl&gt;, Unemployed &lt;dbl&gt;,
+## #   Unemployment_rate &lt;dbl&gt;, Median &lt;dbl&gt;, College_jobs &lt;dbl&gt;,
+## #   Non_college_jobs &lt;dbl&gt;, Low_wage_jobs &lt;dbl&gt;, and abbreviated variable names
+## #   ¹​Major_code, ²​Major_category, ³​Sample_size, ⁴​Employed, ⁵​Full_time,
+## #   ⁶​Part_time</code></pre>
+<p>Here, we collect all of the three engineering majors and put them
+into a vector. Then, we use the %in% comparison operator to see if the
+Major column contains any of these values. If it is in the vector of
+engineering majors, then this will evaluate to TRUE. Using %in% also
+makes it much more apparent what the code is doing. Instead of having
+long streaks of ||, the %in% operator makes it immediately clear that we
+are testing for membership in a vector. It’s important to note that the
+entire expression Major %in% c(“AEROSPACE ENGINEERING”, “BIOMEDICAL
+ENGINEERING”, “CHEMICAL ENGINEERING”) is a comparison operator.</p>
+<p>Try to think about the following:</p>
+<pre class="r"><code>recent_grads %&gt;% 
+  filter(
+    !(Major %in% c(&quot;AEROSPACE ENGINEERING&quot;, &quot;BIOMEDICAL ENGINEERING&quot;, &quot;CHEMICAL ENGINEERING&quot;))
+  )</code></pre>
+<pre><code>## # A tibble: 170 × 18
+##     Rank Major…¹ Major Total   Men Women Major…² Sampl…³ Emplo…⁴ Full_…⁵ Part_…⁶
+##    &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+##  1     1    2419 PETR…  2339  2057   282 Engine…      36    1976    1849     270
+##  2     2    2416 MINI…   756   679    77 Engine…       7     640     556     170
+##  3     3    2415 META…   856   725   131 Engine…       3     648     558     133
+##  4     4    2417 NAVA…  1258  1123   135 Engine…      16     758    1069     150
+##  5     6    2418 NUCL…  2573  2200   373 Engine…      17    1857    2038     264
+##  6     7    6202 ACTU…  3777  2110  1667 Busine…      51    2912    2924     296
+##  7     8    5001 ASTR…  1792   832   960 Physic…      10    1526    1085     553
+##  8     9    2414 MECH… 91227 80320 10907 Engine…    1029   76442   71298   13101
+##  9    10    2408 ELEC… 81527 65511 16016 Engine…     631   61928   55450   12695
+## 10    11    2407 COMP… 41542 33258  8284 Engine…     399   32506   30315    5146
+## # … with 160 more rows, 7 more variables: Full_time_year_round &lt;dbl&gt;,
+## #   Unemployed &lt;dbl&gt;, Unemployment_rate &lt;dbl&gt;, Median &lt;dbl&gt;,
+## #   College_jobs &lt;dbl&gt;, Non_college_jobs &lt;dbl&gt;, Low_wage_jobs &lt;dbl&gt;, and
+## #   abbreviated variable names ¹​Major_code, ²​Major_category, ³​Sample_size,
+## #   ⁴​Employed, ⁵​Full_time, ⁶​Part_time</code></pre>
+<div id="exercise-9" class="section level3">
+<h3>Exercise 9</h3>
+<ol style="list-style-type: decimal">
+<li>We want to conduct an analysis on all of the majors with “Arts” in
+its name. In the context of the data, these are rows where
+Major_category is either “Arts” or “Humanities &amp; Liberal Arts”.
+Filter the recent_grads data and assign this new tibble to the variable
+arts_grads.</li>
+<li>We want to conduct an analysis on all of the majors that are not
+“Engineering” or “Physical Sciences”. Assign this new tibble to the
+variable non_engineering_science_grads.</li>
+</ol>
+</div>
 </div>
 </div>
 

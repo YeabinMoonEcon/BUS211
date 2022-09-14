@@ -1,0 +1,102 @@
+---
+title: "homework2 suggested solution"
+date: "2022-09-08"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Part I
+
+#### Q.1.1. Read the "life_expec.csv" file into R. Save it as a DataFrame named <em>life_expec</em>.
+```{r}
+library(tidyverse)
+setwd("~/Documents/ibs_course/BUS240/homework/homework2")
+life_expec <- read_csv('life_expec.csv')
+```
+
+#### Q.1.2. Use the ggplot() function to create the first layer of your plot using the <em>life_expec</em> DataFrame.
+```{r}
+life_expec %>% ggplot()
+```
+
+#### Q.1.3. Add an aes() layer to your graph specifying <em>Avg_Life_Expec</em> as the dependent variable and <em>Year</em> as the independent variable.
+```{r}
+life_expec %>% ggplot(mapping = aes(x = Year, y = Avg_Life_Expec))
+```
+
+
+#### Q.1.4. Add a layer to your graph to illustrate the relationship between <em>Year</em> and <em>Avg_Life_Expec</em>.
+```{r}
+life_expec %>% ggplot(mapping = aes(x = Year, y = Avg_Life_Expec)) + geom_line()
+```
+
+
+
+#### Q.1.5. Create a new tibble, <em>life_expec_filter</em>, containing only rows for which the <em>Race</em> variable has the value "All Races," and the Sex variable has the value "Both Sexes."
+```{r}
+life_expec_filter <- life_expec %>% filter(Race == 'All Races' & Sex == 'Both Sexes')
+```
+
+
+#### Q.1.6. Create a line graph that displays the relationship between <em>Avg_Life_Expec</em> and <em>Year</em>.
+```{r}
+life_expec_filter %>% ggplot(mapping = aes(x = Year, y = Avg_Life_Expec)) + geom_line()
+```
+
+#### Q.1.7. Give your graph a descriptive title that communicates the goal of the visualization: "United States Life Expectancy: 100 Years of Change"
+```{r}
+life_expec_filter %>% 
+  ggplot(aes(x = Year, y = Avg_Life_Expec)) +
+  geom_line() +
+  labs(title = "United States Life Expectancy: 100 Years of Change")
+```
+#### Q.1.8. Give the y-axis this label: "Average Life Expectancy (Years)"
+```{r}
+life_expec_filter %>% 
+  ggplot(aes(x = Year, y = Avg_Life_Expec)) +
+  geom_line() +
+  labs(title = "United States Life Expectancy: 100 Years of Change",
+        y = "Average Life Expectancy (Years)")
+```
+
+
+#### Q.1.9. Change the background color of your line graph to white.
+```{r}
+life_expec_filter %>% 
+  ggplot(aes(x = Year, y = Avg_Life_Expec)) +
+    geom_line() +
+    labs(
+      title = "United States Life Expectancy: 100 Years of Change", 
+      y = "Average Life Expectancy (Years)"
+    ) +
+    theme(
+      panel.background = element_rect(fill = "white")
+    )
+```
+
+## Part II
+Let's talk about your data. Each group needs to select data and present your story at the end of the module. Part II would help you prepare before the group discussion starts. 
+
+#### Q.2.1. Describe the data you are interested in.
+
+#### Q.2.2. What makes you pay attention to this data, and who are the potential users?
+
+#### Q.2.3. Describe how to access your data. What are the potential hurdles to gaining access?
+
+<b>Let's talk about the data structure. <br>
+#### Q.2.4. What is the data format? Is this tabular data? How many are data sets included?
+
+#### Q.2.5. Is this panel (longitudinal) data? If yes, what's the individual identifier?
+
+#### Q.2.6. What is your specific area of interest? And why and how does your data fit your interest?
+
+#### Q.2.7. Pick up the five columns and describe them in words
+
+#### Q.2.7. Present some summary statistics of this data
+
+#### Q.2.8. Present two figures showing interesting patterns within data.
+
+#### Q.2.9. What's the main challenge in working on this data?
