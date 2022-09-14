@@ -1,0 +1,218 @@
+---
+title: "Lecture 7"
+author: "Yeabin Moon"
+date: "2022-09-14"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(gapminder)
+```
+
+# What's today?
+
+
+## 1. Transformation by whom?
+
+It is ok to practice hard regarding the commands we learned the last time, however I did not emphasize much. 
+
+You might wonder why don't we manipulate the data set and picture it instead of learning microscope details. For example, calculate relative frequency by group variables and just plot them.
+
+I agree. But in this case, you need to learn how to manipulate data.
+
+Let's interpret the following codes:
+
+```{r}
+setwd("~/Documents/ibs_course/BUS240/data")
+load('gss_sm.rda')
+
+head(gss_sm, 10)
+
+# practice 1
+religion_count <- gss_sm %>%
+  group_by(religion) %>%
+  summarize(N = n()) %>% arrange(-N)
+religion_count
+
+# practice 2
+rel_by_region <- gss_sm %>%
+  group_by(bigregion, religion) %>%
+  summarize(N = n()) %>%
+  mutate(freq = N/sum(N), pct = round((freq*100),0))
+rel_by_region
+```
+
+Need to check whether the grouping is correct:
+```{r}
+rel_by_region %>% group_by(bigregion) %>% summarize(total = sum(pct))
+```
+
+Now plot it:
+```{r}
+p <- ggplot(rel_by_region, aes(x = bigregion, y = pct, fill = religion))
+# what is the role of this line?
+```
+```{r}
+p+geom_col() # why not using geom_bar?
+```
+```{r}
+p + geom_col(position = "dodge") +
+    labs(x = "Region", y = "Percent", fill = "Religion")+
+    theme(legend.position = "top")
+
+```
+```{r}
+p + geom_col(position = "dodge2") 
+```
+
+```{r}
+p <- ggplot(rel_by_region, aes(x = religion, y = pct, fill = religion))
+p + geom_col(position = "dodge") 
+```
+```{r}
+p <- ggplot(rel_by_region, aes(x = religion, y = pct, fill = religion))
+p + geom_col(position = "dodge") + guides(fill = "none") + coord_flip()
+```
+```{r}
+p <- ggplot(rel_by_region, aes(x = religion, y = pct, fill = religion))
+p + geom_col(position = "dodge") + guides(fill = "none") + coord_flip() +
+    facet_wrap(~ bigregion) 
+```
+
+The coord_flip() function switches the x and y axes after the plot is made. It does not remap variables to aesthetics.
+
+Which way is better?
+
+## 2. 
+
+Let's use different dataset.
+
+```{r}
+setwd("~/Documents/ibs_course/BUS240/data")
+load('organdata.rda')
+head(organdata, 10)
+```
+It contains a little more than a decade’s worth of information on the donation of organs for transplants in seventeen OECD countries.
+
+Let's interpret the following commands
+```{r}
+organdata %>% select(1:6) %>% sample_n(size = 10)
+```
+
+Lets’s start by naively graphing some of the data. We can take a look at a scatterplot of donors vs year.
+```{r}
+p <- ggplot(organdata,aes(year,donors)) # when you practice, put all the argument names in
+p + geom_point()
+```
+
+The graph looks too rough.
+
+```{r}
+p <- ggplot(data = organdata,
+            mapping = aes(x = year, y = donors))
+p + geom_line(aes(group = country))
+```
+
+Oh faceting. But need to check
+```{r}
+table(organdata$country)
+```
+
+
+```{r}
+p <- ggplot(data = organdata,
+            mapping = aes(x = year, y = donors))
+p + geom_line(aes(group = country)) + facet_wrap(~ country)
+```
+
+Let’s focus on the country-level variation ignoring time variation now. We can use geom_boxplot() to get a picture of variation by year across countries. Just as geom_bar() by default calculates a count of observations by the category you map to x, the stat_boxplot() function that works with geom_boxplot() will calculate a number of statistics that allow the box and whiskers to be drawn. We tell geom_boxplot() the variable we want to categorize by (here, country) and the continuous variable we want summarized (here, donors)
+
+```{r}
+p <- ggplot(data = organdata, mapping = aes(x = country, y = donors))
+p + geom_boxplot()
+```
+```{r}
+p <- ggplot(data = organdata, mapping = aes(x = country, y = donors))
+p + geom_boxplot() + coord_flip()
+```
+
+See the order of faceting plots and box plots.
+
+More clever way is to have the countries listed from high to low average donation rate. Think about reordering the country variable by the mean of donors.
+
+reorder() has two arguments:
+  1. the categorical variable or factor that we want to reorder
+  2. by what? need to indicate that variable
+If you only give reorder() the first two required arguments, then by default it will reorder the categories of your first variable by the mean value of the second
+  
+```{r}
+p <- ggplot(data = organdata, 
+            mapping = aes(x = reorder(country, donors), 
+                          y = donors))
+p + geom_boxplot() + coord_flip()
+```
+
+Well, it did not work out well. See:
+```{r}
+vec1 <- c(1,2,3)
+vec2 <- c(4,5,NA)
+mean(vec1)
+mean(vec2)
+```
+In R, the default mean function will fail with an error if there are missing values in the variable you are trying to take the average of. ou must say that it is OK to remove the missing values when calculating the mean. This is done by supplying the na.rm=TRUE argument to reorder(), which internally passes that argument on to mean().
+```{r}
+mean(vec2, na.rm = TRUE)
+```
+```{r}
+p <- ggplot(data = organdata, 
+            mapping = aes(x = reorder(country, donors, na.rm = TRUE), 
+                          y = donors))
+p + geom_boxplot() + coord_flip()
+```
+```{r}
+p <- ggplot(data = organdata, 
+            mapping = aes(x = reorder(country, donors, na.rm = TRUE), 
+                          y = donors,
+                          fill = world))
+p + geom_boxplot() + coord_flip() + theme(legend.position = "bottom") +
+  labs(x = NULL)
+```
+
+<h4>Just a matter of representation</h4>
+```{r}
+p <- ggplot(data = organdata, 
+            mapping = aes(x = reorder(country, donors, na.rm = TRUE), 
+                          y = donors,
+                          color = world))
+p + geom_point() + coord_flip() + theme(legend.position = "bottom") +
+  labs(x = NULL)
+```
+
+```{r}
+p <- ggplot(data = organdata, 
+            mapping = aes(x = reorder(country, donors, na.rm = TRUE), 
+                          y = donors,
+                          color = world))
+p + geom_point(alpha = .5) + coord_flip() + theme(legend.position = "bottom") +
+  labs(x = NULL)
+```
+geom_jitter works much like geom_point(), but randomly nudges each observation by a small amount.
+```{r}
+p <- ggplot(data = organdata, 
+            mapping = aes(x = reorder(country, donors, na.rm = TRUE), 
+                          y = donors,
+                          color = world))
+p + geom_jitter() + coord_flip() + theme(legend.position = "bottom") +
+  labs(x = NULL)
+```
+
+```{r}
+p <- ggplot(data = organdata, 
+            mapping = aes(x = reorder(country, donors, na.rm = TRUE), 
+                          y = donors,
+                          color = world))
+p + geom_jitter(position = position_jitter(width = .15)) + coord_flip() + theme(legend.position = "bottom") +
+  labs(x = NULL)
+```
