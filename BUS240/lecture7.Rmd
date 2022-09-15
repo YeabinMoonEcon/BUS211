@@ -216,3 +216,186 @@ p <- ggplot(data = organdata,
 p + geom_jitter(position = position_jitter(width = .15)) + coord_flip() + theme(legend.position = "bottom") +
   labs(x = NULL)
 ```
+
+## Cleveland doptplot
+
+When we want to summarize a categorical variable that just has one point per category, we should use this approach as well. Think about this:
+
+```{r}
+by_country <- organdata %>% group_by(consent_law, country) %>%
+  summarize(donors_mean = mean(donors, na.rm = TRUE),
+            donors_sd = sd(donors, na.rm = TRUE),
+            gdp_mean = mean(gdp, na.rm = TRUE),
+            health_mean = mean(health, na.rm = TRUE),
+            roads_mean = mean(roads, na.rm = TRUE),
+            cerevbas_mean = mean(cerebvas, na.rm = TRUE))
+by_country
+```
+
+```{r}
+p <- ggplot(data = by_country,
+            mapping = aes(x = donors_mean,
+                          y = reorder(country, donors_mean),
+                          color = consent_law))
+p + geom_point() 
+```
+```{r}
+p <- ggplot(data = by_country,
+            mapping = aes(x = donors_mean,
+                          y = reorder(country, donors_mean),
+                          color = consent_law))
+p + geom_point(size = 3) +
+  labs(x = 'Donor Procurement Rarte', y = "",
+       color = "Consent Law") +
+  theme(legend.position = "bottom")
+```
+
+If you don't like, you might facet them
+```{r}
+p <- ggplot(data = by_country,
+            mapping = aes(x = donors_mean,
+                          y = reorder(country, donors_mean)))
+                          
+p + geom_point(size = 3) + 
+    facet_wrap( ~ consent_law) +
+    labs(x = 'Donor Procurement Rarte', y = "")
+```
+```{r}
+p <- ggplot(data = by_country,
+            mapping = aes(x = donors_mean,
+                          y = reorder(country, donors_mean)))
+                          
+p + geom_point(size = 3) + 
+    facet_wrap( ~ consent_law, scales = "free_y") +
+    labs(x = 'Donor Procurement Rarte', y = "")
+```
+```{r}
+p <- ggplot(data = by_country,
+            mapping = aes(x = donors_mean,
+                          y = reorder(country, donors_mean)))
+                          
+p + geom_point(size = 3) + 
+    facet_wrap( ~ consent_law, ncol = 1) +
+    labs(x = 'Donor Procurement Rarte', y = "")
+```
+
+Optional: if you want to delve deeper
+
+```{r}
+p <- ggplot(data = by_country,
+            mapping = aes(x = reorder(country, donors_mean),
+                          y = donors_mean))
+                          
+p + geom_pointrange(mapping = aes(ymin = donors_mean - donors_sd,
+                                  ymax = donors_mean + donors_sd)) + 
+    labs(x = '', y = "Donor Procurement Rate") + coord_flip()
+```
+
+## Plot Text
+Sometimes text itself provides clear information.
+```{r}
+p <- ggplot(data = by_country,
+            mapping = aes(x = roads_mean, y = donors_mean))
+p + geom_point() + geom_text(mapping = aes(label = country))
+```
+
+Make it to the left
+```{r}
+p <- ggplot(data = by_country,
+            mapping = aes(x = roads_mean, y = donors_mean))
+p + geom_point() + geom_text(mapping = aes(label = country), hjust = 0)
+```
+
+Make it to the right
+```{r}
+p <- ggplot(data = by_country,
+            mapping = aes(x = roads_mean, y = donors_mean))
+p + geom_point() + geom_text(mapping = aes(label = country), hjust = 1)
+```
+
+hjust will often fail because the space is added in proportion to the length of the label. The result is that longer labels move further away from their points than you want. 
+
+```{r}
+library(ggrepel)
+p <- ggplot(data = by_country,
+            mapping = aes(x = roads_mean, y = donors_mean))
+p + geom_point() + geom_text_repel(mapping = aes(label = country))
+```
+
+It has subset function, useful for outliers
+```{r}
+p <- ggplot(data = by_country,
+            mapping = aes(x = gdp_mean, y = health_mean))
+p + geom_point()
+```
+
+```{r}
+p <- ggplot(data = by_country,
+            mapping = aes(x = gdp_mean, y = health_mean))
+p + geom_point() + 
+  geom_text_repel(data = subset(by_country, gdp_mean > 25000),
+                  mapping = aes(label = country))
+```
+
+```{r}
+p <- ggplot(data = by_country,
+            mapping = aes(x = gdp_mean, y = health_mean))
+p + geom_point() + 
+  geom_text_repel(data = subset(by_country, 
+                                gdp_mean > 25000 | health_mean < 1500 |
+                                country %in% "Belgium"),
+                  mapping = aes(label = country))
+
+```
+
+## Comment on the following codes 1
+
+```{r}
+p <- ggplot(organdata, aes(roads, donors))
+p + geom_point() + annotate(geom = "text", x = 91, y = 33,
+                            label = "You said class is over",
+                            hjust = 0)
+```
+
+```{r}
+p <- ggplot(organdata, aes(roads, donors))
+p + geom_point() + 
+  annotate(geom = "rect", xmin = 125, xmax = 155,
+           ymin = 30, ymax = 35, fill = "red", alpha = 0.2) +
+  annotate(geom = 'text', x = 157, y = 33,
+           label = "Why isn't over?", hjust = 0)
+                    
+```
+
+## Comment on the following codes 2
+```{r}
+p <- ggplot(data = organdata,
+            mapping = aes(x = roads, y = donors, color = world))
+p + geom_point()
+```
+```{r}
+p <- ggplot(data = organdata,
+            mapping = aes(x = roads, y = donors, color = world))
+p + geom_point() +
+  scale_x_log10()+
+  scale_y_continuous(breaks = c(5,15,25),
+                    labels = c("Five","Fifteen","Twenty Five"))
+```
+```{r}
+p <- ggplot(data = organdata,
+            mapping = aes(x = roads, y = donors, color = world))
+p + geom_point() +
+  scale_color_discrete(
+                    labels = c("Corp","Liberal","Social Demo", "No classified"))+
+  labs(x = "Road Deaths",
+       y = "Donor Procurement",
+       color = "Welfare State")
+```
+```{r}
+p <- ggplot(data = organdata,
+            mapping = aes(x = roads, y = donors, color = world))
+p + geom_point() +
+  labs(x = "Road Deaths",
+       y = "Donor Procurement")+
+       guides(color ="none")
+```
