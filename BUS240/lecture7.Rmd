@@ -96,6 +96,50 @@ head(organdata, 10)
 ```
 It contains a little more than a decade’s worth of information on the donation of organs for transplants in seventeen OECD countries.
 
+```
+country. Country name.
+
+year. Year.
+
+donors. Organ Donation rate per million population.
+
+pop. Population in thousands.
+
+pop_dens. Population density per square mile.
+
+gdp. Gross Domestic Product in thousands of PPP dollars.
+
+gdp_lag. Lagged Gross Domestic Product in thousands of PPP dollars.
+
+health. Health spending, thousands of PPP dollars per capita.
+
+health_lag Lagged health spending, thousands of PPP dollars per capita.
+
+pubhealth. Public health spending as a percentage of total expenditure.
+
+roads. Road accident fatalities per 100,000 population.
+
+cerebvas. Cerebrovascular deaths per 100,000 population (rounded).
+
+assault. Assault deaths per 100,000 population (rounded).
+
+external. Deaths due to external causes per 100,000 population.
+
+txp_pop. Transplant programs per million population.
+
+world. Welfare state world (Esping Andersen.)
+
+opt. Opt-in policy or Opt-out policy.
+
+consent_law. Consent law, informed or presumed.
+
+consent_practice. Consent practice, informed or presumed.
+
+consistent. Law consistent with practice, yes or no.
+
+ccode. Abbreviated country code.
+```
+
 Let's interpret the following commands
 ```{r}
 organdata %>% select(1:6) %>% sample_n(size = 10)
