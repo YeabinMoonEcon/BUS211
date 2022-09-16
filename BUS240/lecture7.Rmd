@@ -11,7 +11,9 @@ library(tidyverse)
 library(gapminder)
 ```
 
-# What's today?
+## Homework 2 update
+You have to upload both Rmarkdown (.Rmd) and html file (.html) for every homework. Also, for homework 2, please post your data if it is public. Each group needs to tell me when you want to see me by this Sunday. Anytime before noon (Mon - Thr) next week. We will have 30 mins group talk through zoom. You need to talk to me what data set your team wants to present. Prepare the outline.
+
 
 
 ## 1. Transformation by whom?

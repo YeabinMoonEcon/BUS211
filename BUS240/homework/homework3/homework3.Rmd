@@ -1,0 +1,57 @@
+---
+title: "Homework3"
+author: "Yeabin Moon"
+date: "2022-09-15"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Use gapminder dataset. 
+```{r}
+library(gapminder)
+library(tidyverse)
+```
+
+### 1. Consider the following: Explain what relationship the figure represents.
+```{r}
+p <- ggplot(data = gapminder,
+            mapping = aes(x = pop,
+                          y = lifeExp)) 
+p + geom_point() +
+    geom_smooth(color = "orange") 
+```
+
+
+### 2. What does the orange line represent?
+
+### 3. You can use a range of methods in geom_smooth(). What is the default method? Try to plot four figures using different methods in geom_smooth(). 
+
+### 4. What is the grey area around the trend line? Modify the code in question 1 and plot the figure without it.
+
+### 5. We learned in class the scale mapping, such as scale_x_log10(). Search online and list two more commands (functions) to transform the value of x.
+
+### 6. Explain the difference between the two code blocks
+```{r}
+# code 1
+p <-  ggplot(data = gapminder,
+             mapping = aes(x = gdpPercap,
+                            y = lifeExp,
+                            color = year))
+p + geom_point() +
+    geom_smooth(method = "loess", se = F) + scale_x_log10()
+```
+```{r}
+# code 2
+p <-  ggplot(data = gapminder,
+             mapping = aes(x = gdpPercap,
+                            y = lifeExp,
+                            color = factor(year)))
+p + geom_point() +
+    geom_smooth(method = "loess", se = F) + scale_x_log10()
+
+```
+
+### 7. Explain the difference between facet_wrap() and facet_grid(). Show the examples. You cannot use the same data in the lecture example.
