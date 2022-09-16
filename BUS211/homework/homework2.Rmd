@@ -1,0 +1,60 @@
+---
+title: "Homework 2"
+author: "Yeabin Moon"
+date: "2022-09-16"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+You have to make sure that you have access to SafeGraph.
+
+### 1. Download Patterns data
+Do the following steps:
+
+1. Log in to [Safegraph shop](https://shop.safegraph.com/) with your login credential.
+2. Type Boston, MA, in the search box.
+3. Click "Add to cart" in the Patterns panel.
+4. Set <b>Monthly</b> frequency, and <b>Year to date</b>.
+5. Checkout data.
+
+### 2. You will have 5 data sets for this Patterns data. Explain the purpose of each data set in words. 
+
+## For the rest of the hoemwork questions, we will work with <b>your_data_date.csv.gz</b>
+
+## Use read_csv() load your data and save it to <em>df</em>. Do not use any other command yet.
+
+### 4. You will see the column specification panel. Explain each row in words (the first four rows in the column specification). 
+
+### 5. Explain what information the following columns represent:
+  - date_range_start
+  - date_range_end
+  - raw_visit_counts
+  - raw_visitor_counts
+  - visits_by_day
+  - poi_cbg
+  - visitor_home_cbgs
+  - distance_from_home
+  - median_dwell
+  - related_same_day_brand
+  - popularity_by_day
+  - device_type
+
+### 6. Show the number of missing values in each column in question 5.
+
+### 7. Select the numeric columns from df and save it to df_numeric.
+  - Find one column in which the values should be loaded as character
+  - Change the corresponding column into character 
+
+### 8. Calculate the total number of raw_visit_counts by poi_cbg in May. Explain in words what these values indicate.
+
+### 9. Calculate the total number of raw_visit_counts by county in May. 
+
+### 10. Suppose you want to know which industry is the most popular in the county, having the highest number of visitors in May. Explain your strategy (you don't need to code here). 
+
+## 11. For the final project, I want you to leverage the patterns of consumers in Boston using SafeGraph. Describe in detail the following questions. (~ 500 words) 
+  - What is your area of interest? (Whole patterns or specific industries)
+  - Why is the cell phone tracking data fit your interest?
+  - What is the main challenge in pursuing your project? 

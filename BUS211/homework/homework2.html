@@ -9,10 +9,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="Yeabin Moon" />
 
-<meta name="date" content="2022-09-05" />
+<meta name="date" content="2022-09-16" />
 
-<title>homework1</title>
+<title>Homework 2</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -362,170 +363,95 @@ pre code {
 
 
 
-<h1 class="title toc-ignore">homework1</h1>
-<h4 class="date">2022-09-05</h4>
+<h1 class="title toc-ignore">Homework 2</h1>
+<h4 class="author">Yeabin Moon</h4>
+<h4 class="date">2022-09-16</h4>
 
 </div>
 
 
-<div id="part-i" class="section level1">
-<h1>Part I</h1>
-<div id="q1.1-in-homework-0-we-examined-the-following-question-which-countries-have-had-the-highest-number-of-positive-cases-against-the-number-of-tests-in-what-settings-could-we-conclude-that-this-question-is-unanswerable" class="section level4">
-<h4>Q1.1 In homework 0, we examined the following question: <b>Which
-countries have had the highest number of positive cases against the
-number of tests?</b> In what settings could we conclude that this
-question is unanswerable?</h4>
-<pre class="r"><code>print(&quot;In class disucssion&quot;)</code></pre>
-<pre><code>## [1] &quot;In class disucssion&quot;</code></pre>
+<p>You have to make sure that you have access to SafeGraph.</p>
+<div id="download-patterns-data" class="section level3">
+<h3>1. Download Patterns data</h3>
+<p>Do the following steps:</p>
+<ol style="list-style-type: decimal">
+<li>Log in to <a href="https://shop.safegraph.com/">Safegraph shop</a>
+with your login credential.</li>
+<li>Type Boston, MA, in the search box.</li>
+<li>Click “Add to cart” in the Patterns panel.</li>
+<li>Set <b>Monthly</b> frequency, and <b>Year to date</b>.</li>
+<li>Checkout data.</li>
+</ol>
 </div>
-<div id="q1.2-what-is-the-smallest-value-of-n-such-that-an-algorithm-whose-running-time-is-100n2-runs-faster-than-an-algorithm-whose-running-time-is-2n-on-the-same-machine-use-r-to-calcuate-your-answer." class="section level4">
-<h4>Q1.2 What is the smallest value of <em>n</em> such that an algorithm
-whose running time is <span class="math inline">\(100n^2\)</span> runs
-faster than an algorithm whose running time is <span class="math inline">\(2^n\)</span> on the same machine? Use R to
-calcuate your answer.</h4>
-<pre class="r"><code>n &lt;- 1
-while (100 * n^2 - 2^n &gt; 0) {
-  n &lt;- n+1
-}
-print(n)</code></pre>
-<pre><code>## [1] 15</code></pre>
-<pre><code>You don&#39;t have to use the looping commands.</code></pre>
+<div id="you-will-have-5-data-sets-for-this-patterns-data.-explain-the-purpose-of-each-data-set-in-words." class="section level3">
+<h3>2. You will have 5 data sets for this Patterns data. Explain the
+purpose of each data set in words.</h3>
 </div>
-<div id="q1.3-other-than-speed-what-other-measures-of-algorithm-efficiency-might-you-need-to-consider-in-a-real-world-setting" class="section level4">
-<h4>Q1.3 Other than speed, what other measures of algorithm efficiency
-might you need to consider in a real-world setting?</h4>
-<pre class="r"><code>print(&quot;In class disucssion&quot;)</code></pre>
-<pre><code>## [1] &quot;In class disucssion&quot;</code></pre>
+<div id="for-the-rest-of-the-hoemwork-questions-we-will-work-with-your_data_date.csv.gz" class="section level2">
+<h2>For the rest of the hoemwork questions, we will work with
+<b>your_data_date.csv.gz</b></h2>
+</div>
+<div id="use-read_csv-load-your-data-and-save-it-to-df.-do-not-use-any-other-command-yet." class="section level2">
+<h2>Use read_csv() load your data and save it to <em>df</em>. Do not use
+any other command yet.</h2>
+<div id="you-will-see-the-column-specification-panel.-explain-each-row-in-words-the-first-four-rows-in-the-column-specification." class="section level3">
+<h3>4. You will see the column specification panel. Explain each row in
+words (the first four rows in the column specification).</h3>
+</div>
+<div id="explain-what-information-the-following-columns-represent" class="section level3">
+<h3>5. Explain what information the following columns represent:</h3>
+<ul>
+<li>date_range_start</li>
+<li>date_range_end</li>
+<li>raw_visit_counts</li>
+<li>raw_visitor_counts</li>
+<li>visits_by_day</li>
+<li>poi_cbg</li>
+<li>visitor_home_cbgs</li>
+<li>distance_from_home</li>
+<li>median_dwell</li>
+<li>related_same_day_brand</li>
+<li>popularity_by_day</li>
+<li>device_type</li>
+</ul>
+</div>
+<div id="show-the-number-of-missing-values-in-each-column-in-question-5." class="section level3">
+<h3>6. Show the number of missing values in each column in question
+5.</h3>
+</div>
+<div id="select-the-numeric-columns-from-df-and-save-it-to-df_numeric." class="section level3">
+<h3>7. Select the numeric columns from df and save it to
+df_numeric.</h3>
+<ul>
+<li>Find one column in which the values should be loaded as
+character</li>
+<li>Change the corresponding column into character</li>
+</ul>
+</div>
+<div id="calculate-the-total-number-of-raw_visit_counts-by-poi_cbg-in-may.-explain-in-words-what-these-values-indicate." class="section level3">
+<h3>8. Calculate the total number of raw_visit_counts by poi_cbg in May.
+Explain in words what these values indicate.</h3>
+</div>
+<div id="calculate-the-total-number-of-raw_visit_counts-by-county-in-may." class="section level3">
+<h3>9. Calculate the total number of raw_visit_counts by county in
+May.</h3>
+</div>
+<div id="suppose-you-want-to-know-which-industry-is-the-most-popular-in-the-county-having-the-highest-number-of-visitors-in-may.-explain-your-strategy-you-dont-need-to-code-here." class="section level3">
+<h3>10. Suppose you want to know which industry is the most popular in
+the county, having the highest number of visitors in May. Explain your
+strategy (you don’t need to code here).</h3>
 </div>
 </div>
-<div id="part-ii" class="section level1">
-<h1>Part II</h1>
-<p>Part II sets the tone for your final project. For this exercise, you
-will work with <b>Places</b>. It consists of three files. README.txt,
-brand_info.csv, your_data_***.csv.gz. In general, data packages contain
-README files for a data guide, but the information here is partial. See
-the data descriptions from the following
-<a href="https://docs.safegraph.com/docs/places" target="_blank">Link</a>.</p>
-<div id="q2.1.-describe-in-words-what-these-two-data-sets-present." class="section level4">
-<h4>Q2.1. Describe in words what these two data sets present.</h4>
-<pre><code>You&#39;d see it in the documents. brand_info.csv contains every POIs that SafeGrahs covers. It is nationwide data. On the other hand, your_data_&lt;access date&gt;.csv.gz contains all POIs located in Boston, MA. Some POIs have multiple locations, so the number of observations depends on the area coverage.  </code></pre>
-</div>
-<div id="q2.2.-why-does-brand_info.csv-include-fewer-observations" class="section level4">
-<h4>Q2.2. Why does <em>brand_info.csv</em> include fewer
-observations?</h4>
-<pre><code>Each row in this data represents a unique POIs. There are no multiple POIs. </code></pre>
-</div>
-<div id="q2.3-which-location-postal-code-has-the-largest-number-of-pois" class="section level4">
-<h4>Q2.3 Which location (postal code) has the largest number of
-POIs?</h4>
-<pre class="r"><code>library(tidyverse)
-setwd(&quot;~/Downloads/safegraph_data_purchase_aug-29-2022&quot;) # locate your file?
-df_pois &lt;- read_csv(&#39;your_data_aug_29_2022_0238pm.csv.gz&#39;)</code></pre>
-<pre><code>## Warning: One or more parsing issues, see `problems()` for details</code></pre>
-<pre><code>## Rows: 28228 Columns: 22
-## ── Column specification ────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
-## chr  (15): placekey, parent_placekey, location_name, safegraph_brand_ids, br...
-## dbl   (4): naics_code, latitude, longitude, phone_number
-## date  (3): opened_on, closed_on, tracking_closed_since
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>view(df_pois)
-
-class(df_pois$postal_code) # You should check whether postal_code class is character</code></pre>
-<pre><code>## [1] &quot;character&quot;</code></pre>
-<pre class="r"><code>df_pois %&gt;% count(postal_code, sort = TRUE) %&gt;% head(1)</code></pre>
-<pre><code>## # A tibble: 1 × 2
-##   postal_code     n
-##   &lt;chr&gt;       &lt;int&gt;
-## 1 02135        3117</code></pre>
-</div>
-<div id="q2.4-postal-code-location-may-cover-too-small-area-for-spatial-analysis.-the-data-set-has-longitude-latitude-street-address-city-and-state-geographical-information.-you-may-need-to-transform-or-merge-the-existing-geo-code-to-a-common-set-of-geographical-units-see-link-for-reference.-describe-your-strategy-you-dont-need-to-show-your-code." class="section level4">
-<h4>Q2.4 Postal-code location may cover too small area for spatial
-analysis. The data set has longitude, latitude, street address, city,
-and state geographical information. You may need to transform (or merge)
-the existing geo code to a common set of geographical units (See <a href="https://www.huduser.gov/portal/datasets/usps_crosswalk.html">Link</a>
-for reference). Describe your strategy (you don’t need to show your
-code.)</h4>
-<pre><code>One of the ways is to convert a zip code into other geographic units, for example, a county level. Note that the U.S. consists of states, and each state consists of counties. A county tends to be bigger than a zip-code area, but some counties share the same zip code. To mitigate these issues, there is a crosswalk file providing a guideline for merging these two units. Another potential way is to use a GIS to process zip codes. Safegraph has longitude and latitude so that we can make some zones accordingly. </code></pre>
-</div>
-<div id="q2.5-you-may-want-to-classify-pois-in-boston-by-industry-type.-columns-top_category-and-naics_code-look-fit.-see-link-for-naics-explanations.-describe-what-these-two-columns-represent-in-your-words." class="section level4">
-<h4>Q2.5: You may want to classify POIs in Boston by industry type.
-Columns <em>top_category</em>, and <em>naics_code</em> look fit. (See <a href="https://www.census.gov/naics/reference_files_tools/2022_NAICS_Manual.pdf">Link</a>
-for NAICS explanations). Describe what these two columns represent in
-your words.</h4>
-<pre><code>See documentations</code></pre>
-</div>
-<div id="q2.6-present-the-number-of-pois-by-top_category." class="section level4">
-<h4>Q2.6 Present the number of POIs by <em>top_category</em>.</h4>
-<pre class="r"><code>df_pois %&gt;% count(top_category, sort = TRUE)</code></pre>
-<pre><code>## # A tibble: 153 × 2
-##    top_category                                            n
-##    &lt;chr&gt;                                               &lt;int&gt;
-##  1 Lessors of Real Estate                              16130
-##  2 Restaurants and Other Eating Places                  2427
-##  3 Offices of Physicians                                1291
-##  4 Personal Care Services                                871
-##  5 Museums, Historical Sites, and Similar Institutions   544
-##  6 Other Amusement and Recreation Industries             470
-##  7 Clothing Stores                                       359
-##  8 Offices of Other Health Practitioners                 329
-##  9 Religious Organizations                               251
-## 10 Other Personal Services                               236
-## # … with 143 more rows</code></pre>
-</div>
-<div id="q2.7-present-the-number-of-pois-by-the-first-two-leading-digits-in-naics_code." class="section level4">
-<h4>Q2.7 Present the number of POIs by the first two leading digits in
-<em>naics_code</em>.</h4>
-<pre class="r"><code>class(df_pois$naics_code) # need to check whether naics_code is string</code></pre>
-<pre><code>## [1] &quot;numeric&quot;</code></pre>
-<pre class="r"><code>new_df_pois &lt;- df_pois %&gt;% # need to change naics_code into string
-  mutate(naics_code = as.character(naics_code))
-class(new_df_pois$naics_code)</code></pre>
-<pre><code>## [1] &quot;character&quot;</code></pre>
-<pre class="r"><code>final_df_pois &lt;- new_df_pois %&gt;% # split the string (first two digits)
-  mutate(two_naics_code = str_sub(naics_code, 1,2))
-
-final_df_pois %&gt;% select(naics_code, two_naics_code) # check whether the split function works well</code></pre>
-<pre><code>## # A tibble: 28,228 × 2
-##    naics_code two_naics_code
-##    &lt;chr&gt;      &lt;chr&gt;         
-##  1 531110     53            
-##  2 531110     53            
-##  3 523930     52            
-##  4 621511     62            
-##  5 621111     62            
-##  6 531110     53            
-##  7 621111     62            
-##  8 722511     72            
-##  9 81211      81            
-## 10 531110     53            
-## # … with 28,218 more rows</code></pre>
-<pre class="r"><code>final_df_pois %&gt;% count(two_naics_code, sort = TRUE)</code></pre>
-<pre><code>## # A tibble: 24 × 2
-##    two_naics_code     n
-##    &lt;chr&gt;          &lt;int&gt;
-##  1 53             16402
-##  2 72              2822
-##  3 62              2085
-##  4 81              1702
-##  5 44              1373
-##  6 71              1093
-##  7 52               571
-##  8 54               356
-##  9 45               351
-## 10 61               305
-## # … with 14 more rows</code></pre>
-</div>
-<div id="q2.8-suppose-you-want-to-research-pois-in-boston-by-the-first-two-leading-digits-in-naics_code.-you-might-notice-that-the-number-of-pois-in-the-bottom-eight-industries-are-too-low-compared-to-the-top-six.-describe-how-you-manage-data-and-approach-research-in-words." class="section level4">
-<h4>Q2.8 Suppose you want to research POIs in Boston by the first two
-leading digits in <em>naics_code</em>. You might notice that the number
-of POIs in the bottom eight industries are too low compared to the top
-six. Describe how you manage data and approach research in words.</h4>
-<pre class="r"><code>print(&quot;In class disucssion&quot;)</code></pre>
-<pre><code>## [1] &quot;In class disucssion&quot;</code></pre>
-</div>
+<div id="for-the-final-project-i-want-you-to-leverage-the-patterns-of-consumers-in-boston-using-safegraph.-describe-in-detail-the-following-questions.-500-words" class="section level2">
+<h2>11. For the final project, I want you to leverage the patterns of
+consumers in Boston using SafeGraph. Describe in detail the following
+questions. (~ 500 words)</h2>
+<ul>
+<li>What is your area of interest? (Whole patterns or specific
+industries)</li>
+<li>Why is the cell phone tracking data fit your interest?</li>
+<li>What is the main challenge in pursuing your project?</li>
+</ul>
 </div>
 
 

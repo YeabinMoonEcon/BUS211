@@ -51,8 +51,13 @@ Each row in this data represents a unique POIs. There are no multiple POIs.
 ```
 #### Q2.3 Which location (postal code) has the largest number of POIs? 
 ```{r}
+
+library(tidyverse)
 setwd("~/Downloads/safegraph_data_purchase_aug-29-2022") # locate your file?
 df_pois <- read_csv('your_data_aug_29_2022_0238pm.csv.gz')
+
+view(df_pois)
+
 class(df_pois$postal_code) # You should check whether postal_code class is character
 df_pois %>% count(postal_code, sort = TRUE) %>% head(1)
 ```
