@@ -1,0 +1,25 @@
+---
+title: "Lecture8"
+author: "Yeabin Moon"
+date: "2022-09-17"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Lecture 8
+## Maps
+
+Choropleth maps show geographical areas or regions that are coloured, shaded or patterned based on the data. 
+
+We see this often during [election](https://www.270towin.com/2022-house-election/) days.
+
+Each of these maps shows data for the same event, but the impressions they convey are very different. Each faces two main problems. 
+
+1. The underlying quantities of interest are only partly spatial.
+  - Can we disaggregate information further?
+2. The regions themselves are of wildly differing sizes, and they differ in a way that is not well-correlated with the magnitudes of the underlying votes.
+
+## 1. Electoral data in U.S.
