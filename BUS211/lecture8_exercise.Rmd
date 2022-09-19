@@ -1,0 +1,25 @@
+---
+title: "Lecture8_exercise"
+author: "Yeabin"
+date: "2022-09-19"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+recent_grads <- read_csv("https://yeabinmoonecon.github.io/ibs_course/BUS211/data/recent_grads.csv", col_types = cols())
+```
+
+Here are some exercise:
+
+1. Get the first 4 letters of the word "Brandeis" and assign it to the variable first_four_letters.
+
+2. Get the last 2 letters of the word "Brandeis" and assign it to the variable last_two_letters.
+
+3. Convert the column names of the recent_grads dataset to lowercase and assign them to the vector lower_case_colnames.
+
+4. Using the function str_to_lower() doesn't directly change the column names of the tibble, we actually need to reassign colnames(recent_grads) in order to do this. Using lower_case_colnames, reassign the column names of recent_grads to be all lowercase.

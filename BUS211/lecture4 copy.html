@@ -1,0 +1,323 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>BUS211:lecture8</title>
+
+		<link rel="stylesheet" href="../dist/reset.css">
+		<link rel="stylesheet" href="../dist/reveal.css">
+		<link rel="stylesheet" href="../dist/theme/black.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="../plugin/highlight/monokai.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section data-markdown>
+					<textarea data-template>
+						## Lecture 8 
+						### BUS 211A-3<br>
+					
+					</textarea>
+				  </section>
+				  <section>
+					<h3>Updates: homework</h3>
+					<ul>
+						<li class="fragment">Do you understand your code?</li>
+						<li class="fragment">read_csv2()?</li>
+						<li class="fragment">Do not manipulate your data!</li>
+						<li class="fragment">What's your purpose taking this class?</li>
+						<li class="fragment">When you ask, don't send me your screen shot!</li>
+					</ul>
+				</section>
+
+				<section>
+					Today: we will talk about string and time
+				</section>
+
+				<section>
+					<h4>String analysis</h4>
+					<ul>
+						<li class="fragment">A string is also known as a character vector in R</li>
+						<li class="fragment">The word "vector" here is important</li>
+						<ul>
+							<li class="fragment">it hints at how strings are structured in R</li>
+			
+						</ul>
+						<li class="fragment">Vectors are ordered lists</li>
+						<li class="fragment">In R, we can locate or index, particular elements of a vector using numbers</li>
+					</ul>
+				</section>
+
+				<section>
+					<ul>
+						<li class="fragment">We can think of any string as a vector of letters, numbers and symbols</li>
+						<li class="fragment">'' or ""</li>
+						<ul>
+							<li class="fragment">it hints at how strings are structured in R</li>
+			
+						</ul>
+						<li class="fragment">However, we cannot use a single bracket [ ] notation with character</li>
+						<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+							> words <- "Try this out"
+							> words[3]
+							NA
+							> words[1]
+							[1] "Try this out"
+							</code></pre>
+						<li class="fragment">R actually interprets this sentence as a one-element vector containing just that one string </li>
+					</ul>
+				</section>
+				
+				<section>
+					<ul>
+						<li class="fragment">In order to get a substring of the string, need to use the str_sub() from the stringr library</li>
+						<ul>
+							<li class="fragment">tidyverse library includes this</li>
+			
+						</ul>
+						<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+							> str_sub(words, 1, 9)
+							[1] "Try this"
+							</code></pre>
+						<li class="fragment">R actually interprets this sentence as a one-element vector containing just that one string </li>
+					</ul>
+				</section>
+		
+				<section>
+					<ul>
+						<li class="fragment">Your data likely has columns names </li>
+						<ul>
+							<li class="fragment">use recent_grads data</li>
+			
+						</ul>
+						<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+							> colnames(recent_grads)
+							[1] "Rank"                 "Major_code"           "Major"                "Total"               
+							[5] "Men"                  "Women"                "Major_category"       "Sample_size"         
+							[9] "Employed"             "Full_time"            "Part_time"            "Full_time_year_round"
+						   [13] "Unemployed"           "Unemployment_rate"    "Median"               "College_jobs"        
+						   [17] "Non_college_jobs"     "Low_wage_jobs"   
+							</code></pre>
+						<li class="fragment">Let's standardize the column names by lowercase letters</li>
+						<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+							> str_to_lower(colnames(recent_grads))
+							[1] "rank"                 "major_code"           "major"                "total"               
+							[5] "men"                  "women"                "major_category"       "sample_size"         
+							[9] "employed"             "full_time"            "part_time"            "full_time_year_round"
+						   [13] "unemployed"           "unemployment_rate"    "median"               "college_jobs"        
+						   [17] "non_college_jobs"     "low_wage_jobs"       
+							</code></pre>
+							<li class="fragment">Guess: str_to_upper()</li>
+						</ul>
+				</section>
+				<section>
+					<ul>
+						<li class="fragment">One common string manipulation task is to take raw strings and remove unnecessary whitespace</li>
+						<ul>
+							<li class="fragment">called trimming</li>
+							<li class="fragment">essential for web data</li>
+						</ul>
+						<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+							> padded_string <- "     Brandeis      "
+							[1] "     Brandeis      "
+							> str_trim(padded_string, side = "both")
+							[1] "Brandeis"
+							</code></pre>
+
+							<li class="fragment">There are other times where we might want to perform the opposite of trimming, which is known as <b>padding</b></li>
+							<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+							> str_pad("Brandeis", width = 20, side = "both", pad = " ")
+							[1] "      Brandeis      "
+								</code></pre>
+					</ul>
+				</section>
+				<section>
+					<ul>
+						<li class="fragment">Sentences are treated as a single character vector</li>
+						<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+							> sentence <- "Yeabin is a kind person."
+							
+							</code></pre>
+						<li class="fragment">In contrary, we see a sentence composed of multiple words</li>
+						<li class="fragment">Instead of one long sentence, we would need a character vector where each element is an individual word</li>
+
+							
+							<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+							> str_split(sentence, " ")
+							[[1]]
+							[1] "Yeabin"  "is"      "a"       "kind"    "person."
+								</code></pre>
+						<li class="fragment">What is the ouput data type?</li>
+					</ul>
+				</section>
+				<section>
+					<ul>
+						<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+							> str_split(sentence, " ")[[1]]
+							[1] "Yeabin"  "is"      "a"       "kind"    "person."
+							> sentence_words <- str_split(sentence, " ")[[1]]
+							> sentence_words[1]
+							[1] "Yeabin"
+							> sentence_words[1:3]
+							[1] "Yeabin" "is"     "a" 
+
+							</code></pre>
+						<li class="fragment">str_split() needs to be told what character it should split a sentence</li>
+						
+					</ul>
+				</section>
+
+				<section>
+					<ul>
+						<li class="fragment">We might want to combine multiple words into one sentence</li>
+						<ul>
+							<li class="fragment">call this operation string concatenation</li>
+							<li class="fragment">str_c() does this</li>
+						</ul>
+						<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+							> words <- c("String", "concatentation", "via", "function")
+							> str_c(words, collapse = " ")
+							[1] "String concatentation via function"
+							</code></pre>
+						<li class="fragment">The collapse keyword is what tells R what character splits up the sentence</li>
+						<li class="fragment">Another word for this is delimiter</li>
+						<li class="fragment">In general, string splitting is a much more common operation than string concatenation</li>
+						
+					</ul>
+				</section>
+				<section>
+					Let's have an exercise here. Take a look exercise.csv
+				</section>
+				<section>
+					Correct postal_code column here
+				</section>
+				<section>
+					<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+						> df <- read_csv("~location/exercise.csv")
+						> df <- df %>% 
+						  mutate(
+							postal_code = as.character(postal_code),
+							correct_postal_code = str_pad(postal_code, 
+														  width = 5, side = 'left',
+														  pad = "0")
+							)
+						</code></pre>
+				</section>
+				<section> Now focus on date and time</section>
+				<section>R doesn't have a built-in data type for dates and times, but it has well established functions that smooth the process of using them</section>
+				<section>
+					We'll use the lubridate package
+				<img src="pics/lecture8.png" width=800>
+			
+			</section>
+
+
+			<section>
+				<ul>
+					<li class="fragment">Distinguish between dates and times</li>
+					<ul>
+						<li class="fragment">dates as time on longer scales, like years, months and days</li>
+						<li class="fragment">times refers to shorter scale of time, down to hours, minutes and seconds</li>
+					</ul>
+
+
+					
+					
+					<li class="fragment">There are two main ways that dates and times can be represented in R</li>
+					<li class="fragment">The first way is through strings</li>
+					<ul>
+						<li class="fragment">can be written in many different ways</li>
+						<li class="fragment">e.g.: "YEAR/MONTH/DAY"</li>
+						
+					</ul>
+
+					
+				</ul>
+			</section>
+			<section>
+				<ul>
+				<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+					> date1 <- "22/09/19"
+					> date2 <- "09-19-22"
+					</code></pre>
+					<li class="fragment">These two strings refer to the same date, but are different representations of it</li>
+					<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+						> ymd(date1)
+						[1] "2022-09-19"
+						> mdy(date2)
+						[1] "2022-09-19"
+						</code></pre>
+						<li class="fragment">This process is called parsing a date</li>
+						
+				</ul>
+			</section>
+			<section>
+				<ul>
+				<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+					> date1 <- "22/09/19 13:30:00"
+					> date2 <- "09-19-2022 01-30 PM"
+					> ymd_hms(date1)
+					[1] "2022-09-19 13:30:00 UTC"
+					</code></pre>
+					<li class="fragment"> "UTC" at the end stands for Coordinated Universal Time</li>
+					<ul>
+						<li class="fragment">it represents the time zone for the date and time</li>
+					</ul>
+					<li class="fragment"> Possible to set the time zone</li>
+					<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+						> mdy_hm(date2, tz = "America/New_York")
+						[1] "2022-09-19 13:30:00 EDT"
+						> Sys.timezone()
+						[1] "America/New_York"
+						</code></pre>
+						
+						
+				</ul>
+			</section>
+
+			<section>
+				<ul>
+					<li class="fragment"> The second way is Unix time</li>
+					
+					<li class="fragment"> Unix time describes the number of seconds that have passed since January 1, 1970 at midnight in UTC</li>
+					<ul>
+						<li class="fragment">In any case, Unix dates and times are always in reference to a starting date.</li>
+					</ul>
+					<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+						> mdy_hm(date2, tz = "America/New_York")
+						[1] "2022-09-19 13:30:00 EDT"
+						> Sys.timezone()
+						[1] "America/New_York"
+						</code></pre>
+						
+						
+				</ul>
+			</section>
+
+		</div>
+
+		<script src="../dist/reveal.js"></script>
+		<script src="../plugin/notes/notes.js"></script>
+		<script src="../plugin/markdown/markdown.js"></script>
+		<script src="../plugin/highlight/highlight.js"></script>
+		<script src="../plugin/math/math.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+				progress: false,
+				touch: true,
+				slideNumber: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX ]
+			});
+		</script>
+	</body>
+</html>
