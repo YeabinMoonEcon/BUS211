@@ -411,7 +411,8 @@ we’ll find that it’s actually imported as a tibble!</p>
 ## #   Unemployed &lt;dbl&gt;, Unemployment_rate &lt;dbl&gt;, Median &lt;dbl&gt;,
 ## #   College_jobs &lt;dbl&gt;, Non_college_jobs &lt;dbl&gt;, Low_wage_jobs &lt;dbl&gt;, and
 ## #   abbreviated variable names ¹​Major_code, ²​Major_category, ³​Sample_size,
-## #   ⁴​Employed, ⁵​Full_time, ⁶​Part_time</code></pre>
+## #   ⁴​Employed, ⁵​Full_time, ⁶​Part_time
+## # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</code></pre>
 <p>Use the following functions to see what’s in the data. Comment each
 function in your words.</p>
 <pre class="r"><code>glimpse(recent_grads) </code></pre>
@@ -527,7 +528,8 @@ filtered_data</code></pre>
 ##  8     8 ASTRONOMY AND ASTROPHYSICS               
 ##  9     9 MECHANICAL ENGINEERING                   
 ## 10    10 ELECTRICAL ENGINEERING                   
-## # … with 163 more rows</code></pre>
+## # … with 163 more rows
+## # ℹ Use `print(n = ...)` to see more rows</code></pre>
 <p>The select() function can also be used to remove columns from a
 dataset</p>
 <pre class="r"><code>filtered_data &lt;- select(recent_grads, -College_jobs)
@@ -549,7 +551,8 @@ filtered_data</code></pre>
 ## #   Unemployed &lt;dbl&gt;, Unemployment_rate &lt;dbl&gt;, Median &lt;dbl&gt;,
 ## #   Non_college_jobs &lt;dbl&gt;, Low_wage_jobs &lt;dbl&gt;, and abbreviated variable names
 ## #   ¹​Major_code, ²​Major_category, ³​Sample_size, ⁴​Employed, ⁵​Full_time,
-## #   ⁶​Part_time</code></pre>
+## #   ⁶​Part_time
+## # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</code></pre>
 <div id="exercise-1" class="section level3">
 <h3>Exercise 1</h3>
 <ol style="list-style-type: decimal">
@@ -574,7 +577,8 @@ no_major_code_tibble.</li>
 ## #   Unemployment_rate &lt;dbl&gt;, Median &lt;dbl&gt;, College_jobs &lt;dbl&gt;,
 ## #   Non_college_jobs &lt;dbl&gt;, Low_wage_jobs &lt;dbl&gt;, and abbreviated variable names
 ## #   ¹​Major_code, ²​Major_category, ³​Sample_size, ⁴​Employed, ⁵​Full_time,
-## #   ⁶​Part_time</code></pre>
+## #   ⁶​Part_time
+## # ℹ Use `colnames()` to see all variable names</code></pre>
 <p>There are many reasons why we would want to filter out particular
 rows in our data. Using our recent_grads data as an example, perhaps we
 have to do an analysis that only involves majors with more than 1000
@@ -860,7 +864,8 @@ new_recent_grads[c(&#39;Major_category&#39;,&#39;is_engineering&#39;)]</code></p
 ##  8 Physical Sciences FALSE         
 ##  9 Engineering       TRUE          
 ## 10 Engineering       TRUE          
-## # … with 163 more rows</code></pre>
+## # … with 163 more rows
+## # ℹ Use `print(n = ...)` to see more rows</code></pre>
 <p>In the above code, we are creating a new column is_engineering based
 on the values of the Major_category column. For each row, the if_else()
 function takes the value in Major_category and checks if it is equal to
@@ -986,7 +991,8 @@ we could do something like the following:</p>
 ## #   Unemployment_rate &lt;dbl&gt;, Median &lt;dbl&gt;, College_jobs &lt;dbl&gt;,
 ## #   Non_college_jobs &lt;dbl&gt;, Low_wage_jobs &lt;dbl&gt;, and abbreviated variable names
 ## #   ¹​Major_code, ²​Major_category, ³​Sample_size, ⁴​Employed, ⁵​Full_time,
-## #   ⁶​Part_time</code></pre>
+## #   ⁶​Part_time
+## # ℹ Use `colnames()` to see all variable names</code></pre>
 <p>The above compound condition let’s us grab these three majors, but
 there are plenty more majors that we need for the analysis. As we add
 more, the compound condition will become longer and longer. There is a
@@ -1006,7 +1012,8 @@ performs the same operation as the one above.</p>
 ## #   Unemployment_rate &lt;dbl&gt;, Median &lt;dbl&gt;, College_jobs &lt;dbl&gt;,
 ## #   Non_college_jobs &lt;dbl&gt;, Low_wage_jobs &lt;dbl&gt;, and abbreviated variable names
 ## #   ¹​Major_code, ²​Major_category, ³​Sample_size, ⁴​Employed, ⁵​Full_time,
-## #   ⁶​Part_time</code></pre>
+## #   ⁶​Part_time
+## # ℹ Use `colnames()` to see all variable names</code></pre>
 <p>Here, we collect all of the three engineering majors and put them
 into a vector. Then, we use the %in% comparison operator to see if the
 Major column contains any of these values. If it is in the vector of
@@ -1038,7 +1045,8 @@ ENGINEERING”, “CHEMICAL ENGINEERING”) is a comparison operator.</p>
 ## #   Unemployed &lt;dbl&gt;, Unemployment_rate &lt;dbl&gt;, Median &lt;dbl&gt;,
 ## #   College_jobs &lt;dbl&gt;, Non_college_jobs &lt;dbl&gt;, Low_wage_jobs &lt;dbl&gt;, and
 ## #   abbreviated variable names ¹​Major_code, ²​Major_category, ³​Sample_size,
-## #   ⁴​Employed, ⁵​Full_time, ⁶​Part_time</code></pre>
+## #   ⁴​Employed, ⁵​Full_time, ⁶​Part_time
+## # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</code></pre>
 <div id="exercise-9" class="section level3">
 <h3>Exercise 9</h3>
 <ol style="list-style-type: decimal">
