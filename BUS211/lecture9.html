@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>BUS211:lecture8</title>
+		<title>BUS211:lecture9</title>
 
 		<link rel="stylesheet" href="../dist/reset.css">
 		<link rel="stylesheet" href="../dist/reveal.css">
@@ -18,338 +18,305 @@
 			<div class="slides">
 				<section data-markdown>
 					<textarea data-template>
-						## Lecture 8 
+						## Lecture 9 
 						### BUS 211A-3<br>
 					
 					</textarea>
 				  </section>
-				  <section>
-					<h3>Updates: homework</h3>
+				  
+				
+				<section>
+					Today: we will talk about Data cleaning <br>and data management
+				</section>
+
+				<section>
+					<h3>What is data cleaning?</h3>
 					<ul>
-						<li class="fragment">Do you understand your code?</li>
-						<li class="fragment">read_csv2()?</li>
-						<li class="fragment">Do not manipulate your data!</li>
-						<li class="fragment">What's your purpose taking this class?</li>
-						<li class="fragment">When you ask, don't send me your screen shot!</li>
-						<li class="fragment">Trouble with gz file?</li>
+						<li class="fragment">It's rare that data is ready to use without any processing</li>
+						<li class="fragment">Data practitioners spend a lot of time preparing data for analysis</li>
+						<ul>
+							<li class="fragment">call this data preparation data cleaning</li>
+			
+						</ul>
+						<li class="fragment">We will cover the advanced methods after learning SQL</li>
+						
 					</ul>
 				</section>
 
 				<section>
-					Today: we will talk about string and time
+					<h3>A few takeaways</h3>
+					<ul>
+						<li class="fragment">How to identify data cleaning needs for analysis</li>
+						<li class="fragment">How to simplify DataFrames for necessary variables</li>
+						
+							<li class="fragment">How to change the data types of multiple variables at once</li>
+			
+						
+						<li class="fragment">How to create new variables by calculating summary statistics from existing variables</li>
+						<li class="fragment">How to use functionals to check for duplicate observations</li>
+						
+					</ul>
 				</section>
+				
+				<section>
+					<h3>Guideline questions</h3>
+					<ul>
+						<li class="fragment">Which data do we need for our analysis? </li>
+						<li class="fragment">Do we need to create any new variables? </li>
+						<li class="fragment">Are the data the correct type?</li>
+						<li class="fragment">Do we need to combine DataFrames? </li>
+						<li class="fragment">Do we need to reshape the data?</li>
+						<li class="fragment">Are there missing data?  </li>
+						
+				</section>
+		
 
 				<section>
-					<h4>String analysis</h4>
+					
 					<ul>
-						<li class="fragment">A string is also known as a character vector in R</li>
-						<li class="fragment">The word "vector" here is important</li>
+						<li class="fragment">Let's analyze the data to answer questions:</li>
 						<ul>
-							<li class="fragment">it hints at how strings are structured in R</li>
-			
+							<li class="fragment">Is there a relationship between school class size and test performance? </li>
+							<li class="fragment">Are there any demographic factors that seem related to student test performance?</li>
+							<li class="fragment">Does academic performance vary by school location?</li>
 						</ul>
-						<li class="fragment">Vectors are ordered lists</li>
-						<li class="fragment">In R, we can locate or index, particular elements of a vector using numbers</li>
+						
+						<li class="fragment">The datasets are stored in six files</li>
+						<li class="fragment">Must familiarize ourselves with any dataset's available descriptions</li>
+						<ul>
+						<li class="fragment">refer to this description as <b>metadata</b></li>
 					</ul>
 				</section>
 
 				<section>
+					
 					<ul>
-						<li class="fragment">We can think of any string as a vector of letters, numbers and symbols</li>
-						<li class="fragment">'' or ""</li>
+						<li class="fragment">List of data</li>
 						<ul>
-							<li class="fragment">it hints at how strings are structured in R</li>
-			
+							<li class="fragment">sat_results.csv: Data on SAT scores</li>
+							<li class="fragment">ap_2010.csv: AP test scores</li>
+							<li class="fragment">class_size.csv: Data on average school class size</li>
+							<li class="fragment">demographics.csv: Data on demographics of NYC school students, including race and sex</li>
+							<li class="fragment">graduation.csv: Data on graduation outcomes, including the percentages of students who graduated or dropped out of school</li>
+							<li class="fragment">hs_directory.csv: A directory of high schools that contains location information for each school.</li>
+
+							
 						</ul>
-						<li class="fragment">However, we cannot use a single bracket [ ] notation with character</li>
+						<li class="fragment">Import each CSV-file by using the read_csv()</li>
+						
+
+				</section>
+
+
+				<section>
+					<ul>
+						<li class="fragment">We'll begin by assessing data cleaning needs for the sat_results DataFrame </li>
+						<ul>
+							<li class="fragment">Look at the sat_results DataFrame using the head() function</li>
+							<li class="fragment">Note that tick marks (``) surround each variable name</li>
+							<li class="fragment">because the titles contain spaces, which aren't valid in R variable names</li>
+							<li class="fragment">Use view function and explore the data</li>
+							
+						</ul>
+					</ul>
+						
+				</section>
+
+
+				<section>
+					<ul>
+						<li class="fragment">Note that the SAT test consists of three sections</li>
+						<ul>
+							<li class="fragment">Suppose we want to create the new column for the overall score</li>
+							<li class="fragment">What do you do?</li>
+							
+							
+							
+						</ul>
+						<li class="fragment">Define the modified DataFrame as sat_results_clean</li>
+						<ul>
+							<li class="fragment">Change the data types of the columns from character to numeric</li>
+							<ul><li class="fragment">mutate() and as.numeric()</li>
+							
+								
+							</ul>
+							<li class="fragment">Create a new variable consisting of the sum </li>
+						</ul>
+					</ul>
+						
+				</section>
+
+
+				<section>
+					<ul>
+						<li class="fragment">Some advanced techniques might be useful if used well</li>
+						<ul>
+							<li class="fragment">across(targeted_columns, operations)</li>
+						</ul>
 						<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
-							> words <- "Try this out"
-							> words[3]
-							NA
-							> words[1]
-							[1] "Try this out"
+							sat_results_clean <- sat_results %>%
+    						mutate(
+								across(c(`SAT Critical Reading Avg. Score`, 
+										 		 `SAT Math Avg. Score`, 
+										 		 `SAT Writing Avg. Score`), as.numeric))
+							
 							</code></pre>
-						<li class="fragment">R actually interprets this sentence as a one-element vector containing just that one string </li>
+
+							<li class="fragment"> R provides selection helpers</li>
+							<ul>
+								<li class="fragment"> starts_with(), ends_with(), contains()</li>
+							</ul>
+							<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+								sat_results <- sat_results %>%
+								mutate(across(contains("Avg. Score"), as.numeric))
+								</code></pre>
+					</ul>
+				</section>
+				<section>
+					<ul>
+						<li class="">Change the data types of the columns containing</li>
+						<ul>
+						<li class="">Num of SAT Test Takers</li>
+						<li class="">SAT Critical Reading Avg. Score</li>
+						<li class="">SAT Math Avg. Score</li>
+						<li class="">SAT Writing Avg. Score</li>
+					</ul>
+					<li class="">Add the sum of scores of SAT and save it to sat_results</li>
+
+					
+				</section>
+				<section>
+					<ul>
+						<li class="fragment">Address some structures</li>
+						<ul>
+						<li class="fragment">Which information  do we need for our analysis? </li>
+						<li class="fragment">Do we need to create any new variables?</li>
+						<li class="fragment">Are the data the correct type?</li>
+						</ul>
+						<li class="fragment">Apply the same techniques to ap_2010</li>
+						<ul>
+							<li class="fragment">DBN is the same as in the other datasets</li>
+							<li class="fragment">AP Test Takers provides information about the number of students who took one AP exam</li>
+							<li class="fragment">Total Exams Taken tells us how many exams students took at the school</li>
+							<li class="fragment">The last  tells us how many students earned high scores on the exams, which range on a scale from one (lowest) to five (highest)</li>
+						</ul>
+					</ul>
+				</section>
+
+				<section>
+					<ul>
+						<li class="fragment">Let's interpret the following code:</li>
+						
+						<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+ap_2010 <- ap_2010 %>%
+mutate(across(3:5, as.numeric)) %>%
+mutate(exams_per_student = `Total Exams Taken` / `AP Test Takers`) %>%
+mutate(high_score_percent = (`Number of Exams with scores 3 4 or 5` / `Total Exams Taken`) * 100)
+							</code></pre>
+						
+					</ul>
+				</section>
+			
+				<section>
+					<ul>
+						<li class="fragment">Now look at class_size DataFrame to identify data cleaning needs</li>
+						<ul>
+						<li class="fragment">contains information about class sizes associated with different grades and classes of NYC schools</li>
+						<li class="fragment">It may be useful in our analysis of how demographic factors can affect student academic performance</li>
+						
+					</ul>
+					<li class="fragment">Let's start cleaning the class_size DataFrame by removing unnecessary rows for our analysis</li>
+					<ul>
+						<li class="fragment">Filter the class_size DataFrame to retain only rows where GRADE values are equal to "09-12" and PROGRAM TYPE values are "GEN ED"</li>						
+					</ul>
+				</section>
+			
+				<section>
+					<ul>
+						<li class="fragment">Look at class_size data</li>
+						<ul>
+						<li class="fragment">still contains multiple rows for some high schools</li>
+						<li class="fragment">each row represents a specific course</li>
+						
+					</ul>
+					<li class="fragment">Create a new class_size DataFrame that contains the following</li>
+					<ul>
+						<li class="fragment">The  variables from the original DataFrame:</li>						
+						<ul>
+							<li class="fragment">CSD, SCHOOL CODE, SCHOOL NAME</li>						
+						</ul>
+						<li class="fragment">The following new variables:</li>						
+						<ul>
+							<li class="fragment">avg_class_size </li>						
+							<li class="fragment">avg_largest_class </li>						
+							<li class="fragment">avg_smallest_class </li>						
+						</ul>
+					</ul>
+				</section>
+				<section>
+					<ul>
+						<li class="fragment">We have three DataFrames left to work on</li>
+						<li class="fragment">Let's look at the graduation DataFrame, and interpret the following:</li>
+												
+						
+						<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+							graduation <- graduation %>%
+							filter(Cohort == "2006" & Demographic == "Total Cohort") %>%
+							select(DBN, `School Name`, `Total Grads - % of cohort`, 
+							`Dropped Out - % of cohort`)
+							</code></pre>
 					</ul>
 				</section>
 				
 				<section>
 					<ul>
-						<li class="fragment">In order to get a substring of the string, need to use the str_sub() from the stringr library</li>
+						<li class="fragment">Now, look at the demographics DataFrame next</li>
 						<ul>
-							<li class="fragment">tidyverse library includes this</li>
-			
+						<li class="fragment">this one also has multiple rows for each school</li>
+						<ul>
+							<li class="fragment">data from elementary schools, as well as high schools, is in demographics</li>
 						</ul>
-						<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
-							> str_sub(words, 1, 9)
-							[1] "Try this"
-							</code></pre>
-						<li class="fragment">R actually interprets this sentence as a one-element vector containing just that one string </li>
+						
 					</ul>
-				</section>
-		
-				<section>
+					
 					<ul>
-						<li class="fragment">Your data likely has columns names </li>
+						<li class="fragment">Create a new demographics DataFrame</li>						
 						<ul>
-							<li class="fragment">use recent_grads data</li>
-			
-						</ul>
-						<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
-							> colnames(recent_grads)
-							[1] "Rank"                 "Major_code"           "Major"                "Total"               
-							[5] "Men"                  "Women"                "Major_category"       "Sample_size"         
-							[9] "Employed"             "Full_time"            "Part_time"            "Full_time_year_round"
-						   [13] "Unemployed"           "Unemployment_rate"    "Median"               "College_jobs"        
-						   [17] "Non_college_jobs"     "Low_wage_jobs"   
-							</code></pre>
-						<li class="fragment">Let's standardize the column names by lowercase letters</li>
-						<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
-							> str_to_lower(colnames(recent_grads))
-							[1] "rank"                 "major_code"           "major"                "total"               
-							[5] "men"                  "women"                "major_category"       "sample_size"         
-							[9] "employed"             "full_time"            "part_time"            "full_time_year_round"
-						   [13] "unemployed"           "unemployment_rate"    "median"               "college_jobs"        
-						   [17] "non_college_jobs"     "low_wage_jobs"       
-							</code></pre>
-							<li class="fragment">Guess: str_to_upper()</li>
-						</ul>
-				</section>
-				<section>
-					<ul>
-						<li class="fragment">One common string manipulation task is to take raw strings and remove unnecessary whitespace</li>
+							<li class="fragment">Filter the rows </li>						
+							<ul>
+								<li class="fragment">values of schoolyear are the most recent</li>							
+								<li class="fragment">values of grade9 are not "NA"</li>							
+							</ul>
+								<li class="fragment">Select</li>						
 						<ul>
-							<li class="fragment">called trimming</li>
-							<li class="fragment">essential for web data</li>
-						</ul>
-						<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
-							> padded_string <- "     Brandeis      "
-							[1] "     Brandeis      "
-							> str_trim(padded_string, side = "both")
-							[1] "Brandeis"
-							</code></pre>
-
-							<li class="fragment">There are other times where we might want to perform the opposite of trimming, which is known as <b>padding</b></li>
-							<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
-							> str_pad("Brandeis", width = 20, side = "both", pad = " ")
-							[1] "      Brandeis      "
-								</code></pre>
-					</ul>
-				</section>
-				<section>
-					<ul>
-						<li class="fragment">Sentences are treated as a single character vector</li>
-						<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
-							> sentence <- "Yeabin is a kind person."
+							<li class="fragment">DBN, Name, total_enrollment</li>						
+							<li class="fragment">frl_percent, ell_percent, sped_percent, asian_per, black_per, hispanic_per, white_per, male_per, female_per</li>						
 							
-							</code></pre>
-						<li class="fragment">In contrary, we see a sentence composed of multiple words</li>
-						<li class="fragment">Instead of one long sentence, we would need a character vector where each element is an individual word</li>
-
-							
-							<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
-							> str_split(sentence, " ")
-							[[1]]
-							[1] "Yeabin"  "is"      "a"       "kind"    "person."
-								</code></pre>
-						<li class="fragment">What is the ouput data type?</li>
-					</ul>
-				</section>
-				<section>
-					<ul>
-						<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
-							> str_split(sentence, " ")[[1]]
-							[1] "Yeabin"  "is"      "a"       "kind"    "person."
-							> sentence_words <- str_split(sentence, " ")[[1]]
-							> sentence_words[1]
-							[1] "Yeabin"
-							> sentence_words[1:3]
-							[1] "Yeabin" "is"     "a" 
-
-							</code></pre>
-						<li class="fragment">str_split() needs to be told what character it should split a sentence</li>
-						
-					</ul>
-				</section>
-
-				<section>
-					<ul>
-						<li class="fragment">We might want to combine multiple words into one sentence</li>
-						<ul>
-							<li class="fragment">call this operation string concatenation</li>
-							<li class="fragment">str_c() does this</li>
 						</ul>
-						<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
-							> words <- c("String", "concatentation", "via", "function")
-							> str_c(words, collapse = " ")
-							[1] "String concatentation via function"
-							</code></pre>
-						<li class="fragment">The collapse keyword is what tells R what character splits up the sentence</li>
-						<li class="fragment">Another word for this is delimiter</li>
-						<li class="fragment">In general, string splitting is a much more common operation than string concatenation</li>
-						
 					</ul>
 				</section>
+
+
 				<section>
-					Let's have an exercise here. Take a look exercise.csv
-				</section>
-				<section>
-					Correct postal_code column here
+					<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+						demographics <- demographics %>%
+  						filter(schoolyear == "20112012" & !is.na(grade9)) %>%
+  						select(DBN, Name, contains("_per"), total_enrollment)
+						demographics_clean <- demographics %>%
+						select(-female_per)
+						</code></pre>
 				</section>
 				<section>
 					<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
-						> df <- read_csv("~location/exercise.csv")
-						> df <- df %>% 
-						  mutate(
-							postal_code = as.character(postal_code),
-							correct_postal_code = str_pad(postal_code, 
-														  width = 5, side = 'left',
-														  pad = "0")
-							)
+						hs_directory <- hs_directory %>%
+  						select(dbn, school_name, `Location 1`) %>%
+  						rename(DBN = dbn)
 						</code></pre>
 				</section>
-				<section> Now focus on date and time</section>
-				<section>R doesn't have a built-in data type for dates and times, but it has well established functions that smooth the process of using them</section>
-				<section>
-					We'll use the lubridate package
-				<img src="pics/lecture8.png" width=800>
+				
 			
-			</section>
+			
 
-
-			<section>
-				<ul>
-					<li class="fragment">Distinguish between dates and times</li>
-					<ul>
-						<li class="fragment">dates as time on longer scales, like years, months and days</li>
-						<li class="fragment">times refers to shorter scale of time, down to hours, minutes and seconds</li>
-					</ul>
-
-
-					
-					
-					<li class="fragment">There are two main ways that dates and times can be represented in R</li>
-					<li class="fragment">The first way is through strings</li>
-					<ul>
-						<li class="fragment">can be written in many different ways</li>
-						<li class="fragment">e.g.: "YEAR/MONTH/DAY"</li>
-						
-					</ul>
-
-					
-				</ul>
-			</section>
-			<section>
-				<ul>
-				<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
-					> date1 <- "22/09/19"
-					> date2 <- "09-19-22"
-					</code></pre>
-					<li class="fragment">These two strings refer to the same date, but are different representations of it</li>
-					<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
-						> ymd(date1)
-						[1] "2022-09-19"
-						> mdy(date2)
-						[1] "2022-09-19"
-						</code></pre>
-						<li class="fragment">This process is called parsing a date</li>
-						
-				</ul>
-			</section>
-			<section>
-				<ul>
-				<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
-					> date1 <- "22/09/19 13:30:00"
-					> date2 <- "09-19-2022 01-30 PM"
-					> ymd_hms(date1)
-					[1] "2022-09-19 13:30:00 UTC"
-					</code></pre>
-					<li class="fragment"> "UTC" at the end stands for Coordinated Universal Time</li>
-					<ul>
-						<li class="fragment">it represents the time zone for the date and time</li>
-					</ul>
-					<li class="fragment"> Possible to set the time zone</li>
-					<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
-						> mdy_hm(date2, tz = "America/New_York")
-						[1] "2022-09-19 13:30:00 EDT"
-						> Sys.timezone()
-						[1] "America/New_York"
-						</code></pre>
-						
-						
-				</ul>
-			</section>
-
-			<section>
-				<ul>
-					<li class="fragment"> The second way is Unix time</li>
-					
-					<li class="fragment"> Unix time describes the number of seconds that have passed since January 1, 1970 at midnight in UTC</li>
-					<ul>
-						<li class="fragment">In any case, Unix dates and times are always in reference to a starting date.</li>
-					</ul>
-					<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
-						> now <- Sys.time()
-						> now %>% ymd_hms() %>% as.numeric()
-						[1] 1663614518
-						</code></pre>
-						
-						
-				</ul>
-			</section>
-			<section>
-				<ul>
-					<li class="fragment"> When working with dates and times, we'll only need a single part of it</li>
-					
-					
-					<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
-						> date <- ymd("2022-09-19")
-						> year(date)
-						[1] 2022
-						> month(date)
-						[1] 9
-						> day(date)
-						[1] 19
-						</code></pre>
-						<ul>
-						
-						<li class="fragment">Some other functions:</li>
-						
-					<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
-						> wday(date)
-						[1] 2022
-						> wday(date, label = TRUE)
-						[1] 9
-						> yday(date)
-						[1] 19
-						</code></pre>
-
-						
-				</ul>
-			</section>
-			<section>
-				<ul>
-					<li class="fragment"> A benefit to working with Unix time is that it makes calculating spans of time easier</li>
-					
-					
-					<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
-						> ymd("2020-04-21") - ymd("2020-04-20")
-						[1] Time difference of 1 days
-						</code></pre>
-						<ul>
-						<li class="fragment">the actual calculation returns a number</li>
-						<li class="fragment">Since it is positive, we would interpret it as moving forward in time</li>
-						</ul>
-
-						
-					<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
-						> ymd_hms("2020-04-21 17:00:00") - ymd_hms("2020-04-21 08:30:00")
-						[1]	Time difference of 8.5 hours
-						</code></pre>
-
-						
-				</ul>
-			</section>
 
 		</div>
 
