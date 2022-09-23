@@ -85,6 +85,8 @@ Consider: <b>ordered</b>  vs. <b>unordered</b> categorical variable. What's the 
 
 There are many ways to color your figures, so make sure that the following example is just one of them. We use the RColorBrewer package to make a wide range of named color palettes available. Together with ggplot, you access these colors by specifying the scale_color_brewer() or scale_fill_brewer() functions, depending on the aesthetic you are mapping. 
 
+See more reference: <https://ggplot2.tidyverse.org/reference/scale_brewer.html>
+
 Let's use organdata we used before.
 ```{r}
 setwd("~/Documents/ibs_course/BUS240/data")
