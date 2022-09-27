@@ -1,0 +1,82 @@
+---
+title: "Homework3"
+author: "Yeabin Moon"
+date: "2022-09-15"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Use gapminder dataset. 
+```{r}
+library(gapminder)
+library(tidyverse)
+```
+
+### 1. Consider the following: Explain what relationship the figure represents.
+```{r}
+p <- ggplot(data = gapminder,
+            mapping = aes(x = pop,
+                          y = lifeExp)) 
+p + geom_point() +
+    geom_smooth(color = "orange") 
+```
+
+<b>It plots Life Expectancy against per capita GDP for all country-years in the data</b>
+
+### 2. What does the orange line represent?
+<b>Here geom_smooth() has calculated a smoothed line for us. The shape of the line depends on the arguments.</b>
+
+### 3. You can use a range of methods in geom_smooth(). What is the default method? Try to plot four figures using different methods in geom_smooth(). 
+<b>As you can see the result window, default method is gam, which is generalized additive mode smoothing.
+
+Produce four figures using the following method: "lm", "glm", "gam", "loess"
+</b>
+
+### 4. What is the grey area around the trend line? Modify the code in question 1 and plot the figure without it.
+<b>The shaded in a ribbon shows the standard error for the line. </b>
+```{r}
+p <- ggplot(data = gapminder,
+            mapping = aes(x = pop,
+                          y = lifeExp)) 
+p + geom_point() +
+    geom_smooth(color = "orange", se = FALSE) 
+
+e <- ggplot(data = gapminder,
+            mapping = aes(x = pop,
+                          y = lifeExp)) 
+e + geom_point() +
+    geom_smooth(color = "red", level=0)
+```
+
+### 5. We learned in class the scale mapping, such as scale_x_log10(). Search online and list two more commands (functions) to transform the value of x.
+<b>See <https://ggplot2-book.org/scale-position.html></b>
+
+### 6. Explain the difference between the two code blocks
+```{r}
+# code 1
+p <-  ggplot(data = gapminder,
+             mapping = aes(x = gdpPercap,
+                            y = lifeExp,
+                            color = year))
+p + geom_point() +
+    geom_smooth(method = "loess", se = F) + scale_x_log10()
+```
+```{r}
+# code 2
+p <-  ggplot(data = gapminder,
+             mapping = aes(x = gdpPercap,
+                            y = lifeExp,
+                            color = factor(year)))
+p + geom_point() +
+    geom_smooth(method = "loess", se = F) + scale_x_log10()
+
+```
+
+Note that the color argument in the aes(). The first panel accepts <em>year</em> as the argument for color and shows the its variation in order. That is ggplot understands <em>year</em> as an ordered value, and hence we can see a gradation. On the other hand, factor() transforms a continuous variable into a categorical variable, and hence ggplot understands <em>factor(year)</em> as an un ordered value. So we can see each color represents the certain year.
+
+### 7. Explain the difference between facet_wrap() and facet_grid(). Show the examples. You cannot use the same data in the lecture example.
+
+The facet_wrap() function can take a series of arguments, but the most important is the first one, which is specified using R’s “formula” syntax, which uses the tilde character, ~. Facets are usually a one-sided formula. The facet_wrap() function is best used when you want a series of small multiples based on a single categorical variable. Your panels will be laid out in order and then wrapped into a grid. If you wish you can specify the number or rows or the number of columns in the resulting layout. Facets can be more complex than this. For instance, you might want to cross-classify some data by two categorical variables. In that case you should try facet_grid() instead. This function will lay out your plot in a true two-dimensional arrangement, instead of a series of panels wrapped into a grid.

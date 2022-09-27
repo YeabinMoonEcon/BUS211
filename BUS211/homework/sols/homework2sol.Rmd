@@ -1,0 +1,87 @@
+---
+title: "Homework 2 Suggested Solution"
+author: "Yeabin Moon"
+date: "2022-09-16"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+### 2. You will have 5 data sets for this Patterns data. Explain the purpose of each data set in words. 
+
+```
+See: https://docs.safegraph.com/docs/monthly-patterns
+```
+
+
+## Use read_csv() load your data and save it to <em>df</em>. Do not use any other command yet.
+```{r}
+library(tidyverse)
+setwd("~/Downloads/pattern")
+df <- read_csv('your_data_sep_15_2022_0304pm.csv.gz')
+```
+
+
+### 4. You will see the column specification panel. Explain each row in words (the first four rows in the column specification). 
+There are four rows: 
+
+Delimiter - show how data is split into columns
+chr - the list of string-value columns 
+dbl - the list of number-value columns 
+dttm - the list of time-value columns 
+
+### 5. Explain what information the following columns represent:
+See <https://docs.safegraph.com/docs/monthly-patterns>
+
+### 6. Show the number of missing values in each column in question 5.
+```{r}
+df %>%
+  select(date_range_start, date_range_end, raw_visit_counts,
+         raw_visitor_counts, visits_by_day, poi_cbg, visitor_home_cbgs,
+         distance_from_home, median_dwell, related_same_day_brand,
+         popularity_by_day, device_type) %>%
+  is.na %>%
+  colSums
+```
+
+You will find that some columns include {}. How can we interpret this?
+
+### 7. Select the numeric columns from df and save it to df_numeric.
+  - Find one column in which the values should be loaded as character
+  - Change the corresponding column into character 
+```{r}
+df_numeric <- df %>%
+  select_if(is.numeric)  %>%
+  mutate(poi_cbg = as.character(poi_cbg))
+glimpse(df_numeric)
+```
+
+
+### 8. Calculate the total number of raw_visit_counts by poi_cbg in May. Explain in words what these values indicate.
+<em>total_number_visits</em> shows the number of total visits to the corresponding POIs in May.
+```{r}
+may_note <- unique(df$date_range_start)[6]
+print(may_note)
+df %>% 
+  filter(date_range_start == may_note) %>%
+  group_by(poi_cbg) %>%
+  summarize(total_number_visits = sum(raw_visit_counts)) %>% head()
+```
+### 9. Calculate the total number of raw_visit_counts by county in May. 
+```{r}
+df %>% 
+  mutate(fips_county = str_sub(poi_cbg, 1,5)) %>%
+  filter(date_range_start == may_note) %>%
+  group_by(fips_county) %>%
+  summarize(total_number_visits = sum(raw_visit_counts))
+```
+
+### 10. Suppose you want to know which industry is the most popular in the county, having the highest number of visitors in May. Explain your strategy (you don't need to code here). 
+
+## 11. For the final project, I want you to leverage the patterns of consumers in Boston using SafeGraph. Describe in detail the following questions. (~ 500 words) 
+  - What is your area of interest? (Whole patterns or specific industries)
+  - Why is the cell phone tracking data fit your interest?
+  - What is the main challenge in pursuing your project? 
