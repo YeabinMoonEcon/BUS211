@@ -28,7 +28,7 @@
 					Update
 					<ul>
 						<li class="fragment">Group is formed</li>
-						<li class="fragment">Review the previous lecture (intro to data cleaning) seriously</li>
+						<li class="fragment">Review the previous lecture (intro to data cleaning)</li>
 						<ul>
 							<li class="fragment">homework will assist you accordingly</li>
 						</ul>
@@ -178,152 +178,192 @@
 				</section>
 				<section>
 					<ul>
-						<li class="fragment">In practice, you will often need to access a database without any documentation</li>
-						<li class="fragment">In this situation, you'll have to rely on the surrounding context of the database and on your own exploration</li>
+						
+						<li class="fragment">SQL allows us to limit the number of rows we see by using the LIMIT clause</li>
+						<li class="fragment">Think of a clause as an optional reserved word that doesn't need to be in the code for the query to execute successfully</li>
+						<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+							dbGetQuery(con, 
+								"SELECT * FROM recent_grads LIMIT 3;")
+							</code></pre>	
+						<li class="fragment">Often, we'll only want to look at data from specific columns</li>
+						<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+							dbGetQuery(con, 
+								"SELECT Major, Major_category FROM recent_grads;")
+							</code></pre>	
+						
 						
 						<ul>
-						<li class="fragment">Num of SAT Test Takers</li>
-						<li class="fragment">SAT Critical Reading Avg. Score</li>
-						<li class="fragment">SAT Math Avg. Score</li>
-						<li class="fragment">SAT Writing Avg. Score</li>
+						
 					</ul>
-					<li class="fragment">Add the sum of scores of SAT and save it to sat_results</li>
 
 					
 				</section>
+
+
 				<section>
 					<ul>
-						<li class="fragment">Address some structures</li>
+						
+						<li class="fragment">SQL is a database-dependent language</li>
 						<ul>
-						<li class="fragment">Which information  do we need for our analysis? </li>
-						<li class="fragment">Do we need to create any new variables?</li>
-						<li class="fragment">Are the data the correct type?</li>
-						</ul>
-						<li class="fragment">Apply the same techniques to ap_2010</li>
-						<ul>
-							<li class="fragment">DBN is the same as in the other datasets</li>
-							<li class="fragment">AP Test Takers provides information about the number of students who took one AP exam</li>
-							<li class="fragment">Total Exams Taken tells us how many exams students took at the school</li>
-							<li class="fragment">The last  tells us how many students earned high scores on the exams, which range on a scale from one (lowest) to five (highest)</li>
-						</ul>
+							<li class="fragment">the SQL that you're learning here (for SQLite) isn't the same as SQL for other DBMSs, like PostgreSQL or Oracle</li>
+							<li class="fragment">however, the different versions of SQL are more alike than they are different</li>	
+							<li class="fragment">for example, in T-SQL (Microsoft's SQL flavor), we would write the query above like this:</li>
+							<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+								SELECT TOP 3, * FROM recent_grads;
+								</code></pre>
+						</ul>						
 					</ul>
 				</section>
 
 				<section>
 					<ul>
-						<li class="fragment">Let's interpret the following code:</li>
-						
-						<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
-ap_2010 <- ap_2010 %>%
-mutate(across(3:5, as.numeric)) %>%
-mutate(exams_per_student = `Total Exams Taken` / `AP Test Takers`) %>%
-mutate(high_score_percent = (`Number of Exams with scores 3 4 or 5` / `Total Exams Taken`) * 100)
-							</code></pre>
-						
-					</ul>
-				</section>
-			
-				<section>
-					<ul>
-						<li class="fragment">Now look at class_size DataFrame to identify data cleaning needs</li>
+						<li class="fragment">Let's use SQL to answer a more specific question </li>
 						<ul>
-						<li class="fragment">contains information about class sizes associated with different grades and classes of NYC schools</li>
-						<li class="fragment">It may be useful in our analysis of how demographic factors can affect student academic performance</li>
-						
-					</ul>
-					<li class="fragment">Let's start cleaning the class_size DataFrame by removing unnecessary rows for our analysis</li>
-					<ul>
-						<li class="fragment">Filter the class_size DataFrame to retain only rows where GRADE values are equal to "09-12" and PROGRAM TYPE values are "GEN ED"</li>						
-					</ul>
-				</section>
-			
-				<section>
-					<ul>
-						<li class="fragment">Look at class_size data</li>
-						<ul>
-						<li class="fragment">still contains multiple rows for some high schools</li>
-						<li class="fragment">each row represents a specific course</li>
-						
-					</ul>
-					<li class="fragment">Create a new class_size DataFrame that contains the following</li>
-					<ul>
-						<li class="fragment">The  variables from the original DataFrame:</li>						
-						<ul>
-							<li class="fragment">CSD, SCHOOL CODE, SCHOOL NAME</li>						
+						<li class="fragment">which majors were mostly women? </li>
 						</ul>
-						<li class="fragment">The following new variables:</li>						
+						<li class="fragment">Want the following subset</li>
 						<ul>
-							<li class="fragment">avg_class_size </li>						
-							<li class="fragment">avg_largest_class </li>						
-							<li class="fragment">avg_smallest_class </li>						
+							<li class="fragment">only the Major columns</li>
+							<li class="fragment">only the rows where ShareWomen is greater than 0.5 (corresponding to 50%)</li>
 						</ul>
-					</ul>
-				</section>
-				<section>
-					<ul>
-						<li class="fragment">We have three DataFrames left to work on</li>
-						<li class="fragment">Let's look at the graduation DataFrame, and interpret the following:</li>
-												
-						
-						<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
-							graduation <- graduation %>%
-							filter(Cohort == "2006" & Demographic == "Total Cohort") %>%
-							select(DBN, `School Name`, `Total Grads - % of cohort`, 
-							`Dropped Out - % of cohort`)
-							</code></pre>
-					</ul>
-				</section>
-				
-				<section>
-					<ul>
-						<li class="fragment">Now, look at the demographics DataFrame next</li>
+						<li class="fragment">We can use the WHERE statement</li>
 						<ul>
-						<li class="fragment">this one also has multiple rows for each school</li>
-						<ul>
-							<li class="fragment">data from elementary schools, as well as high schools, is in demographics</li>
+							<li class="fragment">the column we want the database to filter on: ShareWomen</li>
+							<li class="fragment">A comparison operator that specifies how we want to compare a value in a column: >=
+							</li>
+							<li class="fragment">The value against which we want the database to compare each value: 0.5
+							</li>
 						</ul>
 						
 					</ul>
+				</section>
+
+				<section>
+					<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+						SELECT Major
+						FROM recent_grads
+						WHERE ShareWomen >= 0.5;
+						</code></pre>
+					<ul>
+						
+						<li class="fragment">We express the specific column we want in the SELECT part of the query and the specific rows we want in the WHERE part</li>
+						<li class="fragment">Note that most database systems require that the SELECT and FROM statements come first, before WHERE or any other statements</li>
 					
+					</ul>
+				</section>
+				<section>
 					<ul>
-						<li class="fragment">Create a new demographics DataFrame</li>						
+						
+						<li class="fragment">Interpret the following code:</li>
+					<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+						SELECT Major
+						FROM recent_grads
+						WHERE Major_category == 'Engineering';
+						</code></pre>
+					
+						<li class="fragment">We can also use the AND operator to combine multiple filter criteria</li>
+						<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+							SELECT Major
+							FROM recent_grads
+							WHERE Major_category == 'Engineering'
+							AND ShareWomen > 0.5;
+							</code></pre>
+					</ul>
+				</section>
+				<section>
+					<ul>
+						
+						<li class="fragment">OR operator works similiary</li>
+					<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+						SELECT [column1, column2, ...]
+						FROM   [table1]
+						WHERE  [condition1]
+						OR     [condition2]
+						</code></pre>
+					
+						<li class="fragment">Evaluate logical operators: theory and practice</li>
+						<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+							WHERE Major_category = 'Engineering' 
+								  AND ShareWomen > 0.5 
+								  OR Unemployment_rate < 0.051
+							</code></pre>
+							<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+								WHERE (Major_category = 'Engineering' 
+									  AND ShareWomen > 0.5)
+									  OR (Unemployment_rate < 0.051)
+								</code></pre>
+								<li class="fragment">Leaving the parentheses out implies that we want the calculation to happen from left to right in the order we wrote the logic</li>
+								
+					</ul>
+				</section>
+
+				<section>
+					<ul>
+						
+						<li class="fragment">We may want more control over the ordering of the results</li>
+						<li class="fragment">We can specify the order using the ORDER BY clause</li>
 						<ul>
-							<li class="fragment">Filter the rows </li>						
+							<li class="fragment">e.g. we may want to understand which majors that met the criteria in the WHERE statement had the lowest unemployment rate</li>
+						</ul>
+
+					<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+						SELECT Rank, Major, Major_category, ShareWomen, Unemployment_rate
+						FROM recent_grads
+						WHERE (Major_category = 'Engineering') 
+     					AND (ShareWomen > 0.5 OR Unemployment_rate < 0.051)
+						ORDER BY Unemployment_rate;
+						</code></pre>
+						<ul>
+						<li class="fragment">This will return the results in ascending order (increasing) by the Unemployment_rate column</li>
+						<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+							ORDER BY Unemployment_rate DESC;
+							</code></pre>
+					</ul>
+					</ul>
+				</section>
+
+				<section>
+					<ul>
+						
+						<li class="fragment">Let's practice going from question to answer using the SQL workflow</li>
+						<li class="fragment">Which engineering majors had the highest full time employment rates?</li>
+						<ul>
+							<li class="fragment">Write a query that returns the Engineering or Physical Sciences category, the major, and unemployment rate, listed in ascending order of unemployment rate</li>
 							<ul>
-								<li class="fragment">values of schoolyear are the most recent</li>							
-								<li class="fragment">values of grade9 are not "NA"</li>							
+								<li class="fragment">The results should only contain the Major_category, Major, and Unemployment_rate columns, in that order</li>
+								<li class="fragment">Remember to list the results in ascending order of unemployment rate</li>
 							</ul>
-								<li class="fragment">Select</li>						
-						<ul>
-							<li class="fragment">DBN, Name, total_enrollment</li>						
-							<li class="fragment">frl_percent, ell_percent, sped_percent, asian_per, black_per, hispanic_per, white_per, male_per, female_per</li>						
-							
 						</ul>
+
+					<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+						SELECT Major_category, Major, Unemployment_rate
+						FROM recent_grads
+						WHERE Major_category = 'Engineering' OR Major_category = 'Physical Sciences'
+						ORDER BY Unemployment_rate;
+						</code></pre>
 					</ul>
 				</section>
-
-
 				<section>
-					<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
-						demographics <- demographics %>%
-  						filter(schoolyear == "20112012" & !is.na(grade9)) %>%
-  						select(DBN, Name, contains("_per"), total_enrollment)
-						demographics_clean <- demographics %>%
-						select(-female_per)
-						</code></pre>
+					Now, think about why we need to learn SQL
 				</section>
 				<section>
-					<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
-						hs_directory <- hs_directory %>%
-  						select(dbn, school_name, `Location 1`) %>%
-  						rename(DBN = dbn)
-						</code></pre>
+					If the only purpose is to manipulate data, why do we need it?
 				</section>
-				
-			
-			
-
-
+				<section>
+					Remember the first command dbConnect()
+				</section>
+				<section>
+					Send the queries to fetch data and work on your machine 
+				</section>
+				<section>
+					What if data is large?
+				</section>
+				<section>
+					Send the quries to fetch the subset of data would be much more efficient
+				</section>
+				<section>
+					Very popular in the Cloud world
+				</section>
 		</div>
 
 		<script src="../dist/reveal.js"></script>
