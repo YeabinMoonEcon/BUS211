@@ -1,0 +1,349 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>BUS211:lecture10</title>
+
+		<link rel="stylesheet" href="../dist/reset.css">
+		<link rel="stylesheet" href="../dist/reveal.css">
+		<link rel="stylesheet" href="../dist/theme/black.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="../plugin/highlight/monokai.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section data-markdown>
+					<textarea data-template>
+						## Lecture 10 
+						### BUS 211A-3<br>
+					
+					</textarea>
+				  </section>
+
+				<section>
+					Update
+					<ul>
+						<li class="fragment">Group is formed</li>
+						<li class="fragment">Review the previous lecture (intro to data cleaning) seriously</li>
+						<ul>
+							<li class="fragment">homework will assist you accordingly</li>
+						</ul>
+					</ul>	
+				</section>
+
+				
+				<section>
+					Today: Fundamental of Database
+				</section>
+
+				<section>
+					<h4>Structured Query Language, <b>SQL</b></h4>
+					<ul>
+						<li class="fragment">One of the most popular technologies used by data professionals</li>
+						<li class="fragment">Understanding the fundamentals of a more general-purpose language like Python or R is critical for working with data</li>
+						<ul>
+							<li class="fragment">but knowing SQL helps data professionals do more with their data</li>
+			
+						</ul>
+						
+						
+					</ul>
+				</section>
+
+				<section>
+					<h3>A few takeaways</h3>
+					<ul>
+						<li class="fragment">SQL enables us to pull data from many sources</li>
+						
+						<ul>
+						<li class="fragment">data is distributed across many sources</li>
+						<li class="fragment">allows us to structure our data in a way that makes it accessible from one place</li>
+						<li class="fragment">SQL data is structured into multiple, connected tables</li>
+					</ul>
+						
+						<li class="fragment">Let's learn about the language itself and how you can use it to query data</li>
+						<li class="fragment">Discuss why we need to learn this</li>
+						
+					</ul>
+				</section>
+				
+				<section>
+					<h3>Database</h3>
+					<ul>
+						<li class="fragment">When we work with data, we load the data from files like spreadsheets</li>
+						<li class="fragment">We may run into problems: </li>
+						<ul>
+						<li class="fragment">What if the data is too big to fit into a single spreadsheet file?</li>
+						<li class="fragment">What if you share the data with team members and keep it updated?</li>
+						<li class="fragment">What if there's sensitive information in your data that needs protection?</li>
+					</ul>
+					<li class="fragment">Thankfully, these problems already have a solution: the database</li>
+					</ul>
+				</section>
+		
+
+				<section>
+					
+					<ul>
+						<li class="fragment">A database can store much more data more securely than a spreadsheet or a text file</li>
+						<li class="fragment">Unlike simply opening a spreadsheet, we actually have to <b>ask</b> for data from the database</li>
+						<li class="fragment">We primarily interact with a database using a database management system (DBMS) </li>
+						<ul>
+						<li class="fragment">a computer program to help users interact with data by giving the computer instructions through the DBMS</li>
+						</ul>
+						<li class="fragment">We'll begin learning SQL with the DBMS SQLite</li>
+						
+					</ul>
+				</section>
+
+				<section>
+					<img class="fragment" src="pics/lecture10_1.png" width = 500>  
+					<ul>
+						<li class="fragment">Explore data from the American Community Survey on job outcome that we loaded into a SQL database</li>
+						<ul>
+						<li class="fragment">a database, jobs.db, loaded with this data into a single table named recent_grads</li>
+					</ul>	
+
+				</section>
+
+
+				<section>
+					<ul>
+						<li class="fragment">Consider the SQL instruction (usually called a query)</li>
+						<ul>
+							<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+								SELECT * FROM recent_grads;
+								</code></pre>	
+						</ul>
+						<li class="fragment">This query selects all columns from the recent_grads table</li>
+						<li class="fragment">To run the query above in our interface, type the following code in the R script</li>
+						<ul>
+							<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+								library(RSQLite)
+								setwd("set your working directory")
+								con <- dbConnect(SQLite(), 'jobs.db')
+								dbListTables(con)
+								dbGetQuery(con, 'SELECT * FROM recent_grads')
+								</code></pre>	
+						</ul>
+						<li class="fragment">This will run the query against the database, display the results, and give feedback on your answer</li>
+						
+
+					</ul>
+						
+				</section>
+
+
+				<section>
+					<ul>
+						<li class="fragment">The process you used to visualize recent_grads breaks down into two steps:</li>
+						<ul>
+							<li class="fragment">Write a SQL query that expresses the request "fetch all the data in the table."</li>
+							<li class="fragment">Ask the SQLite DBMS software to run the code and display the results</li>
+							
+							
+							
+						</ul>
+						<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+							dbGetQuery(con, 'SELECT * FROM recent_grads;')
+							</code></pre>	
+							<ul>
+								<li class="fragment">SELECT * — the symbol * selects all the columns</li>
+								<li class="fragment">The table we wanted to query using FROM recent_grads</li>
+							</ul>
+						
+
+						<li class="fragment">The order and space are crucial features of SQL syntax</li>
+					</ul>
+						
+										
+				</section>
+
+
+				<section>
+					<img class="fragment" src="pics/lecture10_2.png" width = 400>  
+					
+						
+						<ul>
+							<li class="fragment">You may have noticed that SELECT and FROM use uppercase letters, but not required</li>
+							
+							<li class="fragment">Also, not sensitive to the line change and indentation</li>
+							<li class="fragment">Confirm that lines changes, capitalization, and indentation aren't crucial for the query to run</li>
+						</ul>
+					
+				</section>
+				<section>
+					<ul>
+						<li class="fragment">In practice, you will often need to access a database without any documentation</li>
+						<li class="fragment">In this situation, you'll have to rely on the surrounding context of the database and on your own exploration</li>
+						
+						<ul>
+						<li class="fragment">Num of SAT Test Takers</li>
+						<li class="fragment">SAT Critical Reading Avg. Score</li>
+						<li class="fragment">SAT Math Avg. Score</li>
+						<li class="fragment">SAT Writing Avg. Score</li>
+					</ul>
+					<li class="fragment">Add the sum of scores of SAT and save it to sat_results</li>
+
+					
+				</section>
+				<section>
+					<ul>
+						<li class="fragment">Address some structures</li>
+						<ul>
+						<li class="fragment">Which information  do we need for our analysis? </li>
+						<li class="fragment">Do we need to create any new variables?</li>
+						<li class="fragment">Are the data the correct type?</li>
+						</ul>
+						<li class="fragment">Apply the same techniques to ap_2010</li>
+						<ul>
+							<li class="fragment">DBN is the same as in the other datasets</li>
+							<li class="fragment">AP Test Takers provides information about the number of students who took one AP exam</li>
+							<li class="fragment">Total Exams Taken tells us how many exams students took at the school</li>
+							<li class="fragment">The last  tells us how many students earned high scores on the exams, which range on a scale from one (lowest) to five (highest)</li>
+						</ul>
+					</ul>
+				</section>
+
+				<section>
+					<ul>
+						<li class="fragment">Let's interpret the following code:</li>
+						
+						<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+ap_2010 <- ap_2010 %>%
+mutate(across(3:5, as.numeric)) %>%
+mutate(exams_per_student = `Total Exams Taken` / `AP Test Takers`) %>%
+mutate(high_score_percent = (`Number of Exams with scores 3 4 or 5` / `Total Exams Taken`) * 100)
+							</code></pre>
+						
+					</ul>
+				</section>
+			
+				<section>
+					<ul>
+						<li class="fragment">Now look at class_size DataFrame to identify data cleaning needs</li>
+						<ul>
+						<li class="fragment">contains information about class sizes associated with different grades and classes of NYC schools</li>
+						<li class="fragment">It may be useful in our analysis of how demographic factors can affect student academic performance</li>
+						
+					</ul>
+					<li class="fragment">Let's start cleaning the class_size DataFrame by removing unnecessary rows for our analysis</li>
+					<ul>
+						<li class="fragment">Filter the class_size DataFrame to retain only rows where GRADE values are equal to "09-12" and PROGRAM TYPE values are "GEN ED"</li>						
+					</ul>
+				</section>
+			
+				<section>
+					<ul>
+						<li class="fragment">Look at class_size data</li>
+						<ul>
+						<li class="fragment">still contains multiple rows for some high schools</li>
+						<li class="fragment">each row represents a specific course</li>
+						
+					</ul>
+					<li class="fragment">Create a new class_size DataFrame that contains the following</li>
+					<ul>
+						<li class="fragment">The  variables from the original DataFrame:</li>						
+						<ul>
+							<li class="fragment">CSD, SCHOOL CODE, SCHOOL NAME</li>						
+						</ul>
+						<li class="fragment">The following new variables:</li>						
+						<ul>
+							<li class="fragment">avg_class_size </li>						
+							<li class="fragment">avg_largest_class </li>						
+							<li class="fragment">avg_smallest_class </li>						
+						</ul>
+					</ul>
+				</section>
+				<section>
+					<ul>
+						<li class="fragment">We have three DataFrames left to work on</li>
+						<li class="fragment">Let's look at the graduation DataFrame, and interpret the following:</li>
+												
+						
+						<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+							graduation <- graduation %>%
+							filter(Cohort == "2006" & Demographic == "Total Cohort") %>%
+							select(DBN, `School Name`, `Total Grads - % of cohort`, 
+							`Dropped Out - % of cohort`)
+							</code></pre>
+					</ul>
+				</section>
+				
+				<section>
+					<ul>
+						<li class="fragment">Now, look at the demographics DataFrame next</li>
+						<ul>
+						<li class="fragment">this one also has multiple rows for each school</li>
+						<ul>
+							<li class="fragment">data from elementary schools, as well as high schools, is in demographics</li>
+						</ul>
+						
+					</ul>
+					
+					<ul>
+						<li class="fragment">Create a new demographics DataFrame</li>						
+						<ul>
+							<li class="fragment">Filter the rows </li>						
+							<ul>
+								<li class="fragment">values of schoolyear are the most recent</li>							
+								<li class="fragment">values of grade9 are not "NA"</li>							
+							</ul>
+								<li class="fragment">Select</li>						
+						<ul>
+							<li class="fragment">DBN, Name, total_enrollment</li>						
+							<li class="fragment">frl_percent, ell_percent, sped_percent, asian_per, black_per, hispanic_per, white_per, male_per, female_per</li>						
+							
+						</ul>
+					</ul>
+				</section>
+
+
+				<section>
+					<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+						demographics <- demographics %>%
+  						filter(schoolyear == "20112012" & !is.na(grade9)) %>%
+  						select(DBN, Name, contains("_per"), total_enrollment)
+						demographics_clean <- demographics %>%
+						select(-female_per)
+						</code></pre>
+				</section>
+				<section>
+					<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+						hs_directory <- hs_directory %>%
+  						select(dbn, school_name, `Location 1`) %>%
+  						rename(DBN = dbn)
+						</code></pre>
+				</section>
+				
+			
+			
+
+
+		</div>
+
+		<script src="../dist/reveal.js"></script>
+		<script src="../plugin/notes/notes.js"></script>
+		<script src="../plugin/markdown/markdown.js"></script>
+		<script src="../plugin/highlight/highlight.js"></script>
+		<script src="../plugin/math/math.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+				progress: false,
+				touch: true,
+				slideNumber: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX ]
+			});
+		</script>
+	</body>
+</html>
