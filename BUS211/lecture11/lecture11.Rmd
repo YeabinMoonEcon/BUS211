@@ -1,0 +1,328 @@
+---
+title: "Lecture 11"
+author: "Yeabin Moon"
+date: "2022-10-01"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Lecture 11
+
+## 1. Aggregate function
+
+```{r}
+library(RSQLite)
+setwd("~/Documents/ibs_course/BUS211/lecture11") # Set your path here
+```
+Consider the question: What is the lowest proportion of women on the recent_grads table?
+
+One of way of thinking about this question is that we want to "determine the minimum value of ShareWomen" — recall that ShareWomen gives us the proportion of women graduates. 
+
+```{r}
+con <- dbConnect(SQLite(), 'jobs.db')
+dbListTables(con)
+dbGetQuery(con, 'SELECT * FROM recent_grads 
+                 ORDER BY ShareWomen
+                 LIMIT 3')
+```
+Looking at the sample above, we see that the three lowest ShareWomen values are roughly 0.09, 0.07 and 0, so the minimum is 0. Here's how we can use SQL to answer this question:
+
+```
+SELECT MIN(ShareWomen) 
+  FROM recent_grads;
+```
+Try running this (without submitting your answer) in the code editor. You should see the following result.
+```{r echo=FALSE}
+dbGetQuery(con, 'SELECT MIN(ShareWomen) 
+                 FROM recent_grads')
+```
+It doesn't actually tell us what those majors are — we only know them because we singled out the three majors with fewer women than men. In a typical table, there are too many rows to find an answer just by looking.
+
+A key idea in SQL is that every result is a table. This is a common visual representation that makes SQL approachable for more users. However, this means that users must convert datasets and calculations that aren't well suited for this representation in a SQL environment.
+```{r}
+class(dbGetQuery(con, 'SELECT MIN(ShareWomen) 
+                       FROM recent_grads'))
+```
+
+In fact, MIN() is called an <b>aggregate function</b>. Aggregate functions apply over columns of values and return a single value. The MIN and MAX functions, for example, calculate and return the minimum and maximum values in a column.
+
+Some other commonly used aggregate functions include the following:
+
+- AVG — returns the mean of its input.
+- COUNT — counts the number of values in its input.
+- SUM — sums the values in its input.
+
+Note the use of capital letters for the functions' names. This isn't necessary to run the query, but it's a common convention that functions (just like other reserved words) should be uppercase. You should also use uppercase letters so the answer-checker can correctly validate your answer.
+
+### Exercise:
+Write a query that computes the sum of the Total column.
+```
+SELECT SUM(Total)
+FROM recent_grads
+```
+
+## 2. Query syntax
+
+We learned how to return all majors with a majority of women:
+```
+SELECT Major
+FROM recent_grads
+WHERE ShareWomen > 0.5;
+```
+```{r echo=FALSE}
+# Limit clause is used
+dbGetQuery(con, 'SELECT Major
+                  FROM recent_grads
+                  WHERE ShareWomen > 0.5
+                  LIMIT 4;')
+```
+Then, consider the question: How many majors included mostly women? We need an aggregate function:
+```
+SELECT COUNT(Major)
+FROM recent_grads
+WHERE ShareWomen > 0.5;
+```
+### Exercise: 
+Write a query that returns the number of majors that include mostly men.
+```
+SELECT COUNT(Major)
+FROM recent_grads
+WHERE ShareWomen < 0.5
+```
+
+We can select multiple columns by including their names with commas, like this:
+```
+SELECT Major, Major_category
+FROM recent_grads;
+```
+We can use the same principle to combine multiple aggregation functions into a single query:
+```
+SELECT MIN(Median), MAX(Median), SUM(Total)
+FROM recent_grads;
+```
+```{r echo=FALSE}
+dbGetQuery(con, 'SELECT MIN(Median), MAX(Median), SUM(Total)
+FROM recent_grads;')
+```
+
+## 3. Alias
+All of the queries we've written so far have had somewhat unpleasant column names in the results, like AVG(Total) and MIN(Men). Many companies use SQL environments and tools that can run your query, turn the results into a plot of your choosing, and then create a PDF report containing multiple plots (and some additional explanation from the user). Since others may interpret the results of your SQL queries, it's helpful to specify custom names for the columns in our results.
+
+We can do this using AS:
+```
+SELECT SUM(Total) AS num_students
+FROM recent_grads;
+```
+```{r echo=FALSE}
+dbGetQuery(con, 'SELECT SUM(Total) AS num_students
+FROM recent_grads;')
+```
+If we use certain characters, like spaces, we need to surround the alias with quotes. We can specify an arbitrary phrase as a string using quotation marks:
+```
+SELECT SUM(Total) AS 'Total Students'
+FROM recent_grads;
+```
+```{r echo=FALSE}
+dbGetQuery(con, 'SELECT SUM(Total) AS "Total Students"
+ FROM recent_grads;')
+```
+We can drop AS entirely and just add the name next to the original column:
+```
+SELECT SUM(Total) 'Total Students'
+FROM recent_grads;
+```
+```{r echo=FALSE}
+dbGetQuery(con, 'SELECT SUM(Total) "Total Students"
+  FROM recent_grads;')
+```
+Lastly, we can reference renamed columns when writing longer queries to make our code more compact:
+```
+SELECT Major AS m, Major_category AS mc, Unemployment_rate AS ur
+FROM recent_grads
+WHERE (mc = 'Engineering') AND (ur > 0.04 and ur < 0.08)
+ORDER BY ur DESC
+```
+```{r echo=FALSE}
+dbGetQuery(con, 'SELECT Major AS m, Major_category AS mc, Unemployment_rate AS ur
+                  FROM recent_grads
+                  WHERE (mc = "Engineering") AND (ur > 0.04 and ur < 0.08)
+                  ORDER BY ur DESC')
+```
+### Exercise:
+Write a query that returns the following in this order:
+
+- The number of rows as Number of Majors
+- The maximum value of Unemployment_rate as Highest Unemployment Rate
+
+```
+SELECT COUNT(*) as 'Number of Majors', MAX(Unemployment_rate) as 'Highest Unemployment Rate'
+FROM recent_grads
+```
+
+## 4. Distinct statement
+Major_category is a column with only a few unique values. What if we want to get a list with repetitions of the values in this column? Or what if we want to determine how many distinct values there are in this column?
+
+We can return all of the unique values in a column using the DISTINCT statement.
+```
+SELECT DISTINCT Major_category
+FROM recent_grads;
+```
+```{r echo=FALSE}
+dbGetQuery(con, 'SELECT DISTINCT Major_category
+FROM recent_grads;')
+```
+
+As with the other SQL clauses we've learned, we can use the DISTINCT statement with multiple columns to return unique pairings of those columns:
+
+```
+SELECT DISTINCT Major, Major_category
+FROM recent_grads
+LIMIT 5;
+```
+```{r echo=FALSE}
+dbGetQuery(con, 'SELECT DISTINCT Major, Major_category
+FROM recent_grads
+LIMIT 5;')
+```
+Lastly, we can count the number of unique values in a column by nesting the COUNT() function with the DISTINCT clause:
+```
+SELECT COUNT(DISTINCT Major_category) AS unique_major_categories
+FROM recent_grads;
+```
+```{r echo=FALSE}
+dbGetQuery(con, 'SELECT COUNT(DISTINCT Major_category) AS unique_major_categories
+FROM recent_grads;')
+```
+
+### Exercise:
+Write a query that returns the number of unique values in the Major, Major_category, and Major_code columns. Use the following aliases in this order:
+
+- For the unique value count of the Major column, use the alias unique_majors.
+- For the unique value count of the Major_category column, use the alias unique_major_categories.
+- For the unique value count of the Major_code column, use the alias unique_major_codes.
+
+```
+SELECT COUNT(DISTINCT Major) AS unique_majors,
+       COUNT(DISTINCT Major_category) AS unique_major_categories,
+       COUNT(DISTINCT Major_code) AS unique_major_codes
+       FROM recent_grads;
+```
+
+## 5. Data type
+
+Previously, we learned about aggregate functions. Aggregate functions take a column as input and return one value for the column. Now, we'll learn about functions that, when we pass them a column as input, return (a transformation of the input) another column. The values of text columns are typically called strings.
+
+We'll start with the LENGTH function. Given a text column, the LENGTH function returns the number of characters in the input strings
+
+```
+SELECT Major,
+       Total, Men, Women, Unemployment_rate,
+       LENGTH(Major) AS Length_of_name
+FROM recent_grads
+ORDER BY Unemployment_rate DESC
+LIMIT 3;
+```
+```{r echo=FALSE}
+dbGetQuery(con, 'SELECT Major,
+       Total, Men, Women, Unemployment_rate,
+       LENGTH(Major) AS Length_of_name
+FROM recent_grads
+ORDER BY Unemployment_rate DESC
+LIMIT 3;')
+```
+
+We can also concatenate strings by using the || operator. Here's an example:
+```
+SELECT "Dr." || "Moon" as "Angel";
+```
+```{r echo=FALSE}
+dbGetQuery(con, 'SELECT "Dr." || "Moon" as "Angel";')
+```
+
+In the same way that we can compare columns with both constant numbers and other columns in WHERE clauses, we can also mix columns and constant strings when concatenating. For example:
+```
+SELECT 'Cat: ' || Major_category
+FROM recent_grads
+LIMIT 2;
+```
+```{r echo=FALSE}
+dbGetQuery(con, 'SELECT "Cat: " || Major_category
+FROM recent_grads
+LIMIT 2;')
+```
+
+### Exercise:
+Write a query that does the following:
+
+1. Selects in order
+    - The values in the Major column in lowercase, preceded by the string 'Major: '. Use the alias Major.
+    - Total
+    - Men
+    - Women
+    - Unemployment_rate.
+    - LENGTH(Major) as Length_of_name.
+2. Orders in descending order by the unemployment rate.
+
+```
+SELECT 'Major: ' || LOWER(Major) AS Major,
+       Total, Men, Women, Unemployment_rate,
+       LENGTH(Major) AS Length_of_name
+  FROM recent_grads
+ ORDER BY Unemployment_rate DESC;
+```
+
+## 6. Answer the question
+Which majors had the largest spread (difference) between the 25th and 75th percentile starting salaries?
+
+In the same way that we can use string functions and operators, we can also perform arithmetic on the columns in a table. SQL supports the standard arithmetic operators: *, +, -, and /, and we can use them like any other operator:
+
+```
+SELECT P75th - P25th AS quartile_spread
+FROM recent_grads
+LIMIT 10;
+```
+
+```{r echo=FALSE}
+dbGetQuery(con, 'SELECT P75th - P25th AS quartile_spread
+FROM recent_grads
+LIMIT 10;')
+```
+
+You can also add, subtract, multiply, or divide columns by individual values:
+```
+SELECT ShareWomen * 100 percent_female 
+FROM recent_grads 
+LIMIT 10;
+```
+```{r echo=FALSE}
+dbGetQuery(con, 'SELECT ShareWomen * 100 percent_female 
+FROM recent_grads 
+LIMIT 10;')
+```
+
+One thing to note is that multiplying or dividing columns with a floating point value (or a column with floating point values) will result in floating point values:
+
+- Two floats — returns a float.
+    - SELECT 100.0 / 100.0 returns 1.0.
+- A float and an integer — returns a float
+    - SELECT 100 / 1.0 returns 100.0.
+- Two integers — returns an integer
+    - SELECT 100 / 10 returns 10
+    
+### Exercise:
+Write a query that computes the difference between the 25th and 75th percentiles of salaries for all majors.
+
+- Return the Major column first, using the default column name.
+- Return the Major_category column second, using the default column name.
+- Return the compute difference between the 25th and 75th percentiles third, using the alias quartile_spread.
+- Order the results from lowest to highest and only return the first 20 results.
+
+```
+SELECT Major, Major_category, (P75th - P25th) AS quartile_spread
+FROM recent_grads
+ORDER BY quartile_spread
+LIMIT 20;
+```
