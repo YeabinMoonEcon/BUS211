@@ -444,6 +444,13 @@ INNER JOIN cities ON cities.facts_id = facts.id
 LIMIT 5;')
 ```
 
+```{r echo=T}
+dbGetQuery(con, 
+        'SELECT cities.facts_id, facts.id FROM facts
+         INNER JOIN cities ON cities.facts_id = facts.id
+         LIMIT 5;')
+```
+
 The column cities is denoted after INNER JOIN to indicate that this is the table from which we want to join. The condition, ON cities.facts_id = facts.id, describes which columns in either table to match to each other. In order to distinguish between which columns are used in which tables, we use the following syntax: table_name.column_name.
 
 Something to keep in mind here is that the SELECT * will act slightly differently from what you are used to. Instead of just grabbing all the columns from facts, it will also give all the columns in cities since we are joining from it. 
@@ -465,8 +472,41 @@ INNER JOIN cities ON cities.facts_id = facts.id
 LIMIT 10;')
 ```
 
+
+### 2.1 Inner join I
+An inner join only includes rows from both tables that have a match as specified by the ON clause. If we were to think about the collection of all IDs from facts.id and from cities.facts_id, an inner join works by selecting all of the rows from facts where an ID was in <b>both</b> facts.id and cities.facts_id. 
+
+You might think it as the union of the two sets.
+<img class="fragment" src="pics/lecture11_1.png" width = 500>  
+
+We learned how to use aliases to specify custom names for columns:
+```
+SELECT AVG(population) AS AVERAGE_POPULATION
+```
+We can also create aliases for table names to make queries with joins easier to both read and write. Our query from the last screen can be rewritten as:
+```
+SELECT * FROM facts AS f
+INNER JOIN cities AS c ON c.facts_id = f.id
+```
 ```{r echo=FALSE}
-dbGetQuery(con, 'SELECT id FROM facts
-INNER JOIN cities ON cities.facts_id = facts.id
-LIMIT 10;')
+dbGetQuery(con, 'SELECT * FROM facts AS f
+INNER JOIN cities AS c ON c.facts_id = f.id LIMIT 5;')
+```
+
+Our aliases can actually be combined with wildcards. If we wanted to select all of the columns from cities in the SELECT portion, we would write c.*. Doing so allows us to be able to be more explicit in our queries.
+
+#### Exercise:
+Write a query that:
+
+1. Joins cities to facts using an INNER JOIN.
+2. Uses aliases for table names.
+3. Includes, in order:
+  - All columns from cities.
+  - The name column from facts aliased to country_name.
+4. Includes only the first 5 rows.
+
+```
+SELECT c.*, f.name country_name FROM facts f
+INNER JOIN cities c ON c.facts_id = f.id
+LIMIT 5;
 ```

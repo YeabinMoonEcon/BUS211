@@ -914,6 +914,16 @@ LIMIT 5;</code></pre>
 ## 3     942000       1      184
 ## 4    1978000       0      184
 ## 5     983000       0      184</code></pre>
+<pre class="r"><code>dbGetQuery(con, 
+        &#39;SELECT cities.facts_id, facts.id FROM facts
+         INNER JOIN cities ON cities.facts_id = facts.id
+         LIMIT 5;&#39;)</code></pre>
+<pre><code>##   facts_id  id
+## 1      216 216
+## 2        6   6
+## 3      184 184
+## 4      184 184
+## 5      184 184</code></pre>
 <p>The column cities is denoted after INNER JOIN to indicate that this
 is the table from which we want to join. The condition, ON
 cities.facts_id = facts.id, describes which columns in either table to
@@ -971,6 +981,65 @@ equal.</li>
 ## 8      783000       0        3
 ## 9     2123000       1       11
 ## 10     419000       1        2</code></pre>
+</div>
+<div id="inner-join-i" class="section level3">
+<h3>2.1 Inner join I</h3>
+<p>An inner join only includes rows from both tables that have a match
+as specified by the ON clause. If we were to think about the collection
+of all IDs from facts.id and from cities.facts_id, an inner join works
+by selecting all of the rows from facts where an ID was in <b>both</b>
+facts.id and cities.facts_id.</p>
+<p>You might think it as the union of the two sets.
+<img class="fragment" src="pics/lecture11_1.png" width="500"></p>
+<p>We learned how to use aliases to specify custom names for
+columns:</p>
+<pre><code>SELECT AVG(population) AS AVERAGE_POPULATION</code></pre>
+<p>We can also create aliases for table names to make queries with joins
+easier to both read and write. Our query from the last screen can be
+rewritten as:</p>
+<pre><code>SELECT * FROM facts AS f
+INNER JOIN cities AS c ON c.facts_id = f.id</code></pre>
+<pre><code>##    id code                 name  area area_land area_water population
+## 1 216   aa                Aruba   180       180          0     112162
+## 2   6   ac  Antigua and Barbuda   442       442          0      92436
+## 3 184   ae United Arab Emirates 83600     83600          0    5779760
+## 4 184   ae United Arab Emirates 83600     83600          0    5779760
+## 5 184   ae United Arab Emirates 83600     83600          0    5779760
+##   population_growth birth_rate death_rate migration_rate id         name
+## 1              1.33      12.56       8.18           8.92  1   Oranjestad
+## 2              1.24      15.85       5.69           2.21  2 Saint John&#39;S
+## 3              2.58      15.43       1.97          12.36  3    Abu Dhabi
+## 4              2.58      15.43       1.97          12.36  4        Dubai
+## 5              2.58      15.43       1.97          12.36  5      Sharjah
+##   population capital facts_id
+## 1      37000       1      216
+## 2      27000       1        6
+## 3     942000       1      184
+## 4    1978000       0      184
+## 5     983000       0      184</code></pre>
+<p>Our aliases can actually be combined with wildcards. If we wanted to
+select all of the columns from cities in the SELECT portion, we would
+write c.*. Doing so allows us to be able to be more explicit in our
+queries.</p>
+<div id="exercise-7" class="section level4">
+<h4>Exercise:</h4>
+<p>Write a query that:</p>
+<ol style="list-style-type: decimal">
+<li>Joins cities to facts using an INNER JOIN.</li>
+<li>Uses aliases for table names.</li>
+<li>Includes, in order:</li>
+</ol>
+<ul>
+<li>All columns from cities.</li>
+<li>The name column from facts aliased to country_name.</li>
+</ul>
+<ol start="4" style="list-style-type: decimal">
+<li>Includes only the first 5 rows.</li>
+</ol>
+<pre><code>SELECT c.*, f.name country_name FROM facts f
+INNER JOIN cities c ON c.facts_id = f.id
+LIMIT 5;</code></pre>
+</div>
 </div>
 </div>
 </div>
