@@ -9,6 +9,8 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+Talk about group project
+
 # Lecture 11
 
 A query is a request for information from a database. Note that SQL and MySQL are not the same, as the latter is a software extension that uses SQL.
@@ -552,4 +554,152 @@ WHERE c.capital = 1
 dbGetQuery(con, 'SELECT f.name country, c.name capital_city FROM cities c
 INNER JOIN facts f ON f.id = c.facts_id
 WHERE c.capital = 1 LIMIT 5')
+```
+
+### 2.2 Left Join
+An inner join excludes any rows where there is not a mutual match from both tables. We can confirm this with some simple SQL queries:
+```
+SELECT COUNT(DISTINCT(name)) FROM facts;
+```
+```{r echo=F}
+dbGetQuery(con, 'SELECT COUNT(DISTINCT(name)) FROM facts;')
+```
+```
+SELECT COUNT(DISTINCT(facts_id)) FROM cities;
+```
+```{r echo=F}
+dbGetQuery(con, 'SELECT COUNT(DISTINCT(facts_id)) FROM cities;')
+```
+These results confirm that some countries in the facts table don't have corresponding rows in the cities table. Missing data should always be a point of investigation for data scientists. If we wanted to look at the cities in facts that don't have matching cities, we would need a different type of join to look at them — the <b>left join</b>.
+
+In addition to the rows with matches that an inner join will select, a left join will also include rows from the first (or left) table that don't have a match.
+
+<img class="fragment" src="../pics/lecture11_3.png" width = 900>  
+
+Let's look at an example by replacing INNER JOIN with LEFT JOIN from the first query we wrote. We've also visualized this result below, and it's easy to see the difference that the left join creates.
+
+```
+SELECT * FROM facts
+LEFT JOIN cities ON cities.facts_id = facts.id
+```
+```{r echo=F}
+dbGetQuery(con, 'SELECT * FROM facts
+LEFT JOIN cities ON cities.facts_id = facts.id LIMIT 5;')
+```
+
+For rows in facts that don't have a matching fact_id in cities, SQL populates these empty spaces with null values.
+
+These null values can be used to filter our results in convenient ways. If we wanted to get back to our inner join result, we could add in a WHERE clause to exclude rows where any of the data from the cities table is NULL.
+```
+WHERE column_name_in_cities IS NOT NULL
+```
+Notice that instead of using = to see if a value was NULL, we need the keyword IS. Likewise, filtering for rows where the cities data was NULL will allow us to look at the data that didn't match.
+```
+WHERE column_name_in_cities IS NULL
+```
+Let's use a left join to explore the countries that don't exist in the cities table.
+
+#### Exercise:
+Write a query that returns the countries that don't exist in cities.
+
+1. Your query should return two columns:
+  - The country names, with the alias country.
+  - The country population.
+2. Use a LEFT JOIN to join cities to facts.
+3. Include only the countries from facts that don't have a corresponding value in cities.
+
+```
+SELECT f.name country, f.population
+FROM facts f
+LEFT JOIN cities c ON c.facts_id = f.id
+WHERE c.name IS NULL;
+```
+```{r echo=F}
+dbGetQuery(con, 'SELECT f.name country, f.population
+FROM facts f
+LEFT JOIN cities c ON c.facts_id = f.id
+WHERE c.name IS NULL
+LIMIT 20;')
+```
+
+
+### 2.3 Uncommon Join
+There are a number of different reasons why countries may not have corresponding values in cities:
+
+- Some countries have small populations and/or no major urban areas (defined as having populations of over 750,000), e.g. San Marino, Kosovo, and Nauru.
+- Some rows are city-states, such as Monaco and Singapore.
+- Some rows are territories that are not themselves countries, such as Hong Kong, Gibraltar, and the Cook Islands.
+
+There are two other types of joins that you should be aware of. <b>SQLite does not support these types of joins</b>, so unfortunately you won't be able to practice them, but they are still important to know nonetheless.
+
+The first is a right join. A right join performs the opposite operation of a left join, and it will include all the rows of the inner join in addition to rows in cities that did not have a match.
+
+Right joins are mainly used when you are joining more than two tables. In these cases, using a right join is preferable because it can avoid restructuring your whole query to join one table. Outside of this context, right joins are rarely used. In most cases, left and inner joins will perform the task well enough.
+
+The other join type not supported by SQLite is a full outer join. You can think of a full outer join as a combination of both a left and right join. Not only will we get rows with matched IDs, we'll get the unmatched data from both facts and cities.
+
+Like right joins, full outer joins are reasonably uncommon. Similar results can be achieved using a union clause. The standard SQL syntax for a full outer join is:
+
+```
+SELECT f.name country, c.name city
+FROM cities c
+FULL OUTER JOIN facts f ON f.id = c.facts_id
+LIMIT 5;
+```
+```{r echo=F}
+dbGetQuery(con, 'SELECT f.name country, c.name city
+FROM cities c
+FULL OUTER JOIN facts f ON f.id = c.facts_id
+LIMIT 30;')
+```
+
+### 2.4 Application
+Let's use what we've learned to produce a list of the top 10 capital cities by population. Remember that capital is a boolean column containing 1 or 0, depending on whether a city is a capital or not. We want the most populated capital cities, so you'll also need to sort the results with ORDER BY.
+
+Before we dive into the query, you can apply a useful shortcut to shorten your code. Previously, we used column names to specifying how the query results should be ordered, like so:
+```
+SELECT name, migration_rate FROM FACTS
+ORDER BY migration_rate DESC;
+```
+```{r echo=F}
+dbGetQuery(con, 'SELECT name, migration_rate FROM FACTS
+ORDER BY migration_rate DESC LIMIT 5;')
+```
+
+Instead of using the column name migration_rate, we could have also indicated a number to reflect a column in the SELECT clause. For example, migration_rate is the second column specified, so we can write 2 in the ORDER BY clause instead, and it will still have the same effect:
+```
+SELECT name, migration_rate FROM FACTS
+ORDER BY 2 DESC;
+```
+```{r echo=F}
+dbGetQuery(con, 'SELECT name, migration_rate FROM FACTS
+ORDER BY 2 DESC LIMIT 5;')
+```
+
+This shortcut can be used in either the ORDER BY or GROUP BY clauses. However, in taking shortcuts, you should always be mindful of the readability of your queries. Brevity is great in the moment, but if we can't read our queries in the future, it loses its utility.
+
+We won't specify which join type you should use here. Take some time to think about the question and the query needed to answer it.
+#### Exercise:
+Write a query that returns the 10 capital cities with the highest population ranked from biggest to smallest population.
+
+- Include the following columns, in order:
+
+1. capital_city, the name of the city.
+2. country, the name of the country the city is from.
+3. population, the population of the city.
+```
+SELECT c.name capital_city, f.name country, c.population
+FROM facts f
+INNER JOIN cities c ON c.facts_id = f.id
+WHERE c.capital = 1
+ORDER BY 3 DESC
+LIMIT 10;
+```
+```{r echo=F}
+dbGetQuery(con, 'SELECT c.name capital_city, f.name country, c.population
+FROM facts f
+INNER JOIN cities c ON c.facts_id = f.id
+WHERE c.capital = 1
+ORDER BY 3 DESC
+LIMIT 10;')
 ```
