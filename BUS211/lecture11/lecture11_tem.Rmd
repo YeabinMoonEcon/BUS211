@@ -474,10 +474,9 @@ LIMIT 10;')
 
 
 ### 2.1 Inner join I
-An inner join only includes rows from both tables that have a match as specified by the ON clause. If we were to think about the collection of all IDs from facts.id and from cities.facts_id, an inner join works by selecting all of the rows from facts where an ID was in <b>both</b> facts.id and cities.facts_id. 
+An inner join only includes rows from both tables that have a match as specified by the ON clause. If we were to think about the collection of all IDs from facts.id and from cities.facts_id, an inner join works by selecting all of the rows from facts where an ID was in <b>both</b> facts.id and cities.facts_id. This is easily represented as a Venn diagram:
 
-You might think it as the union of the two sets.
-<img class="fragment" src="pics/lecture11_1.png" width = 500>  
+<img class="fragment" src="../pics/lecture11_2.png" width = 500>  
 
 We learned how to use aliases to specify custom names for columns:
 ```
@@ -509,4 +508,48 @@ Write a query that:
 SELECT c.*, f.name country_name FROM facts f
 INNER JOIN cities c ON c.facts_id = f.id
 LIMIT 5;
+```
+```{r echo=FALSE}
+dbGetQuery(con, 'SELECT c.*, f.name country_name FROM facts f
+INNER JOIN cities c ON c.facts_id = f.id
+LIMIT 5;')
+```
+
+
+### 2.1 Inner join II
+```{r}
+dbGetQuery(con, 'SELECT * FROM facts LIMIT 5;')
+dbGetQuery(con, 'SELECT * FROM cities LIMIT 5;')
+```
+Let's try answering another question with inner joins. The facts table contains countries, while cities contains some of these countries' capitals. Using inner joins, we can create a query to return a result that matches each capital to its respective country. Both contries and capitals are contained in the name column in their respective tables, so we'll SELECT them. 
+
+Now that we know what we want, we just need to join them. The tables are still linked in the same way, so we can use the same inner join with these columns to join the data:
+```
+SELECT f.name, c.name FROM cities c
+INNER JOIN facts f ON f.id = c.facts_id
+```
+```{r echo=F}
+dbGetQuery(con, 'SELECT f.name, c.name FROM cities c
+INNER JOIN facts f ON f.id = c.facts_id LIMIT 5;')
+```
+We're not completely done, though. We're only interested in capital cities, so we'll need a WHERE clause to properly filter the data. In the cities table, the capital column is binary: 1 if the city is a capital city and 0 otherwise. This seems like it'd be the perfect candidate to allow us to finish our query:
+```
+WHERE c.capital = 1
+```
+We can now put this all together to write a query that answers our question.
+
+#### Exercise:
+1. Write a query that returns, in order:
+  - A column of country names, called country.
+  - A column of each country's capital city, called capital_city.
+2. Use an INNER JOIN to join the two tables in your query.
+```
+SELECT f.name country, c.name capital_city FROM cities c
+INNER JOIN facts f ON f.id = c.facts_id
+WHERE c.capital = 1
+```
+```{r echo=F}
+dbGetQuery(con, 'SELECT f.name country, c.name capital_city FROM cities c
+INNER JOIN facts f ON f.id = c.facts_id
+WHERE c.capital = 1 LIMIT 5')
 ```
