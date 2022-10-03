@@ -372,62 +372,67 @@ pre code {
 
 <div id="lecture-11" class="section level1">
 <h1>Lecture 11</h1>
+<p>A query is a request for information from a database. Note that SQL
+and MySQL are not the same, as the latter is a software extension that
+uses SQL.</p>
+<p>In R, the basic approach to a database is:</p>
+<ul>
+<li>Connect to db: con &lt;- dbConnect(SQL choice, ‘database’)</li>
+<li>See the data sets inside: dbListTables(con)</li>
+<li>Communicate through a qurey: dbGetQuery(con, ‘qurey’)</li>
+</ul>
 <div id="aggregate-function" class="section level2">
 <h2>1. Aggregate function</h2>
 <pre class="r"><code>library(RSQLite)
 setwd(&quot;~/Documents/ibs_course/BUS211/lecture11&quot;) # Set your path here</code></pre>
-<p>Consider the question: What is the lowest proportion of women on the
-recent_grads table?</p>
+<p>Note again you don’t need to set up the path when you work with
+online dababase. See the example in DataCamp</p>
+<pre><code>con &lt;- dbConnect(RMySQL::MySQL(), 
+                 dbname = &quot;tweater&quot;, 
+                 host = &quot;courses.csrrinzqubik.us-east-1.rds.amazonaws.com&quot;, 
+                 port = 3306,
+                 user = &quot;student&quot;,
+                 password = &quot;datacamp&quot;)</code></pre>
+<p>Now consider the following question</p>
+<pre><code>What is the lowest proportion of women on the recent_grads table?</code></pre>
+<p>Recall that ShareWomen gives us the proportion of women
+graduates.</p>
 <p>One of way of thinking about this question is that we want to
-“determine the minimum value of ShareWomen” — recall that ShareWomen
-gives us the proportion of women graduates.</p>
+“determine the minimum value of ShareWomen”</p>
 <pre class="r"><code>con &lt;- dbConnect(SQLite(), &#39;jobs.db&#39;)
 dbListTables(con)</code></pre>
 <pre><code>## [1] &quot;recent_grads&quot;</code></pre>
-<pre class="r"><code>dbGetQuery(con, &#39;SELECT * FROM recent_grads 
+<pre class="r"><code>dbGetQuery(con, &#39;SELECT ShareWomen FROM recent_grads 
                  ORDER BY ShareWomen
                  LIMIT 3&#39;)</code></pre>
-<pre><code>##   index Rank Major_code                                  Major
-## 1    65   66       2599 MISCELLANEOUS ENGINEERING TECHNOLOGIES
-## 2    61   62       3603                      MOLECULAR BIOLOGY
-## 3    31   32       2500               ENGINEERING TECHNOLOGIES
-##           Major_category Total Sample_size   Men Women ShareWomen Employed
-## 1            Engineering  8804         125   124     0 0.00000000     7502
-## 2 Biology &amp; Life Science 18300          90  4419   371 0.07745303    11581
-## 3            Engineering  3600          39 16820  1678 0.09071251     2799
-##   Full_time Part_time Full_time_year_round Unemployed Unemployment_rate Median
-## 1      7001      1240                 5825        416        0.05253852  40000
-## 2      9441      4590                 6183       1067        0.08436116  40000
-## 3      2257       689                 1723        163        0.05503039  50000
-##   P25th P75th College_jobs Non_college_jobs Low_wage_jobs
-## 1 30400 56000         2446             3896           386
-## 2 29000 47000         7225             3145          1168
-## 3 43000 60000         1017             1269           142</code></pre>
+<pre><code>##   ShareWomen
+## 1 0.00000000
+## 2 0.07745303
+## 3 0.09071251</code></pre>
 <p>Looking at the sample above, we see that the three lowest ShareWomen
 values are roughly 0.09, 0.07 and 0, so the minimum is 0. Here’s how we
 can use SQL to answer this question:</p>
 <pre><code>SELECT MIN(ShareWomen) 
   FROM recent_grads;</code></pre>
-<p>Try running this (without submitting your answer) in the code editor.
-You should see the following result.</p>
 <pre><code>##   MIN(ShareWomen)
 ## 1               0</code></pre>
 <p>It doesn’t actually tell us what those majors are — we only know them
 because we singled out the three majors with fewer women than men. In a
 typical table, there are too many rows to find an answer just by
 looking.</p>
-<p>A key idea in SQL is that every result is a table. This is a common
-visual representation that makes SQL approachable for more users.
-However, this means that users must convert datasets and calculations
-that aren’t well suited for this representation in a SQL
+<div id="a-key-idea-in-sql-is-that-every-result-is-a-table" class="section level4">
+<h4>A key idea in SQL is that every result is a table</h4>
+<p>This is a common visual representation that makes SQL approachable
+for more users. However, this means that users must convert datasets and
+calculations that aren’t well suited for this representation in a SQL
 environment.</p>
 <pre class="r"><code>class(dbGetQuery(con, &#39;SELECT MIN(ShareWomen) 
                        FROM recent_grads&#39;))</code></pre>
 <pre><code>## [1] &quot;data.frame&quot;</code></pre>
 <p>In fact, MIN() is called an <b>aggregate function</b>. Aggregate
-functions apply over columns of values and return a single value. The
-MIN and MAX functions, for example, calculate and return the minimum and
-maximum values in a column.</p>
+functions apply over columns of values and return <b>a single value</b>.
+The MIN and MAX functions, for example, calculate and return the minimum
+and maximum values in a column.</p>
 <p>Some other commonly used aggregate functions include the
 following:</p>
 <ul>
@@ -435,16 +440,18 @@ following:</p>
 <li>COUNT — counts the number of values in its input.</li>
 <li>SUM — sums the values in its input.</li>
 </ul>
-<p>Note the use of capital letters for the functions’ names. This isn’t
-necessary to run the query, but it’s a common convention that functions
-(just like other reserved words) should be uppercase. You should also
-use uppercase letters so the answer-checker can correctly validate your
-answer.</p>
+<p>Note the use of capital letters for the functions’ names. This is
+<b>not necessary</b> to run the query, but it’s a common convention that
+functions (just like other reserved words) should be uppercase. You
+should also use uppercase letters so the answer-checker can correctly
+validate your answer.</p>
+</div>
 <div id="exercise" class="section level3">
 <h3>Exercise:</h3>
 <p>Write a query that computes the sum of the Total column.</p>
-<pre><code>SELECT SUM(Total)
-FROM recent_grads</code></pre>
+<pre><code>Try to think about what qurey would return the following result.</code></pre>
+<pre><code>##   SUM(Total)
+## 1    6776015</code></pre>
 </div>
 </div>
 <div id="query-syntax" class="section level2">
@@ -460,20 +467,27 @@ WHERE ShareWomen &gt; 0.5;</code></pre>
 ## 4                   NURSING</code></pre>
 <p>Then, consider the question: How many majors included mostly women?
 We need an aggregate function:</p>
-<pre><code>SELECT COUNT(Major)
-FROM recent_grads
-WHERE ShareWomen &gt; 0.5;</code></pre>
+<pre><code>What is the aggregate function we need to use here?</code></pre>
+<pre><code>##   COUNT(Major)
+## 1           97</code></pre>
 <div id="exercise-1" class="section level3">
 <h3>Exercise:</h3>
 <p>Write a query that returns the number of majors that include mostly
 men.</p>
-<pre><code>SELECT COUNT(Major)
-FROM recent_grads
-WHERE ShareWomen &lt; 0.5</code></pre>
+<pre><code>Try to think about what qurey would return the following result.</code></pre>
+<pre><code>##   COUNT(Major)
+## 1           76</code></pre>
 <p>We can select multiple columns by including their names with commas,
 like this:</p>
 <pre><code>SELECT Major, Major_category
-FROM recent_grads;</code></pre>
+FROM recent_grads
+LIMIT 5;</code></pre>
+<pre><code>##                                       Major Major_category
+## 1                     PETROLEUM ENGINEERING    Engineering
+## 2            MINING AND MINERAL ENGINEERING    Engineering
+## 3                 METALLURGICAL ENGINEERING    Engineering
+## 4 NAVAL ARCHITECTURE AND MARINE ENGINEERING    Engineering
+## 5                      CHEMICAL ENGINEERING    Engineering</code></pre>
 <p>We can use the same principle to combine multiple aggregation
 functions into a single query:</p>
 <pre><code>SELECT MIN(Median), MAX(Median), SUM(Total)
@@ -503,6 +517,8 @@ quotation marks:</p>
 FROM recent_grads;</code></pre>
 <pre><code>##   Total Students
 ## 1        6776015</code></pre>
+<pre><code>The following qurey would not work in R. Why?
+&#39;SELECT SUM(Total) AS &#39;Total Students&#39;  FROM recent_grads;&#39;</code></pre>
 <p>We can drop AS entirely and just add the name next to the original
 column:</p>
 <pre><code>SELECT SUM(Total) &#39;Total Students&#39;
@@ -539,8 +555,9 @@ ORDER BY ur DESC</code></pre>
 <li>The maximum value of Unemployment_rate as Highest Unemployment
 Rate</li>
 </ul>
-<pre><code>SELECT COUNT(*) as &#39;Number of Majors&#39;, MAX(Unemployment_rate) as &#39;Highest Unemployment Rate&#39;
-FROM recent_grads</code></pre>
+<pre><code>Try to think about what qurey would return the following result.</code></pre>
+<pre><code>##   Number of Majors Highest Unemployment Rate
+## 1              173                 0.1772264</code></pre>
 </div>
 </div>
 <div id="distinct-statement" class="section level2">
@@ -601,19 +618,17 @@ alias unique_major_categories.</li>
 <li>For the unique value count of the Major_code column, use the alias
 unique_major_codes.</li>
 </ul>
-<pre><code>SELECT COUNT(DISTINCT Major) AS unique_majors,
-       COUNT(DISTINCT Major_category) AS unique_major_categories,
-       COUNT(DISTINCT Major_code) AS unique_major_codes
-       FROM recent_grads;</code></pre>
+<pre><code>Try to think about what qurey would return the following result.</code></pre>
+<pre><code>##   unique_majors unique_major_categories unique_major_codes
+## 1           173                      16                173</code></pre>
 </div>
 </div>
-<div id="data-type" class="section level2">
-<h2>5. Data type</h2>
-<p>Previously, we learned about aggregate functions. Aggregate functions
-take a column as input and return one value for the column. Now, we’ll
-learn about functions that, when we pass them a column as input, return
-(a transformation of the input) another column. The values of text
-columns are typically called strings.</p>
+<div id="column-result" class="section level2">
+<h2>5. Column result</h2>
+<p>Aggregate functions take a column as input and return one value for
+the column. Now, we’ll learn about functions that, when we pass them a
+column as input, return (a transformation of the input) <b>another
+column</b>. The values of text columns are typically called strings.</p>
 <p>We’ll start with the LENGTH function. Given a text column, the LENGTH
 function returns the number of characters in the input strings</p>
 <pre><code>SELECT Major,
@@ -640,10 +655,18 @@ numbers and other columns in WHERE clauses, we can also mix columns and
 constant strings when concatenating. For example:</p>
 <pre><code>SELECT &#39;Cat: &#39; || Major_category
 FROM recent_grads
-LIMIT 2;</code></pre>
-<pre><code>##   &quot;Cat: &quot; || Major_category
-## 1          Cat: Engineering
-## 2          Cat: Engineering</code></pre>
+LIMIT 10;</code></pre>
+<pre><code>##    &quot;Cat: &quot; || Major_category
+## 1           Cat: Engineering
+## 2           Cat: Engineering
+## 3           Cat: Engineering
+## 4           Cat: Engineering
+## 5           Cat: Engineering
+## 6           Cat: Engineering
+## 7              Cat: Business
+## 8     Cat: Physical Sciences
+## 9           Cat: Engineering
+## 10          Cat: Engineering</code></pre>
 <div id="exercise-4" class="section level3">
 <h3>Exercise:</h3>
 <p>Write a query that does the following:</p>
@@ -660,11 +683,29 @@ LIMIT 2;</code></pre>
 </ul></li>
 <li>Orders in descending order by the unemployment rate.</li>
 </ol>
-<pre><code>SELECT &#39;Major: &#39; || LOWER(Major) AS Major,
-       Total, Men, Women, Unemployment_rate,
-       LENGTH(Major) AS Length_of_name
-  FROM recent_grads
- ORDER BY Unemployment_rate DESC;</code></pre>
+<pre><code>Try to think about what qurey would return the following result.</code></pre>
+<pre><code>##                                                Major Total    Men  Women
+## 1                         Major: nuclear engineering  2573   2200    373
+## 2                       Major: public administration  5629   2947   2682
+## 3  Major: computer networking and telecommunications  7613   5291   2322
+## 4                         Major: clinical psychology  2838    568   2270
+## 5                               Major: public policy  5978   2695    905
+## 6                  Major: communication technologies 18035   2563  16346
+## 7              Major: mining and mineral engineering   756    679     77
+## 8    Major: computer programming and data processing  4168   3046   1122
+## 9                                   Major: geography 18480 173809 156118
+## 10                               Major: architecture 46420   9658   4582
+##    Unemployment_rate Length_of_name
+## 1          0.1772264             19
+## 2          0.1594906             21
+## 3          0.1518498             42
+## 4          0.1490482             19
+## 5          0.1284263             13
+## 6          0.1195115             26
+## 7          0.1172414             30
+## 8          0.1139826             40
+## 9          0.1134586              9
+## 10         0.1133319             12</code></pre>
 </div>
 </div>
 <div id="answer-the-question" class="section level2">
@@ -735,6 +776,10 @@ third, using the alias quartile_spread.</li>
 <li>Order the results from lowest to highest and only return the first
 20 results.</li>
 </ul>
+<pre><code>SELECT Major, Major_category, (P75th - P25th) AS quartile_spread
+FROM recent_grads
+ORDER BY quartile_spread
+LIMIT 20;</code></pre>
 </div>
 </div>
 </div>
