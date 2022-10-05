@@ -1,0 +1,404 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>BUS211:lecture12</title>
+
+		<link rel="stylesheet" href="../dist/reset.css">
+		<link rel="stylesheet" href="../dist/reveal.css">
+		<link rel="stylesheet" href="../dist/theme/black.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="../plugin/highlight/monokai.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section data-markdown>
+					<textarea data-template>
+						## Lecture 12
+						### BUS 211A-3<br>
+					
+					</textarea>
+				  </section>
+
+				<section>
+					Update: Homework
+					<ul>
+					<li class="fragment">You will get 0 point from now on:</li>
+					<ul>
+						<li class="fragment">use my name</li>
+						<li class="fragment">did not submit both R Markdown and html files</li>
+						<li class="fragment">read.csv()</li>
+						<li class="fragment">copy others' code</li>
+						<ul>
+							<li class="fragment">Question 2: ask how to parse</li>
+							<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+								graduation %>%
+  								mutate(
+								across(c(`Total Grads - % of cohort`, 
+											`Dropped Out - % of cohort`), as.numeric)
+								)
+								</code></pre>
+								<li class="fragment">But then, Question 5, use the parse function</li>
+								<li class="fragment">does not make any sense</li>
+						</ul>
+
+					</ul>
+				</ul>	
+				</section>
+
+				
+				<section>
+					Today: Fundamental of Database
+				</section>
+
+				<section>
+					<h4>Structured Query Language, <b>SQL</b></h4>
+					<ul>
+						<li class="fragment">One of the most popular technologies used by data professionals</li>
+						<li class="fragment">Understanding the fundamentals of a more general-purpose language like Python or R is critical for working with data</li>
+						<ul>
+							<li class="fragment">but knowing SQL helps data professionals do more with their data</li>
+			
+						</ul>
+						
+						
+					</ul>
+				</section>
+
+				<section>
+					<h3>A few takeaways</h3>
+					<ul>
+						<li class="fragment">SQL enables us to pull data from many sources</li>
+						
+						<ul>
+						<li class="fragment">data is distributed across many sources</li>
+						<li class="fragment">allows us to structure our data in a way that makes it accessible from one place</li>
+						<li class="fragment">SQL data is structured into multiple, connected tables</li>
+					</ul>
+						
+						<li class="fragment">Let's learn about the language itself and how you can use it to query data</li>
+						<li class="fragment">Discuss why we need to learn this</li>
+						
+					</ul>
+				</section>
+				
+				<section>
+					<h3>Database</h3>
+					<ul>
+						<li class="fragment">When we work with data, we load the data from files like spreadsheets</li>
+						<li class="fragment">We may run into problems: </li>
+						<ul>
+						<li class="fragment">What if the data is too big to fit into a single spreadsheet file?</li>
+						<li class="fragment">What if you share the data with team members and keep it updated?</li>
+						<li class="fragment">What if there's sensitive information in your data that needs protection?</li>
+					</ul>
+					<li class="fragment">Thankfully, these problems already have a solution: the database</li>
+					</ul>
+				</section>
+		
+
+				<section>
+					
+					<ul>
+						<li class="fragment">A database can store much more data more securely than a spreadsheet or a text file</li>
+						<li class="fragment">Unlike simply opening a spreadsheet, we actually have to <b>ask</b> for data from the database</li>
+						<li class="fragment">We primarily interact with a database using a database management system (DBMS) </li>
+						<ul>
+						<li class="fragment">a computer program to help users interact with data by giving the computer instructions through the DBMS</li>
+						</ul>
+						<li class="fragment">We'll begin learning SQL with the DBMS SQLite</li>
+						
+					</ul>
+				</section>
+
+				<section>
+					<img class="fragment" src="pics/lecture10_1.png" width = 500>  
+					<ul>
+						<li class="fragment">Explore data from the American Community Survey on job outcome that we loaded into a SQL database</li>
+						<ul>
+						<li class="fragment">a database, jobs.db, loaded with this data into a single table named recent_grads</li>
+					</ul>	
+
+				</section>
+
+
+				<section>
+					<ul>
+						<li class="fragment">Consider the SQL instruction (usually called a query)</li>
+						<ul>
+							<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+								SELECT * FROM recent_grads;
+								</code></pre>	
+						</ul>
+						<li class="fragment">This query selects all columns from the recent_grads table</li>
+						<li class="fragment">To run the query above in our interface, type the following code in the R script</li>
+						<ul>
+							<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+								library(RSQLite)
+								setwd("set your working directory")
+								con <- dbConnect(SQLite(), 'jobs.db')
+								dbListTables(con)
+								dbGetQuery(con, 'SELECT * FROM recent_grads')
+								</code></pre>	
+						</ul>
+						<li class="fragment">This will run the query against the database, display the results, and give feedback on your answer</li>
+						
+
+					</ul>
+						
+				</section>
+
+
+				<section>
+					<ul>
+						<li class="fragment">The process you used to visualize recent_grads breaks down into two steps:</li>
+						<ul>
+							<li class="fragment">Write a SQL query that expresses the request "fetch all the data in the table."</li>
+							<li class="fragment">Ask the SQLite DBMS software to run the code and display the results</li>
+							
+							
+							
+						</ul>
+						<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+							dbGetQuery(con, 'SELECT * FROM recent_grads;')
+							</code></pre>	
+							<ul>
+								<li class="fragment">SELECT * — the symbol * selects all the columns</li>
+								<li class="fragment">The table we wanted to query using FROM recent_grads</li>
+							</ul>
+						
+
+						<li class="fragment">The order and space are crucial features of SQL syntax</li>
+					</ul>
+						
+										
+				</section>
+
+
+				<section>
+					<img class="fragment" src="pics/lecture10_2.png" width = 400>  
+					
+						
+						<ul>
+							<li class="fragment">You may have noticed that SELECT and FROM use uppercase letters, but not required</li>
+							
+							<li class="fragment">Also, not sensitive to the line change and indentation</li>
+							<li class="fragment">Confirm that lines changes, capitalization, and indentation aren't crucial for the query to run</li>
+						</ul>
+					
+				</section>
+				<section>
+					<ul>
+						
+						<li class="fragment">SQL allows us to limit the number of rows we see by using the LIMIT clause</li>
+						<li class="fragment">Think of a clause as an optional reserved word that doesn't need to be in the code for the query to execute successfully</li>
+						<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+							dbGetQuery(con, 
+								"SELECT * FROM recent_grads LIMIT 3;")
+							</code></pre>	
+						<li class="fragment">Often, we'll only want to look at data from specific columns</li>
+						<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+							dbGetQuery(con, 
+								"SELECT Major, Major_category FROM recent_grads;")
+							</code></pre>	
+						
+						
+						<ul>
+						
+					</ul>
+
+					
+				</section>
+
+
+				<section>
+					<ul>
+						
+						<li class="fragment">SQL is a database-dependent language</li>
+						<ul>
+							<li class="fragment">the SQL that you're learning here (for SQLite) isn't the same as SQL for other DBMSs, like PostgreSQL or Oracle</li>
+							<li class="fragment">however, the different versions of SQL are more alike than they are different</li>	
+							<li class="fragment">for example, in T-SQL (Microsoft's SQL flavor), we would write the query above like this:</li>
+							<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+								SELECT TOP 3, * FROM recent_grads;
+								</code></pre>
+						</ul>						
+					</ul>
+				</section>
+
+				<section>
+					<ul>
+						<li class="fragment">Let's use SQL to answer a more specific question </li>
+						<ul>
+						<li class="fragment">which majors were mostly women? </li>
+						</ul>
+						<li class="fragment">Want the following subset</li>
+						<ul>
+							<li class="fragment">only the Major columns</li>
+							<li class="fragment">only the rows where ShareWomen is greater than 0.5 (corresponding to 50%)</li>
+						</ul>
+						<li class="fragment">We can use the WHERE statement</li>
+						<ul>
+							<li class="fragment">the column we want the database to filter on: ShareWomen</li>
+							<li class="fragment">A comparison operator that specifies how we want to compare a value in a column: >=
+							</li>
+							<li class="fragment">The value against which we want the database to compare each value: 0.5
+							</li>
+						</ul>
+						
+					</ul>
+				</section>
+
+				<section>
+					<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+						SELECT Major
+						FROM recent_grads
+						WHERE ShareWomen >= 0.5;
+						</code></pre>
+					<ul>
+						
+						<li class="fragment">We express the specific column we want in the SELECT part of the query and the specific rows we want in the WHERE part</li>
+						<li class="fragment">Note that most database systems require that the SELECT and FROM statements come first, before WHERE or any other statements</li>
+					
+					</ul>
+				</section>
+				<section>
+					<ul>
+						
+						<li class="fragment">Interpret the following code:</li>
+					<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+						SELECT Major
+						FROM recent_grads
+						WHERE Major_category == 'Engineering';
+						</code></pre>
+					
+						<li class="fragment">We can also use the AND operator to combine multiple filter criteria</li>
+						<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+							SELECT Major
+							FROM recent_grads
+							WHERE Major_category == 'Engineering'
+							AND ShareWomen > 0.5;
+							</code></pre>
+					</ul>
+				</section>
+				<section>
+					<ul>
+						
+						<li class="fragment">OR operator works similiary</li>
+					<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+						SELECT [column1, column2, ...]
+						FROM   [table1]
+						WHERE  [condition1]
+						OR     [condition2]
+						</code></pre>
+					
+						<li class="fragment">Evaluate logical operators: theory and practice</li>
+						<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+							WHERE Major_category = 'Engineering' 
+								  AND ShareWomen > 0.5 
+								  OR Unemployment_rate < 0.051
+							</code></pre>
+							<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+								WHERE (Major_category = 'Engineering' 
+									  AND ShareWomen > 0.5)
+									  OR (Unemployment_rate < 0.051)
+								</code></pre>
+								<li class="fragment">Leaving the parentheses out implies that we want the calculation to happen from left to right in the order we wrote the logic</li>
+								
+					</ul>
+				</section>
+
+				<section>
+					<ul>
+						
+						<li class="fragment">We may want more control over the ordering of the results</li>
+						<li class="fragment">We can specify the order using the ORDER BY clause</li>
+						<ul>
+							<li class="fragment">e.g. we may want to understand which majors that met the criteria in the WHERE statement had the lowest unemployment rate</li>
+						</ul>
+
+					<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+						SELECT Rank, Major, Major_category, ShareWomen, Unemployment_rate
+						FROM recent_grads
+						WHERE (Major_category = 'Engineering') 
+     					AND (ShareWomen > 0.5 OR Unemployment_rate < 0.051)
+						ORDER BY Unemployment_rate;
+						</code></pre>
+						<ul>
+						<li class="fragment">This will return the results in ascending order (increasing) by the Unemployment_rate column</li>
+						<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+							ORDER BY Unemployment_rate DESC;
+							</code></pre>
+					</ul>
+					</ul>
+				</section>
+
+				<section>
+					<ul>
+						
+						<li class="fragment">Let's practice going from question to answer using the SQL workflow</li>
+						<li class="fragment">Which engineering majors had the highest full time employment rates?</li>
+						<ul>
+							<li class="fragment">Write a query that returns the Engineering or Physical Sciences category, the major, and unemployment rate, listed in ascending order of unemployment rate</li>
+							<ul>
+								<li class="fragment">The results should only contain the Major_category, Major, and Unemployment_rate columns, in that order</li>
+								<li class="fragment">Remember to list the results in ascending order of unemployment rate</li>
+							</ul>
+						</ul>
+
+					<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+						SELECT Major_category, Major, Unemployment_rate
+						FROM recent_grads
+						WHERE Major_category = 'Engineering' OR Major_category = 'Physical Sciences'
+						ORDER BY Unemployment_rate;
+						</code></pre>
+					</ul>
+				</section>
+				<section>
+					Now, think about why we need to learn SQL
+				</section>
+				<section>
+					If the only purpose is to manipulate data, why do we need it?
+				</section>
+				<section>
+					Remember the first command dbConnect()
+				</section>
+				<section>
+					Send the queries to fetch data and work on your machine 
+				</section>
+				<section>
+					What if data is large?
+				</section>
+				<section>
+					Send the quries to fetch the subset of data would be much more efficient
+				</section>
+				<section>
+					Very popular in the Cloud world
+				</section>
+		</div>
+
+		<script src="../dist/reveal.js"></script>
+		<script src="../plugin/notes/notes.js"></script>
+		<script src="../plugin/markdown/markdown.js"></script>
+		<script src="../plugin/highlight/highlight.js"></script>
+		<script src="../plugin/math/math.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+				progress: false,
+				touch: true,
+				slideNumber: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX ]
+			});
+		</script>
+	</body>
+</html>
