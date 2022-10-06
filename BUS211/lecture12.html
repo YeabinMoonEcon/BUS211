@@ -185,8 +185,8 @@
 										parameter <- max(wnba$Games_Played)
 										parameter
 										[1] 32
-										sample <- sample(wnba$Games_Played, size = 30)
-										statistic <- max(sample)
+										sample_data <- sample(wnba$Games_Played, size = 30)
+										statistic <- max(sample_data)
 										[1] 31
 										sampling_error <- parameter - statistic
 										sampling_error
@@ -222,6 +222,68 @@
 									</ul>
 			
 									</section>
+
+
+									<section>
+										<ul>
+												<li class="fragment">In our previous exercise, we used the sample() function to sample randomly</li>	
+												<ul>
+													<li class="fragment">performs simple random sampling by taking a sample of the specified size from the elements of x</li>	
+													<li class="fragment">default argument for the function is replace = FALSE</li>	
+												</ul>
+												<li class="fragment">We can also use this function to randomly select columns when we have a table instead of a single vector</li>	
+
+												<ul>
+													<li class="fragment">sample_n() </li>	
+												</ul>
+		
+											</ul>
+					
+											</section>
+		
+											<section>
+												<ul>
+														<li class="fragment">How do we scale up our analysis to replicate 100 random samples?</li>	
+														<li class="fragment">To generate numerous random samples, we'll use the base R replicate() function</li>	
+		
+														<ul>
+															<li class="fragment">replicate(n, expr)</li>	
+															<ul>
+																<li class="fragment">n is the number of replications (random samples)</li>	
+																<li class="fragment">expr is a function call or formula</li>	
+															</ul>
+															<li class="fragment">replicate(n = 100, mean(wnba$PTS, size = 10)))</li>	
+														</ul>
+														
+													</ul>
+													<img src="pics/lecture12_10.png" class="fragment" width = 500> 
+													</section>
+													<section>
+														<img src="pics/lecture12_11.png" class="fragment" width = 500> 
+														<ul>
+															<li class="fragment">Because sample means vary a lot around the population mean, there's a good chance we get a sample that isn't representative of the population</li>	
+														</ul>
+
+
+													</section>
+													<section>
+														<img src="pics/lecture12_12.png" class="fragment" width = 500> 
+													</section>
+
+													<section>
+														<ul>
+															<li class="fragment">Simple random sampling isn't a reliable sampling method when the sample size is small</li>	
+															<ul>
+																<li class="fragment">Because sample means vary a lot around the population mean, there's a good chance we'll get an unrepresentative sample</li>	
+															</ul>
+															<li class="fragment">When we do simple random sampling, we should try to get as large a sample as possible</li>	
+															<ul>
+																<li class="fragment">A large sample decreases the variability of the sampling process, which, in turn, decreases the chances that we'll get an unrepresentative sample</li>	
+															</ul>
+														</ul>
+														
+													</section>
+		
 
 
 				</div>
