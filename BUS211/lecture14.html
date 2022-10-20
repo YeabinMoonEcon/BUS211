@@ -1,0 +1,345 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>BUS211:lecture14</title>
+
+		<link rel="stylesheet" href="../dist/reset.css">
+		<link rel="stylesheet" href="../dist/reveal.css">
+		<link rel="stylesheet" href="../dist/theme/black.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="../plugin/highlight/monokai.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section data-markdown>
+					<textarea data-template>
+						## Lecture 14: Data Leakage
+						### BUS 211A-3<br>
+					
+					</textarea>
+				  </section>
+
+				<section>
+					<h4>Homework</h4>
+					What is the law of large numbers?
+					</section>
+
+
+					<section>
+						What is data preparation?
+					</section>
+
+
+					<section>
+						<h4>Transforming raw data into a form appropriate for task</h4>
+					<ul>
+					<li class="fragment">When do we need to apply the techniques?</li>
+					<ul>
+					<li class="fragment">apply the transform on the entire dataset before evaluating the model?</li>
+					
+					<li class="fragment">may result in an incorrect estimate of model </li>
+					<ul>
+						<li class="fragment">referred to as data leakage</li>
+					</ul>
+
+					</ul>
+				</ul>
+		</section>
+
+				
+
+		<section>	
+		Discover how to avoid data leakage during data prepartaion when evaluating machine learning models
+		</section>
+
+				<section>
+					<h3>Learning from data</h3>
+					<ul>
+						<li class="fragment">Typically in data, we have colunmns
+						<ul>
+						<li class="fragment">an outcome measurement, usually <em>quantitative or categorical</em></li>
+						<li class="fragment">a set of <em>features</em></li>
+						</ul>
+						<li class="fragment">Rows
+							<ul>
+						<li class="fragment">a <em>training set</em> of data</li>
+						<ul>
+							<li class="fragment">using this, build a model, <em>learner</em></li>	
+						</ul>
+						<li class="fragment">a <em>test set</em> of data</li>
+						<ul>
+							<li class="fragment">using this, evalauate the models</li>	
+						</ul>
+						</ul>
+					</ul>			
+				</section>
+				
+				<section>
+					<h4>What's the models?</h4>
+					<ul>
+						<li class="fragment">Want to find some answers</li>
+						<ol>
+							<li class="fragment">uncover the certain relations</li>
+							<li class="fragment">predict value/answer</li>
+						</ol>
+						<li class="fragment">We judge the performance of a learning algorithm by evalutating how well it predicts the outcomes of data it hasn't seen before</li>
+						<li class="fragment">If we feed in data that the algorithm hasn't seen yet, we can get predictions and then compare them to the actual outcomes contained in the data</li>
+						
+					</ul>
+				</section>
+
+
+				<section>
+					<h4>Problem with Naive approach</h4>
+					<ul>
+						<li class="fragment">The question is when and how to split data</li>
+						<li class="fragment">A common appraoch is first apply some transforms to the entire dataset</li>
+						<ol>
+							<li class="fragment">Prepare data</li>
+							<li class="fragment">Split data</li>
+							<li class="fragment">Evaluate models</li>
+						</ol>
+						<li class="fragment">Data leakage is considered as information leakage</li>
+
+					</ul>
+				</section>
+
+				<section>
+					
+					<ul>
+						<li class="fragment">Consider the case where we want to normalize data</li>
+						<ul>
+							<li class="fragment">scale input variables to the range 0 and 1</li>
+							<li class="fragment">calculate min max values for the variable to scale</li>
+							<li class="fragment">if apply the entire data set first, the training set know something about the data in the test</li>
+						</ul>
+						
+
+					</ul>
+				</section>
+				<section>
+					Data preparation should be fit on the training set only
+				</section>
+
+				<section>
+					<h4>Modeling pipeline</h4>
+					<ul>
+						<li class="fragment">Should be prepared only on the training set to avoid data leakage</li>
+						<ol>
+							<li class="fragment">Split Data</li>
+							<li class="fragment">Fit Data Preparation on Training set</li>
+							<li class="fragment">Apply Data Preparation on Train and Test sets</li>
+							<li class="fragment">Evaluate models</li>
+						</ol>
+						<li class="fragment">Let's do some example here</li>
+
+					</ul>
+				</section>
+
+				
+
+				<section>
+					<h4>Example</h4>
+					<ul>
+						<li class="fragment">Suppose you are a tenant wondering: How should I determine a good price for my listing? </li>
+
+				
+						<li class="fragment">You have Airbnb dataset of listings in D.C. area</li>
+						<ul>
+							<li class="fragment">address, accomodates, bed/bath, night price, possible nights, reviews</li>
+						</ul>
+						<li class="fragment">Idea: group the similar units and price their averages</li>
+						<ul>
+							<li class="fragment">need to determine the similarity</li>
+							<li class="fragment">test whether it works on the test data</li>
+						</ul>
+					</ul>
+				</section>
+
+				<section>
+					<img src="pics/lecture14_1.png" class="fragment" width = 450> 
+				</section>
+				<section>
+					<img src="pics/lecture14_2.png" class="fragment" width = 450> 
+				</section>
+
+				<section>
+					<h4>Model Pipeline</h4>
+					<ul>
+						<li class="fragment">Split a dataset into two separate sets</li>						
+						<ul>
+							<li class="fragment">a training set which contains the majority of the data</li>
+							<li class="fragment">a test set which contains the rest of the data we will use to validate the model</li>
+							<ul>
+							<li class="fragment">how to split?</li>	
+							<li class="fragment">theoretically handcode the entire process</li>	
+							</ul>
+						</ul>
+						<li class="fragment">Data preparation</li>
+						<ul>
+							<li class="fragment">data vs. model</li>
+						</ul>
+					</ul>
+				</section>
+
+				<section>
+					<h4>Model Pipeline</h4>
+					<ul>
+						<li class="fragment">Train the algorithm using the training data</li>						
+						<ul>
+							<li class="fragment">running regression, possibly</li>
+							<li class="fragment">think about similarity</li>
+							<ul>
+							<li class="fragment">how to define?</li>	
+							<li class="fragment">features: number of rooms, potential stays </li>	
+							<li class="fragment">outcome: prices</li>	
+							<li class="fragment">find nearest neighbors</li>	
+							
+							</ul>
+						</ul>
+						<li class="fragment">Calculate the average price of its nearest neighbors in the test sets</li>
+							<ul>
+								<li class="fragment">These prices become the model's predictions</li></ul>	
+					</ul>
+				</section>
+				
+				<section>
+					<h4>Model Pipeline</h4>
+					<ul>
+						<li class="fragment">Compare these predictions against the actual values of the listings</li>						
+						<ul>
+							<li class="fragment">quantify the errors</li>
+							<li class="fragment">the holdout validation process</li>
+							
+						</ul>
+						<li class="fragment">Create a single summary error metric that we can use to judge the performance of the model</li>
+							<ul>
+								<li class="fragment">the root mean squared error (RMSE) is just one example</li></ul>	
+					</ul>
+				</section>
+
+				<section>Now, take a closer look at data clearning methods</section>
+
+				<section>
+					<h4>Basic Data Cleaning</h4>
+					
+					<ul>
+						<li class="fragment">Let's build your own manual</li>
+						<li class="fragment">We've used glimpse() and some data cleaning in homework</li>
+						<li class="fragment">Some structures might help, but no fancy techniques are necessary</li>
+						<li class="fragment">First, understanding your data should be required</li>
+					</ul>
+					
+				</section>
+
+				<section>
+					<h4>Roughly, we examine</h4>
+					
+					<ol>
+						<li class="fragment">Identify columns that contain a Single Value</li>
+						<li class="fragment">Delete Columns That Contain a Single Value </li>
+						<li class="fragment">Consider Columns That Have Very Few Values</li>
+						<li class="fragment">Remove Columns That Have A Low Variance</li>
+						<li class="fragment">Identify Rows that Contain Duplicate Data</li>
+						<li class="fragment">Delete Rows that Contain Duplicate Data</li>
+					</ol>
+					
+				</section>
+
+
+
+				<section>When a predictor contains a single value, we call this a zero-variance predictor because there truly is no variation displayed by the predictor, <em>Feature Engineering and Selection, 2019</em></section>
+
+				<section>
+					<h4>Single value column</h4>
+					<ul>
+						<li class="fragment">Suppose you find columns/features exactly what you want</li>
+						<li class="fragment">But the columns only have single value</li>
+						<ul><li class="fragment">e.g. all the individuals are male</li>
+							<li class="fragment">missing values are different story</li>
+						</ul>
+						<li class="fragment">Should we drop?</li>
+						<ul><li class="fragment">consider a simple regression</li></ul>
+						<li class="fragment">How do you identify them?</li>
+						<li class="fragment">How do you remove them?</li>
+					</ul>
+				</section>
+			
+				<section>
+					<h4>Columns that have very few values</h4>
+					<ul>
+						<li class="fragment">Suppose you want to use gender information as a key feature/input</li>
+						<li class="fragment">But the gender columns only have a few female</li>
+						<ul><li class="fragment">e.g. 99 percent are males</li>
+						</ul>
+						<li class="fragment">Should we drop?</li>
+						<ul><li class="fragment">consider again a simple regression</li></ul>
+						<li class="fragment">How about 95 percent?</li>
+						<li class="fragment">How about 90 percent?</li>
+						<li class="fragment">Depend on the model</li>
+						<ul><li class="fragment">flag them</li></ul>
+						<li class="fragment">How do you identify them?</li>
+					</ul>
+				</section>
+			
+
+				<section>
+					<h4>Low variance columns</h4>
+					<ul>
+						<li class="fragment">Expand the idea above</li>
+						<li class="fragment">Consider the variance of the column</li>
+						<ul><li class="fragment">variance of the unique value column?</li>
+						</ul>
+						<li class="fragment">Variance within column plays a key roles in regression analysis</li>
+						<ul><li class="fragment">why?</li>
+							<li class="fragment">Precision</li></ul>
+						<li class="fragment">Possible to filter the columns using the variance</li>
+							<ul><li class="fragment">variance threshold</li></ul>
+						<li class="fragment">Depending on the question, employ the feature transformations</li>
+					</ul>
+				</section>
+
+
+				<section>
+					<h4>Duplicate Data</h4>
+					<ul>
+						<li class="fragment">Removing duplicate data will be an important step in ensuring your data can be accurately used</li>
+						<li class="fragment">For example, if you are using a train/test split, then it is possible for a duplicate row or rows to appear in both train and test datasets and any evaluation of the model on these rows will be correct</li>
+						
+						<li class="fragment">How do we define it?</li>
+						<ul><li class="fragment">identifier / time </li>
+							<li class="fragment">must understand data first</li></ul>
+						<li class="fragment">How do you identify it?</li>
+							
+						<li class="fragment">How do you delete it?</li>
+					</ul>
+				</section>
+				
+			</div>
+
+		<script src="../dist/reveal.js"></script>
+		<script src="../plugin/notes/notes.js"></script>
+		<script src="../plugin/markdown/markdown.js"></script>
+		<script src="../plugin/highlight/highlight.js"></script>
+		<script src="../plugin/math/math.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+				progress: false,
+				touch: true,
+				slideNumber: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX ]
+			});
+		</script>
+	</body>
+</html>
