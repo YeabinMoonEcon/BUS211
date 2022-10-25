@@ -29,6 +29,9 @@
 					Any help?
 					</section>
 
+					<section>
+						1. Outliers
+					</section>
 
 					<section>
 						Sometimes a dataset can contain extreme values <br>that are outside the range of what is expected and unlike the other data
@@ -262,20 +265,97 @@
 				</section>
 
 				<section>
-					<h4>Duplicate Data</h4>
-					<ul>
-						<li class="fragment">Removing duplicate data will be an important step in ensuring your data can be accurately used</li>
-						<li class="fragment">For example, if you are using a train/test split, then it is possible for a duplicate row or rows to appear in both train and test datasets and any evaluation of the model on these rows will be correct</li>
-						
-						<li class="fragment">How do we define it?</li>
-						<ul><li class="fragment">identifier / time </li>
-							<li class="fragment">must understand data first</li></ul>
-						<li class="fragment">How do you identify it?</li>
-							
-						<li class="fragment">How do you delete it?</li>
-					</ul>
+					2. Missing data
+				</section>
+
+
+				<section>
+					Incomplete data is almost everywhere
+				</section>
+
+				<section>
+					Human errors?
+				</section>
+
+				<section>
+					Transfer problems occur when data is collected automatically
 				</section>
 				
+				<section>
+					Missing values, how to identify them?
+				</section>
+
+				<section>
+					Missing values, how to identify them?
+				</section>
+
+				<section>
+					Previously, we saw missing values in data: na, N/A, etc.
+				</section>
+
+				<section>
+					We can see how R recognizes these <br>using the is.na function
+				</section>
+
+				<section>
+					The problem is: missing values are imputed
+				</section>
+
+	<section>
+					<h4>Example</h4>
+				<ul>
+				<li class="fragment">Diabetes dataset that has been widely studied since the 1990s</li>
+				<li class="fragment">The dataset classifies patient data as either an onset of diabetes within five years or not</li>
+				<li class="fragment">You can learn more about the dataset here</li>
+				<ul>
+					<a href="https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.csv" target="_blank" class="fragment">Data set file</a><br>
+					<a href="https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.names" target="_blank" class="fragment">Metadata</a>
+				</ul>
+				</ul>
+				<img src="pics/lecture15_3.png" class="fragment" width = 450> 
+	</section>
+
+	<section>
+		<h4>How to detect missing values?</h4>
+		<img src="pics/lecture15_4.png" class="fragment" width = 900> 		
+		<ul>
+				<li class="fragment">Understand metadata, for sure</li>
+				<li class="fragment">Summary statistics narrow down the scope</li>
+				<ul>
+				<li class="fragment">on some columns, a value of zero does not make sense and indicates an invalid or missing value</li>
+				<ul>
+				
+			</ul>
+			</ul>
+				
+		</ul>
+		<img src="pics/lecture15_5.png" class="fragment" width = 700> 		
+				
+	</section>
+
+	<section>
+		<h4>How to detect missing values?</h4>
+		<ul>
+				<li class="fragment">X2, X3, X4, X5, X6 are suspicious</li>
+				<li class="fragment">Calculate the number of zeros for these columns</li>
+				<ul>
+				<li class="fragment">5, 35, 227, 374, 11</li>
+				<li class="fragment">what do you think?</li>
+				<ul>
+					<li class="fragment">Replace 0 values with NaN</li>
+			</ul>
+			</ul>
+				
+		</ul>
+		
+				
+	</section>
+
+
+	<section>
+
+		There are several possible cases to consider, depending on why the data are missing
+	</section>
 			</div>
 
 		<script src="../dist/reveal.js"></script>
