@@ -24,6 +24,20 @@
 					</textarea>
 				  </section>
 
+				  <section>
+					<h4>Homework questions</h4>
+					
+						<ul>
+						<li class="fragment">replicate(n, expr)</li>
+						<ul>
+						<li class="fragment">n is the number of replications (random samples)</li>
+						<li class="fragment">expr is a function call or formula</li>
+					</ul>
+						</ul>
+					
+					
+				  </section>
+
 
 					<section>
 						Datasets may have missing values, and this can cause problems for your analysis
@@ -245,8 +259,96 @@
 					</ul>
 				</section>
 			<section>Feature selection</section>	
+			
+			<section>Feature selection is the process of reducing the number of input variables when developing a model</section>
+			<section>It is desirable to reduce the number of input variables to both reduce the computational cost of modeling and, in many cases, to improve the performance of the model</section>
+			<section>Now we need to think about the model: relationship</section>
+			<section>
+				<h4>Think simpler</h4>
+				<ul>
+					<li class="fragment">Input / Target</li>
+					<li class="fragment">Independent / Dependent</li>
+					<li class="fragment">Sometimes, output is not necessary</li>
+					<ul>
+						<li class="fragment">grouping problems</li>
+					</ul>
+				</ul>
+			</section>
+		<section>
+			These methods can be fast and effective, although the choice of statistical measures depends on the data type of both the input and output variables
+		</section>
+		
+		<section>
+			What are the potential costs <br>when you have a large number of variables?</section>
+		<section>
+			<ul>
+				<li class="fragment">Slow the development and training of models and require a large amount of system memory</li>
+				<li class="fragment">The performance of some models can degrade</li>
+				<ul>
+					<li class="fragment">consider OLS</li>
+				</ul>
+			</ul>
+		</section>
+		
+	
+		<section>
+			<ul>
+				<li class="fragment">You have experienced feature selections</li>
+				<li class="fragment">Conceptually, two frameworks</li>
+				<ul>
+					<li class="fragment">Remove redundant variables</li>
+					<li class="fragment">Remove irrelevant variables</li>
+				</ul>
+			</ul>
+		</section>
+
+		<section>
+			<ul>
+				<li class="fragment">You have experienced feature selections</li>
+				<li class="fragment">Conceptually, two frameworks</li>
+				<ul>
+					<li class="fragment">Remove redundant variables</li>
+					<ul><li class="fragment">Unsupervised Selection</li></ul>
+					<li class="fragment">Remove irrelevant variables</li>
+					<ul><li class="fragment">Supervised Selection</li></ul>
+				</ul>
+			</ul>
+		</section>
+
+		<section>
+			<ul>
+				<li class="fragment">Consider the following situations</li>
+				<ul>
+					<li class="fragment">You have birth year and age variables separately</li>
+					<li class="fragment">What if they are not equal?</li>
+					<li class="fragment">How about the work experience?</li>
+					<ul><li class="fragment">conditioned on the level of education, age and work expereince would be highly correlated</li></ul>
+				</ul>
+				<li class="fragment">The problem of unsupervised selection is how to handle similar variables</li>
+				<ul>
+					<li class="fragment">correlation matrix among the features are handy</li>
+					<li class="fragment">need to set a threshold</li>
+				</ul>
+				</ul>
+		</section>
+
+		<section>
+			<ul>
+				<li class="fragment">Then, how do we determine the irrelevant variables?</li>
+				<ul>
+					<li class="fragment">Depend on your question/task</li>
+					<ul><li class="fragment">model</li></ul>
+					<li class="fragment">Ok, now I divide input/output variables. Correlation matrix? </li>
+					
+					<ul><li class="fragment">data type matters</li>
+					<li class="fragment">numeric value vs. categorical value </li></ul>
+				</ul>
 				
-			</div>
+				</ul>
+		</section>
+
+
+	</div>
 
 		<script src="../dist/reveal.js"></script>
 		<script src="../plugin/notes/notes.js"></script>
