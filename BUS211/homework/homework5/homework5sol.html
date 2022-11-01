@@ -618,6 +618,87 @@ df&lt;-patterns %&gt;%
 <h3>Question 12</h3>
 <p>Identify columns that contain a single (unique) value - if you found
 them, supply your intuition whether you want to keep or remove</p>
+<pre class="r"><code># Note that there are three data types
+glimpse(df)</code></pre>
+<pre><code>## Rows: 47,351
+## Columns: 33
+## $ placekey                                   &lt;chr&gt; &quot;222-222@62j-sgg-xdv&quot;, &quot;222…
+## $ parent_placekey                            &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA,…
+## $ location_name                              &lt;chr&gt; &quot;Reggie Lewis Center&quot;, &quot;Cup…
+## $ street_address                             &lt;chr&gt; &quot;1350 Tremont St&quot;, &quot;57 Trav…
+## $ city                                       &lt;chr&gt; &quot;Boston&quot;, &quot;Boston&quot;, &quot;Boston…
+## $ region                                     &lt;chr&gt; &quot;ma&quot;, &quot;ma&quot;, &quot;ma&quot;, &quot;ma&quot;, &quot;ma…
+## $ postal_code                                &lt;chr&gt; &quot;02120&quot;, &quot;02118&quot;, &quot;02210&quot;, …
+## $ safegraph_brand_ids                        &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA,…
+## $ brands                                     &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA,…
+## $ date_range_start                           &lt;dttm&gt; 2022-02-01 05:00:00, 2022-…
+## $ date_range_end                             &lt;dttm&gt; 2022-03-01 05:00:00, 2022-…
+## $ raw_visit_counts                           &lt;dbl&gt; 2595, 286, 1, 512, 22, 110,…
+## $ raw_visitor_counts                         &lt;dbl&gt; 1292, 126, 1, 270, 12, 76, …
+## $ visits_by_day                              &lt;chr&gt; &quot;[31,68,81,56,153,228,83,79…
+## $ poi_cbg                                    &lt;dbl&gt; 250250806012, 250250704021,…
+## $ visitor_home_cbgs                          &lt;chr&gt; &quot;{\&quot;250059856001\&quot;:10,\&quot;250…
+## $ visitor_home_aggregation                   &lt;chr&gt; &quot;{\&quot;25025080601\&quot;:14,\&quot;2501…
+## $ visitor_daytime_cbgs                       &lt;chr&gt; &quot;{\&quot;250056141011\&quot;:11,\&quot;250…
+## $ visitor_country_of_origin                  &lt;chr&gt; &quot;{\&quot;US\&quot;:1290}&quot;, &quot;{\&quot;US\&quot;:1…
+## $ distance_from_home                         &lt;dbl&gt; 37258, 10367, NA, 34183, 17…
+## $ median_dwell                               &lt;dbl&gt; 121.0, 67.0, 107.0, 65.0, 4…
+## $ bucketed_dwell_times                       &lt;chr&gt; &quot;{\&quot;&lt;5\&quot;:14,\&quot;5-10\&quot;:67,\&quot;1…
+## $ related_same_day_brand                     &lt;chr&gt; &quot;{\&quot;Dunkin&#39;\&quot;:5,\&quot;McDonald&#39;…
+## $ related_same_month_brand                   &lt;chr&gt; &quot;{\&quot;Dunkin&#39;\&quot;:54,\&quot;McDonald…
+## $ popularity_by_hour                         &lt;chr&gt; &quot;[5,4,6,2,2,3,15,40,119,289…
+## $ popularity_by_day                          &lt;chr&gt; &quot;{\&quot;Monday\&quot;:131,\&quot;Tuesday\…
+## $ device_type                                &lt;chr&gt; &quot;{\&quot;android\&quot;:251,\&quot;ios\&quot;:1…
+## $ normalized_visits_by_state_scaling         &lt;dbl&gt; 48169.1674, 5308.8177, 18.5…
+## $ normalized_visits_by_total_visits          &lt;dbl&gt; 1.335849e-04, 1.472266e-05,…
+## $ normalized_visits_by_total_visitors        &lt;dbl&gt; 2.102405e-04, 2.050333e-05,…
+## $ normalized_visits_by_region_naics_visits   &lt;dbl&gt; 3.074000e-03, 1.319132e-04,…
+## $ normalized_visits_by_region_naics_visitors &lt;dbl&gt; 6.953525e-03, 2.166698e-04,…
+## $ naics_code                                 &lt;dbl&gt; 713940, 722515, 3399, 71212…</code></pre>
+<pre class="r"><code># numeric columns all have positive variance, so no unique values
+df %&gt;% summarise_if(is.numeric, var, na.rm = T) </code></pre>
+<pre><code>## # A tibble: 1 × 11
+##   raw_visit_co…¹ raw_v…² poi_cbg dista…³ media…⁴ norma…⁵ norma…⁶ norma…⁷ norma…⁸
+##            &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+## 1       2989413.  1.16e6 2.57e13 3.37e10  19081.  8.63e8 7.84e-9 2.79e-8 6.85e-4
+## # … with 2 more variables: normalized_visits_by_region_naics_visitors &lt;dbl&gt;,
+## #   naics_code &lt;dbl&gt;, and abbreviated variable names ¹​raw_visit_counts,
+## #   ²​raw_visitor_counts, ³​distance_from_home, ⁴​median_dwell,
+## #   ⁵​normalized_visits_by_state_scaling, ⁶​normalized_visits_by_total_visits,
+## #   ⁷​normalized_visits_by_total_visitors,
+## #   ⁸​normalized_visits_by_region_naics_visits</code></pre>
+<pre class="r"><code># time variables are inherenetly irrelevant
+
+# Now focus on the character columns
+df_cha &lt;- df %&gt;%
+  select_if(is.character) 
+
+# Note that it has 20 columns
+ncol(df_cha)</code></pre>
+<pre><code>## [1] 20</code></pre>
+<pre class="r"><code># However, all the columns after &quot;brands&quot; are json-type files. So only 9 columns are of interest.
+
+
+# You might run the following codes for all the columns
+df_cha %&gt;% group_by(placekey) %&gt;% count(sort = T)  %&gt;% nrow()</code></pre>
+<pre><code>## [1] 9232</code></pre>
+<pre class="r"><code># See the description of the columns
+names(df_cha)</code></pre>
+<pre><code>##  [1] &quot;placekey&quot;                  &quot;parent_placekey&quot;          
+##  [3] &quot;location_name&quot;             &quot;street_address&quot;           
+##  [5] &quot;city&quot;                      &quot;region&quot;                   
+##  [7] &quot;postal_code&quot;               &quot;safegraph_brand_ids&quot;      
+##  [9] &quot;brands&quot;                    &quot;visits_by_day&quot;            
+## [11] &quot;visitor_home_cbgs&quot;         &quot;visitor_home_aggregation&quot; 
+## [13] &quot;visitor_daytime_cbgs&quot;      &quot;visitor_country_of_origin&quot;
+## [15] &quot;bucketed_dwell_times&quot;      &quot;related_same_day_brand&quot;   
+## [17] &quot;related_same_month_brand&quot;  &quot;popularity_by_hour&quot;       
+## [19] &quot;popularity_by_day&quot;         &quot;device_type&quot;</code></pre>
+<pre class="r"><code># If you read the data descriptions carefully, only two columns worth to look
+df_cha %&gt;% group_by(city) %&gt;% count(sort = T)  %&gt;% nrow()</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>df_cha %&gt;% group_by(region) %&gt;% count(sort = T)  %&gt;% nrow()</code></pre>
+<pre><code>## [1] 1</code></pre>
 </div>
 <div id="question-13" class="section level3">
 <h3>Question 13</h3>
@@ -625,6 +706,80 @@ them, supply your intuition whether you want to keep or remove</p>
 100 percent means it consists of only one number; 50 percent means the
 unique value consists of half of the column (for example [1, 1, 1, 2, 3,
 4])</p>
+<p>We have</p>
+<pre class="r"><code>names(df)</code></pre>
+<pre><code>##  [1] &quot;placekey&quot;                                  
+##  [2] &quot;parent_placekey&quot;                           
+##  [3] &quot;location_name&quot;                             
+##  [4] &quot;street_address&quot;                            
+##  [5] &quot;city&quot;                                      
+##  [6] &quot;region&quot;                                    
+##  [7] &quot;postal_code&quot;                               
+##  [8] &quot;safegraph_brand_ids&quot;                       
+##  [9] &quot;brands&quot;                                    
+## [10] &quot;date_range_start&quot;                          
+## [11] &quot;date_range_end&quot;                            
+## [12] &quot;raw_visit_counts&quot;                          
+## [13] &quot;raw_visitor_counts&quot;                        
+## [14] &quot;visits_by_day&quot;                             
+## [15] &quot;poi_cbg&quot;                                   
+## [16] &quot;visitor_home_cbgs&quot;                         
+## [17] &quot;visitor_home_aggregation&quot;                  
+## [18] &quot;visitor_daytime_cbgs&quot;                      
+## [19] &quot;visitor_country_of_origin&quot;                 
+## [20] &quot;distance_from_home&quot;                        
+## [21] &quot;median_dwell&quot;                              
+## [22] &quot;bucketed_dwell_times&quot;                      
+## [23] &quot;related_same_day_brand&quot;                    
+## [24] &quot;related_same_month_brand&quot;                  
+## [25] &quot;popularity_by_hour&quot;                        
+## [26] &quot;popularity_by_day&quot;                         
+## [27] &quot;device_type&quot;                               
+## [28] &quot;normalized_visits_by_state_scaling&quot;        
+## [29] &quot;normalized_visits_by_total_visits&quot;         
+## [30] &quot;normalized_visits_by_total_visitors&quot;       
+## [31] &quot;normalized_visits_by_region_naics_visits&quot;  
+## [32] &quot;normalized_visits_by_region_naics_visitors&quot;
+## [33] &quot;naics_code&quot;</code></pre>
+<p>Need to think about</p>
+<ol style="list-style-type: decimal">
+<li>whether I could calculate it for each column</li>
+<li>find the best possible algorithm for 1</li>
+<li>automate it? this is totally optional</li>
+</ol>
+<p>Focus on placekey first. What do we know?</p>
+<pre class="r"><code>df %&gt;% group_by(placekey) %&gt;% count(sort = T)</code></pre>
+<pre><code>## # A tibble: 9,232 × 2
+## # Groups:   placekey [9,232]
+##    placekey                n
+##    &lt;chr&gt;               &lt;int&gt;
+##  1 222-222@62j-qnz-nqz     8
+##  2 222-222@62j-qnz-s5z     8
+##  3 222-222@62j-qnz-td9     8
+##  4 222-222@62j-qnz-tjv     8
+##  5 222-222@62j-qnz-x3q     8
+##  6 222-222@62j-sg9-q9f     8
+##  7 222-222@62j-sgd-sdv     8
+##  8 222-222@62j-sgf-bhq     8
+##  9 222-222@62j-sgf-cyv     8
+## 10 222-222@62j-sgf-fj9     8
+## # … with 9,222 more rows</code></pre>
+<p>Use we need to find the maximum of the counts and divide it by its
+total count.</p>
+<p>Use summarize()</p>
+<pre class="r"><code>df %&gt;% count(placekey, sort = T) %&gt;% summarize(most_freq_share = max(n)/ sum(n) * 100)</code></pre>
+<pre><code>## # A tibble: 1 × 1
+##   most_freq_share
+##             &lt;dbl&gt;
+## 1          0.0169</code></pre>
+<p>Need to check using city</p>
+<pre class="r"><code>df %&gt;% count(city, sort = T) %&gt;% summarize(most_freq_share = max(n)/ sum(n) * 100)</code></pre>
+<pre><code>## # A tibble: 1 × 1
+##   most_freq_share
+##             &lt;dbl&gt;
+## 1             100</code></pre>
+<p>Even if you did not know any packages or for loop, it should be less
+than 40 lines of the code.</p>
 </div>
 <div id="question-14" class="section level3">
 <h3>Question 14</h3>
@@ -632,6 +787,55 @@ unique value consists of half of the column (for example [1, 1, 1, 2, 3,
 to put the variance thresholds on it. Note that the higher the
 threshold, the fewer features you can keep. Find out the optimal level
 of the threshold based on your understanding of this data.</p>
+<pre class="r"><code>names(df_cha)</code></pre>
+<pre><code>##  [1] &quot;placekey&quot;                  &quot;parent_placekey&quot;          
+##  [3] &quot;location_name&quot;             &quot;street_address&quot;           
+##  [5] &quot;city&quot;                      &quot;region&quot;                   
+##  [7] &quot;postal_code&quot;               &quot;safegraph_brand_ids&quot;      
+##  [9] &quot;brands&quot;                    &quot;visits_by_day&quot;            
+## [11] &quot;visitor_home_cbgs&quot;         &quot;visitor_home_aggregation&quot; 
+## [13] &quot;visitor_daytime_cbgs&quot;      &quot;visitor_country_of_origin&quot;
+## [15] &quot;bucketed_dwell_times&quot;      &quot;related_same_day_brand&quot;   
+## [17] &quot;related_same_month_brand&quot;  &quot;popularity_by_hour&quot;       
+## [19] &quot;popularity_by_day&quot;         &quot;device_type&quot;</code></pre>
+<pre class="r"><code>df %&gt;% summarise_if(is.numeric, var, na.rm = T) </code></pre>
+<pre><code>## # A tibble: 1 × 11
+##   raw_visit_co…¹ raw_v…² poi_cbg dista…³ media…⁴ norma…⁵ norma…⁶ norma…⁷ norma…⁸
+##            &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+## 1       2989413.  1.16e6 2.57e13 3.37e10  19081.  8.63e8 7.84e-9 2.79e-8 6.85e-4
+## # … with 2 more variables: normalized_visits_by_region_naics_visitors &lt;dbl&gt;,
+## #   naics_code &lt;dbl&gt;, and abbreviated variable names ¹​raw_visit_counts,
+## #   ²​raw_visitor_counts, ³​distance_from_home, ⁴​median_dwell,
+## #   ⁵​normalized_visits_by_state_scaling, ⁶​normalized_visits_by_total_visits,
+## #   ⁷​normalized_visits_by_total_visitors,
+## #   ⁸​normalized_visits_by_region_naics_visits</code></pre>
+<pre class="r"><code>df %&gt;% summarise_if(is.numeric, var, na.rm = T) %&gt;% min()</code></pre>
+<pre><code>## [1] 7.835138e-09</code></pre>
+<p>Should we care about the normalized columns?</p>
+<pre class="r"><code>df_num &lt;- df %&gt;%
+  select_if(is.numeric) 
+
+names(df_num)</code></pre>
+<pre><code>##  [1] &quot;raw_visit_counts&quot;                          
+##  [2] &quot;raw_visitor_counts&quot;                        
+##  [3] &quot;poi_cbg&quot;                                   
+##  [4] &quot;distance_from_home&quot;                        
+##  [5] &quot;median_dwell&quot;                              
+##  [6] &quot;normalized_visits_by_state_scaling&quot;        
+##  [7] &quot;normalized_visits_by_total_visits&quot;         
+##  [8] &quot;normalized_visits_by_total_visitors&quot;       
+##  [9] &quot;normalized_visits_by_region_naics_visits&quot;  
+## [10] &quot;normalized_visits_by_region_naics_visitors&quot;
+## [11] &quot;naics_code&quot;</code></pre>
+<pre class="r"><code>df_num &lt;- df_num %&gt;% select(-normalized_visits_by_state_scaling, -normalized_visits_by_total_visits) %&gt;%
+  select(-normalized_visits_by_region_naics_visits, -normalized_visits_by_region_naics_visitors, -normalized_visits_by_total_visitors)
+
+df_num %&gt;% summarise_if(is.numeric, var, na.rm = T) </code></pre>
+<pre><code>## # A tibble: 1 × 6
+##   raw_visit_counts raw_visitor_counts poi_cbg distance_from_home media…¹ naics…²
+##              &lt;dbl&gt;              &lt;dbl&gt;   &lt;dbl&gt;              &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+## 1         2989413.           1162989. 2.57e13       33721673966.  19081. 5.07e10
+## # … with abbreviated variable names ¹​median_dwell, ²​naics_code</code></pre>
 </div>
 </div>
 

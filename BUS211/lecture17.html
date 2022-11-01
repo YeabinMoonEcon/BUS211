@@ -1,0 +1,222 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>BUS211:lecture17</title>
+
+		<link rel="stylesheet" href="../dist/reset.css">
+		<link rel="stylesheet" href="../dist/reveal.css">
+		<link rel="stylesheet" href="../dist/theme/black.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="../plugin/highlight/monokai.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section data-markdown>
+					<textarea data-template>
+						## Lecture 17: Feature Selection
+						### BUS 211A-3<br>
+					
+					</textarea>
+				  </section>
+
+				  <section>
+					<h4>Homework questions</h4>
+					
+					<ul>Homework!</ul>
+					
+					
+				  </section>
+
+
+		
+			<section>Feature selection</section>	
+			
+			<section>Feature selection is the process of reducing the number of input variables when developing a model</section>
+			<section>It is desirable to reduce the number of input variables to both reduce the computational cost of modeling and improve the performance of the model</section>
+			<section>Now we need to think about the model: relationship</section>
+			<section>
+				<h4>Think simpler</h4>
+				<ul>
+					<li class="fragment">Input / Target</li>
+					<li class="fragment">Independent / Dependent</li>
+					<li class="fragment">Sometimes, output is not necessary</li>
+					<ul>
+						<li class="fragment">grouping problems</li>
+					</ul>
+				</ul>
+			</section>
+		<section>
+			These methods can be fast and effective, although the choice of statistical measures depends on the data type of both the input and output variables
+		</section>
+		
+		<section>
+			What are the potential costs <br>when you have a large number of variables?</section>
+		<section>
+			<ul>
+				<li class="fragment">Slow the development and training of models </li>
+				<li class="fragment">Require a large amount of system memory</li>
+				<li class="fragment">The performance of some models can degrade</li>
+				<ul>
+					<li class="fragment">Consider OLS</li>
+					<ul>
+						<li class="fragment">more features would increase the explantory power on the outcome</li>
+						<li class="fragment">however, effect of individual estimates would be poorer</li>
+					</ul>
+				</ul>
+			</ul>
+		</section>
+		
+	
+
+		<section>
+			<ul>
+				<li class="fragment">You have experienced feature selections</li>
+				<li class="fragment">Conceptually, two frameworks</li>
+				<ul>
+					<li class="fragment">Remove redundant variables</li>
+					<ul><li class="fragment">Unsupervised Selection</li></ul>
+					<li class="fragment">Remove irrelevant variables</li>
+					<ul><li class="fragment">Supervised Selection</li></ul>
+				</ul>
+			</ul>
+		</section>
+
+		<section>
+			<ul>
+				<li class="fragment">Consider the following situations</li>
+				<ul>
+					<li class="fragment">You have birth year and age variables separately</li>
+					<li class="fragment">What if they are not equal?</li>
+					<li class="fragment">How about the work experience?</li>
+					<ul><li class="fragment">conditioned on the level of education, age and work expereince would be highly correlated</li></ul>
+				</ul>
+				<li class="fragment">The problem of unsupervised selection is how to handle similar variables</li>
+				<ul>
+					<li class="fragment">correlation matrix among the features are handy</li>
+					<li class="fragment">need to set a threshold</li>
+				</ul>
+				</ul>
+		</section>
+
+		<section>
+			<ul>
+				<li class="fragment">Then, how do we determine the irrelevant variables?</li>
+				<ul>
+					<li class="fragment">Depend on your question/task</li>
+					<ul><li class="fragment">model</li></ul>
+					<li class="fragment">Ok, now I divide input/output variables. Correlation matrix? </li>
+					
+					<ul><li class="fragment">data type matters</li>
+					<li class="fragment">numeric value vs. categorical value </li></ul>
+				</ul>
+				
+			</ul>
+		</section>
+
+		<section>
+			Ok then, what's the model? <br>Revisit: Airbnb<br> Predict a price for a single listing with three rooms
+		</section>
+
+		<section>
+			How should we determine a good price for our listing?
+			<ul>
+				<li class="fragment">we looked at the <em>neighbors</em> to determine our rate</li>
+				<li class="fragment">use Euclidean distance to determine the distance</li>
+				<li class="fragment">$d = \sqrt{(x_1 - x_2)^2 + (y_1 - y_2)^2}$</li>
+				<li class="fragment">use the accommodates column to create a new distance column for our hypothetical rental listing with three rooms</li>
+				
+			</ul>
+			
+		</section>
+
+<section>
+	<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+		dc_listings <- read.csv('dc_airbnb.csv')
+		our_acc_value <- 3
+		dc_listings <- dc_listings %>%
+  						mutate(
+    							distance = abs(accommodates - our_acc_value)
+  								)
+
+		</code></pre>		
+		<img src="pics/lecture17_1.png" class="fragment" width = 700> 
+
+</section>
+
+<section>
+	<ul>
+		<li class="fragment">Since rental pricing can depend on many factors other than the number of accommodations, the predicted price we get won't be very useful</li>
+		<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+			distances <- pull(dc_listings, distance)
+			table(distances)
+			</code></pre>	
+	<ul>
+	<img src="pics/lecture17_2.png" class="fragment" width = 700> 
+
+	<li class="fragment">discovered a problem when there are many more <em>closest neighbors</em> than we need</li>
+	<li class="fragment">Use randomization to pick from these exact matches</li>
+
+</ul>
+</ul>
+</section>
+
+<section>
+	<ul>
+		<li class="fragment">We currently have no way of knowing if this prediction was good or not</li>
+		<li class="fragment">Learn how to evaluate the performance of our algorithm</li>
+		<ul>
+			<li class="fragment">apply to feature selection</li>
+		</ul>
+		<li class="fragment">Define what we mean by performance, and then look at how to calculate metrics to judge whether the model is <em>good</em> or not</li>
+		<li class="fragment">Start learning an incredibly handy R library called <b>caret</b></li>
+		
+		<ul>
+</section>
+
+<section>
+	<ul>
+		<li class="fragment">We judge the performance of an algorithm by evalutating how well it predicts the outcomes of data it hasn't seen before</li>
+		<ul>
+			<li class="fragment">different to the concept of $R^2$</li>
+		</ul>
+		<li class="fragment">We can think of an algorithm as a function that takes in data and outputs predictions</li>
+		
+		<li class="fragment">If we feed in data that the algorithm hasn't seen yet, we can get predictions and then compare them to the actual outcomes contained in the data</li>
+		<ul>
+			<li class="fragment">This process is called <b>holdout validation</b> </li>
+			<li class="fragment">it is a form of <b>cross-validation</b>, which is the more general name for evaluating model performance</li>
+		</ul>
+		
+		
+		
+		<ul>
+</section>
+
+	</div>
+
+		<script src="../dist/reveal.js"></script>
+		<script src="../plugin/notes/notes.js"></script>
+		<script src="../plugin/markdown/markdown.js"></script>
+		<script src="../plugin/highlight/highlight.js"></script>
+		<script src="../plugin/math/math.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+				progress: false,
+				touch: true,
+				slideNumber: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX ]
+			});
+		</script>
+	</body>
+</html>

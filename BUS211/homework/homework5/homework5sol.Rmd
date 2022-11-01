@@ -203,9 +203,97 @@ Let's do some basic data cleaning.
 ### Question 12
 Identify columns that contain a single (unique) value
     - if you found them, supply your intuition whether you want to keep or remove
+```{r}
+# Note that there are three data types
+glimpse(df)
+
+# numeric columns all have positive variance, so no unique values
+df %>% summarise_if(is.numeric, var, na.rm = T) 
+
+# time variables are inherenetly irrelevant
+
+# Now focus on the character columns
+df_cha <- df %>%
+  select_if(is.character) 
+
+# Note that it has 20 columns
+ncol(df_cha)
+
+# However, all the columns after "brands" are json-type files. So only 9 columns are of interest.
+
+
+# You might run the following codes for all the columns
+df_cha %>% group_by(placekey) %>% count(sort = T)  %>% nrow()
+
+# See the description of the columns
+names(df_cha)
+
+# If you read the data descriptions carefully, only two columns worth to look
+df_cha %>% group_by(city) %>% count(sort = T)  %>% nrow()
+df_cha %>% group_by(region) %>% count(sort = T)  %>% nrow()
+
+```
+
+
 
 ### Question 13
 Summarize the percentage of unique values for each column. That is, 100 percent means it consists of only one number; 50 percent means the unique value consists of half of the column (for example [1, 1, 1, 2, 3, 4]) 
 
+
+We have 
+```{r}
+names(df)
+```
+
+Need to think about
+
+1. whether I could calculate it for each column
+2. find the best possible algorithm for 1
+3. automate it? this is totally optional
+
+Focus on placekey first. What do we know?
+
+```{r}
+df %>% group_by(placekey) %>% count(sort = T)
+```
+
+Use we need to find the maximum of the counts and divide it by its total count.
+
+Use summarize()
+
+```{r}
+df %>% count(placekey, sort = T) %>% summarize(most_freq_share = max(n)/ sum(n) * 100)
+```
+
+Need to check using city 
+
+```{r}
+df %>% count(city, sort = T) %>% summarize(most_freq_share = max(n)/ sum(n) * 100)
+```
+
+Even if you did not know any packages or for loop, it should be less than 40 lines of the code.
+
 ### Question 14
 Now focus on the columns having the numeric values. Suppose you want to put the variance thresholds on it. Note that the higher the threshold, the fewer features you can keep. Find out the optimal level of the threshold based on your understanding of this data.
+
+```{r}
+names(df_cha)
+```
+
+
+
+```{r}
+df %>% summarise_if(is.numeric, var, na.rm = T) 
+df %>% summarise_if(is.numeric, var, na.rm = T) %>% min()
+```
+Should we care about the normalized columns?
+```{r}
+df_num <- df %>%
+  select_if(is.numeric) 
+
+names(df_num)
+df_num <- df_num %>% select(-normalized_visits_by_state_scaling, -normalized_visits_by_total_visits) %>%
+  select(-normalized_visits_by_region_naics_visits, -normalized_visits_by_region_naics_visitors, -normalized_visits_by_total_visitors)
+
+df_num %>% summarise_if(is.numeric, var, na.rm = T) 
+```
