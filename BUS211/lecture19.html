@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>BUS211:lecture17</title>
+		<title>BUS211:lecture19</title>
 
 		<link rel="stylesheet" href="../dist/reset.css">
 		<link rel="stylesheet" href="../dist/reveal.css">
@@ -18,410 +18,354 @@
 			<div class="slides">
 				<section data-markdown>
 					<textarea data-template>
-						## Lecture 17: Feature Selection
+						## Lecture 19: <br>Hypothesis Testing and categorical data
 						### BUS 211A-3<br>
 					
 					</textarea>
 				  </section>
 
 				  <section>
-					<h4>Homework questions</h4>
+					<h4>Group assignments</h4>
 					
-					<ul>Homework!</ul>
+					<ul>Please check the comments on Latte</ul>
 					
 					
 				  </section>
 
 
 		
-			<section>Feature selection</section>	
+			<section>Probability revisit</section>	
 			
-			<section>Feature selection is the process of reducing the number of input variables when developing a model</section>
-			<section>It is desirable to reduce the number of input variables to both reduce the computational cost of modeling and improve the performance of the model</section>
-			<section>Now we need to think about the model: relationship</section>
+			<section>We learned about some of the basic ideas behind probability and idea of feature selection</section>
+			
+			<section>Probability in a dice roll?</section>
+
+
+
+
 			<section>
-				<h4>Think simpler</h4>
+				<img src="pics/lecture19_1.png" class="fragment" width = 500>
 				<ul>
-					<li class="fragment">Input / Target</li>
-					<li class="fragment">Independent / Dependent</li>
-					<li class="fragment">Sometimes, output is not necessary</li>
+					<li class="fragment">The shape of this probability distribution is so common that it has been given a special name</li>
 					<ul>
-						<li class="fragment">grouping problems</li>
+						<li class="fragment">Uniform Distribution</li>
 					</ul>
+					<li class="fragment">Just by looking at a visualization, there's already a lot we can deduce about the random experiment without knowing any specific details about it</li>
+					
 				</ul>
 			</section>
-		<section>
-			These methods can be fast and effective, although the choice of statistical measures depends on the data type of both the input and output variables
+		
+			<section>
+				We need a convenient, mathematical way to express how probability is distributed since we won't always have a visualization to reference
 		</section>
 		
 		<section>
-			What are the potential costs <br>when you have a large number of variables?</section>
-		<section>
-			<ul>
-				<li class="fragment">Slow the development and training of models </li>
-				<li class="fragment">Require a large amount of system memory</li>
-				<li class="fragment">The performance of some models can degrade</li>
-				<ul>
-					<li class="fragment">Consider OLS</li>
-					<ul>
-						<li class="fragment">more features would increase the explantory power on the outcome</li>
-						<li class="fragment">however, effect of individual estimates would be poorer</li>
-					</ul>
-				</ul>
-			</ul>
+			Probability distribution function:<br> a function that takes in an outcome and gives the probability associated with that outcome.
 		</section>
-		
-	
-
-		<section>
+			<section>
+				<h4>PDF</h4>
 			<ul>
-				<li class="fragment">You have experienced feature selections</li>
-				<li class="fragment">Conceptually, two frameworks</li>
+				<li class="fragment">A function is useful here because it allows us to associate a single probability to a single outcome </li>
+				<li class="fragment">Conventionally, we'll denote a probability distribution function as P</li>
+				<li class="fragment"> Using $X$ to represent an outcome, we can represent the probability of dice</li>
 				<ul>
-					<li class="fragment">Remove redundant variables</li>
-					<ul><li class="fragment">Unsupervised Selection</li></ul>
-					<li class="fragment">Remove irrelevant variables</li>
-					<ul><li class="fragment">Supervised Selection</li></ul>
-				</ul>
-			</ul>
-		</section>
-
-		<section>
-			<ul>
-				<li class="fragment">Consider the following situations</li>
-				<ul>
-					<li class="fragment">You have birth year and age variables separately</li>
-					<li class="fragment">What if they are not equal?</li>
-					<li class="fragment">How about the work experience?</li>
-					<ul><li class="fragment">conditioned on the level of education, age and work expereince would be highly correlated</li></ul>
-				</ul>
-				<li class="fragment">The problem of unsupervised selection is how to handle similar variables</li>
-				<ul>
-					<li class="fragment">correlation matrix among the features are handy</li>
-					<li class="fragment">need to set a threshold</li>
-				</ul>
-				</ul>
-		</section>
-
-		<section>
-			<ul>
-				<li class="fragment">Then, how do we determine the irrelevant variables?</li>
-				<ul>
-					<li class="fragment">Depend on your question/task</li>
-					<ul><li class="fragment">model</li></ul>
-					<li class="fragment">Ok, now I divide input/output variables. Correlation matrix? </li>
+					<li class="fragment">$P(X) = \frac{1}{6}$ for $x$ in $[1,2,3,4,5,6]$</li>
 					
-					<ul><li class="fragment">data type matters</li>
-					<li class="fragment">numeric value vs. categorical value </li></ul>
+				</ul>
+			</ul>
+		</section>
+		
+		<section>Draw the PDF of sum of two dice rolls</section>
+
+		<section>
+			<h4>From Random Experiments To Actual Experiments
+			</h4>
+			<ul>
+				<li class="fragment">When we start learning about hypothesis testing, we'll need to understand how our data is distributed</li>
+				<li class="fragment">We can also think of gathering data as a random experiment in and of itself</li>
+				
+			</ul>
+		</section>
+
+		<section>
+			<ul>
+				<li class="fragment">Measure the weights of people in Brandeis</li>
+				<ul>
+					<li class="fragment">Weights are continuous values</li>
+					<li class="fragment">If pick a random person, we cannot say with certainty what their weight will be</li>
+					
+					<ul><li class="fragment">because we don't know what we will observe</li></ul>
+				</ul>
+				<li class="fragment">So, when we gather data of any sort on a single person, we are essentially performing a random experiment on them</li>
+				<li class="fragment">As we measure more and more people, we'll gather more and more data</li>
+				<li class="fragment">After we gather enough data, we can start to graph the <b>empirical distribution</b> of the data</li>
+
+				
+				</ul>
+		</section>
+
+		<section>The empirical distribution shows us how the data we measure is distributed and tells us the probability of seeing a particular value <b>in the data</b></section>
+		
+
+		
+		<section>
+			<img src="pics/lecture19_2.png" class="fragment" width = 500>
+			<ul>
+				<li class="fragment">As an example, hypothetical data on how fast the students write a course eavluation</li>
+				<ul>
+					<li class="fragment">Bell-shaped curve?</li>
+					
+					<li class="fragment">Symmetry?</li>
+					
+					
+				</ul>
+				
+			</ul>
+		</section>
+		
+		<section>
+			<ul>
+				<li class="fragment">Empirical distribution vs. probability distribution</li>
+				<ul>
+					<li class="fragment">What's the key differences?</li>
+					
+					<li class="fragment">As we collect data more people, we would expect our empirical distribution to start resembling the actual probability distribution </li>
+					<li class="fragment">Even though we can collect only a finite amount of data, we can still learn about its distribution</li>
+					
 				</ul>
 				
 			</ul>
 		</section>
 
 		<section>
-			Ok then, what's the model? <br>Revisit: Airbnb<br> Predict a price for a single listing with three rooms
+			Hypotheses and Hypothesis Testing
 		</section>
 
 		<section>
-			How should we determine a good price for our listing?
+			When we propose an idea for how the world works, we are making a <b>hypothesis</b>
+		</section>
+		<section>
+		A hypothesis is an attempt to explain a phenomenon based on limited evidence
+		</section>
+
+		<section>
+		An essential characteristic of all hypotheses is that they are <b>testable</b>
+		</section>
+		<section>
+			You can set up a process or experiment that will do only one of two things: support the hypothesis or reject it
+		</section>
+
+		<section>
+		One hypothesis corresponds to your own belief about the world, while the other corresponds to the contrary
+	</section>
+
+		<section>
+		Suppose we want to test the ad will either increase sells or it won't
+	</section>	
+
+		<section>
+			
 			<ul>
-				<li class="fragment">we looked at the <em>neighbors</em> to determine our rate</li>
-				<li class="fragment">use Euclidean distance to determine the distance</li>
-				<li class="fragment">$d = \sqrt{(x_1 - x_2)^2 + (y_1 - y_2)^2}$</li>
-				<li class="fragment">use the accommodates column to create a new distance column for our hypothetical rental listing with three rooms</li>
+				<li class="fragment">a natural experiment to devise would be to randomly divide up your website users into two populations</li>
+				<ul>
+				<li class="fragment">one set of users will see the new ad, while the second set will not see it</li>
+				</ul>
+				<li class="fragment">With these two groups in place, you'll measure how many people in each group engage with the ad</li>
+				<li class="fragment">What's the hypothesis?</li>
 				
 			</ul>
 			
 		</section>
-
-<section>
-	<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
-		dc_listings <- read.csv('dc_airbnb.csv')
-		our_acc_value <- 3
-		dc_listings <- dc_listings %>%
-  						mutate(
-    							distance = abs(accommodates - our_acc_value)
-  								)
-
-		</code></pre>		
-		<img src="pics/lecture17_1.png" class="fragment" width = 700> 
-
-</section>
-
-<section>
-	<ul>
-		<li class="fragment">Since rental pricing can depend on many factors other than the number of accommodations, the predicted price we get won't be very useful</li>
-		<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
-			distances <- pull(dc_listings, distance)
-			table(distances)
-			</code></pre>	
-	<ul>
-	<img src="pics/lecture17_2.png" class="fragment" width = 700> 
-
-	<li class="fragment">discovered a problem when there are many more <em>closest neighbors</em> than we need</li>
-	<li class="fragment">Use randomization to pick from these exact matches</li>
-
-</ul>
-</ul>
-</section>
-
-<section>
-	<ul>
-		<li class="fragment">We currently have no way of knowing if this prediction was good or not</li>
-		<li class="fragment">Learn how to evaluate the performance of our algorithm</li>
-		<ul>
-			<li class="fragment">apply to feature selection</li>
-		</ul>
-		<li class="fragment">Define what we mean by performance, and then look at how to calculate metrics to judge whether the model is <em>good</em> or not</li>
-		<li class="fragment">Start learning an incredibly handy R library called <b>caret</b></li>
-		
-		<ul>
-</section>
-
-<section>
-	<ul>
-		<li class="fragment">We judge the performance of an algorithm by evalutating how well it predicts the outcomes of data it hasn't seen before</li>
-		<ul>
-			<li class="fragment">different to the concept of $R^2$</li>
-		</ul>
-		<li class="fragment">We can think of an algorithm as a function that takes in data and outputs predictions</li>
-		
-		<li class="fragment">If we feed in data that the algorithm hasn't seen yet, we can get predictions and then compare them to the actual outcomes contained in the data</li>
-		<ul>
-			<li class="fragment">This process is called <b>holdout validation</b> </li>
-			<li class="fragment">it is a form of <b>cross-validation</b>, which is the more general name for evaluating model performance</li>
-		</ul>
-		
-		
-		
-		<ul>
-</section>
+		<section>
+			The hypothesis that stated that the ad won't have an effect on the world is called the null hypothesis
+		</section>
+		<section>
+			Likewise, the hypothesis that states that it will increase engagement is the alternative hypothesis
+		</section>
 
 
-<section>
-	<h4>Introduction to caret</h4>
-	<ul>
-		<li class="fragment">We have learned about train/test validation process</li>
-		<ul>
-			<li class="fragment">apply it to the feature selection</li>
-		</ul>
-		<li class="fragment">The word caret is actually an acronym, short for Classification And REgression Training</li>
-		
-		<li class="fragment">In our case, the k-nearest neighbors algorithm is attempting to predict a good rental price, so is a form of regression problem</li>
-		
-		<li class="fragment">As we've mentioned before caret streamlines the process of holdout validation, and it is capable of much more</li>
-		
-		
-		
-		
-		<ul>
-</section>
 
-
-<section>
-	<h4>Split a dataset into two separate sets</h4>
-	<ul>
-		<li class="fragment">Training set which contains the majority of the data</li>
-		<li class="fragment">Test set which contains the rest of the data we will use to validate the model</li>
-		
-		<li class="fragment">caret has a function that helps us with the first step</li>
-		<ul>
-			<li class="fragment">createDataPartition() function</li>
-		</ul>
-		
-		<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
-			train_indices <- createDataPartition(y = data[["price"]],
-                                     p = 0.8,
-                                     list = FALSE)
-			</code></pre>	
-		
+		<section>
+			<h4>Fake Experiment</h4>
 			<ul>
-				<li class="fragment">y is the variable of interest that we want to split </li>
-				<li class="fragment">p describes a proportion  between [0,1]</li>
-				<li class="fragment">by specifying list = FALSE, return a vector of indies </li>
+				<li class="fragment">We have data from a fake experiment on weight loss</li>
+				<ul>
+				<li class="fragment">A company has developed a new drug that was designed to help subjects lose weight</li>
+				</ul>
+				<li class="fragment">In order to test the drug, the company gathered people to participate in the study and randomly split them into two groups</li>
+				<ul>
+				<li class="fragment">Group A was given a placebo pill, while Group B was designated to take it. </li>
+				<li class="fragment">Group A is our control group, while Group B is our treatment group</li>
+				</ul>
+				<li class="fragment">The event we are interested in studying is whether or not the drug helps with weight loss</li>
+				
+
 			</ul>
 			
-		
-		<ul>
-</section>
+		</section>
 
 
 
-<section>
-	<h4>Setting Up For Training</h4>
-	<ul>
-		<li class="fragment">Now that we have our training set and test set, we need to <em>train</em> the algorithm and evaluate it against the test set</li>
-		
-		<li class="fragment">What does it mean?</li>
-		<ul>
-		<li class="fragment">Consider OLS setting</li>
-		<li class="fragment">You have data $(Y,X)$, uncover $Y=\beta X+ \epsilon$</li>
-		<li class="fragment">Split $(Y,X)$ into $(Y_1,X_1)$ and $(Y_2,X_2)$</li>
-		<li class="fragment">Train the algorithm to find out $\beta$ using $(Y_1,X_1)$</li>
-		<ul>
-			<li class="fragment">estimate $\hat{\beta_1}$</li>
-		</ul>
-		<li class="fragment">Performance would depend on $Y_2 - \hat{\beta_1}X_2$</li>
-		</ul>
-		
-		
-	
-		<ul>
-</section>
 
+		<section>
+			
+			<ul>
+				<li class="fragment">$H_0$: the new drug will not reduce the subjects' weight</li>
+				<li class="fragment">$H_1$: the new drug will reduce the subjects' weight</li>
+				<ul>
+				<li class="fragment">The company is studying if the new drug will lead to weight loss, so the alternative hypothesis is specifically worded to state this</li>
+				</ul>
+				<li class="fragment">If the weight loss can vary in both groups, how would we be able to compare them?</li>
+				<ul>
+				<li class="fragment">We need a single value that helps summarize the weight loss in the entire group, and we can get this in the mean or average of each group</li>
+				
+				</ul>
+				
+				
 
-
-<section>
-	
-	<ul>
-		<li class="fragment">Now that we have our training set and test set, we need to <em>train</em> the algorithm and evaluate it against the test set</li>
-		
-		<li class="fragment">Holdout validation is actually one of many ways to do validation</li>
-		
-		<li class="fragment">caret conveniently provides us with a function to set these parameters for the validation process before we start training</li>
-		<ul><li class="fragment">This function is trainControl()</li></ul>
-		<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
-			train_control <- trainControl(method = "none")
-			</code></pre>	
-		
-		
-		<li class="fragment">The method = "none" argument here specifies that we don't want to do any special resampling or multiple-fold validation with our algorithm</li>
-		</ul>
-		
-		
-	
-		<ul>
-</section>
-
-
-<section>
-	
-	<ul>
-		
-		
-		<li class="fragment">In terms of the k-nearest neighbors algorithm, the rows of the training set become the neighbors that we use to predict the prices of the data from the test set</li>
-		
-		<li class="fragment">caret provides us with another function for training machine learning models: train()</li>
-		<li class="fragment"> Whereas trainControl() is where we specify how the training will be done, the train() function is where we actually specify the algorithm we want to use and what data the algorithm should use for training</li>
-		
-		<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
-			train_control <- trainControl(method = "none")
-			knn_model <- train(outcome ~ predictor1 + predictor2, 
-                   data = training_data, 
-                   method = "knn", 
-                   trControl = train_control)
-			</code></pre>	
-		
-		
-		
-		</ul>
-		
-		
-	
-		<ul>
-</section>
-
-
-<section>
-	
-	<ul>
-		<li class="fragment">The output of the train() function is a list that essentially contains the trained machine learning model</li>
-		
-		
-		<li class="fragment">By "training an algorithm", we really mean that the rows of the training data will be used as the neighbors for new listings we want to predict the prices for</li>
-		
-		
-		<li class="fragment">Now for each listing in the test set, we will calculate the average price of its nearest neighbors</li>
-		<ul><li class="fragment">These prices become the model's predictions</li></ul>	
-	</ul>
-	<li class="fragment">With the model on hand, we can use caret's predict() function to predict the listing prices of the test data</li>
-	
-</section>
-
-
-
-<section>
-	<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
-		predictions <- predict(knn_model, newdata = test_data)
-		</code></pre>	
-		<ul>
-	
-	<ul>
-		<li class="fragment">We need to provide two things to the predict() function to produce the predictions</li>
-		
-	<ul>
-		<li class="fragment">The first argument is our trained k-nearest that we are trying to evaluate</li>
-		<li class="fragment">The second argument is newdata, which contains the data we want to produce the predictions for</li>
-		
-	</ul>		
-	
-	</ul>
-	
-</section>
-
-
-<section>
-	
-	<ul>
-		<li class="fragment">Now, compare these predictions against the actual values of the listings as given in the price column</li>
-		
-	
-		<li class="fragment">We typically quantify this in terms of error</li>
-		<ul>
-			<li class="fragment">If the predicted price closely matches the actual price, then the error will be small</li>
-			<li class="fragment">Conversely, if the predicted price is nowhere near the actual price, then we would see a large error</li>
-			<li class="fragment">Using the results, we can actually create a new column in the test set that captures the error for each listing</li>
-		</ul>
-		
-	</ul>
-	
-	<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
-		test_predictions <- predict(knn_model, newdata = test_listings)
-							test_listings <- test_listings %>%
-    						mutate(error = actual_price - test_predictions)
-    							
-		</code></pre>	
-		<ul>
-	
-</section>
-
-
-
-<section>
-	<h4>Summarizing Errors Into a Single Metric</h4>
-	<ul>
-		<li class="fragment">We have an error column that describes the errors of each listing</li>
-		
-		<ul>
-			<li class="fragment">but we also have almost 1,000 individual errors</li>
-			<li class="fragment">we would prefer to have a single summary value that describes model performance</li>
-			<li class="fragment">There are many types of error metrics, but for this lesson we'll focus on one metric: the root mean squared error (RMSE)</li>
-			<li class="fragment">$$RMSE = \sqrt{\frac{\sum_{i=1}^{n}(\hat{y}_i -y_i)^2 }{n}}$$</li>
-		</ul>
-		
-	</ul>
-	
-		<ul>
-	
-</section>
-
-
-<section>
-
-	<ul>
-		<li class="fragment">Squaring the differences helps us convert all of the error into a positive value</li>
-		<li class="fragment">Each difference is squared, and then we calculate at the mean, or average, squared difference</li>
-		<ul>
+			</ul>
 			
 			
-			<li class="fragment">Recall that the mean is useful for summarizing numerical data</li>
-			
+		</section>
+
+		<section>
+			<img src="pics/lecture19_3.png" class="fragment" width = 400>
+			<ul>
+				<li class="fragment">For Group A, most of the weight losses for people in Group A hovers around 2.5 pounds</li>
+				<li class="fragment">As we get farther away from the mean weight loss, there is an approximate symmetric shape to Group A's empirical distribution</li>
+				<ul>
+				<li class="fragment">Overall, Group A's distribution forms an approximate bell curve</li>
+			</ul>
+				
+				</ul>			
+		</section>
+
+		<section>
+			<img src="pics/lecture19_4.png" class="fragment" width = 500>
+			<ul>
+				<li class="fragment">Consider some hypothetical situations</li>
+				<ul>
+				<li class="fragment">One extreme case is no overlap, while the other is total overlap</li>
+				</ul>
+				<li class="fragment">How we would say they are different?</li>
+				<li class="fragment">Recall that normal distributions are defined by two important values: the mean and the variance</li>
+				<li class="fragment">If the means of the two groups are extremely different, it suggests that the groups are truly different from each other</li>
+				<ul><li class="fragment">role of the variance?</li></ul>
+				
+				</ul>			
+		</section>
+
+		<section>
+			<img src="pics/lecture19_5.png" class="fragment" width = 500>
+			<ul>
+				<li class="fragment">The variance of the normal curve influences how much it might overlap with other nearby curves, so it plays a critical role in changing how well we can distinguish between two normal curves</li>
+				
+				<li class="fragment">Two normal curves could actually have a small, but meaningful difference between them</li>
+				<ul>
+					<li class="fragment">but if they both have high variance, this difference might be hidden</li>
+				</ul>
+				
+				</ul>			
+		</section>
+
+		<section>
+			<ul>
+				<li class="fragment">Let's take another look at our two hypotheses</li>
+				<ul>
+					<li class="fragment">$H_0$: the mean weight loss of Group B is the same as the mean weight loss of Group A</li>
+					<li class="fragment">$H_1$: the mean weight loss of Group B is greater than the mean weight loss of Group A</li>
+				</ul>
+
+				<li class="fragment">We can convert the above hypotheses into a mathematical form using some notation</li>
+				<ul>
+					<li class="fragment">$H_0: \bar{x_A}=\bar{x_B}$</li>
+					<li class="fragment">$H_1: \bar{x_A}<\bar{x_B}$</li>
+				</ul>
+				<li class="fragment">Rewrite</li>
+				<ul>
+					<li class="fragment">$H_0: \bar{x_A}-\bar{x_B}=0$</li>
+					<li class="fragment">$H_1: \bar{x_A}-\bar{x_B}<0$</li>
+				</ul>
+				</ul>	
+		</section>
+		<section>
+			<ul>
+				<li class="fragment">Note that the variance of the difference</li>
+				<ul>
+					<li class="fragment">$\sigma^2_{diff} = \frac{\sigma^2_A}{n_A}+ \frac{\sigma^2_B}{n_B}$</li>
+					<li class="fragment">We moved from comparing two qualities to focusing on their difference instead</li>	
+					<li class="fragment">Our first null hypothesis as "the new drug will not reduce the subjects' weight," which we  transformed into "the difference in means between the two groups is zero"</li>
+				</ul>
+				
+				
+				</ul>	
+		</section>
+<section>Recall from the Statistics Intermediate course that any normal distribution can be standardized,<br> meaning that we can change it to have mean 0 and standard deviation 1</section>
+<section>
+	In order to standardize a normal distribution, we subtract the mean and divide by the standard deviation, as shown below: <br>$t = \frac{x-\mu}{\sigma}$
+</section>
+
+<section>
+	<ul>
+		<li class="fragment">$x$ will corresponds to the actual difference in means that we measured in the data: $\bar{x_A}-\bar{x_B}$</li>
+		<li class="fragment">For this null hypothesis, $\mu$ will be 0 since we are assuming that the drug will have no effect</li>
+		<li class="fragment">We know what the variance is under the null hypothesis, so we can easily find the standard deviation</li>	
+		<ul>
+		<li class="fragment">$\sigma =\sqrt{\frac{\sigma^2_A}{n_A}+ \frac{\sigma^2_B}{n_B}}$</li>
 		</ul>
-		<li class="fragment">Let's do some exercise</li>
-	</ul>
-	
 		
-	
+		
+		</ul>	
+</section>
+
+<section>
+	<ul>
+		<li class="fragment">Hence, </li>
+		<ul>
+		<li class="fragment">$t = \frac{(\bar{x_A}-\bar{x_B}) - 0}{\sqrt{\frac{\sigma^2_A}{n_A}+ \frac{\sigma^2_B}{n_B}}}$</li>
+		<li class="fragment">called a test statistic 
+	</ul>
+		<li class="fragment">Test statistics often follow a well-known probability distribution</li>	
+		<ul>
+		<li class="fragment">In this case, t follows a a t-distribution</li>
+		<li class="fragment">Because we are trying to investigate the means of two groups and the test statistic follows a t-distribution, we are conducting a two sample independent t-test</li>
+		
+		</ul>
+		
+		
+		</ul>	
+</section>
+
+<section>
+	<ul>
+		<li class="fragment">Suppose we calculated a test statistic of about -6.96</li>
+		<ul>
+		<li class="fragment">the test statistic is a ratio between a difference between means and the standard deviation</li>
+		<li class="fragment">we always interpret test statistics relative to a null hypothesis
+	</ul>
+		<li class="fragment">We would interpret a test statistic of -6.96 as being about 7 standard deviations away from zero! </li>	
+		<ul>
+		<li class="fragment">under a normal distribution, most of the data will fall between -3 and 3 standard deviations</li>
+		<li class="fragment">so seeing a test statistic 7 standard deviations away is extremely unlikely</li>
+		
+		</ul>
+		
+		
+		</ul>	
+</section>
+
+
+<section>
+	<h4>The process of hypothesis testing</h4>
+	<ol>
+		<li class="fragment">Decide what kind of measurement you will be comparing between the treatment and control</li>
+		<li class="fragment">Define your null and alternative hypotheses in both simple and mathematical terms</li>
+		<li class="fragment">Calculate your test statistic</li>
+		<li class="fragment">Figure out what probability distribution your test statistic comes from</li>
+		<li class="fragment">Use this distribution to calculate your p-value (recall what p-value is)</li>
+		<li class="fragment">Use this p-value to decide whether to reject or fail to reject the null hypothesis</li>
+		
+	</ol>
 </section>
 
 
