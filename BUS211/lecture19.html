@@ -1,0 +1,451 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>BUS211:lecture17</title>
+
+		<link rel="stylesheet" href="../dist/reset.css">
+		<link rel="stylesheet" href="../dist/reveal.css">
+		<link rel="stylesheet" href="../dist/theme/black.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="../plugin/highlight/monokai.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section data-markdown>
+					<textarea data-template>
+						## Lecture 17: Feature Selection
+						### BUS 211A-3<br>
+					
+					</textarea>
+				  </section>
+
+				  <section>
+					<h4>Homework questions</h4>
+					
+					<ul>Homework!</ul>
+					
+					
+				  </section>
+
+
+		
+			<section>Feature selection</section>	
+			
+			<section>Feature selection is the process of reducing the number of input variables when developing a model</section>
+			<section>It is desirable to reduce the number of input variables to both reduce the computational cost of modeling and improve the performance of the model</section>
+			<section>Now we need to think about the model: relationship</section>
+			<section>
+				<h4>Think simpler</h4>
+				<ul>
+					<li class="fragment">Input / Target</li>
+					<li class="fragment">Independent / Dependent</li>
+					<li class="fragment">Sometimes, output is not necessary</li>
+					<ul>
+						<li class="fragment">grouping problems</li>
+					</ul>
+				</ul>
+			</section>
+		<section>
+			These methods can be fast and effective, although the choice of statistical measures depends on the data type of both the input and output variables
+		</section>
+		
+		<section>
+			What are the potential costs <br>when you have a large number of variables?</section>
+		<section>
+			<ul>
+				<li class="fragment">Slow the development and training of models </li>
+				<li class="fragment">Require a large amount of system memory</li>
+				<li class="fragment">The performance of some models can degrade</li>
+				<ul>
+					<li class="fragment">Consider OLS</li>
+					<ul>
+						<li class="fragment">more features would increase the explantory power on the outcome</li>
+						<li class="fragment">however, effect of individual estimates would be poorer</li>
+					</ul>
+				</ul>
+			</ul>
+		</section>
+		
+	
+
+		<section>
+			<ul>
+				<li class="fragment">You have experienced feature selections</li>
+				<li class="fragment">Conceptually, two frameworks</li>
+				<ul>
+					<li class="fragment">Remove redundant variables</li>
+					<ul><li class="fragment">Unsupervised Selection</li></ul>
+					<li class="fragment">Remove irrelevant variables</li>
+					<ul><li class="fragment">Supervised Selection</li></ul>
+				</ul>
+			</ul>
+		</section>
+
+		<section>
+			<ul>
+				<li class="fragment">Consider the following situations</li>
+				<ul>
+					<li class="fragment">You have birth year and age variables separately</li>
+					<li class="fragment">What if they are not equal?</li>
+					<li class="fragment">How about the work experience?</li>
+					<ul><li class="fragment">conditioned on the level of education, age and work expereince would be highly correlated</li></ul>
+				</ul>
+				<li class="fragment">The problem of unsupervised selection is how to handle similar variables</li>
+				<ul>
+					<li class="fragment">correlation matrix among the features are handy</li>
+					<li class="fragment">need to set a threshold</li>
+				</ul>
+				</ul>
+		</section>
+
+		<section>
+			<ul>
+				<li class="fragment">Then, how do we determine the irrelevant variables?</li>
+				<ul>
+					<li class="fragment">Depend on your question/task</li>
+					<ul><li class="fragment">model</li></ul>
+					<li class="fragment">Ok, now I divide input/output variables. Correlation matrix? </li>
+					
+					<ul><li class="fragment">data type matters</li>
+					<li class="fragment">numeric value vs. categorical value </li></ul>
+				</ul>
+				
+			</ul>
+		</section>
+
+		<section>
+			Ok then, what's the model? <br>Revisit: Airbnb<br> Predict a price for a single listing with three rooms
+		</section>
+
+		<section>
+			How should we determine a good price for our listing?
+			<ul>
+				<li class="fragment">we looked at the <em>neighbors</em> to determine our rate</li>
+				<li class="fragment">use Euclidean distance to determine the distance</li>
+				<li class="fragment">$d = \sqrt{(x_1 - x_2)^2 + (y_1 - y_2)^2}$</li>
+				<li class="fragment">use the accommodates column to create a new distance column for our hypothetical rental listing with three rooms</li>
+				
+			</ul>
+			
+		</section>
+
+<section>
+	<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+		dc_listings <- read.csv('dc_airbnb.csv')
+		our_acc_value <- 3
+		dc_listings <- dc_listings %>%
+  						mutate(
+    							distance = abs(accommodates - our_acc_value)
+  								)
+
+		</code></pre>		
+		<img src="pics/lecture17_1.png" class="fragment" width = 700> 
+
+</section>
+
+<section>
+	<ul>
+		<li class="fragment">Since rental pricing can depend on many factors other than the number of accommodations, the predicted price we get won't be very useful</li>
+		<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+			distances <- pull(dc_listings, distance)
+			table(distances)
+			</code></pre>	
+	<ul>
+	<img src="pics/lecture17_2.png" class="fragment" width = 700> 
+
+	<li class="fragment">discovered a problem when there are many more <em>closest neighbors</em> than we need</li>
+	<li class="fragment">Use randomization to pick from these exact matches</li>
+
+</ul>
+</ul>
+</section>
+
+<section>
+	<ul>
+		<li class="fragment">We currently have no way of knowing if this prediction was good or not</li>
+		<li class="fragment">Learn how to evaluate the performance of our algorithm</li>
+		<ul>
+			<li class="fragment">apply to feature selection</li>
+		</ul>
+		<li class="fragment">Define what we mean by performance, and then look at how to calculate metrics to judge whether the model is <em>good</em> or not</li>
+		<li class="fragment">Start learning an incredibly handy R library called <b>caret</b></li>
+		
+		<ul>
+</section>
+
+<section>
+	<ul>
+		<li class="fragment">We judge the performance of an algorithm by evalutating how well it predicts the outcomes of data it hasn't seen before</li>
+		<ul>
+			<li class="fragment">different to the concept of $R^2$</li>
+		</ul>
+		<li class="fragment">We can think of an algorithm as a function that takes in data and outputs predictions</li>
+		
+		<li class="fragment">If we feed in data that the algorithm hasn't seen yet, we can get predictions and then compare them to the actual outcomes contained in the data</li>
+		<ul>
+			<li class="fragment">This process is called <b>holdout validation</b> </li>
+			<li class="fragment">it is a form of <b>cross-validation</b>, which is the more general name for evaluating model performance</li>
+		</ul>
+		
+		
+		
+		<ul>
+</section>
+
+
+<section>
+	<h4>Introduction to caret</h4>
+	<ul>
+		<li class="fragment">We have learned about train/test validation process</li>
+		<ul>
+			<li class="fragment">apply it to the feature selection</li>
+		</ul>
+		<li class="fragment">The word caret is actually an acronym, short for Classification And REgression Training</li>
+		
+		<li class="fragment">In our case, the k-nearest neighbors algorithm is attempting to predict a good rental price, so is a form of regression problem</li>
+		
+		<li class="fragment">As we've mentioned before caret streamlines the process of holdout validation, and it is capable of much more</li>
+		
+		
+		
+		
+		<ul>
+</section>
+
+
+<section>
+	<h4>Split a dataset into two separate sets</h4>
+	<ul>
+		<li class="fragment">Training set which contains the majority of the data</li>
+		<li class="fragment">Test set which contains the rest of the data we will use to validate the model</li>
+		
+		<li class="fragment">caret has a function that helps us with the first step</li>
+		<ul>
+			<li class="fragment">createDataPartition() function</li>
+		</ul>
+		
+		<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+			train_indices <- createDataPartition(y = data[["price"]],
+                                     p = 0.8,
+                                     list = FALSE)
+			</code></pre>	
+		
+			<ul>
+				<li class="fragment">y is the variable of interest that we want to split </li>
+				<li class="fragment">p describes a proportion  between [0,1]</li>
+				<li class="fragment">by specifying list = FALSE, return a vector of indies </li>
+			</ul>
+			
+		
+		<ul>
+</section>
+
+
+
+<section>
+	<h4>Setting Up For Training</h4>
+	<ul>
+		<li class="fragment">Now that we have our training set and test set, we need to <em>train</em> the algorithm and evaluate it against the test set</li>
+		
+		<li class="fragment">What does it mean?</li>
+		<ul>
+		<li class="fragment">Consider OLS setting</li>
+		<li class="fragment">You have data $(Y,X)$, uncover $Y=\beta X+ \epsilon$</li>
+		<li class="fragment">Split $(Y,X)$ into $(Y_1,X_1)$ and $(Y_2,X_2)$</li>
+		<li class="fragment">Train the algorithm to find out $\beta$ using $(Y_1,X_1)$</li>
+		<ul>
+			<li class="fragment">estimate $\hat{\beta_1}$</li>
+		</ul>
+		<li class="fragment">Performance would depend on $Y_2 - \hat{\beta_1}X_2$</li>
+		</ul>
+		
+		
+	
+		<ul>
+</section>
+
+
+
+<section>
+	
+	<ul>
+		<li class="fragment">Now that we have our training set and test set, we need to <em>train</em> the algorithm and evaluate it against the test set</li>
+		
+		<li class="fragment">Holdout validation is actually one of many ways to do validation</li>
+		
+		<li class="fragment">caret conveniently provides us with a function to set these parameters for the validation process before we start training</li>
+		<ul><li class="fragment">This function is trainControl()</li></ul>
+		<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+			train_control <- trainControl(method = "none")
+			</code></pre>	
+		
+		
+		<li class="fragment">The method = "none" argument here specifies that we don't want to do any special resampling or multiple-fold validation with our algorithm</li>
+		</ul>
+		
+		
+	
+		<ul>
+</section>
+
+
+<section>
+	
+	<ul>
+		
+		
+		<li class="fragment">In terms of the k-nearest neighbors algorithm, the rows of the training set become the neighbors that we use to predict the prices of the data from the test set</li>
+		
+		<li class="fragment">caret provides us with another function for training machine learning models: train()</li>
+		<li class="fragment"> Whereas trainControl() is where we specify how the training will be done, the train() function is where we actually specify the algorithm we want to use and what data the algorithm should use for training</li>
+		
+		<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+			train_control <- trainControl(method = "none")
+			knn_model <- train(outcome ~ predictor1 + predictor2, 
+                   data = training_data, 
+                   method = "knn", 
+                   trControl = train_control)
+			</code></pre>	
+		
+		
+		
+		</ul>
+		
+		
+	
+		<ul>
+</section>
+
+
+<section>
+	
+	<ul>
+		<li class="fragment">The output of the train() function is a list that essentially contains the trained machine learning model</li>
+		
+		
+		<li class="fragment">By "training an algorithm", we really mean that the rows of the training data will be used as the neighbors for new listings we want to predict the prices for</li>
+		
+		
+		<li class="fragment">Now for each listing in the test set, we will calculate the average price of its nearest neighbors</li>
+		<ul><li class="fragment">These prices become the model's predictions</li></ul>	
+	</ul>
+	<li class="fragment">With the model on hand, we can use caret's predict() function to predict the listing prices of the test data</li>
+	
+</section>
+
+
+
+<section>
+	<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+		predictions <- predict(knn_model, newdata = test_data)
+		</code></pre>	
+		<ul>
+	
+	<ul>
+		<li class="fragment">We need to provide two things to the predict() function to produce the predictions</li>
+		
+	<ul>
+		<li class="fragment">The first argument is our trained k-nearest that we are trying to evaluate</li>
+		<li class="fragment">The second argument is newdata, which contains the data we want to produce the predictions for</li>
+		
+	</ul>		
+	
+	</ul>
+	
+</section>
+
+
+<section>
+	
+	<ul>
+		<li class="fragment">Now, compare these predictions against the actual values of the listings as given in the price column</li>
+		
+	
+		<li class="fragment">We typically quantify this in terms of error</li>
+		<ul>
+			<li class="fragment">If the predicted price closely matches the actual price, then the error will be small</li>
+			<li class="fragment">Conversely, if the predicted price is nowhere near the actual price, then we would see a large error</li>
+			<li class="fragment">Using the results, we can actually create a new column in the test set that captures the error for each listing</li>
+		</ul>
+		
+	</ul>
+	
+	<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+		test_predictions <- predict(knn_model, newdata = test_listings)
+							test_listings <- test_listings %>%
+    						mutate(error = actual_price - test_predictions)
+    							
+		</code></pre>	
+		<ul>
+	
+</section>
+
+
+
+<section>
+	<h4>Summarizing Errors Into a Single Metric</h4>
+	<ul>
+		<li class="fragment">We have an error column that describes the errors of each listing</li>
+		
+		<ul>
+			<li class="fragment">but we also have almost 1,000 individual errors</li>
+			<li class="fragment">we would prefer to have a single summary value that describes model performance</li>
+			<li class="fragment">There are many types of error metrics, but for this lesson we'll focus on one metric: the root mean squared error (RMSE)</li>
+			<li class="fragment">$$RMSE = \sqrt{\frac{\sum_{i=1}^{n}(\hat{y}_i -y_i)^2 }{n}}$$</li>
+		</ul>
+		
+	</ul>
+	
+		<ul>
+	
+</section>
+
+
+<section>
+
+	<ul>
+		<li class="fragment">Squaring the differences helps us convert all of the error into a positive value</li>
+		<li class="fragment">Each difference is squared, and then we calculate at the mean, or average, squared difference</li>
+		<ul>
+			
+			
+			<li class="fragment">Recall that the mean is useful for summarizing numerical data</li>
+			
+		</ul>
+		<li class="fragment">Let's do some exercise</li>
+	</ul>
+	
+		
+	
+</section>
+
+
+
+	</div>
+
+		<script src="../dist/reveal.js"></script>
+		<script src="../plugin/notes/notes.js"></script>
+		<script src="../plugin/markdown/markdown.js"></script>
+		<script src="../plugin/highlight/highlight.js"></script>
+		<script src="../plugin/math/math.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+				progress: false,
+				touch: true,
+				slideNumber: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX ]
+			});
+		</script>
+	</body>
+</html>
