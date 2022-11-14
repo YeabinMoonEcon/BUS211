@@ -1,0 +1,431 @@
+---
+title: "homework6 suggested solution"
+author: "Yeabin Moon"
+date: "2022-11-05"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+setwd("~/Documents/ibs_course/BUS211/data")
+```
+
+# Part I: working with missing data
+
+In this homework, we'll learn some new tips dealing with missing data, including:
+
+- How to handle missing data without having to drop rows and columns using the imputation.
+- How to visualize missing data and missing data correlations matrix with heatmaps.
+- How to analyze missing data using visualization.
+
+The dataset we'll use in this lesson is on motor vehicle collisions released by New York City (NYC) and published on the NYC OpenData <a href="https://data.cityofnewyork.us/Public-Safety/Motor-Vehicle-Collisions-Crashes/h9gi-nx95" target="_blank">website</a>. There is data on over 1.5 million collisions dating back to 2012, with additional data continuously added.
+
+We'll work with an extract of the full data: Crashes from the year 2018. Our dataset is in a CSV called nypd_mvc_2018.csv.
+
+A summary of the columns and their data is below:
+
+- unique_key: A unique identifier for each collision.
+- date, time: Date and time of the collision.
+- borough: The borough, or area of New York City, where the collision occurred.
+- location: Latitude and longitude coordinates for the collision.
+on_street, cross_street, off_street: Details of the street or intersection where the collision occurred.
+- pedestrians_injured: Number of pedestrians who were injured.
+- cyclist_injured: Number of people traveling on a bicycle who were injured.
+- motorist_injured: Number of people traveling in a vehicle who were injured.
+- total_injured: Total number of people injured.
+- pedestrians_killed: Number of pedestrians who were killed.
+- cyclist_killed: Number of people traveling on a bicycle who were killed.
+- motorist_killed: Number of people traveling in a vehicle who were killed.
+- total_killed: Total number of people killed.
+- vehicle_1 through vehicle_5: Type of each vehicle involved in the accident.
+- cause_vehicle_1 through cause_vehicle_5: Contributing factor for each vehicle in the accident.
+
+Remember that we can use the is.na() function to identify which values are NA.
+
+### Question 1
+Load the data and assign it to <b>mvc</b>, and create a matrix that counts the number of NA values in each of the columns in the mvc dataframe. Assign the result to <b>na_logical</b>
+
+  - use head() to show the first few rows of mvc and na_logical.
+
+```{r}
+mvc <- read_csv('nypd_mvc_2018.csv')
+head(mvc)
+```
+
+## Summing Values Over Rows
+Let's quickly recap how to count missing values. To do so, we'll reuse the dataframe created on the first screen:
+```{r}
+df <- data.frame(A = c(NA,NA,1.0), B = c(NA,1,NA), C = c(1.0,1.0,NA))
+print(df)
+```
+We can sum the output of the is.na() function using the built-in R function colSums(), to count the number of NA values in each column:
+```{r}
+colSums(is.na(df))
+```
+
+Let's try to create new column, ABsum, containing the sums of rows from only variables A and B. To do so, we use the combination of mutate() function, from dplyr package, and rowSums() function.
+```{r}
+library(dplyr)
+
+df_na  <- data.frame(is.na(df))
+
+na_row_sums <- df_na %>%
+    mutate(ABsum = rowSums(.[1:2]))
+
+print(na_row_sums)
+```
+In this code, we use period (.) to represent all the dataset, and then we take its subset.
+
+Let's use this technique to compute the total injured NA values from the NA values of the variables pedestrians_injured, cyclist_injured, motorist_injured in our dataset.
+
+### Question 2
+Use <b>mvc</b> dataframe.
+
+1. Create a dataframe, <b>mvc_na</b>, containing logical values which indicate where missing values are.
+2. Create a new column, <em>total_na_injured</em>, by summing the variables pedestrians_injured, cyclist_injured, motorist_injured from <b>mvc_na</b> dataframe.
+    - Use pipe operator (%>%) and mutate() function.
+    - Use rowSums to compute the number of NA values in these variables.
+    - Assign the result <b>mvc_na_injured</b> and present the first few rows using head().
+```{r}
+mvc_na <- data.frame(is.na(mvc))
+mvc_na_injured <- mvc_na %>%
+    mutate(total_na_injured = rowSums(.[9:11]))
+head(mvc_na_injured)
+```
+
+## Verifying the Total Columns
+To give us a better picture of the NA values in the data, let's calculate the percentage of NA values in each column. Below, we divide the number of NA values in each column by the total number of values in this column.
+
+Let's first recall the code to count NA values in each column:
+```
+# Try this out
+na_counts  <-  mvc %>% is.na() %>% colSums()
+```
+
+Let's now compute the percentage of NA values in each column. The total number of values in a column is equal the number of rows in the dataset. We can use the built-in nrow() function to compute the number of rows.
+```
+# Try this out
+na_counts_pct  <-  na_counts * 100 / nrow(mvc)
+```
+We'll then add both the counts and percentages to a dataframe to make them easier to compare.
+```
+# Try this out
+na_df <- data.frame(na_counts = na_counts, na_pct = na_counts_pct )
+# Rotate the dataframe so that rows become columns and vice-versa
+na_df  <-  data.frame(t(na_df))
+
+print(na_df)
+```
+It is worth noting that for the convenience of reading, we have rotated the dataframe. To do this, we combine the transposed function t() which always outputs a matrix and the data.frame() function to convert this matrix into a dataframe.
+
+About a third of the columns have no NA values, with the rest ranging from less than 1% to 99%!
+
+To make things easier, let's start by looking at the group of columns that relate to people killed in collisions.
+
+We'll use the combination of select() with ends_with() functions from dplyr package, to reduce our summary dataframe to just those columns. The ends_with() function works only with select() function and allows selecting column names which end with a given string. In our dataset, the group of columns that relate to people killed in collisions ends with "_killed".
+
+```
+# Try this out
+na_df_killed <- na_df %>% 
+    select(ends_with("_killed"))
+```
+We can see that each of the individual categories have no missing values, but the total_killed column has five missing values.
+
+### Question 3
+```
+killed  <-  mvc %>% select(ends_with("_killed"))
+```
+We created a dataframe, <b>killed</b>, containing the four columns that relate to people killed in collisions.
+
+1. Select the first three columns from <b>killed</b> and sum each row.
+    - Assign the result to a new column <em>manual_sum</em> using the mutate() function.
+2. Filter the <b>killed</b> rows where each value in the manual_sum column either <b>is not</b> equal to the values in the total_killed column <b>or</b> the total_killed column is NA value.
+
+3. Assign the resulting dataframe to <b>killed_non_eq</b> and use head() to present the first 12 rows.
+```{r}
+killed  <-  mvc %>% select(ends_with("_killed"))
+killed_non_eq <- killed %>% 
+    mutate(manual_sum = rowSums(.[1:3])) %>%
+    filter(manual_sum != total_killed | is.na(total_killed))
+head(killed_non_eq, 12)
+```
+## Filling and Verifying the Killed and Injured Data
+The killed_non_eq dataframe we created contained six rows.
+
+We can categorize these into two categories:
+1. Five rows where the total_killed is not equal to the sum of the other columns because the total value is missing.
+2. One row where the total_killed is less than the sum of the other columns.
+
+From this, we can conclude that filling NA values with the sum of the columns is a fairly good choice for our imputation, given that only six rows out of around 58,000 don't match this pattern.
+
+We've also identified a row that has suspicious data - one that doesn't sum correctly. Once we have imputed values for all rows with missing values for total_killed, we'll mark this suspect row by setting its value to NA.
+
+In order to execute this, we'll learn to use the combination of the well-known mutate() function and if_else() function from the dplyr package. This combination is useful when you want to replace certain values in a vector based on a logical vector. The syntax for the function is:
+```
+df %>% mutate(colname = if_else(condition, val_if_true, val_if_false))
+```
+
+Let's look at an example with some simple data. We'll start with a tibble called fruits:
+```{r}
+fruits <- tibble(name = c("Apple", "Banana", "Banana"))
+fruits
+```
+Next, we create a logical vector that matches values equal to the string Banana:
+```{r}
+banana_check <- fruits$name == "Banana"
+banana_check
+```
+Lastly, we use our combination to replace all the values that match the logical vector with a new value, Pear:
+```{r}
+fruits <- fruits %>%
+    mutate(name = if_else(name=="Banana", "Pear", name ))
+fruits
+```
+If we wanted to describe the logic of the code above, we'd say For each value in the "fruits" tibble, if the corresponding value in the logical vector is TRUE, update the value to "Pear," otherwise leave the original value.
+
+Let's look at how we'd use this technique to update the values in the total_killed column. First, we'll replace all NA values with the equivalent values from our manual_sum variable:
+```
+killed_non_eq <- killed_non_eq %>%
+    mutate(total_killed = if_else(
+        is.na(total_killed), 
+        manual_sum, 
+        total_killed 
+      )
+    )
+```
+Next, we'll replace any values where the manual sum and the total column aren't equal with NaN.
+```
+killed_non_eq <- killed_non_eq %>%
+    mutate(total_killed = if_else(
+        total_killed != manual_sum, 
+        NaN, 
+        total_killed 
+      )
+    )
+print(killed_non_eq)
+```
+We've gone from five NA values to one, and flagged some suspicious data. Let's do the same for the injured columns.
+
+### Question 4
+
+We have done:
+```
+# fix the killed values
+killed_non_eq <- killed_non_eq %>%
+    mutate(total_killed = if_else(is.na(total_killed), manual_sum, total_killed ))
+
+killed_non_eq <- killed_non_eq %>%
+    mutate(total_killed = if_else(total_killed != manual_sum, NaN, total_killed ))
+
+# Create an injured_non_eq dataframe and manually sum values
+injured  <-  mvc %>% select(ends_with("_injured"))
+
+injured_non_eq <- injured %>% 
+    mutate(manual_sum = rowSums(.[1:3])) %>%
+    filter(manual_sum != total_injured | is.na(total_injured))
+```
+In addition, we've created an injured_non_eq dataframe with just the injured columns and manual_sum, a column manually summing the three individual injured columns. 
+
+1. Use the combination of the mutate() and if_else() functions to replace any NA values from the total_injured column with their equivalents from the manual_sum column.
+
+2. Use the same combination to replace any numbers from total_injured that aren't equal to their equivalents in manual_sum with NaN.
+
+```{r}
+# fix the killed values
+killed_non_eq <- killed_non_eq %>%
+    mutate(total_killed = if_else(is.na(total_killed), manual_sum, total_killed ))
+
+killed_non_eq <- killed_non_eq %>%
+    mutate(total_killed = if_else(total_killed != manual_sum, NaN, total_killed ))
+
+# Create an injured_non_eq dataframe and manually sum values
+injured  <-  mvc %>% select(ends_with("_injured"))
+
+injured_non_eq <- injured %>% 
+    mutate(manual_sum = rowSums(.[1:3])) %>%
+    filter(manual_sum != total_injured | is.na(total_injured))
+injured_non_eq <- injured_non_eq %>%
+    mutate(total_injured = if_else(is.na(total_injured), manual_sum, total_injured ))
+
+
+injured_non_eq <- injured_non_eq %>%
+    mutate(total_injured = if_else(total_injured != manual_sum, NaN, total_injured ))
+```
+
+## Preparing Data for Missing Data Visualization
+
+Earlier, we used a table of numbers to understand the number of missing values in our dataframe. A different approach we can take is to use a plot to visualize the missing values.
+
+First of all, we have to prepare our data. Since, we want to work with missing data, let's transform our dataset, mvc, into a dataframe where values are 1 if they are NA values and 0 otherwise. To do this, we will combine is.na() function and as.numeric() function applied to each column using map_df() function and an anonymous function.
+
+```
+library(purrr)
+
+mvc_na <- map_df(mvc, function(x) as.numeric(is.na(x)))
+```
+One of the most suitable visualizations for missing data is heatmaps. The data, as they currently stand, are not compatible with this. We would need to have data with three variables x, y, and value where :
+
+  - x represents the x-axis and contains the column name from our current dataset.
+  - y represents the y-axis and contains the row number from our current dataset.
+  - value represents values from our current dataset flattened as one column.
+
+Let's assume we have the following dataframe:
+```{r}
+df  <-  data.frame('A' = c(1,2,3,4,5), 'B' = c(2,4,6,8,10), 'C'= c(3,6,9,12,15))
+print(df)
+```
+
+In R, we can obtain this result by using the pivot_longer() function to transform the dataframe into key-value pairs dataframe and then adding row numbers using the row_number() function.
+
+```{r}
+df_heat <- df %>%
+  pivot_longer(cols = everything(),
+               names_to = "x") %>%
+  group_by(x) %>%
+  mutate(y = row_number())
+
+print(df_heat)
+```
+
+Notice the use of the group_by() function to number rows by column. We also use the function everything() to indicate that all columns are involved in the reshaping process. The function everything() is a "helper function" for selecting variables that is to be included as the argument to the cols parameter. Using this function is equivalent to listing the names of all variables in the dataframe to the cols parameter.
+
+Let's use the same technique to prepare our dataset.
+
+### Question 5
+```
+mvc_na <- map_df(mvc, function(x) as.numeric(is.na(x)))
+```
+We have provided the mvc_na dataframe.
+
+1. Use the pivot_longer() function to transform mvc_na dataframe into a new dataframe containing x and value variables.
+    - Use the function everything() to indicate that all columns are involved.
+2. Create a new column y containing the row numbers.
+3. Assign the result to <b>mvc_na_heat</b> and use head() to present the first few rows.
+
+```{r}
+mvc_na <- map_df(mvc, function(x) as.numeric(is.na(x)))
+library(tidyr)
+                 
+mvc_na_heat <- mvc_na %>%
+    pivot_longer(cols = everything(),
+               names_to = "x") %>%
+    group_by(x) %>%
+    mutate(y = row_number())
+
+head(mvc_na_heat)
+```
+## Visualizing Missing Data with Heatmaps
+
+In the previous exercise, we prepared the mvc_na_heat dataframe for visualization. Let's look at the first rows of this dataframe:
+```
+head(mvc_na_heat, 10)
+# A tibble: 10 x 3
+# Groups:   x [10]
+_   x                   value     y
+_   <chr>               <dbl> <int>
+ 1 unique_key              0     1
+ 2 date                    0     1
+ 3 time                    0     1
+ 4 borough                 0     1
+ 5 location                0     1
+ 6 on_street               0     1
+ 7 cross_street            0     1
+ 8 off_street              1     1
+ 9 pedestrians_injured     0     1
+10 cyclist_injured         0     1
+</int></dbl></chr>
+```
+
+Let's create a helper function to create heatmaps. The function below uses geom_tile() function from ggplot2 package to represent NA values as light squares and non-NA values as dark squares:
+```
+plot_na_matrix <- function(df) {
+    # Preparing the dataframe for heatmaps 
+    df_heat <- df %>%
+        pivot_longer(cols = everything(),
+               names_to = "x") %>%
+        group_by(x) %>%
+        mutate(y = row_number())
+
+    # Ensuring the order of columns is kept as it is
+    df_heat <- df_heat %>%
+        ungroup() %>%
+        mutate(x = factor(x,levels = colnames(df)))
+
+    # Plotting data
+    g <- ggplot(data = df_heat, aes(x=x, y=y, fill=value)) + 
+        geom_tile() + 
+        theme(legend.position = "none",
+              axis.title.y=element_blank(),
+              axis.text.y =element_blank(),
+              axis.ticks.y=element_blank(),
+              axis.title.x=element_blank(),
+              axis.text.x = element_text(angle = 90, hjust = 1))
+
+    # Returning the plot
+    g
+}
+```
+
+Let's look at how the function works by using it to plot just the first row of our mvc dataframe. We'll display the first row as a table immediately below so it's easy to compare:
+```
+Try this
+plot_na_matrix(mvc_na[1, ])
+```
+
+Each value is represented by a dark square, and each missing value is represented by a light square.
+
+Let's look at what a plot matrix looks like for the whole dataframe:
+```
+Try this
+plot_na_matrix(mvc_na)
+```
+
+We can make some immediate interpretations about our dataframe:
+
+- The first three columns have few to no missing values.
+- The next five columns have missing values scattered throughout, with each column seeming to have its own density of missing values.
+- The next eight columns are the injury and killed columns we just learned how to clean.
+- The last 10 columns seem to break into two groups of five, with each group of five having similar patterns of NA/non-NA values.
+
+Let's visualize the missing data in the dataframe of vehicle variables.
+
+### Question 6
+We have provided the plot_na_matrix() function.
+
+1. import ggplot2 package.
+2. Create the subset of mvc_na dataframe where column names contain "vehicle".
+3. Use the plot_na_matrix() function to show this subset.
+
+```{r}
+plot_na_matrix <- function(df) {
+    # Preparing the dataframe for heatmaps 
+    df_heat <- df %>%
+        pivot_longer(cols = everything(),
+               names_to = "x") %>%
+        group_by(x) %>%
+        mutate(y = row_number())
+    
+    # Ensuring the order of columns is kept as it is
+    df_heat <- df_heat %>%
+        ungroup() %>%
+        mutate(x = factor(x,levels = colnames(df)))
+    
+    # Plotting data
+    g <- ggplot(data = df_heat, aes(x=x, y=y, fill=value)) + 
+        geom_tile() + 
+        theme(legend.position = "none",
+              axis.title.y=element_blank(),
+              axis.text.y =element_blank(),
+              axis.ticks.y=element_blank(),
+              axis.title.x=element_blank(),
+              axis.text.x = element_text(angle = 90, hjust = 1))
+    
+    # Returning the plot
+    g
+}
+library(ggplot2)
+
+mvc_na_vehicle <- mvc_na %>% select(contains("vehicle"))
+plot_na_matrix(mvc_na_vehicle)
+```
