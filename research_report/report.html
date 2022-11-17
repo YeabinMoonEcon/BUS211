@@ -1,0 +1,177 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Cognitive proxy</title>
+
+		<link rel="stylesheet" href="../dist/reset.css">
+		<link rel="stylesheet" href="../dist/reveal.css">
+		<link rel="stylesheet" href="../dist/theme/black.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="../plugin/highlight/monokai.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section data-markdown>
+					<textarea data-template>
+						## Cognitive proxy: <br>Initial Findings
+						
+					
+					</textarea>
+				  </section>
+
+				  <section>
+					I'd like to introduce the Moon proxy<br> and show the initial findings
+					
+				  </section>
+
+
+			<section>Moon (2022) propose a measure as a proxy of cognitive ability based on the response patterns of popular surveys</section>
+			<section>We focusd incomplete answers observed in open-ended questions</section>	
+			
+			
+		
+
+
+		<section>
+			<h4>Motivation</h4>
+			<ul>
+				<li class="fragment">Strong patters of heaping at rounded numbers</li>
+
+			</ul>
+			<img src="pics/figure2.png" class="fragment" width = 600>
+		</section>
+
+		
+			<section>
+				
+				<ul>
+					<li class="fragment">Respondents either provide numerical values or opt out of the question in HRS</li>
+					<li class="fragment">Providing incomplete answers are called satisficing (Krosnick 1991)</li>
+					<ul>
+						<li class="fragment">claim that the satisficing behavior is negatively correlated with cognitive ability</li>
+					</ul>
+					
+					<li class="fragment">Propose a standardized method that enables cross-question comparisons in answering behavior</li>							
+					
+				</ul>
+			</section>
+		
+			<section>
+				<h4>Characterizing the response</h4>
+				<ul>
+					<li class="fragment">Gideon et al. 2017 define the level of rounding as</li>
+					
+					<ul>
+						<li class="fragment">$\frac{\text{the number of total digits}-\text{the number of significant digit}}{\text{the number of total digits}-1}$</li>
+						<li class="fragment">round responses may be a consequence of satisficing</li>	
+						<li class="fragment">raises the question of whether it would be sufficient to focus just on the maximal rounding</li>	
+					</ul>
+					
+					
+					
+				</ul>
+			</section>
+			<section>
+				<h4>Characterizing the response</h4>
+				<ul>
+					<li class="fragment">The reductions in cognitive ability can be reflected in the completion rate (Knäuper et al. 1997)</li>							
+					<li class="fragment">Ideal proxy should be responsive to the level of rounding and opt-out responses</li>
+					<li class="fragment">Divide the response format into three: opt-out, maximal rounding, and numerical answer</li>	
+					<ul>
+						
+						
+						<li class="fragment">assign 0,1 and 2 to each type in order</li>	
+						<li class="fragment">assume that they represent the respondent's cognitive ability in that order</li>	
+						
+						
+					</ul>
+					<li class="fragment">After characterizing response using these three ways, take the average of themm</li>	
+				</ul>
+			</section>
+			
+		</section>
+		<section>
+			<h4>Data Description</h4>
+			<ul>
+				<li class="fragment">Health and Retirement Study</li>							
+				<ul>
+				<li class="fragment">focus on the household heads aged between 50 and 89, participated in 2004-2018 survey</li>
+				<li class="fragment">62,851 individual-years, pooling 16,187 individuals across 7 waves</li>	
+				<li class="fragment">only self respondents</li>	
+				</ul>
+				<li class="fragment">Question selection criteria</li>	
+				<ul>
+					
+					<li class="fragment">open-ended questions requiring more than 2-digit</li>	
+					<li class="fragment">response rate should be large enough</li>	
+					<li class="fragment">the selected questions appear in multiple waves</li>	
+					<li class="fragment">7 questions are selected</li>	
+					
+				</ul>
+				
+			</ul>
+		</section>
+		<section>
+			<h4>Outcome of interest</h4>
+			<ul>
+				<li class="fragment">Langa-Weir algorithms apply cutpoints to derived scores summarizing cognition</li>							
+				<ul>
+				<li class="fragment">sum of tests (0-27)</li>
+				<ul>
+				
+				<li class="fragment">immediate word recall (0–10 points) </li>	
+				<li class="fragment">delayed word recall (0–10 points)</li>	
+				<li class="fragment">serial 7s (0–5 points)</li>	
+				<li class="fragment">backwards counting from 20 (0–2 points) </li>	
+				
+				
+				</ul>
+				<li class="fragment">assign a cutpoint</li>
+				<ul>
+					<li class="fragment">normal cognitive function (7-27 points)$\rightarrow 0$</li>	
+					<li class="fragment">dementia  (0-7 points)$\rightarrow 1$</li>	
+				</ul>
+			</ul>
+		</section>
+		
+		<section>
+			<h4>Linear probability model</h4>
+			<ul>
+				<li class="fragment">Estimate the following: for respondent $i$ in survey year $t$</li>							
+				<ul>
+				<li class="fragment">$Pr(\text{demented}_{i,t}) = \beta \text{Moon}_{i,t}+f(\text{age}_{i,t})+X_{i,t}\gamma+\delta_t+\epsilon_{i,t}$</li>
+				<ul>
+					<li class="fragment">$X_{i,t}:$ phone intervew, high school graduation, gender, wealth quantile</li>							
+				</ul>
+				
+			</ul>
+		</section>
+		
+	</div>
+
+		<script src="../dist/reveal.js"></script>
+		<script src="../plugin/notes/notes.js"></script>
+		<script src="../plugin/markdown/markdown.js"></script>
+		<script src="../plugin/highlight/highlight.js"></script>
+		<script src="../plugin/math/math.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+				progress: false,
+				touch: true,
+				slideNumber: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX ]
+			});
+		</script>
+	</body>
+</html>
