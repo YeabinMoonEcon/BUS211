@@ -153,15 +153,29 @@
 		</section>
 		<section>
 			<h4>Linear probability model</h4>
-			<img src="pics/figure3.png" class="fragment" width = 350>
+			<img src="pics/figure3.png" class="fragment" width = 280>
+			<pre data-id="code-animation" class="fragment" width = 10><code class="hljs" data-trim data-line-numbers>
+				reg demented moon phone high_school female +
+				i.q_wealth age, absorb(year)  
+				</code></pre>	
 		</section>
 		<section>
 			<h4>Logistic regression</h4>
-			<img src="pics/figure4.png" class="fragment" width = 310>
+			<img src="pics/figure4.png" class="fragment" width = 255>
+			<pre data-id="code-animation" class="fragment" width = 10><code class="hljs" data-trim data-line-numbers>
+				logit demented moon phone high_school female age + 
+				i.q_wealth i.year
+				</code></pre>	
 		</section>
 		<section>
 			<h4>Fixed effects</h4>
 			<img src="pics/figure5.png" class="fragment" width = 310>
+			<pre data-id="code-animation" class="fragment" width = 10><code class="hljs" data-trim data-line-numbers>
+				reghdfe demented moon age phone i.q_wealth, absorb(year gid) vce(cluster gid)
+				xtset gid year 
+				xtlogit demented moon age  phone i.q_wealth , fe 
+
+				</code></pre>	
 		</section>
 
 	</div>
