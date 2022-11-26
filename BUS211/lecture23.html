@@ -85,12 +85,33 @@
 				</section>
 
 
-			<section>The goal of a model is to provide a simple low-dimensional summary of a dataset</section>
+			<section>
+				<img src="pics/lecture23_0.png" class="fragment" width = 500>
+				<ul>
+					<li class="fragment">The goal of a model is to provide a simple low-dimensional summary of a dataset</li>
+					
+				</ul>
+			</section>
+
 			<section>Model is a kind of storyteller</section>	
 			
 			<section>Use models to partition data into<br> patterns and residuals</section>
 			
+			<section>
+				Traditionally, the focus of modelling is on inference, or for confirming that an hypothesis is true
+			</section>
 			
+			<section>
+				<ul>
+					<li class="fragment">Pair of ideas that you must understand in order to do inference correctly</li>
+					<ul>
+						<li class="fragment">Each observation can either be used for exploration or confirmation, not both</li>
+						<li class="fragment">You can use an observation as many times as you like for exploration, but you can only use it once for confirmation</li>
+					</ul>
+				</ul>
+			</section>
+			<section>This is necessary because to confirm a hypothesis you must use data independent of the data that you used to generate the hypothesis</section>
+			<section>If you are serious about doing an confirmatory analysis, one approach is to split your data into some pieces before you begin the analysis:<br> training / test sets</section>
 
 		<section>
 			<h4>Two parts of a model</h4>	
@@ -187,7 +208,88 @@
 					<li class="fragment">This distance is just the difference between the y value given by the model (the prediction), and the actual y value in the data (the response)</li>
 				</ul>
 			</section>
-		
+
+			<section>
+				
+				<ul>
+					<li class="fragment">To compute this distance, use R function</li>
+					<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+						model1 <- function(a, data){
+							a[1] + data$x * a[2] 
+						}
+						</code></pre>	
+						<ul>
+						<li class="fragment">take the model parameters and data as inputs</li>
+						</ul>
+						<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+						model1(c(7, 1.5), sim1)
+						#>  [1]  8.5  8.5  8.5 10.0 10.0 10.0 11.5 11.5 11.5 13.0 13.0 13.0 14.5 14.5 14.5
+						#> [16] 16.0 16.0 16.0 17.5 17.5 17.5 19.0 19.0 19.0 20.5 20.5 20.5 22.0 22.0 22.0
+							</code></pre>	
+						<li class="fragment">Have 30 distances: how do we collapse that into a single number?</li>
+						
+				</ul>	
+			</section>
+			<section>One common way to do this in statistics to use the <em>root-mean-squared deviation</em></section>
+			
+			<section>
+				<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+					measure_distance <- function(mod, data) {
+						diff <- data$y - model1(mod, data)
+						sqrt(mean(diff ^ 2))
+					  }
+					  measure_distance(c(7, 1.5), sim1)
+					  #> [1] 2.665212
+					</code></pre>	
+					<ul>
+						<li class="fragment">Now we can use purrr to compute the distance for all the models defined before</li>
+						<li class="fragment"> We need a helper function because our distance function expects the model as a numeric vector of length 2</li>
+					</ul>
+			</section>
+			
+			<section>
+				<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+					sim1_dist <- function(a1, a2) {
+						measure_distance(c(a1, a2), sim1)
+					  }
+					  
+					  models <- models %>% 
+						mutate(dist = purrr::map2_dbl(a1, a2, sim1_dist))
+					  models
+					  
+					</code></pre>	
+					<img src="pics/lecture23_4.png" class="fragment" width = 400>
+					<ul>
+					<li class="fragment">Next, let's overlay the 10 best models on to the data</li>
+				</ul>
+			</section>
+			<section>
+				<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+					ggplot(sim1, aes(x, y)) + 
+					geom_point(size = 2, colour = "grey30") + 
+					geom_abline(
+					  aes(intercept = a1, slope = a2, colour = -dist), 
+					  data = filter(models, rank(dist) <= 10)
+					)
+					</code></pre>	
+					<img src="pics/lecture23_5.png" class="fragment" width = 550>
+					<ul>
+						<li class="fragment">ones with the smallest distance get the brighest </li>
+					</ul>
+					
+			</section>
+			<section>We can also think about these models as observations, and visualising with a scatterplot of $a_1$ vs $a_2$, again coloured by -dist</section>
+			<section>
+				<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+					ggplot(models, aes(a1, a2)) +
+  					geom_point(data = filter(models, rank(dist) <= 10), 
+                    			size = 4, colour = "red") +
+  					geom_point(aes(colour = -dist))
+					</code></pre>	
+					<img src="pics/lecture23_6.png" class="fragment" width = 600>
+			</section>
+			<section>Remember, we generate a random set of parameters</section>
+			<section>Instead of trying lots of random models, <br>we could be more systematic and<br> generate an evenly spaced grid of points: <br>this is called a grid search </section>
 	</div>
 
 		<script src="../dist/reveal.js"></script>
