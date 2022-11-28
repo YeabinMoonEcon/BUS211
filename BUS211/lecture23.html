@@ -352,6 +352,68 @@
 						
 					</ul>
 			</section>
+			<section>Now we're going to focus on understanding a model by looking at its predictions</section>
+			
+			<section>It's useful to see what the model doesn't capture, the so-called residuals which are left after subtracting the predictions from the data</section>
+			<section>Residuals are powerful because they allow us to use models to remove striking patterns so we can study the subtler trends that remain</section>
+			<section>Let's visualize it</section>
+
+
+
+			<section>
+				<h4>Predictions</h4>
+				<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+					grid <- sim1 %>% 
+					data_grid(x) 
+				</code></pre>	
+				
+				<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers></code>
+				  grid <- grid %>% 
+				  add_predictions(sim1_mod) 
+				</code></pre>	
+					<img src="pics/lecture23_10.png" class="fragment" width = 180>
+					<img src="pics/lecture23_11.png" class="fragment" width = 170>
+			</section>
+			<section>
+				<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+					ggplot(sim1, aes(x)) +
+					geom_point(aes(y = y)) +
+					geom_line(aes(y = pred), data = grid, 
+										colour = "red", size = 1)				  
+				</code></pre>					
+				<img src="pics/lecture23_12.png" class="fragment" width = 600>
+			</section>
+
+			<section>
+				<h4>Residuals</h4>
+				<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+					sim1 <- sim1 %>% 
+					add_residuals(sim1_mod)
+				</code></pre>	
+				<img src="pics/lecture23_13.png" class="fragment" width = 400>
+				<ul>
+					
+					<li class="fragment">What are you going to do?</li>
+					<li class="fragment">Note that the average of the residual will always be 0</li>
+					
+				</ul>
+			</section>
+			<section>
+				<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+					ggplot(sim1, aes(x, resid)) + 
+					geom_ref_line(h = 0) +
+					geom_point() 			  
+				</code></pre>					
+				<img src="pics/lecture23_14.png" class="fragment" width = 600>
+				
+
+				<ul>
+					
+					<li class="fragment">This looks like random noise, suggesting that our model has done a good job of capturing the patterns in the dataset</li>
+					
+					
+				</ul>
+			</section>
 		</div>
 
 		<script src="../dist/reveal.js"></script>
