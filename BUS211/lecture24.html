@@ -1,0 +1,278 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>BUS211:lecture24</title>
+
+		<link rel="stylesheet" href="../dist/reset.css">
+		<link rel="stylesheet" href="../dist/reveal.css">
+		<link rel="stylesheet" href="../dist/theme/black.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="../plugin/highlight/monokai.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section data-markdown>
+					<textarea data-template>
+						## Lecture 24: <br> Epilogue
+						### BUS 211A-3<br>
+					
+					</textarea>
+				</section>
+				
+				<section>
+					<h4>Updates</h4>
+						<ul>
+							<li class="">Use the office hours wisely</li>
+							<ul>
+								<li class="">I am not providing an overview</li>
+								<ul>
+									<li class="">be clear what's the purpose of the meetings</li>
+									
+								</ul>
+							</ul>
+								<li class="">Practice</li>
+								<ul>
+									<li class="">provide constructive feedback to your mates</li>
+									
+								</ul>
+							
+							
+							
+						</ul>
+				</section>
+				
+				<section>
+					How much have you learned?
+				</section>
+
+				<section>
+					You might be asked your conceptual understanding without data
+				</section>
+
+				<section>
+					We will be launching work-environment change programms for our workers. How would you evaluate this program?
+				</section>
+
+				<section>
+					You might be asked the similar question using the data
+				</section>
+
+
+				<section>
+					<h4>End-to-End Project</h4>
+						<ul>
+							<li class="fragment">Consider the role of data scientist at a real estate company</li>
+							<li class="fragment">The goal is to illustrate the main steps of a learning project, not to learn anything about the real estate business</li>
+							<li class="fragment">Application of ML</li>
+						</ul>
+				</section>
+					
+				  
+			<section>
+				<ul>
+					<li class="fragment">Here are the main steps we will walk through</li>
+					<ol>
+						<li class="fragment">Look at the big picture.</li>
+
+							<li class="fragment">Get the data.</li>
+							
+							<li class="fragment">Explore and visualize the data to gain insights.</li>
+							
+							<li class="fragment">Prepare the data for machine learning algorithms.</li>
+							
+							<li class="fragment">Select a model and train it.</li>
+							
+							<li class="fragment">Fine-tune your model.</li>
+							
+							<li class="fragment">Present your solution.</li>
+							
+							<li class="fragment">Launch, monitor, and maintain your system.</li>
+						
+					</ol>
+				</ul>
+			</section>
+
+
+		<section>
+			<img src="pics/lecture24_1.png" class="fragment" width = 500>
+			<ul>
+				<li class="fragment">Use the California Housing Prices dataset from the StatLib repository</li>
+				<ul>
+					<li class="fragment">1990 California census</li>
+					
+				</ul>
+				
+				
+			</ul>
+		</section>
+
+		<section>
+			<img src="pics/lecture24_1.png" class="" width = 500>
+			<ul>
+				<li class="fragment">Your first task is to use California census data to build a model of housing prices in the state</li>
+				<ul>
+					<li class="fragment">block group in California</li>
+					
+				</ul>
+				
+				
+			</ul>
+		</section>
+		
+		
+			<section>
+				
+				<ul>
+					<li class="fragment">The first question to ask your boss is what exactly the business objective is</li>
+						<ul>
+							<li class="fragment">it will determine how you frame the problem</li>
+							<li class="fragment">which algorithms you will select</li>
+							<li class="fragment">which performance measure you will use to evaluate your model</li>
+							<li class="fragment">how much effort you will spend tweaking it</li>
+						</ul>
+				</ul>
+			</section>
+		
+			<section>The end goal is to determine whether it is worth investing in a given area</section>
+
+			<section>Your model's output (a prediction of a district's median housing price) will be fed to another machine learning system, along with many other signals</section>
+			
+			<section>The next question to ask your boss is what the current solution looks like if any</section>
+			<section>The current situation will often give you a reference for performance, as well as insights on how to solve the problem</section>
+			
+			<section> Your boss answers that the district housing prices are currently estimated manually by experts using complex rules</section>
+			<section>This is costly and time-consuming, and their estimates are not great; in cases where they manage to find out the actual median housing price, they often realize that their estimates were off by more than 30%</section>
+			
+			<section>Now you see the problem in the short and long run</section>
+			<section>Find a meta data and plan a sequence of data processing carefully</section>
+			
+			<section>Ask advice! Do not start from a scratch.</section>
+
+			<section>With all this information, you are now ready to start designing your system</section>
+
+			
+
+			<section>
+				
+				<ul>
+					<li class="fragment">Frame the model using data and question</li>
+						<ul>
+							<li class="fragment">Supervised learning vs. unsupervised learning</li>
+							<ul>
+								<li class="fragment">Target (outcome) variable is in data?</li>
+							</ul>
+							<li class="fragment">Regression vs. classification</li>
+							<ul>
+								<li class="fragment">outcome is continous?</li>
+							</ul>
+							<li class="fragment">online learning vs. batch learning</li>
+							<ul>
+							<li class="fragment">flow of data coming into the system?</li>
+						</ul>
+						</ul>
+				</ul>
+			</section>
+
+			<section>Your next step is to select a performance measure</section>
+
+
+			<section>
+				
+				<ul>
+					<li class="fragment">A typical performance measure for regression problems is the root mean square error (RMSE)</li>
+					
+					<ul>
+						<li class="fragment">gives an idea of how much error the system typically makes in its predictions, with a higher weight given to large errors</li>
+						<li class="fragment">$\text{RMSE}(X,h)=\sqrt{\frac{1}{n}\sum_{i=1}^{m}(h(x^{(i)})-y^{(i)})^2}$</li>
+						<li class="fragment">test set</li>
+					</ul>
+					
+				</ul>	
+			</section>
+
+
+			<section>
+				<ul>
+					<li class="fragment">Formally, supervised learning requires the following</li>
+					
+					<ul>
+						<li class="fragment">model</li>
+						<li class="fragment">loss function</li>
+						<li class="fragment">traning data</li>
+						<li class="fragment">optimization algorithm</li>
+					</ul>
+					
+				</ul>	
+			</section>
+			<section>A computer program is said to learn from experience E with respect to some task T and some performance measure P, if its performance on T, as measured by P, improves with experience E.
+
+			</section>
+
+			<section>You will have hand-on experience for ML classes</section>
+			
+			<section>Why Use Machine Learning?</section>
+
+			<section>
+				<ul>
+					<li class="fragment">Consider how you would write a spam filter</li>
+					
+					<ul>
+						<li class="fragment">First you would examine what spam typically looks like</li>
+						<ul>
+						<li class="fragment">some keywords: eg. free offer</li>
+						
+						</ul>
+						<li class="fragment">You would write a detection algorithm for each of the patterns that you noticed</li>
+						<li class="fragment">You would test your program and repeat steps 1 and 2 until it was good enough to launch</li>
+						
+						
+					</ul>
+					<li class="fragment">Since the problem is difficult, your program will likely become a long list of complex rules—pretty hard to maintain</li>
+
+					
+				</ul>	
+			</section>
+			<section>In contrast, a spam filter based on machine learning techniques automatically learns which words and phrases are good predictors of spam by detecting unusually frequent patterns of words in the spam examples compared to the ham examples</section>
+			<section>What if spammers notice that all their emails containing “4U” are blocked? They might start writing “For U” instead. A spam filter using traditional programming techniques would need to be updated to flag “For U” emails. If spammers keep working around your spam filter, you will need to keep writing new rules forever</section>
+			<section>In contrast, a spam filter based on machine learning techniques automatically notices that “For U” has become unusually frequent in spam flagged by users, and it starts flagging them without your intervention</section>
+		
+			<section>
+				<h4>Examples</h4>
+				<ul>
+					<li class="fragment">Image recognition</li>
+					<li class="fragment">Information extraction</li>
+					<li class="fragment">Word filtering</li>
+					<li class="fragment">Creating a chatbot or a personal assistant</li>
+					
+					
+					
+				</ul>	
+			</section>
+		</div>
+
+		<script src="../dist/reveal.js"></script>
+		<script src="../plugin/notes/notes.js"></script>
+		<script src="../plugin/markdown/markdown.js"></script>
+		<script src="../plugin/highlight/highlight.js"></script>
+		<script src="../plugin/math/math.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+				progress: false,
+				touch: true,
+				slideNumber: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX ]
+			});
+		</script>
+	</body>
+</html>
