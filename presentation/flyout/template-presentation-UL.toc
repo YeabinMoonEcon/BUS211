@@ -1,0 +1,6 @@
+\babel@toc {english}{}
+\beamer@sectionintoc {1}{Literature Review}{7}{0}{1}
+\beamer@sectionintoc {2}{Data}{10}{0}{2}
+\beamer@sectionintoc {3}{Theoretical Model}{14}{0}{3}
+\beamer@sectionintoc {4}{Empirical Results}{23}{0}{4}
+\beamer@sectionintoc {5}{Conclusion}{48}{0}{5}

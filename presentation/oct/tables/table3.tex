@@ -1,0 +1,53 @@
+\begin{table}[ht]\centering
+	\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+	%\caption{The effect of economic conditions at graduation on the initial placement in R1 universities}
+	\label{tb:table3}
+	\resizebox{7 cm}{!}{%
+\begin{tabular}{l*{4}{c}}
+\hline\hline
+            &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
+           % &\multicolumn{1}{c}{outcome1}&\multicolumn{1}{c}{outcome1}&\multicolumn{1}{c}{outcome1}&\multicolumn{1}{c}{outcome1}\\
+\hline
+unemployment $\left( \beta_u \right)$    &     -0.0214\sym{***}&     -0.0285\sym{**} &     -0.0177\sym{**} &     -0.0313\sym{***}\\
+            &   (0.00468)         &    (0.0104)         &   (0.00655)         &   (0.00582)         \\
+[1em]
+female &     0.00654         &     0.00569         &     0.00624         &     0.00651         \\
+            &    (0.0155)         &    (0.0145)         &    (0.0146)         &    (0.0156)         \\
+[1em]
+US bachelor degree   &      0.0594\sym{***}&      0.0661\sym{***}&      0.0594\sym{***}&      0.0593\sym{***}\\
+            &    (0.0108)         &    (0.0114)         &    (0.0108)         &   (0.00867)         \\
+[1em]
+rank 2     &                     &      -0.113\sym{***}&                     &                     \\
+            &                     &    (0.0143)         &                     &                     \\
+[1em]
+rank 3     &                     &      -0.127\sym{***}&                     &                     \\
+            &                     &    (0.0191)         &                     &                     \\
+[1em]
+unemployment$\times$ rank 2 $\left( \beta_1 \right)$&                     &      0.0162         &                     &                     \\
+            &                     &    (0.0150)         &                     &                     \\
+[1em]
+unemployment$\times$ rank 3 $\left( \beta_2 \right)$&                     &     0.00955         &                     &                     \\
+            &                     &    (0.0179)         &                     &                     \\
+[1em]
+unemployment$\times$ female $\left( \beta_1 \right)$&                     &                     &     -0.0129         &                     \\
+            &                     &                     &    (0.0148)         &                     \\
+[1em]
+unemployment$\times$ usa $\left( \beta_1 \right)$&                     &                     &                     &      0.0227\sym{***}\\
+            &                     &                     &                     &   (0.00627)         \\
+\hline
+P-val from F-test &\\
+$\beta_u + \beta_1 = 0 $ &                 &        0.3005         &        0.0272         &        0.1538         \\
+$\beta_u + \beta_2 = 0$ &                 &        0.1105         &                 &                 \\
+\hline
+\(N\)       &        3946         &        3946         &        3946         &        3946         \\
+\(R^{2}\)   &       0.061         &       0.040         &       0.061         &       0.062         \\
+%adj. \(R^{2}\)&       0.049         &       0.034         &       0.049         &       0.050         \\
+%F           &       46.26         &       98.08         &       55.19         &       46.05         \\
+\hline\hline
+\multicolumn{5}{l}{\footnotesize Standard errors in parentheses and are clustered by cohort level. \sym{*} \(p<0.10\), \sym{**} \(p<.05\), \sym{***} \(p<.01\)}\\
+\multicolumn{5}{l}{\footnotesize Department and fields of study fixed effects are included in the estimation  except column (2)}\\
+\multicolumn{5}{l}{\footnotesize \textit{rank 2} and \textit{rank 3} are indicators for whether graduated from 11--23  and 24--45 ranked departments}\\
+\end{tabular}%
+}
+%{\tiny Department and fields of study fixed effects are included in the estimation  except column (2). Only fields of study fixed effect is included in column (2). \textit{rank 2} and \textit{rank 3} are binary variable indicating whether one graduated from 11--23 ranked departments and 24--45 ranked departments, respectively.}
+\end{table}

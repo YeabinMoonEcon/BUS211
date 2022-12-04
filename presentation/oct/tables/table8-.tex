@@ -1,0 +1,56 @@
+\begin{table}[ht]\centering
+	\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+	%\caption{The effect of economic conditions at graduation on the ranking of the initial placement}
+	\label{tb:table8}
+	\resizebox{8.5 cm}{!}{%
+\begin{tabular}{l*{8}{c}}
+\hline\hline
+			&\multicolumn{4}{c}{Occupational switching} & 			\multicolumn{4}{c}{Firm switching}\\
+            &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}&\multicolumn{1}{c}{(7)}&\multicolumn{1}{c}{(8)}\\
+            &\multicolumn{2}{c}{$\le$ 3 years}& \multicolumn{2}{c}{$\le$ 8 years} &\multicolumn{2}{c}{$\le$ 3 years}& \multicolumn{2}{c}{$\le$ 8 years}\\
+%            &\multicolumn{1}{c}{move\_occ}&\multicolumn{1}{c}{move\_occ}&\multicolumn{1}{c}{move\_occ}&\multicolumn{1}{c}{move\_job}&\multicolumn{1}{c}{move\_job}&\multicolumn{1}{c}{move\_job}&\multicolumn{1}{c}{move\_job}\\
+\hline
+unemployment    &    -0.00123         &      0.0133         &    -0.00127         &     0.00931         &      0.0164\sym{**} &      0.0347\sym{***}&     0.00952         &      0.0293\sym{***}\\
+            &   (0.00670)         &    (0.0121)         &   (0.00880)         &    (0.0116)         &   (0.00697)         &   (0.00732)         &   (0.00814)         &   (0.00608)         \\
+[1em]
+female  &     0.00112         &    0.000795         &     0.00707         &     0.00695         &     0.00997         &     0.00967         &    -0.00500         &    -0.00541         \\
+            &   (0.00733)         &   (0.00744)         &    (0.0172)         &    (0.0182)         &    (0.0134)         &    (0.0133)         &    (0.0134)         &    (0.0133)         \\
+[1em]
+US bachelor degree     &     -0.0314\sym{**} &     -0.0326\sym{**} &     -0.0305\sym{*}  &     -0.0317\sym{*}  &      0.0135         &      0.0129         &    -0.00159         &    -0.00201         \\
+            &    (0.0109)         &    (0.0107)         &    (0.0150)         &    (0.0147)         &    (0.0165)         &    (0.0166)         &    (0.0142)         &    (0.0142)         \\
+[1em]
+US uni&                     &      0.0187         &                     &     0.00302         &                     &      0.0439\sym{**} &                     &     -0.0374         \\
+            &                     &    (0.0229)         &                     &    (0.0324)         &                     &    (0.0172)         &                     &    (0.0230)         \\
+[1em]
+res org&                     &      0.0661\sym{**} &                     &      0.0551\sym{**} &                     &      0.0809\sym{***}&                     &     -0.0311\sym{*}  \\
+            &                     &    (0.0206)         &                     &    (0.0182)         &                     &    (0.0161)         &                     &    (0.0143)         \\
+[1em]
+foreign&                     &    -0.00708         &                     &     -0.0545\sym{**} &                     &      0.0102         &                     &     -0.0410\sym{*}  \\
+            &                     &    (0.0229)         &                     &    (0.0219)         &                     &    (0.0218)         &                     &    (0.0204)         \\
+[1em]
+private&                     &       0.105\sym{***}&                     &    -0.00756         &                     &       0.225\sym{***}&                     &       0.121\sym{***}\\
+            &                     &    (0.0182)         &                     &    (0.0185)         &                     &    (0.0230)         &                     &    (0.0139)         \\
+[1em]
+US uni $\times$ unemployment &                     &    -0.00504         &                     &     -0.0181         &                     &     -0.0146         &                     &     -0.0125         \\
+            &                     &    (0.0174)         &                     &    (0.0232)         &                     &    (0.0154)         &                     &    (0.0147)         \\
+[1em]
+res org $\times$ unemployment &                     &     -0.0256         &                     &    -0.00211         &                     &     -0.0170         &                     &     -0.0156         \\
+            &                     &    (0.0208)         &                     &    (0.0273)         &                     &    (0.0265)         &                     &    (0.0186)         \\
+[1em]
+foreign $\times$ unemployment&                     &     -0.0466\sym{**} &                     &     -0.0460\sym{**} &                     &     -0.0472\sym{***}&                     &     -0.0473\sym{**} \\
+            &                     &    (0.0171)         &                     &    (0.0183)         &                     &    (0.0107)         &                     &    (0.0159)         \\
+[1em]
+private $\times$ unemployment&                     &     0.00120         &                     &     0.00796         &                     &     -0.0179         &                     &     -0.0270\sym{**} \\
+            &                     &    (0.0167)         &                     &   (0.00976)         &                     &    (0.0122)         &                     &   (0.00864)         \\
+\hline
+\(N\)       &        3916         &        3916         &        3916         &        3916         &        3916         &        3916         &        3916         &        3916         \\
+\(R^{2}\)   &       0.032         &       0.035         &       0.020         &       0.021         &       0.052         &       0.053         &       0.031         &       0.032         \\
+%adj. \(R^{2}\)&       0.019         &       0.020         &       0.006         &       0.007         &       0.039         &       0.039         &       0.017         &       0.018         \\
+%F           &       4.581         &           .         &       1.923         &           .         &       6.734         &           .         &       0.457         &           .         \\
+\hline\hline
+\multicolumn{9}{l}{\footnotesize Standard errors in parentheses and are clustered by cohort level.}\\
+\multicolumn{9}{l}{\footnotesize \sym{*} \(p<0.10\), \sym{**} \(p<.05\), \sym{***} \(p<.01\)}\\
+\end{tabular}%
+}
+%\caption*{\footnotesize The dependent variable is the ranking of the placement. The department ranks are quoted from \textit{econphd.net rankings 2004}. The sample includes those who started their career from tenure track academic position in U.S. If school is not ranked in \textit{econphd.net rankings 2004}, I rank it as 400. Estimates are based on Eq. (\ref{eq:eq2}), and department and fields of study fixed effects are included in the estimation except column (2). Only fields of study fixed effect is included in column (2). \textit{rank 2} and \textit{rank 3} are binary variable indicating whether one graduated from 11--23 ranked departments and 24--45 ranked departments, respectively.} 
+\end{table}

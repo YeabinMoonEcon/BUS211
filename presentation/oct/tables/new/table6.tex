@@ -1,0 +1,56 @@
+\begin{table}[htbp]\centering
+	%\caption{The effect of economic conditions at graduation on the number of publications in Top 50 economics journals}
+	\label{tb:table6}
+%	\resizebox{13 cm}{!}{%
+	\begin{adjustbox}{max width=0.95\textwidth}
+\begin{tabular}{l*{8}{c}}
+\hline\hline
+		   &\multicolumn{4}{c}{Full sample}&\multicolumn{4}{c}{Restricted to initial placement in R1}\\
+            &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}&\multicolumn{1}{c}{(7)}&\multicolumn{1}{c}{(8)}\\
+            %&\multicolumn{1}{c}{pubs}&\multicolumn{1}{c}{pubs}&\multicolumn{1}{c}{pubs}&\multicolumn{1}{c}{pubs}&\multicolumn{1}{c}{pubs}&\multicolumn{1}{c}{pubs}&\multicolumn{1}{c}{pubs}&\multicolumn{1}{c}{pubs}\\
+\hline
+unemployment $\left( \beta_u \right)$     &     -0.0213\sym{***}&     -0.0807\sym{***}&     -0.0452\sym{***}&     -0.0136         &     -0.0628\sym{**} &     -0.0886\sym{***}&      -0.110\sym{***}&     -0.0273         \\
+            &   (0.00795)         &    (0.0244)         &    (0.0119)         &   (0.00915)         &    (0.0252)         &    (0.0306)         &    (0.0307)         &    (0.0291)         \\
+[1em]
+female&      -0.288\sym{***}&      -0.278\sym{***}&      -0.286\sym{***}&      -0.288\sym{***}&      -0.576\sym{***}&      -0.558\sym{***}&      -0.555\sym{***}&      -0.571\sym{***}\\
+            &    (0.0240)         &    (0.0239)         &    (0.0226)         &    (0.0240)         &    (0.0563)         &    (0.0526)         &    (0.0583)         &    (0.0572)         \\
+[1em]
+US bachelor degree   &     0.00424         &      0.0594\sym{***}&     0.00448         &     0.00435         &    -0.00749         &      0.0821         &     -0.0165         &     -0.0127         \\
+            &    (0.0119)         &    (0.0123)         &    (0.0120)         &    (0.0116)         &    (0.0638)         &    (0.0506)         &    (0.0640)         &    (0.0619)         \\
+[1em]
+tier 2     &                     &      -0.609\sym{***}&                     &                     &                     &      -0.902\sym{***}&                     &                     \\
+            &                     &    (0.0485)         &                     &                     &                     &    (0.0838)         &                     &                     \\
+[1em]
+tier 3     &                     &      -0.685\sym{***}&                     &                     &                     &      -0.860\sym{***}&                     &                     \\
+            &                     &    (0.0537)         &                     &                     &                     &    (0.0774)         &                     &                     \\
+[1em]
+unemployment$\times$ tier 2 $\left( \beta_1 \right)$&                     &       0.104\sym{***}&                     &                     &                     &       0.149\sym{**} &                     &                     \\
+            &                     &    (0.0363)         &                     &                     &                     &    (0.0671)         &                     &                     \\
+[1em]
+unemployment$\times$ tier 3 $\left( \beta_2 \right)$&                     &       0.104\sym{**} &                     &                     &                     &     -0.0215         &                     &                     \\
+            &                     &    (0.0435)         &                     &                     &                     &    (0.0646)         &                     &                     \\
+[1em]
+unemployment$\times$ female $\left( \beta_1 \right)$&                     &                     &      0.0817\sym{***}&                     &                     &                     &       0.167\sym{**} &                     \\
+            &                     &                     &    (0.0216)         &                     &                     &                     &    (0.0706)         &                     \\
+[1em]
+unemployment$\times$ US bachelor degree $\left( \beta_1 \right)$&                     &                     &                     &     -0.0175         &                     &                     &                     &     -0.0645         \\
+            &                     &                     &                     &    (0.0111)         &                     &                     &                     &    (0.0431)         \\
+\hline
+$\beta_u + \beta_1 $    &                &       0.0234         &       0.0365         &       -0.0311         &                &       0.0608         &      0.0570          &        -0.0918        \\
+P-val from F-test $\beta_u + \beta_1=0 $   &                &       0.1456         &       0.0108         &       0.0031         &                &         0.2241       &       0.3325         &      0.0124          \\
+$\beta_u + \beta_2$    &                &       0.0229         &                             &                             &                 &     -0.1100           &                           &                \\
+P-val from F-test $\beta_u + \beta_2=0 $&                &      0.2951         &                             &                            &                &            0.0254    &                &                \\
+\hline
+mean(dependent variable)            &       0.9225         &       0.9225         &       0.9225         &       0.9225            &     1.9321        &      1.9321  &  1.9321  &  1.9321     \\
+\hline
+Observations       &       50311         &       50311         &       50311         &       50311         &       11963         &       11963         &       11963         &       11963         \\
+\(R^{2}\)   &       0.169         &       0.149         &       0.169         &       0.169         &       0.324         &       0.298         &       0.325         &       0.324         \\
+%adj. \(R^{2}\)&       0.168         &       0.149         &       0.168         &       0.168         &       0.320         &       0.296         &       0.321         &       0.320         \\
+%F           &       56.67         &       29.88         &       44.71         &       45.79         &       34.97         &       26.54         &       37.45         &       31.50         \\
+\hline\hline
+\multicolumn{9}{l}{\footnotesize Standard errors in parentheses and are clustered by cohort level and current year $t$.}\\
+\multicolumn{9}{l}{\footnotesize \sym{*} \(p<0.10\), \sym{**} \(p<.05\), \sym{***} \(p<.01\)}\\
+\end{tabular}
+	\end{adjustbox}
+%\caption*{\footnotesize Estimates are based on Eq. (\ref{eq:eq1}) and the dependent variable is the cumulative number publications in the top 50 economics journals. The journal rankings are quoted from \textit{ IDEAS/RePEc Simple Impact Factors for Journals}. I include field of study and department fixed effects in all estimations except columns (2) and (6) because they control for the program tiers explicitly. Column (5)--(8) summarize the results for those who started their career at R1 university. }
+\end{table}

@@ -1,0 +1,438 @@
+% Created 2017-12-14 jeu. 14:09
+% Intended LaTeX compiler: pdflatex
+\documentclass[10pt,svgnames,fragile]{beamer}
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{etex}
+\usepackage{xcolor}
+\usepackage[normalem]{ulem}
+\usepackage{textcomp}
+\usepackage{pdflscape}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{qtree}
+\usepackage{bussproofs}
+\usepackage{proof}
+\usepackage{fitch}
+\usepackage{cancel}
+\usepackage{url}
+\usepackage{smfthm,adjustbox}
+\AtBeginSection[]{\begin{frame}<beamer>\frametitle{}\tableofcontents[currentsection,hideothersubsections]\end{frame}}
+\subtitle{}
+
+\newcommand{\REV}[1]{\textcolor{red}{#1}} 
+
+%\titlegraphic{\includegraphics[height=1.5cm]{udl}}
+\institute[University of Houston]{Department of Economics \\ University of Houston  }	       \usetheme{CambridgeUS}
+\usepackage{beamer_udl_theme}
+\setbeamertemplate{navigation symbols}{%
+	%insertslidenavigationsymbol%
+	%insertframenavigationsymbol%
+	%insertsubsectionnavigationsymbol%
+	%insertsectionnavigationsymbol%
+	%insertdocnavigationsymbol%
+	%insertbackfindforwardnavigationsymbol%
+}
+\usetheme{default}
+\author{Yeabin Moon}
+\date{June, 2022}
+
+
+
+%\title{Effects of Entry Economic Conditions\\ on the Career of Economics Ph.D.}
+\title[Dissertation defense]{ \fontsize{16}{21}\selectfont Proxying elderly cognition\\ with survey responses to financial questions} 
+
+\begin{document}
+	
+	
+	
+	\maketitle
+	
+	% * <joseph.vidal.rosset@gmail.com> 2017-12-14T13:16:35.383Z:
+	%
+	% ^.
+	
+	%\section{Section 1}
+	%\label{sec:org0b3f57d}
+	%\begin{frame}[label={sec:org61b7326}]{}
+	%First point 
+	%\end{frame}
+	%\section{Section 2}
+	%\label{sec:org39e5c65}
+	%\begin{frame}[label={sec:org329bb0e}]{}
+	%\begin{block}{A title}
+	%Text and text again \ldots{} 
+	%\end{block}
+	%\end{frame}
+	%\section{Section 3}
+	%\label{sec:orga8cefef}
+	%\begin{frame}[label={sec:org19156a6}]{A bigger title}
+	%Text\ldots{}  \pause 
+	%\begin{block}{A subtitle}
+	%Text and bibliographical reference, for example about  Quine \cite{quine1934}
+	%\end{block}
+	%\end{frame}
+	%
+	%\begin{frame}[label={sec:orge4f2952}]{Bibliographie}
+	%\bibliography{../reforg}
+	%\bibliographystyle{smfplain}
+	%\end{frame}
+	
+	
+	
+	
+	\begin{frame}
+		\frametitle{Introduction}
+			\vfill
+		\begin{itemize}
+			\item Cognitive decline is one of the most common conditions among the elderly
+			\begin{itemize}
+				\item 10.8 \% among 45--64 years old and 11.7 \% among 65 years and older (CDC)
+			\end{itemize}
+			\vfill
+			\item Interest in maintaining a healthy later life has increased, focusing on the cognitive function being central to this interest
+			\vfill
+	
+			%\item A decline in cognitive ability might be expected as people age, but stressful life events or medical incidents could increase the risk of cognitive decline
+
+			\vfill
+			\item A growing amount of evidence suggests further investigation of the cause and effect of cognitive decline
+			\vfill
+			\item  However, the lack of data availability limits the scope of research
+			\vfill
+			\item In this paper, I propose a measure as a proxy of cognitive ability based on the response patterns of popular surveys
+			\vfill		
+		\end{itemize}
+	\end{frame}
+
+
+\begin{frame}
+	\frametitle{Features of Survey Response}
+	\begin{itemize}
+		\item Participating in a survey requires mental effort %(Cannell, Miller, and Oksenberg 1981)
+			\vfill		
+	   \item Incomplete answers are frequently observed in open-ended questions
+	   \begin{itemize}
+	   		\vfill		
+	   	\item round numbers or missing responses
+	   \end{itemize}
+			\vfill		
+		\item Focus on the open-ended \textit{financial} questions
+		\begin{itemize}
+				\vfill		
+			\item available in popular survey-type microdata
+				\vfill		
+			\item the financial questions demands advanced mental operations \\(Riddles et al. 2017)
+				\vfill		
+			\item financial literacy is often associated with cognitive abilities \\(Cole and Shastry 2008, Bucher-Koenen and Ziegelmeyer 2011)
+		\end{itemize}
+		\vfill		
+		\item Analyzing the response patterns of the financial quetsions would provide a better understanding of cognitive functioning
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[label=Motivation]
+	\frametitle{\REV{Motivation}}
+	\begin{itemize}
+		\item Stylized patterns are observed in open-ended questions
+		\begin{itemize}
+			\item strong patters of heaping on  approximate number, rounded to  precision of 1\\ e.g. 2,000 or 10,000 \hyperlink{figure1}{\beamerbutton{figure}}
+			\item opt-out trends in aging 
+		\end{itemize}
+		\item  Assume that the response format is related to cognitive ability
+		\item Construct the proxy based on the response formats on the selected questions in the HRS
+		
+		\item Apply a similar method to construct the proxy using the PSID data
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Preview on Findings}
+	\begin{itemize}
+		\item The proxy starts to decline from the mid-60s
+		\item It is positively correlated with correlated with cognitive ability, directly measured by the HRS
+		\item Similar patterns are observed in the PSID
+		\item As an application of the project, the impact of the Title VI of the 1964 Civil Rights Act on black people's cognitive development
+		\begin{itemize}
+			\item find some evidence to support this claim
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+	\frametitle{Road Map}
+	\begin{enumerate}
+		\item Literature Review
+		\vfill
+		\item Data
+		\vfill
+		\item Framework 
+		\vfill
+		\item Validation
+		\vfill
+		\item PSID Application
+		\vfill
+		\item Conclusion
+		\vfill
+	\end{enumerate}
+\end{frame}
+
+
+{
+	\AtBeginSection{}
+	\section{Literature Review}
+	\begin{frame}
+		\frametitle{Literature Review} 
+		\begin{itemize}
+			\item Opt-out answers are considered as taking cognitive shortcuts to make answering easier (Colsher and Wallace 1989, Krosnick 1991, Kn{\"a}uper et al. 1997)
+			\begin{itemize}
+				\vfill
+				\item old respondents are more likely to skip or choose opt-outs
+				\item the respondents with low cognitive ability tend to opt out of the question more on difficult questions
+				%\vspace{2 mm}
+							\end{itemize}
+			\vfill
+			\item Another set of papers examine the relationship between cognitive ability and the pattern of numerical response (Andrews and Herzog 1986, Holbrook et al. 2014, Gideon, Helppie-McFall and Hsu 2017)
+			\vfill
+			\begin{itemize}
+				\item strong patterns of heaping at round numbers
+				\vfill
+				\item rounding was more common for respondents low in ability, for respondents low in motivation, and for more difficult questions
+				%			\begin{itemize}
+					%				\item examine occupational switching
+					%			\end{itemize}
+			\end{itemize}
+			\vfill
+						\item To the best of my knowledge, there is no research on estimating cognitive ability using the response pattern
+			
+		\end{itemize}
+	\end{frame}
+
+}
+
+
+
+
+{
+	\AtBeginSection{}
+	\section{Data}
+	\begin{frame}[label = data1]
+		\frametitle{Data Description} 
+		\begin{itemize}
+			\item Health and Retirement Study
+			\begin{itemize}
+				\vfill
+				\item focus on the household heads aged between 50 and 89, participated in 2004--2018 survey 
+				\item 62,851 individual-years, pooling 16,187 individuals across 7 waves 	\hyperlink{table1}{\beamerbutton{summary}}
+				%\vspace{2 mm}
+			\end{itemize}
+			\vfill
+			\item Question selection criteria
+			\vfill
+			\begin{itemize}
+				\item response format should be open-ended and require more than 2-digit numbers
+				\vfill
+				\item response rate should be large enough
+				\vfill
+				\item the selected questions should appear in multiple waves 
+				\vfill
+				\item	10 questions are selected	
+			\end{itemize}
+			\vfill
+		\end{itemize}
+	\end{frame}
+	
+	
+		\begin{frame}[label = data2]
+		\frametitle{Response patterns in the HRS} 
+	\input{tables/table2}
+	\begin{itemize}
+		\item {\small Maximal rounding indicates the numerical response, rounded to the precision of 1}
+	\end{itemize}
+	\end{frame}
+	
+			\begin{frame}
+		\frametitle{Cognitive score in the HRS} 
+		\begin{itemize}
+			\item Following measures are selected to construct \textit{cognitive score}
+			\begin{itemize}
+				\item immediate recall, delayed recall, serial 7 (Herzog and Wallace,
+				1995)
+			\end{itemize}
+		\end{itemize}
+	\begin{center}
+	\includegraphics[width=.6\textwidth]{"figures/figure1".png}
+\end{center}
+	\end{frame}
+	
+	
+}
+
+
+
+
+{
+	\AtBeginSection{}
+	\section{Framework}
+	\begin{frame}
+		\frametitle{Satisficing Theory} 
+		\begin{itemize}
+			\item Respondents either provide numerical values or opt out of the question
+					\begin{itemize}
+						\vspace{2 mm}
+				\item opt-out responses indicates \textit{don't know, refused to answer, skip}
+			\end{itemize}
+				\vfill
+			\item Providing incomplete answers are called \textit{satisficing} (Krosnick 1991)
+			\begin{itemize}
+				\vspace{2 mm}
+				\item claim that the satisficing behavior is negatively correlated with cognitive ability
+			\end{itemize}
+			\vfill
+		\item Investigate whether the cognitive ability could be inferred from the response patterns
+			\vfill
+		\item Propose a standardized method that enables cross-question comparisons in answering behavior
+			\vfill
+	\end{itemize}
+	\end{frame}
+
+	\begin{frame}[label=Framework2]
+	\frametitle{Characterizing the response} 
+	\begin{itemize}
+		\item Level of rounding would help characterize the numerical response
+	\begin{itemize}
+		\item assume round responses is a consequence of satisficing
+		\begin{itemize}
+			\item Gideon et al. 2017 define the level of rounding as $\left( \frac{\text{the number of total digits}-\text{the number of significant digits}}{\text{the number of total digits}-1} \right)$  	\hyperlink{figure2}{\beamerbutton{figure}}
+			\vspace{2 mm}
+			\item raises the question of whether it would be sufficient to focus just on the maximal rounding \hyperlink{figure3}{\beamerbutton{figure}}
+
+		\end{itemize}
+		\end{itemize}
+		\vfill
+		\item The reductions in cognitive ability can be reflected in the completion rate (Kn{\"a}uper  et al. 1997)
+		\begin{itemize}
+			\item use a dummy indicating the opt-out responses \hyperlink{figure4}{\beamerbutton{figure}}
+			
+		\end{itemize}
+		\vfill
+		\item Ideal proxy should be responsive to the level of rounding and opt-out responses
+		\vfill
+		\item Divide the response format into three: opt-out, maximal rounding, and numerical answer
+		\begin{itemize}
+			\item assign 0,1 and 2 to each type in order
+			\item assume that they represent the respondent’s cognitive ability in that order.
+		\end{itemize}
+		\vfill
+	\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}
+	\frametitle{Choices of Cognitive Proxy} 
+	\begin{itemize}
+		\item Label the above method \textit{Moon}
+		\item For comparison, employ two other ways of classifications
+		\begin{itemize}
+			\item \textit{Gideon}: level of rounding
+			\item \textit{Kn{\"a}uper}: opt-out responses
+		\end{itemize}
+	\item After characterizing response using these three ways, I take the average of them
+	\item To make the higher value of the proxies to imply higher cognitive ability
+	\begin{itemize}
+		\item use $1-level of rounding$ for Gideon
+	\end{itemize}
+	\item Evaluate the proxy based two aspects
+			\begin{itemize}
+		\item need to have trends in aging
+		\item correlate with the cognitive measures
+	\end{itemize}
+	\end{itemize}
+\end{frame}
+
+}
+
+{
+	\AtBeginSection{}
+\section{Validation}
+\begin{frame}
+	\frametitle{Proxy Evaluation I: Trends in Aging} 
+	\begin{center}
+	\includegraphics[width=.7\textwidth]{"figures/figure7".png}
+\end{center}
+\end{frame}
+
+{
+	\setbeamerfont{frametitle}{size=\large}
+\begin{frame}
+	\frametitle{Proxy Evaluation I: Trends in Aging controlling for individual effects} 
+	\begin{center}
+		\includegraphics[width=.7\textwidth]{"figures/figure8".png}
+	\end{center}
+\end{frame}}
+
+\begin{frame}
+	\frametitle{Proxy Evaluation II: Regression Analysis} 
+	\begin{itemize}
+		\item Cognitive development would be affected by income, education, and gender \\(Myers 1976, Budd and Guinnane 1991, Boyle and Gr{\'a}da 1986)
+		\item Regression analysis on the proxies to evaluate whether the resulting associations are consistent with literature
+		\item Consider: For a respondent $i$ in the survey year $t$,
+	\end{itemize}
+\end{frame}
+
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%% Table %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[label = table1]
+	\frametitle{Descriptive statistics for the HRS respondents} 
+	\input{tables/table1}
+	\hyperlink{data1}{\beamerbutton{back}}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%% Figure %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[label = figure1]
+	\frametitle{Descriptive statistics for the HRS respondents} 
+	\begin{center}
+	\includegraphics[width=.7\textwidth]{"figures/figure2".png}
+	\end{center}
+	\hyperlink{Motivation}{\beamerbutton{back}}
+\end{frame}
+
+\begin{frame}[label = figure2]
+	\frametitle{Level of rounding by age} 
+	\begin{center}
+		\includegraphics[width=.7\textwidth]{"figures/figure3".png}
+	\end{center}
+	\hyperlink{Framework2}{\beamerbutton{back}}
+\end{frame}
+
+\begin{frame}[label = figure3]
+	\frametitle{Maximal rounding by age} 
+	\begin{center}
+		\includegraphics[width=.7\textwidth]{"figures/figure4".png}
+	\end{center}
+	\hyperlink{Framework2}{\beamerbutton{back}}
+\end{frame}
+
+\begin{frame}[label = figure4]
+	\frametitle{Opt-out trend by age} 
+	\begin{center}
+		\includegraphics[width=.7\textwidth]{"figures/figure5".png}
+	\end{center}
+	\hyperlink{Framework2}{\beamerbutton{back}}
+\end{frame}
+
+\end{document}

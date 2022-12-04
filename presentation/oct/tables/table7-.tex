@@ -1,0 +1,48 @@
+\begin{table}[ht]\centering
+	\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+	%\caption{The effect of economic conditions at graduation on the number of publications in Top 50 economics journals}
+	\label{tb:table7}
+	\resizebox{6cm}{!}{%
+\begin{tabular}{l*{4}{c}}
+\hline\hline
+            &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
+            %&\multicolumn{1}{c}{pubs}&\multicolumn{1}{c}{pubs}&\multicolumn{1}{c}{pubs}&\multicolumn{1}{c}{pubs}\\
+\hline
+unemployment    &     -0.0213\sym{***}&     -0.0233\sym{**} &     -0.0203\sym{**} &     -0.0289\sym{***}\\
+            &   (0.00795)         &   (0.00978)         &   (0.00931)         &    (0.0103)         \\
+[1em]
+female &      -0.288\sym{***}&      -0.287\sym{***}&      -0.262\sym{***}&      -0.258\sym{***}\\
+            &    (0.0240)         &    (0.0240)         &    (0.0220)         &    (0.0214)         \\
+[1em]
+usa   &     0.00424         &     0.00429         &     -0.0673\sym{***}&     -0.0671\sym{***}\\
+            &    (0.0119)         &    (0.0119)         &    (0.0123)         &    (0.0127)         \\
+[1em]
+exp         &                     &       0.161\sym{***}&                     &                     \\
+            &                     &   (0.00259)         &                     &                     \\
+[1em]
+exp 1       &                     &                     &                     &       0.348\sym{***}\\
+            &                     &                     &                     &   (0.00712)         \\
+[1em]
+exp 2       &                     &                     &                     &       0.102\sym{***}\\
+            &                     &                     &                     &   (0.00493)         \\
+[1em]
+exp 3       &                     &                     &                     &       0.133\sym{***}\\
+            &                     &                     &                     &   (0.00255)         \\
+[1em]
+exp 4       &                     &                     &                     &       0.152\sym{***}\\
+            &                     &                     &                     &   (0.00330)         \\
+[1em]
+exp 5       &                     &                     &                     &      0.0147\sym{***}\\
+            &                     &                     &                     &   (0.00227)         \\
+\hline
+\(N\)       &       50311         &       50311         &       50311         &       50311         \\
+\(R^{2}\)   &       0.169         &       0.168         &       0.324         &       0.316         \\
+%adj. \(R^{2}\)&       0.168         &       0.167         &       0.322         &       0.315         \\
+%F           &       56.67         &      1003.5         &       65.04         &      1514.5         \\
+\hline\hline
+\multicolumn{5}{l}{\footnotesize Standard errors in parentheses and are clustered by cohort level and year $t$}\\
+\multicolumn{5}{l}{\footnotesize \sym{*} \(p<0.10\), \sym{**} \(p<.05\), \sym{***} \(p<.01\)}\\
+\end{tabular}
+}
+%\caption*{\footnotesize Estimates are based on Eq. (\ref{eq:eq1}), and the dependent variable in the subsection is the cumulative number of articles in the top 50 economics journals over time. Department and fields of study fixed effects are included in the estimations. Column (3) further includes experience fixed effects, and column (5) includes occupation experience fixed effects. The sample includes those who publish at least one article in top 50 economics journals. \text{experience} is the years of labor market experience after graduation. \text{exp 1}, \text{exp 2}, \text{exp 3}, \text{exp 4} and \text{exp 5} count separately the years of labor market experience on the occupations.}
+\end{table}

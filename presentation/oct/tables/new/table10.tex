@@ -1,0 +1,61 @@
+\begin{table}[htbp]\centering
+%	\caption{The effect of economic conditions on delaying graduation}
+	\label{tb:table10}
+%	\resizebox{12 cm}{!}{%
+		\begin{adjustbox}{max width=0.59\textwidth}
+\begin{tabular}{l*{5}{c}}
+\hline\hline
+            &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}\\
+            %&\multicolumn{1}{c}{delay}&\multicolumn{1}{c}{delay}&\multicolumn{1}{c}{delay}&\multicolumn{1}{c}{delay}&\multicolumn{1}{c}{delay}\\
+\hline
+unemployment  $\left( \beta_u \right)$    &      0.0247         &      0.0485\sym{*}  &      0.0478         &      0.0243         &      0.0213         \\
+            &    (0.0136)         &    (0.0240)         &    (0.0324)         &    (0.0167)         &    (0.0159)         \\
+[1em]
+female &      0.0202         &     0.00958         &      0.0105         &      0.0202         &      0.0202         \\
+            &    (0.0149)         &    (0.0155)         &    (0.0152)         &    (0.0151)         &    (0.0148)         \\
+[1em]
+US bachelor degree   &     -0.0218         &     -0.0255         &     -0.0266         &     -0.0218         &     -0.0220         \\
+            &    (0.0356)         &    (0.0357)         &    (0.0356)         &    (0.0355)         &    (0.0355)         \\
+[1em]
+tier 2     &                     &      0.0102         &                     &                     &                     \\
+            &                     &    (0.0282)         &                     &                     &                     \\
+[1em]
+tier 3     &                     &     -0.0172         &                     &                     &                     \\
+            &                     &    (0.0397)         &                     &                     &                     \\
+[1em]
+unemployment$\times$ tier 2  $\left( \beta_1 \right)$&                     &     -0.0276         &                     &                     &                     \\
+            &                     &    (0.0166)         &                     &                     &                     \\
+[1em]
+unemployment$\times$ tier 3  $\left( \beta_2 \right)$&                     &     -0.0592         &                     &                     &                     \\
+            &                     &    (0.0447)         &                     &                     &                     \\
+[1em]
+program rank       &                     &                     &   -0.000741         &                     &                     \\
+            &                     &                     &   (0.00139)         &                     &                     \\
+[1em]
+unemployment$\times$ program rank $\left( \beta_1 \right)$&                     &                     &    -0.00144         &                     &                     \\
+            &                     &                     &   (0.00156)         &                     &                     \\
+[1em]
+unemployment$\times$ female $\left( \beta_1 \right)$&                     &                     &                     &     0.00143         &                     \\
+            &                     &                     &                     &    (0.0165)         &                     \\
+[1em]
+unemployment$\times$ US bachelor degree $\left( \beta_1 \right)$&                     &                     &                     &                     &     0.00804         \\
+            &                     &                     &                     &                     &    (0.0295)         \\
+\hline
+$\beta_u + \beta_1$ &                 &        0.0209         &     &   0.0257         &       0.0292         \\
+P-val from F-test $\beta_u + \beta_1=0$&                 &        0.2423         &     &   0.0741         &       0.2612         \\
+$\beta_u + \beta_2$ &                 &        -0.0106         &       &          &                 \\
+P-val from F-test $\beta_u + \beta_2=0$&                 &        0.7128         &       &          &                 \\
+\hline
+mean(dependent variable)  &        0.4909         &        0.4048         &             0.4048         &         0.4909         &         0.4909         \\
+\hline
+Observations       &        2371         &        2371         &        2371         &        2371         &        2371         \\
+\(R^{2}\)   &       0.069         &       0.027         &       0.025         &       0.069         &       0.069         \\
+%adj. \(R^{2}\)&       0.049         &       0.017         &       0.017         &       0.049         &       0.049         \\
+%F           &       3.510         &       49.10         &       3.086         &       4.329         &       3.190         \\
+\hline\hline
+\multicolumn{6}{l}{\footnotesize Standard errors in parentheses and are clustered by cohort level.}\\
+\multicolumn{6}{l}{\footnotesize \sym{*} \(p<0.10\), \sym{**} \(p<.05\), \sym{***} \(p<.01\)}\\
+\end{tabular}%
+	\end{adjustbox}
+%\caption*{\footnotesize Estimates are based on Eq. (\ref{eq:eq2}), and department and fields of study fixed effects are included in the estimation except column (2) and (3). Only fields of study fixed effect is included in column (2) and (3). The dependent variable is whether one studied longer than 5 years. The samples are limited since the records of the starting year of Ph.D. are partial. \textit{tier 2} and \textit{tier 3} are binary variable indicating whether one graduated from 11--23 ranked departments and 24--45 ranked departments, respectively.}
+\end{table}

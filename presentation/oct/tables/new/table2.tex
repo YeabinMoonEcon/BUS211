@@ -1,0 +1,63 @@
+%\begin{table}[htbp]\centering
+\begin{table}[htbp]\centering
+%	\caption{The effect of economic conditions at graduation on the initial placement in R1 universities}
+	\label{tb:table2}
+	%\resizebox{12 cm}{!}{%
+\begin{adjustbox}{max width=0.68\textwidth}
+\begin{tabular}{l*{5}{c}}
+\hline\hline
+                    &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}\\
+                   % &\multicolumn{1}{c}{outcome1}&\multicolumn{1}{c}{outcome1}&\multicolumn{1}{c}{outcome1}&\multicolumn{1}{c}{outcome1}&\multicolumn{1}{c}{outcome1}\\
+\hline
+unemployment $\left( \beta_u \right)$        &     -0.0214\sym{***}&     -0.0286\sym{**} &     -0.0278\sym{*}  &     -0.0172\sym{**} &     -0.0317\sym{***}\\
+                    &   (0.00483)         &    (0.0106)         &    (0.0135)         &   (0.00654)         &   (0.00612)         \\
+[1em]
+female        &     0.00616         &     0.00570         &     0.00193         &     0.00586         &     0.00618         \\
+                    &    (0.0160)         &    (0.0149)         &    (0.0150)         &    (0.0149)         &    (0.0161)         \\
+[1em]
+US bachelor degree &      0.0589\sym{***}&      0.0657\sym{***}&      0.0664\sym{***}&      0.0588\sym{***}&      0.0587\sym{***}\\
+                    &    (0.0109)         &    (0.0118)         &    (0.0122)         &    (0.0109)         &   (0.00877)         \\
+[1em]
+tier 2              &                     &      -0.114\sym{***}&                     &                     &                     \\
+                    &                     &    (0.0145)         &                     &                     &                     \\
+[1em]
+tier 3              &                     &      -0.128\sym{***}&                     &                     &                     \\
+                    &                     &    (0.0193)         &                     &                     &                     \\
+[1em]
+unemployment$\times$ tier 2  &                     &      0.0168         &                     &                     &                     \\
+                    &                     &    (0.0151)         &                     &                     &                     \\
+[1em]
+unemployment$\times$ tier 3   &                     &     0.00897         &                     &                     &                     \\
+                    &                     &    (0.0180)         &                     &                     &                     \\
+[1em]
+program rank               &                     &                     &    -0.00425\sym{***}&                     &                     \\
+                    &                     &                     &  (0.000794)         &                     &                     \\
+[1em]
+unemployment$\times$ program rank $\left( \beta_1 \right)$  &                     &                     &    0.000448         &                     &                     \\
+                    &                     &                     &  (0.000704)         &                     &                     \\
+[1em]
+unemployment$\times$ female $\left( \beta_1 \right)$ &                     &                     &                     &     -0.0144         &                     \\
+                    &                     &                     &                     &    (0.0148)         &                     \\
+[1em]
+unemployment$\times$ US bachelor degree $\left( \beta_1 \right)$&                     &                     &                     &                     &      0.0234\sym{***}\\
+                    &                     &                     &                     &                     &   (0.00664)         \\
+\hline
+%P-val from F-test &\\
+$\beta_u + \beta_1  $ &                 &                &                 &          &  -0.0082  \\
+P-val from F-test $\beta_u + \beta_1 =0 $  &                 &              &                 &              &  0.1803  \\
+%$\beta_u + \beta_2$ &                 &        -0.0196         &                 &           &      \\
+%P-val from F-test  $\beta_u + \beta_2 =0  $ &                 &        0.0980         &                 &           &      \\
+\hline
+mean(dependent variable)        &     0.2339         &    0.2339        &   0.2339        &   0.2339        &   0.2339        \\
+\hline
+Observations        &        3916         &        3916         &        3916         &        3916         &        3916         \\
+\(R^{2}\)           &       0.063         &       0.040         &       0.034         &       0.063         &       0.064         \\
+%Adjusted \(R^{2}\)  &       0.051         &       0.035         &       0.029         &       0.051         &       0.051         \\
+%F                   &       53.93         &       97.44         &       57.24         &       49.63         &       42.19         \\
+\hline\hline
+\multicolumn{6}{l}{\footnotesize Standard errors in parentheses and are clustered by cohort level.}\\
+\multicolumn{6}{l}{\footnotesize \sym{*} \(p<0.10\), \sym{**} \(p<.05\), \sym{***} \(p<.01\)}\\
+\end{tabular}%
+	\end{adjustbox}
+%\caption*{\footnotesize The dependent variable is whether one holds a full-time position at R1 university at graduation. Estimates are based on Eq. (\ref{eq:eq2}), and department and fields of study fixed effects are included in the estimation except column (2) and (3). Column (2) and (3) include field of study fixed effects only. \textit{tier 2} and \textit{tier 3} are binary variable indicating whether one graduated from 11--23 ranked departments and 24--45 ranked departments, respectively. \textit{Program rank} is a continuous variable indicating the rank of the PhD programs. }
+\end{table}

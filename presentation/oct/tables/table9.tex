@@ -1,0 +1,54 @@
+\begin{table}[ht]\centering
+	\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+	%\caption{The effect of economic conditions on delaying graduation}
+	\label{tb:table9}
+	\resizebox{6.2 cm}{!}{%
+\begin{tabular}{l*{4}{c}}
+\hline\hline
+            &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
+           % &\multicolumn{1}{c}{delay}&\multicolumn{1}{c}{delay}&\multicolumn{1}{c}{delay}&\multicolumn{1}{c}{delay}\\
+\hline
+unemployment  $\left( \beta_u \right)$   &      0.0246         &      0.0486\sym{*}  &      0.0243         &      0.0209         \\
+            &    (0.0136)         &    (0.0240)         &    (0.0167)         &    (0.0161)         \\
+[1em]
+female &      0.0211         &      0.0103         &      0.0210         &      0.0211         \\
+            &    (0.0143)         &    (0.0149)         &    (0.0145)         &    (0.0142)         \\
+[1em]
+US bachelor degree   &     -0.0224         &     -0.0259         &     -0.0224         &     -0.0226         \\
+            &    (0.0359)         &    (0.0359)         &    (0.0359)         &    (0.0359)         \\
+[1em]
+rank 2     &                     &      0.0101         &                     &                     \\
+            &                     &    (0.0283)         &                     &                     \\
+[1em]
+rank 3     &                     &     -0.0165         &                     &                     \\
+            &                     &    (0.0397)         &                     &                     \\
+[1em]
+unemployment$\times$ rank 2  $\left( \beta_1 \right)$&                     &     -0.0277         &                     &                     \\
+            &                     &    (0.0166)         &                     &                     \\
+[1em]
+unemployment$\times$ rank 3  $\left( \beta_2 \right)$&                     &     -0.0602         &                     &                     \\
+            &                     &    (0.0448)         &                     &                     \\
+[1em]
+unemployment $\times$ female  $\left( \beta_1 \right)$&                     &                     &    0.000804         &                     \\
+            &                     &                     &    (0.0161)         &                     \\
+[1em]
+unemployment $\times$ usa  $\left( \beta_1 \right)$ &                     &                     &                     &     0.00838         \\
+            &                     &                     &                     &    (0.0297)         \\
+\hline
+P-val from F-test &\\
+$\beta_u + \beta_1 = 0 $ &                 &        0.2436         &        0.0759         &        0.2618         \\
+$\beta_u + \beta_2 = 0$ &                 &        0.6920         &                 &                 \\
+\hline
+\(N\)       &        2372         &        2372         &        2372         &        2372         \\
+\(R^{2}\)   &       0.069         &       0.027         &       0.069         &       0.069         \\
+%adj. \(R^{2}\)&       0.049         &       0.018         &       0.049         &       0.049         \\
+%F           &       3.629         &       49.51         &       4.434         &       3.177         \\
+\hline\hline
+\multicolumn{5}{l}{\footnotesize Dependent variable is whether one studied more than 5 years}\\
+\multicolumn{5}{l}{\footnotesize Standard errors in parentheses and are clustered by cohort level.}\\
+\multicolumn{5}{l}{\footnotesize  \sym{*} \(p<0.10\), \sym{**} \(p<.05\), \sym{***} \(p<.01\)}\\
+\multicolumn{5}{l}{\footnotesize Department and fields of study fixed effects are included in the estimation  except (2)}\\
+\end{tabular}%
+}
+%\caption*{\footnotesize Estimates are based on Eq. (\ref{eq:eq2}), and department and fields of study fixed effects are included in the estimation except column (2). Only fields of study fixed effect is included in column (2). The dependent variable is whether one studied longer than 5 years. The samples are limited since the records of the starting year of Ph.D. are partial. \textit{rank 2} and \textit{rank 3} are binary variable indicating whether one graduated from 11--23 ranked departments and 24--45 ranked departments, respectively.}
+\end{table}

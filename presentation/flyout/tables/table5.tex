@@ -1,0 +1,46 @@
+\begin{table}[htbp]\centering
+	\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+%	\caption{The signaling effect of unemployment on the placement outcomes over time}
+%	\label{tb:table5}
+%	\resizebox{8 cm}{!}{%
+		\begin{adjustbox}{max width=0.4\textwidth}
+\begin{tabular}{l*{2}{c}}
+\hline\hline
+            &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}\\
+           % &\multicolumn{1}{c}{long\_outcome1}&\multicolumn{1}{c}{long\_outcome1}\\
+\hline
+unemployment $\times$ exp 0--1 years&     -0.0146\sym{**} &     0.00115         \\
+            &   (0.00608)         &   (0.00409)         \\
+[1em]
+unemployment $\times$ exp 2--3 years&     -0.0122\sym{*}  &     0.00355         \\
+            &   (0.00565)         &   (0.00482)         \\
+[1em]
+unemployment $\times$ exp 4--5 years&     -0.0115\sym{*}  &     0.00425         \\
+            &   (0.00578)         &   (0.00535)         \\
+[1em]
+unemployment $\times$ exp 6--7 years&    -0.00770         &     0.00801         \\
+            &   (0.00510)         &   (0.00555)         \\
+[1em]
+unemployment $\times$ exp 8--9 years&    -0.00701         &     0.00869         \\
+            &   (0.00454)         &   (0.00528)         \\
+[1em]
+female  &    -0.00672         &     -0.0115         \\
+            &    (0.0139)         &   (0.00664)         \\
+[1em]
+US bachelor degree     &       0.100\sym{***}&      0.0548\sym{***}\\
+            &   (0.00896)         &   (0.00809)         \\
+[1em]
+R1 university    &                     &       0.773\sym{***}\\
+            &                     &   (0.00897)         \\
+\hline
+Observations      &       19580         &       19580         \\
+\(R^{2}\)   &       0.063         &       0.541         \\
+%adj. \(R^{2}\)&       0.060         &       0.540         \\
+%F           &       70.36         &     39448.8         \\
+\hline\hline
+\multicolumn{3}{l}{\footnotesize Standard errors in parentheses and are clustered by cohort level.}\\
+\multicolumn{3}{l}{\footnotesize \sym{*} \(p<0.10\), \sym{**} \(p<.05\), \sym{***} \(p<.01\)}\\
+\end{tabular}%
+	\end{adjustbox}
+%\caption*{\footnotesize Estimates are based on Eq. (\ref{eq:eq3}), and the dependent variable is whether one works at the tenure-track position in R1 at time $t$. Department, fields of study, and labor market experience fixed effects are included in all estimations. \textit{R1 university} is an indicator for whether one's initial placement is R1 university or not. \textit{exp} is an indicator for whether one has a particual years of experience.} 
+\end{table}

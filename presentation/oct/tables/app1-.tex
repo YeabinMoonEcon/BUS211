@@ -1,0 +1,46 @@
+\begin{table}[ht]\centering
+	\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+	%\caption{Appendix?}
+	\label{app:table1}
+	\resizebox{6 cm}{!}{%
+\begin{tabular}{l*{3}{c}}
+\hline\hline
+            &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}\\
+            %&\multicolumn{1}{c}{long\_outcome1}&\multicolumn{1}{c}{long\_outcome1}&\multicolumn{1}{c}{long\_outcome1}\\
+\hline
+unemployment $\times$ exp 0&     -0.0141\sym{**} &     -0.0145\sym{**} &     0.00118         \\
+            &   (0.00610)         &   (0.00609)         &   (0.00407)         \\
+[1em]
+unemployment $\times$ exp 2&    -0.00951         &     -0.0121\sym{*}  &     0.00359         \\
+            &   (0.00801)         &   (0.00565)         &   (0.00480)         \\
+[1em]
+unemployment $\times$ exp 4&     -0.0104         &     -0.0114\sym{*}  &     0.00428         \\
+            &   (0.00573)         &   (0.00579)         &   (0.00532)         \\
+[1em]
+unemployment $\times$ exp 6&    -0.00852         &    -0.00762         &     0.00803         \\
+            &   (0.00584)         &   (0.00511)         &   (0.00553)         \\
+[1em]
+unemployment $\times$ exp 8&    -0.00990         &    -0.00694         &     0.00871         \\
+            &   (0.00860)         &   (0.00455)         &   (0.00526)         \\
+[1em]
+female  &    -0.00685         &    -0.00685         &     -0.0116         \\
+            &    (0.0139)         &    (0.0139)         &   (0.00664)         \\
+[1em]
+usa     &       0.100\sym{***}&       0.100\sym{***}&      0.0549\sym{***}\\
+            &   (0.00899)         &   (0.00899)         &   (0.00808)         \\
+[1em]
+R1 university    &                     &                     &       0.773\sym{***}\\
+            &                     &                     &   (0.00898)         \\
+\hline
+\(FX \)       &       dep, fields          &       dep, fields, exp          &       dep, fields , exp         \\
+\(N\)       &       19590         &       19590         &       19590         \\
+\(R^{2}\)   &       0.062         &       0.063         &       0.541         \\
+%adj. \(R^{2}\)&       0.060         &       0.060         &       0.540         \\
+%F           &       967.6         &       69.42         &     36632.7         \\
+\hline\hline
+\multicolumn{4}{l}{\footnotesize Standard errors in parentheses and are clustered by cohort level.}\\
+\multicolumn{4}{l}{\footnotesize \sym{*} \(p<0.10\), \sym{**} \(p<.05\), \sym{***} \(p<.01\)}\\
+\end{tabular}%
+}
+%\caption*{\footnotesize Estimates are based on Eq. (\ref{eq:eq3}), and the dependent variable is whether one works at the tenure-track position in R1 at time $t$. Department, fields of study, and labor market experience fixed effects are included in all estimations. Column (2) and (3) further include fixed effects for exp 0, exp 2, exp4, exp6 and exp8. R1 university is an indicator for whether one’s initial placement is R1 university or not.} 
+\end{table}

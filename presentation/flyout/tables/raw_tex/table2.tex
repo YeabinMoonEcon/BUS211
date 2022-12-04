@@ -1,0 +1,43 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{4}{c}}
+\hline\hline
+                    &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
+                    &\multicolumn{1}{c}{outcome1}&\multicolumn{1}{c}{outcome1}&\multicolumn{1}{c}{outcome1}&\multicolumn{1}{c}{outcome1}\\
+\hline
+unemployment        &     -0.0214\sym{***}&     -0.0286\sym{**} &     -0.0172\sym{**} &     -0.0317\sym{***}\\
+                    &   (0.00483)         &    (0.0106)         &   (0.00654)         &   (0.00612)         \\
+[1em]
+female\_imp=1        &     0.00616         &     0.00570         &     0.00586         &     0.00618         \\
+                    &    (0.0160)         &    (0.0149)         &    (0.0149)         &    (0.0161)         \\
+[1em]
+US bachelor degree=1&      0.0589\sym{***}&      0.0657\sym{***}&      0.0588\sym{***}&      0.0587\sym{***}\\
+                    &    (0.0109)         &    (0.0118)         &    (0.0109)         &   (0.00877)         \\
+[1em]
+tier=2              &                     &      -0.114\sym{***}&                     &                     \\
+                    &                     &    (0.0145)         &                     &                     \\
+[1em]
+tier=3              &                     &      -0.128\sym{***}&                     &                     \\
+                    &                     &    (0.0193)         &                     &                     \\
+[1em]
+tier=2Xunemployment &                     &      0.0168         &                     &                     \\
+                    &                     &    (0.0151)         &                     &                     \\
+[1em]
+tier=3Xunemployment &                     &     0.00897         &                     &                     \\
+                    &                     &    (0.0180)         &                     &                     \\
+[1em]
+female\_imp=1Xunemployment&                     &                     &     -0.0144         &                     \\
+                    &                     &                     &    (0.0148)         &                     \\
+[1em]
+US bachelor degree=1Xunemployment&                     &                     &                     &      0.0234\sym{***}\\
+                    &                     &                     &                     &   (0.00664)         \\
+\hline
+Observations        &        3916         &        3916         &        3916         &        3916         \\
+\(R^{2}\)           &       0.063         &       0.040         &       0.063         &       0.064         \\
+Adjusted \(R^{2}\)  &       0.051         &       0.035         &       0.051         &       0.051         \\
+F                   &       53.93         &       97.44         &       49.63         &       42.19         \\
+\hline\hline
+\multicolumn{5}{l}{\footnotesize Standard errors in parentheses}\\
+\multicolumn{5}{l}{\footnotesize \sym{*} \(p<0.10\), \sym{**} \(p<.05\), \sym{***} \(p<.01\)}\\
+\end{tabular}
+}

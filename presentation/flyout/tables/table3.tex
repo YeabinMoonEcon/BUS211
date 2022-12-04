@@ -1,0 +1,56 @@
+\begin{table}[htbp]\centering
+	\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+		\begin{adjustbox}{max width=0.54\textwidth}
+%	\resizebox{10.5 cm}{!}{%
+\begin{tabular}{l*{4}{c}}
+\hline\hline
+            &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
+            %&\multicolumn{1}{c}{num\_rank\_1}&\multicolumn{1}{c}{num\_rank\_1}&\multicolumn{1}{c}{num\_rank\_1}&\multicolumn{1}{c}{num\_rank\_1}&\multicolumn{1}{c}{num\_rank\_1}\\
+\hline
+unemployment $\left( \beta_u \right)$     &        \only<2>{\color{blue}}12.30\sym{**} &        \only<3>{\color{blue}}12.63\sym{*}  &            12.45\sym{*}  &       \only<4>{\color{blue}}24.51\sym{**} \\
+            &     (4.590)         &     (5.725)              &     (5.463)         &     (8.556)         \\
+[1em]
+female &       0.458         &       0.273                 &       0.418         &       1.622         \\
+            &     (11.54)         &     (9.472)                  &     (11.47)         &     (11.26)         \\
+[1em]
+US bachelor degree   &       14.77         &       15.27                &       14.79         &       13.95         \\
+            &     (10.79)         &     (11.84)                &     (10.71)         &     (8.691)         \\
+[1em]
+tier 2  (rank 11--23)    &                     &       \only<3>{\color{blue}}42.13\sym{***}&                     &                                          \\
+            &                     &     (7.503)         &                     &                                          \\
+[1em]
+tier 3  (rank 24--45)    &                     &       \only<3>{\color{blue}}68.10\sym{***}&                     &                                          \\
+            &                     &     (11.02)         &                     &                                          \\
+[1em]
+unemployment$\times$ tier 2 $\left( \beta_1 \right)$&                     &      -4.003         &                     &                                          \\
+            &                     &     (6.936)         &                     &                                          \\
+[1em]
+unemployment$\times$ tier 3 $\left( \beta_2 \right)$&                     &      -3.320         &                     &                                          \\
+            &                     &     (11.26)         &                     &                                          \\
+[1em]
+unemployment$\times$ female $\left( \beta_1 \right)$&                     &                     &                           -0.531         &                     \\
+            &                     &                     &                          (8.717)         &                     \\
+[1em]
+unemployment$\times$ US bachelor degree $\left( \beta_1 \right)$&                    &                                          &                     &      \only<4>{\color{blue}}-22.36\sym{**} \\
+                                 &                     &                     &                     &     (9.337)         \\
+\hline
+$\beta_u + \beta_1 $ &                 &        8.6290                          &        11.9195      &   2.1511  \\
+P-val from F-test $\beta_u + \beta_1=0 $&                 &        0.1906                         &        0.1418      &  0.5991  \\
+$\beta_u + \beta_2$ &                 &        9.3116         &                 &                 \\
+P-val from F-test $\beta_u + \beta_2=0 $&                 &        0.4121         &                 &                 \\
+\hline
+mean(dependent variable)        &     137.80         &    137.80        &   137.80          &   137.80       \\
+\hline
+Observations      &        1183         &        1183         &        1183         &        1183            \\
+\(R^{2}\)   &       0.125         &       0.081                &       0.125         &       0.129         \\
+%adj. \(R^{2}\)&       0.087         &       0.064         &       0.059         &       0.086         &       0.091         \\
+%F           &       2.605         &       41.20         &       16.02         &       1.962         &       2.550         \\
+\hline\hline
+\multicolumn{5}{l}{\footnotesize Standard errors in parentheses and are clustered by cohort level.}\\
+\multicolumn{5}{l}{\footnotesize The department ranks are quoted from \textit{econphd.net rankings 2004}.}\\
+\multicolumn{5}{l}{\footnotesize Department and fields of study fixed effects are included in the estimation except column (2)}\\
+\multicolumn{5}{l}{\footnotesize \sym{*} \(p<0.10\), \sym{**} \(p<.05\), \sym{***} \(p<.01\)}\\
+\end{tabular}%
+	\end{adjustbox}
+%\caption*{\footnotesize The dependent variable is the ranking of the placement. The department ranks are quoted from \textit{econphd.net rankings 2004}. Estimates are based on Eq. (\ref{eq:eq2}), and the estimation only includes those who started their career from full-time positions in R1 university. If the placement is not ranked, I rank it 350. If one’s position is not full-time, I rank it 400 regardless of the placements \textcite{ge2021sharing}. I include department and fields of study fixed effects except column (2) because column (2) controls the rank of the programs. \textit{tier 2} and \textit{tier 3} are binary variable indicating whether one graduated from 11--23 ranked departments and 24--45 ranked departments, respectively. \textit{Program rank} is a continuous variable indicating the rank of the Ph.D. programs. }
+\end{table}

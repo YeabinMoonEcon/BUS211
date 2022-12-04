@@ -1,0 +1,32 @@
+\begin{table}[ht]\centering
+	\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+	%\caption{The effect of economic conditions at graduation on the ranking of the initial placement}
+	\label{tb:table8}
+	\resizebox{8.5 cm}{!}{%
+\begin{tabular}{l*{6}{c}}
+\hline\hline
+		&\multicolumn{3}{c}{Occupational switching} & 			\multicolumn{3}{c}{Firm switching}\\
+            &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}\\
+            &\multicolumn{1}{c}{$\le$ 3 years}&\multicolumn{1}{c}{$\le$ 6 years}&\multicolumn{1}{c}{$\le$ 9 years}&\multicolumn{1}{c}{$\le$ 3 years}&\multicolumn{1}{c}{$\le$ 6 years}&\multicolumn{1}{c}{$\le$ 9 years}\\
+\hline
+unemployment    &    -0.00146         &     0.00261         &    -0.00127         &      0.0167\sym{***}&      0.0150         &     0.00952         \\
+            &   (0.00599)         &   (0.00825)         &   (0.00880)         &   (0.00429)         &    (0.0100)         &   (0.00814)         \\
+[1em]
+female  &     0.00543         &      0.0221         &     0.00707         &      0.0181\sym{**} &     0.00496         &    -0.00500         \\
+            &   (0.00679)         &    (0.0166)         &    (0.0172)         &   (0.00729)         &    (0.0155)         &    (0.0134)         \\
+[1em]
+US bachelor degree     &    -0.00557         &     -0.0209         &     -0.0305\sym{*}  &      0.0262         &     0.00766         &    -0.00159         \\
+            &   (0.00976)         &    (0.0127)         &    (0.0150)         &    (0.0190)         &    (0.0162)         &    (0.0142)         \\
+\hline
+\(N\)       &        3916         &        3916         &        3916         &        3916         &        3916         &        3916         \\
+\(R^{2}\)   &       0.030         &       0.030         &       0.020         &       0.048         &       0.049         &       0.031         \\
+%adj. \(R^{2}\)&       0.017         &       0.016         &       0.006         &       0.035         &       0.036         &       0.017         \\
+%F           &       0.676         &       3.736         &       1.923         &       10.05         &       1.227         &       0.457         \\
+\hline\hline
+\multicolumn{7}{l}{\footnotesize Department, fields of study and initial placement occupation fixed effects are included}\\
+\multicolumn{7}{l}{\footnotesize Standard errors in parentheses and are clustered by cohort level.}\\
+\multicolumn{7}{l}{\footnotesize \sym{*} \(p<0.10\), \sym{**} \(p<.05\), \sym{***} \(p<.01\)}\\
+\end{tabular}%
+}
+%\caption*{\footnotesize The dependent variable is the ranking of the placement. The department ranks are quoted from \textit{econphd.net rankings 2004}. The sample includes those who started their career from tenure track academic position in U.S. If school is not ranked in \textit{econphd.net rankings 2004}, I rank it as 400. Estimates are based on Eq. (\ref{eq:eq2}), and department and fields of study fixed effects are included in the estimation except column (2). Only fields of study fixed effect is included in column (2). \textit{rank 2} and \textit{rank 3} are binary variable indicating whether one graduated from 11--23 ranked departments and 24--45 ranked departments, respectively.} 
+\end{table}

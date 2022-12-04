@@ -1,0 +1,59 @@
+\begin{table}[ht]\centering
+	\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+	%\caption{The effect of economic conditions at graduation on the ranking of the initial placement}
+	\label{tb:table6}
+	\resizebox{7 cm}{!}{%
+\begin{tabular}{l*{5}{c}}
+\hline\hline
+            &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}\\
+          %  &\multicolumn{1}{c}{long\_outcome1}&\multicolumn{1}{c}{long\_outcome1}&\multicolumn{1}{c}{long\_outcome1}&\multicolumn{1}{c}{long\_outcome1}&\multicolumn{1}{c}{long\_outcome1}\\
+\hline
+unemployment  $\left( \beta_u \right)$    &     -0.0121\sym{*}  &    -0.00550         &     -0.0159\sym{**} &     -0.0110         &      0.0106\sym{*}  \\
+            &   (0.00595)         &   (0.00612)         &   (0.00514)         &   (0.00659)         &   (0.00553)         \\
+[1em]
+female &    -0.00878         &    -0.00568         &    -0.00877         &    -0.00828         &     -0.0142         \\
+            &    (0.0161)         &    (0.0133)         &    (0.0161)         &    (0.0153)         &   (0.00779)         \\
+[1em]
+US bachelor degree   &       0.103\sym{***}&       0.103\sym{***}&       0.101\sym{***}&       0.115\sym{***}&      0.0559\sym{***}\\
+            &   (0.00947)         &   (0.00937)         &   (0.00947)         &   (0.00963)         &   (0.00753)         \\
+[1em]
+rank 2     &                     &                     &                     &      -0.136\sym{***}&                     \\
+&                     &                     &                     &    (0.0171)         &                     \\
+[1em]
+rank 3     &                     &                     &                     &      -0.138\sym{***}&                     \\
+&                     &                     &                     &    (0.0187)         &                     \\
+[1em]
+R1 university  &                     &                     &                     &                     &       0.810\sym{***}\\
+&                     &                     &                     &                     &    (0.0102)         \\
+[1em]
+unemployment $\times$ female  $\left( \beta_1 \right)$&                     &     -0.0227         &                     &                     &                     \\
+            &                     &    (0.0132)         &                     &                     &                     \\
+[1em]
+unemployment $\times$ US bachelor  $\left( \beta_1 \right)$&                     &                     &     0.00876         &                     &                     \\
+            &                     &                     &   (0.00620)         &                     &                     \\
+[1em]
+unemployment$\times$ rank 2  $\left( \beta_1 \right)$&                     &                     &                     &     0.00537         &                     \\
+            &                     &                     &                     &    (0.0175)         &                     \\
+[1em]
+unemployment$\times$ rank 3  $\left( \beta_2 \right)$&                     &                     &                     &    -0.00890         &                     \\
+            &                     &                     &                     &    (0.0161)         &                     \\
+[1em]
+unemployment $\times$ R1 university  $\left( \beta_1 \right)$&                     &                     &                     &                     &     -0.0281\sym{***}\\
+            &                     &                     &                     &                     &   (0.00749)         \\
+\hline
+P-val from F-test &\\
+$\beta_u + \beta_1 = 0 $      &                 &        0.0814         &      0.0186         &   0.9127       &        0.9763         \\
+$\beta_u + \beta_2 = 0 $       &                 &                &                 &               0.1453     &              \\
+\hline
+\(N\)       &        3916         &        3916         &        3916         &        3916         &        3916         \\
+\(R^{2}\)   &       0.064         &       0.065         &       0.064         &       0.046         &       0.580         \\
+%adj. \(R^{2}\)&       0.052         &       0.053         &       0.052         &       0.041         &       0.574         \\
+%F           &       42.04         &       89.84         &       36.21         &       356.0         &      2120.0         \\
+\hline\hline
+\multicolumn{6}{l}{\footnotesize Standard errors in parentheses and are clustered by cohort level. \sym{*} \(p<0.10\), \sym{**} \(p<.05\), \sym{***} \(p<.01\)}\\
+\multicolumn{6}{l}{\footnotesize Department and fields of study fixed effects are included in the estimation  except column (4)}\\
+\multicolumn{6}{l}{\footnotesize R1 university indicates whether the initial placement is at R1}\\
+\end{tabular}%
+}
+%\caption*{\footnotesize The dependent variable is the ranking of the placement. The department ranks are quoted from \textit{econphd.net rankings 2004}. The sample includes those who started their career from tenure track academic position in U.S. If school is not ranked in \textit{econphd.net rankings 2004}, I rank it as 400. Estimates are based on Eq. (\ref{eq:eq2}), and department and fields of study fixed effects are included in the estimation except column (2). Only fields of study fixed effect is included in column (2). \textit{rank 2} and \textit{rank 3} are binary variable indicating whether one graduated from 11--23 ranked departments and 24--45 ranked departments, respectively.} 
+\end{table}

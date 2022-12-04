@@ -1,0 +1,35 @@
+\begin{table}[ht]\centering
+	\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+	%\caption{The effect of economic conditions at graduation on the number of publications in Top 50 economics journals}
+	\label{tb:table7}
+	\resizebox{11cm}{!}{%
+		\begin{tabular}{l*{6}{c}}
+			\hline\hline
+			&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}\\
+			&\multicolumn{1}{c}{top 50}&\multicolumn{1}{c}{top 50}&\multicolumn{1}{c}{top 20}&\multicolumn{1}{c}{top 20}&\multicolumn{1}{c}{top 5}&\multicolumn{1}{c}{top 5}\\
+			\hline
+unemployment    &     -0.0213\sym{***}&     -0.0233\sym{**} &     -0.0128\sym{***}&     -0.0138\sym{**} &    -0.00339         &    -0.00386         \\
+            &   (0.00795)         &   (0.00978)         &   (0.00487)         &   (0.00589)         &   (0.00232)         &   (0.00291)         \\
+[1em]
+female &      -0.288\sym{***}&      -0.287\sym{***}&      -0.159\sym{***}&      -0.158\sym{***}&     -0.0813\sym{***}&     -0.0813\sym{***}\\
+            &    (0.0240)         &    (0.0240)         &    (0.0145)         &    (0.0145)         &   (0.00786)         &   (0.00785)         \\
+[1em]
+US bachelor degree   &     0.00424         &     0.00429         &     -0.0286\sym{***}&     -0.0286\sym{***}&    -0.00680         &    -0.00681         \\
+            &    (0.0119)         &    (0.0119)         &    (0.0102)         &    (0.0102)         &   (0.00422)         &   (0.00423)         \\
+[1em]
+experience         &                     &       0.161\sym{***}&                     &      0.0892\sym{***}&                     &      0.0323\sym{***}\\
+            &                     &   (0.00259)         &                     &   (0.00150)         &                     &   (0.00108)         \\
+\hline
+\(N\)       &       50311         &       50311         &       50311         &       50311         &       50311         &       50311         \\
+\(R^{2}\)   &       0.169         &       0.168         &       0.131         &       0.130         &       0.097         &       0.096         \\
+%adj. \(R^{2}\)&       0.168         &       0.167         &       0.130         &       0.129         &       0.096         &       0.096         \\
+%F           &       56.67         &      1003.5         &       45.03         &       970.9         &       38.85         &       226.2         \\
+\hline\hline
+\multicolumn{7}{l}{\footnotesize Standard errors in parentheses and are clustered by cohort and current year $t$. \sym{*} \(p<0.10\), \sym{**} \(p<.05\), \sym{***} \(p<.01\)}\\
+\multicolumn{7}{l}{\footnotesize Department and fields of study fixed effects are included in the estimation }\\
+\multicolumn{7}{l}{\footnotesize Experience fixed effects are included in column (1), (3), (5) }\\
+\multicolumn{7}{l}{\footnotesize Journal rankings are quoted from \textit{IDEAS/RePEc Simple Impact Factors for Journals }.}\\
+\end{tabular}%
+}
+%\caption*{\footnotesize The dependent variable is the ranking of the placement. The department ranks are quoted from \textit{econphd.net rankings 2004}. The sample includes those who started their career from tenure track academic position in U.S. If school is not ranked in \textit{econphd.net rankings 2004}, I rank it as 400. Estimates are based on Eq. (\ref{eq:eq2}), and department and fields of study fixed effects are included in the estimation except column (2). Only fields of study fixed effect is included in column (2). \textit{rank 2} and \textit{rank 3} are binary variable indicating whether one graduated from 11--23 ranked departments and 24--45 ranked departments, respectively.} 
+\end{table}

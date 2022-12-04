@@ -1,0 +1,34 @@
+\begin{table}[htbp]\centering
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+		\begin{adjustbox}{max width=.75\textwidth}
+		\begin{tabular}{l*{3}{c}}
+			\hline\hline
+			&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}\\
+			&\multicolumn{1}{c}{initial}&\multicolumn{1}{c}{5 years}&\multicolumn{1}{c}{9 years}\\
+\hline
+unemployment  &     \only<2>{\color{blue}}-0.0214\sym{***}&     \only<2>{\color{blue}}-0.0121\sym{*}  &    \only<2>{\color{blue}}-0.00821\sym{*}    \\
+                    &   (0.00483)         &   (0.00595)         &   (0.00434)             \\
+[1em]
+female        &     0.00616         &    -0.00878         &      \only<2>{\color{blue}}-0.0182\sym{*}  \\
+                    &    (0.0160)         &    (0.0161)         &   (0.00930)               \\
+[1em]
+US bachelor degree           &       \only<2>{\color{blue}}0.0589\sym{***}&        \only<2>{\color{blue}}0.103\sym{***}&        \only<2>{\color{blue}}0.106\sym{***}   \\
+                    &    (0.0109)         &   (0.00947)         &    (0.0148)        \\
+\hline
+mean(dependent variable)        &     0.2339         &         0.3069          &        0.2788           \\
+\hline
+Observations        &        3916         &        3916         &        3916                \\
+\(R^{2}\)           &       0.063         &       0.064         &       0.065               \\
+%Adjusted \(R^{2}\)  &       0.051         &       0.052         &       0.053         &       0.035         &       0.041         &       0.040         \\
+%F                   &       53.93         &       42.04         &       25.30         &       97.44         &       356.0         &       46.19         \\
+\hline\hline
+%\multicolumn{7}{l}{\footnotesize Dependent variable is whether one work at R1 university}\\
+\multicolumn{4}{l}{\footnotesize The dependent variable is whether one 	works at R1 university after given years.}\\
+\multicolumn{4}{l}{\footnotesize Fields of study and department fixed effects are included.}\\
+\multicolumn{4}{l}{\footnotesize Standard errors in parentheses and are clustered by cohort level.}\\
+\multicolumn{4}{l}{\footnotesize \sym{*} \(p<0.10\), \sym{**} \(p<.05\), \sym{***} \(p<.01\)}\\
+%\multicolumn{6}{l}{\footnotesize R1 university indicates whether the initial placement is at R1}\\
+\end{tabular}%
+	\end{adjustbox}
+%\caption*{\footnotesize Estimates are based on Eq. (\ref{eq:eq2}), and field of study fixed effect is included in all the estimations. Columns (1)--(3) further includes department fixed effects. The dependent variable in columns (1) and (4) is whether one works at R1 university at graduation. The dependent variable in columns (2) and (5) is whether one works at R1 university five years after graduation. The dependent variable in columns (2) and (5) is whether one works at R1 university nine years after graduation. \textit{tier 2} and \textit{tier 3} are binary variable indicating whether one graduated from 11--23 ranked departments and 24--45 ranked departments, respectively.} 
+\end{table}

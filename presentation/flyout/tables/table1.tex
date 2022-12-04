@@ -1,0 +1,49 @@
+% Please add the following required packages to your document preamble:
+% \usepackage{graphicx}
+\begin{table}[ht]
+	\centering
+%	\caption{Descriptive statistics of Graduates by Department Rankings}
+	\begin{adjustbox}{max width=0.75\textwidth}
+	%\resizebox{12 cm}{!}{%
+		\begin{tabular}{lllll}
+			\hline\hline
+			& Overall & tier 1 & tier 2 & tier 3 \\ 
+			& (1)  & (2)  & (3) & (4) \\
+			\hline
+			\textbf{Demographics} &         &        &        &        \\
+			female                              & 0.287  &  0.251  & 0.324 &0.309   \\
+			& (0.452)  & (0.433) & (0.468) & (0.462) \\
+			US bachelor                         & 0.426  & 0.471 & 0.398 & 0.376 \\
+			& (0.494)  & (0.499) & (0.489) & (0.484) \\
+			\textbf{Research Productivity}     &         &        &        &        \\
+%			number of publications by 3 years &  0.327 & 0.445 & 0.247 & 0.210\\
+%			&  (0.742) & (0.873) & (0.627) & (0.557) \\
+%			number of publications by 6 years &  0.873 & 1.208& 0.641 & 0.546\\
+%			&   (1.516) & (1.778) & (1.298) & (1.048) \\
+			number of publications by 9 years &  1.414 & 1.970 &  1.020 & 0.880 \\
+			&  (2.325) & (2.748) & (1.948) & (1.562) \\
+			%publications$^1$                        & 1.4156  & 1.8615 & 1.1246 & 0.9567 \\
+			%& 3.0926  & 3.6232 & 2.8099 & 2.1062 \\
+			%publications$^2$                        & 1.8811  & 2.5608 & 1.4264 & 1.2021 \\
+			%& 3.4547  & 4.0263 & 3.0844 & 2.4057 \\
+			\textbf{Initial placements}     &         &        &        &        \\
+			tenure-track in R1 university                           & 0.232  & 0.301 & 0.184 & 0.165 \\
+			& (0.422)  & (0.459) & (0.388) & (0.371) \\
+			private sector                      & 0.240  & 0.226 & 0.261 & 0.241 \\
+			& (0.427)    & (0.418) & (0.439) & (0.427) \\ 
+			
+			%			\textbf{Job mobility}     &         &        &        &        \\
+			%			Occupation mobility                          &.4123  & 0.4004 & 0.4244 & 0.4195 \\
+			%			& (0.4923)  & (0.4901) & (0.4944) & (0.4937) \\
+			%			Firm mobility                         & 0.6732 & 0.6833 & 0.6754 & 0.6519 \\
+			%			& (0.4690)    & (0.4652) & (0.4683) & (0.4766) \\  
+			\hline
+			%			
+			number of schools & 32 & 10 &10 & 12 \\
+			%Observations                        & 55,582   & 23,824  & 14,735  & 17,023  \\
+			number of individuals               & 3,979    & 1,795   & 1,197   & 987   \\ \hline\hline
+		\end{tabular}%
+	\end{adjustbox}
+	%	\caption*{\footnotesize I collect the job market candidates from 32 universities in the US and group them into three categories by department rankings. The ranks are quoted from \textit{econphd.net rankings 2004}. Column (2), (3) and (4) summarize those who graduated from 1--10, 11--23, 24--45 departments in the US, respectively. I count the number of cumulative publications from the top 50 economics journals for the primary analysis. Job mobility reports the probability of switching a job from the initial placement. Standard errors are in parentheses.}
+\label{tb:table1}
+\end{table}

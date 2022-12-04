@@ -1,0 +1,28 @@
+{
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\begin{tabular}{l*{6}{c}}
+\hline\hline
+            &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}\\
+            &\multicolumn{1}{c}{outcome1}&\multicolumn{1}{c}{long\_outcome1}&\multicolumn{1}{c}{long\_outcome1}&\multicolumn{1}{c}{outcome1}&\multicolumn{1}{c}{long\_outcome1}&\multicolumn{1}{c}{long\_outcome1}\\
+\hline
+z1u\_rate    &     -0.0214\sym{***}&     -0.0121\sym{*}  &    -0.00821\sym{*}  &     -0.0172\sym{**} &    -0.00550         &    -0.00502         \\
+            &   (0.00483)         &   (0.00595)         &   (0.00434)         &   (0.00654)         &   (0.00612)         &   (0.00434)         \\
+[1em]
+1.female\_imp&     0.00616         &    -0.00878         &     -0.0182\sym{*}  &     0.00586         &    -0.00568         &     -0.0167\sym{*}  \\
+            &    (0.0160)         &    (0.0161)         &   (0.00930)         &    (0.0149)         &    (0.0133)         &   (0.00849)         \\
+[1em]
+1.usa\_imp   &      0.0589\sym{***}&       0.103\sym{***}&       0.106\sym{***}&      0.0588\sym{***}&       0.103\sym{***}&       0.106\sym{***}\\
+            &    (0.0109)         &   (0.00947)         &    (0.0148)         &    (0.0109)         &   (0.00937)         &    (0.0147)         \\
+[1em]
+1.female\_imp#c.z1u\_rate&                     &                     &                     &     -0.0144         &     -0.0227         &     -0.0109         \\
+            &                     &                     &                     &    (0.0148)         &    (0.0132)         &   (0.00807)         \\
+\hline
+\(N\)       &        3916         &        3916         &        3916         &        3916         &        3916         &        3916         \\
+\(R^{2}\)   &       0.063         &       0.064         &       0.065         &       0.063         &       0.065         &       0.065         \\
+adj. \(R^{2}\)&       0.051         &       0.052         &       0.053         &       0.051         &       0.053         &       0.053         \\
+F           &       53.93         &       42.04         &       25.30         &       49.63         &       89.84         &       25.78         \\
+\hline\hline
+\multicolumn{7}{l}{\footnotesize Standard errors in parentheses}\\
+\multicolumn{7}{l}{\footnotesize \sym{*} \(p<0.10\), \sym{**} \(p<.05\), \sym{***} \(p<.01\)}\\
+\end{tabular}
+}

@@ -1,0 +1,55 @@
+\begin{table}[ht]\centering
+	\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+	%\caption{The effect of economic conditions at graduation on the ranking of the initial placement}
+	\label{tb:table4}
+	\resizebox{7cm}{!}{%
+\begin{tabular}{l*{4}{c}}
+\hline\hline
+            &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
+            %&\multicolumn{1}{c}{num\_rank\_1}&\multicolumn{1}{c}{num\_rank\_1}&\multicolumn{1}{c}{num\_rank\_1}&\multicolumn{1}{c}{num\_rank\_1}\\
+\hline
+unemployment  $\left( \beta_u \right)$    &      -3.713         &      -1.578         &      -6.915         &       1.525         \\
+            &     (4.901)         &     (4.601)         &     (5.794)         &     (3.778)         \\
+[1em]
+female &       1.802         &      -0.316         &       3.004         &       1.963         \\
+            &     (5.686)         &     (5.753)         &     (3.988)         &     (5.792)         \\
+[1em]
+US bachelor degree   &       13.55\sym{**} &       7.669         &       13.48\sym{**} &       12.44\sym{**} \\
+            &     (4.977)         &     (7.184)         &     (5.012)         &     (4.255)         \\
+[1em]
+rank 2     &                     &       114.6\sym{***}&                     &                     \\
+            &                     &     (9.667)         &                     &                     \\
+[1em]
+rank 3     &                     &       146.3\sym{***}&                     &                     \\
+            &                     &     (6.076)         &                     &                     \\
+[1em]
+unemployment$\times$ rank 2  $\left( \beta_1 \right)$&                     &      -11.35         &                     &                     \\
+            &                     &     (9.875)         &                     &                     \\
+[1em]
+unemployment$\times$ rank 3  $\left( \beta_2 \right)$&                     &       2.744         &                     &                     \\
+            &                     &     (6.769)         &                     &                     \\
+[1em]
+unemployment $\times$ female  $\left( \beta_1 \right)$&                     &                     &       10.67\sym{**} &                     \\
+            &                     &                     &     (3.746)         &                     \\
+[1em]
+unemployment$\times$ US bachelor  $\left( \beta_1 \right)$&                     &                     &                     &      -9.582         \\
+            &                     &                     &                     &     (5.835)         \\
+\hline
+P-val from F-test &\\
+$\beta_u + \beta_1 = 0 $ &                 &        0.1146         &        0.2433         &        0.2696         \\
+$\beta_u + \beta_2 = 0$ &                 &        0.8830         &                 &                 \\
+\hline
+\(N\)       &        1304         &        1304         &        1304         &        1304         \\
+\(R^{2}\)   &       0.246         &       0.170         &       0.247         &       0.247         \\
+%adj. \(R^{2}\)&       0.217         &       0.155         &       0.217         &       0.217         \\
+%F           &       7.414         &      4632.3         &       9.596         &       4.678         \\
+\hline\hline
+\multicolumn{5}{l}{\footnotesize Standard errors in parentheses and are clustered by cohort level. \sym{*} \(p<0.10\), \sym{**} \(p<.05\), \sym{***} \(p<.01\)}\\
+\multicolumn{5}{l}{\footnotesize Department and fields of study fixed effects are included in the estimation  except column (2)}\\
+\multicolumn{5}{l}{\footnotesize \textit{rank 2} and \textit{rank 3} are indicators for whether graduated from 11--23  and 24--45 ranked departments}\\
+\multicolumn{5}{l}{\footnotesize Department ranks are quoted from \textit{econphd.net rankings 2004}}\\
+\end{tabular}%
+}
+%\caption*{\footnotesize The dependent variable is the ranking of the placement. The department ranks are quoted from \textit{econphd.net rankings 2004}. The sample includes those who started their career from tenure track academic position in U.S. If school is not ranked in \textit{econphd.net rankings 2004}, I rank it as 400. Estimates are based on Eq. (\ref{eq:eq2}), and department and fields of study fixed effects are included in the estimation except column (2). Only fields of study fixed effect is included in column (2). \textit{rank 2} and \textit{rank 3} are binary variable indicating whether one graduated from 11--23 ranked departments and 24--45 ranked departments, respectively.} 
+\end{table}
+
