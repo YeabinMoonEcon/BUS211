@@ -7,7 +7,7 @@
             &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
             %&\multicolumn{1}{c}{num\_rank\_1}&\multicolumn{1}{c}{num\_rank\_1}&\multicolumn{1}{c}{num\_rank\_1}&\multicolumn{1}{c}{num\_rank\_1}&\multicolumn{1}{c}{num\_rank\_1}\\
 \hline
-unemployment     &        \only<2>{\color{blue}}12.30\sym{**} &        \only<3>{\color{blue}}12.63\sym{*}  &            12.45\sym{*}  &       \only<4>{\color{blue}}24.51\sym{**} \\
+unemployment $\left( \beta_u \right)$     &        \only<2>{\color{blue}}12.30\sym{**} &        \only<3>{\color{blue}}12.63\sym{*}  &            12.45\sym{*}  &       \only<4>{\color{blue}}24.51\sym{**} \\
             &     (4.590)         &     (5.725)              &     (5.463)         &     (8.556)         \\
 [1em]
 female &       0.458         &       0.273                 &       0.418         &       1.622         \\
@@ -22,17 +22,22 @@ tier 2  (rank 11--23)    &                     &       \only<3>{\color{blue}}42.
 tier 3  (rank 24--45)    &                     &       \only<3>{\color{blue}}68.10\sym{***}&                     &                                          \\
             &                     &     (11.02)         &                     &                                          \\
 [1em]
-unemployment$\times$ tier 2 &                     &      -4.003         &                     &                                          \\
+unemployment$\times$ tier 2 $\left( \beta_1 \right)$&                     &      -4.003         &                     &                                          \\
             &                     &     (6.936)         &                     &                                          \\
 [1em]
-unemployment$\times$ tier 3 &                     &      -3.320         &                     &                                          \\
+unemployment$\times$ tier 3 $\left( \beta_2 \right)$&                     &      -3.320         &                     &                                          \\
             &                     &     (11.26)         &                     &                                          \\
 [1em]
-unemployment$\times$ female &                     &                     &                           -0.531         &                     \\
+unemployment$\times$ female $\left( \beta_1 \right)$&                     &                     &                           -0.531         &                     \\
             &                     &                     &                          (8.717)         &                     \\
 [1em]
-unemployment$\times$ US bachelor degree &                    &                                          &                     &      \only<4>{\color{blue}}-22.36\sym{**} \\
+unemployment$\times$ US bachelor degree $\left( \beta_1 \right)$&                    &                                          &                     &      \only<4>{\color{blue}}-22.36\sym{**} \\
                                  &                     &                     &                     &     (9.337)         \\
+\hline
+$\beta_u + \beta_1 $ &                 &        8.6290                          &        11.9195      &   2.1511  \\
+P-val from F-test $\beta_u + \beta_1=0 $&                 &        0.1906                         &        0.1418      &  0.5991  \\
+$\beta_u + \beta_2$ &                 &        9.3116         &                 &                 \\
+P-val from F-test $\beta_u + \beta_2=0 $&                 &        0.4121         &                 &                 \\
 \hline
 mean(dependent variable)        &     137.80         &    137.80        &   137.80          &   137.80       \\
 \hline

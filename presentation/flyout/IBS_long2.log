@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.7.25)  5 DEC 2022 16:39
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.7.25)  7 DEC 2022 01:29
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**IBS_long.tex
-(./IBS_long.tex
+**IBS_long2.tex
+(./IBS_long2.tex
 LaTeX2e <2021-11-15> patch level 1
 L3 programming layer <2022-02-24>
 (/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamer.cls
@@ -1098,15 +1098,8 @@ File: l3backend-pdftex.def 2022-02-07 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count350
 \l__pdf_internal_box=\box114
 )
-(./IBS_long.aux
-
-LaTeX Warning: Label `appendix<1>' multiply defined.
-
-
-LaTeX Warning: Label `appendix' multiply defined.
-
-)
-\openout1 = `IBS_long.aux'.
+(./IBS_long2.aux)
+\openout1 = `IBS_long2.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 49.
 LaTeX Font Info:    ... okay on input line 49.
@@ -1200,9 +1193,9 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 49.
 LaTeX Info: Redefining \pageref on input line 49.
 LaTeX Info: Redefining \nameref on input line 49.
- (./IBS_long.out) (./IBS_long.out)
+ (./IBS_long2.out) (./IBS_long2.out)
 \@outlinefile=\write5
-\openout5 = `IBS_long.out'.
+\openout5 = `IBS_long2.out'.
 
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
 (Font)                  OT1/lmr/m/n --> OT1/cmss/m/n on input line 49.
@@ -1279,7 +1272,7 @@ Dictionary: translator-theorem-dictionary, Language: English
 File: ucsencs.def 2011/01/21 Fixes to fontencodings LGR, T3
 )
 \c@smfthm=\count358
- (./IBS_long.nav) [1
+ (./IBS_long2.nav) [1
 
 {/usr/local/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <10> not available
@@ -1366,44 +1359,44 @@ LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <5> not available
 <pic_flow.jpg, id=120, 10327.58376pt x 4779.8575pt>
 File: pic_flow.jpg Graphic file (type jpg)
 <use pic_flow.jpg>
-Package pdftex.def Info: pic_flow.jpg  used on input line 378.
+Package pdftex.def Info: pic_flow.jpg  used on input line 376.
 (pdftex.def)             Requested size: 344.19536pt x 159.28929pt.
  [10
 
- <./pic_flow.jpg>] (./tables/table1.tex
+ <./pic_flow.jpg>] [11
+
+] (./tables/table1.tex
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <10> on input line 8.
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <7> on input line 8.
 LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <7> not available
 (Font)              Font shape `T1/lmss/m/sl' tried instead on input line 8.
-) [11
+) [12
 
 ]
 </Users/yeabinmoon/Dropbox (UH-ECON)/JMP/writing/figures/temp/figure1.png, id=1
-37, 662.475pt x 481.8pt>
+44, 662.475pt x 481.8pt>
 File: /Users/yeabinmoon/Dropbox (UH-ECON)/JMP/writing/figures/temp/figure1.png 
 Graphic file (type png)
 <use /Users/yeabinmoon/Dropbox (UH-ECON)/JMP/writing/figures/temp/figure1.png>
 Package pdftex.def Info: /Users/yeabinmoon/Dropbox (UH-ECON)/JMP/writing/figure
-s/temp/figure1.png  used on input line 407.
+s/temp/figure1.png  used on input line 436.
 (pdftex.def)             Requested size: 154.88686pt x 112.64223pt.
 </Users/yeabinmoon/Dropbox (UH-ECON)/JMP/writing/figures/temp/figure3_update.pn
-g, id=139, 994.71625pt x 723.70375pt>
+g, id=146, 994.71625pt x 723.70375pt>
 File: /Users/yeabinmoon/Dropbox (UH-ECON)/JMP/writing/figures/temp/figure3_upda
 te.png Graphic file (type png)
 <use /Users/yeabinmoon/Dropbox (UH-ECON)/JMP/writing/figures/temp/figure3_updat
 e.png>
 Package pdftex.def Info: /Users/yeabinmoon/Dropbox (UH-ECON)/JMP/writing/figure
-s/temp/figure3_update.png  used on input line 407.
+s/temp/figure3_update.png  used on input line 436.
 (pdftex.def)             Requested size: 154.88686pt x 112.6809pt.
- [12
+ [13
 
  </Users/yeabinmoon/Dropbox (UH-ECON)/JMP/writing/figures/temp/figure1.png> </U
 sers/yeabinmoon/Dropbox (UH-ECON)/JMP/writing/figures/temp/figure3_update.png>]
- [13
-
-] [14
+ [14
 
 ]
 [15
@@ -1414,174 +1407,106 @@ sers/yeabinmoon/Dropbox (UH-ECON)/JMP/writing/figures/temp/figure3_update.png>]
 
 ] [18
 
+] [19
+
 ]
 (/usr/local/texlive/2022/texmf-dist/tex/latex/ucs/data/uni-32.def
 File: uni-32.def 2013/05/13 UCS: Unicode data U+2000..U+20FF
-) [19
+) [20
 
 ]
-[20
-
-] [21
+[21
 
 ] [22
 
+] [23
+
 ] (./tables/table2.tex
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 52.
+(Font)              <8> on input line 46.
 LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <8> not available
-(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 52.
-)
-Overfull \vbox (6.76674pt too high) detected at line 762
- []
+(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 46.
+) [24
 
-[23
+] (./tables/table2.tex) [25
 
-] (./tables/table2.tex)
-Overfull \vbox (6.76674pt too high) detected at line 762
- []
+]
+(./tables/table2.tex) [26
 
-[24
-
-] (./tables/table2.tex)
-Overfull \vbox (6.76674pt too high) detected at line 762
- []
-
-[25
-
-] (./tables/table2.tex)
-Overfull \vbox (6.76674pt too high) detected at line 762
- []
-
-[26
+] (./tables/table2.tex) [27
 
 ] (./tables/table3.tex)
-Overfull \vbox (7.99384pt too high) detected at line 769
- []
-
-[27
-
-] (./tables/table3.tex)
-Overfull \vbox (7.99384pt too high) detected at line 769
- []
-
 [28
 
-] (./tables/table3.tex)
-Overfull \vbox (7.99384pt too high) detected at line 769
- []
+] (./tables/table3.tex) [29
 
-[29
+] (./tables/table3.tex) [30
 
-] (./tables/table3.tex)
-Overfull \vbox (7.99384pt too high) detected at line 769
- []
+] (./tables/table3.tex) [31
 
-[30
+] (./tables/table3_new.tex) [32
 
-] [31
+] [33
 
-] (./tables/table6.tex)
-Overfull \vbox (0.53734pt too high) detected at line 838
- []
+] (./tables/table6.tex) [34
 
-[32
+]
+(./tables/table6.tex) [35
+
+] (./tables/table6.tex) [36
 
 ] (./tables/table6.tex)
-Overfull \vbox (0.53734pt too high) detected at line 838
- []
-
-[33
-
-] (./tables/table6.tex)
-Overfull \vbox (0.53734pt too high) detected at line 838
- []
-
-[34
-
-] (./tables/table6.tex)
-Overfull \vbox (0.53734pt too high) detected at line 838
- []
-
-[35
-
-] (./tables/table6.tex)
-Overfull \vbox (0.53734pt too high) detected at line 838
- []
-
-[36
-
-] (./tables/table6.tex)
-Overfull \vbox (0.53734pt too high) detected at line 838
- []
-
 [37
 
-] (./tables/table6.tex)
-Overfull \vbox (0.53734pt too high) detected at line 838
- []
+] (./tables/table6.tex) [38
 
-[38
+] (./tables/table6.tex) [39
 
-] (./tables/table7.tex) [39
+] (./tables/table6.tex) [40
 
-] [40
-
-] (./tables/table10.tex) [41
+] (./tables/table7.tex) [41
 
 ] [42
 
+] (./tables/table10.tex) [43
+
+] [44
+
+]
+[45
+
 ]
 LaTeX Font Info:    Font shape `T1/lmss/m/it' in size <24.88> not available
-(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 951.
- [43
+(Font)              Font shape `T1/lmss/m/sl' tried instead on input line 1024.
 
-]
-[44
-
-]
-pdfTeX warning (ext4): destination with the same identifier (name{appendix<1>})
- has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.1017 \end{frame}
-                  
-pdfTeX warning (ext4): destination with the same identifier (name{appendix}) ha
-s been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.1017 \end{frame}
-                   [45
+ [46
 
 ]
 \tf@nav=\write6
-\openout6 = `IBS_long.nav'.
+\openout6 = `IBS_long2.nav'.
 
 \tf@toc=\write7
-\openout7 = `IBS_long.toc'.
+\openout7 = `IBS_long2.toc'.
 
 \tf@snm=\write8
-\openout8 = `IBS_long.snm'.
+\openout8 = `IBS_long2.snm'.
 
- (./IBS_long.aux)
-
-LaTeX Warning: There were multiply-defined labels.
-
-Package rerunfilecheck Info: File `IBS_long.out' has not changed.
+ (./IBS_long2.aux)
+Package rerunfilecheck Info: File `IBS_long2.out' has not changed.
 (rerunfilecheck)             Checksum: 8A87D6EBB7501DA7BB33AE967AB56CFF;564.
  ) 
 Here is how much of TeX's memory you used:
- 27178 strings out of 478268
- 518085 string characters out of 5846347
- 840103 words of memory out of 5000000
- 44588 multiletter control sequences out of 15000+600000
+ 27161 strings out of 478268
+ 517705 string characters out of 5846347
+ 827990 words of memory out of 5000000
+ 44569 multiletter control sequences out of 15000+600000
  550228 words of font info for 92 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 128i,25n,122p,869b,833s stack positions out of 10000i,1000n,20000p,200000b,200000s
-{/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/lo
-cal/texlive/2022/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/local/texlive/20
-22/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/local/texlive/2022/texmf-d
-ist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/local/texlive/2022/texmf-dist/fonts/enc/
+ 128i,25n,122p,870b,833s stack positions out of 10000i,1000n,20000p,200000b,200000s
+{/usr/local/texlive/2022/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/local/
+texlive/2022/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/local/texlive/20
+22/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/local/texlive/2022/texmf-dist/
+fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/local/texlive/2022/texmf-dist/fonts/enc/
 dvips/lm/lm-mathex.enc}</usr/local/texlive/2022/texmf-dist/fonts/type1/public/l
 m/lmex10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/lm/lmmi10.p
 fb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/lm/lmmi7.pfb></usr/lo
@@ -1599,13 +1524,12 @@ ts/type1/public/lm/lmsso9.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/p
 ublic/lm/lmsy10.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/lm/l
 msy5.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/public/lm/lmsy6.pfb></
 usr/local/texlive/2022/texmf-dist/fonts/type1/public/lm/lmsy7.pfb></usr/local/t
-exlive/2022/texmf-dist/fonts/type1/public/lm/lmsy8.pfb></usr/local/texlive/2022
-/texmf-dist/fonts/type1/public/lm/lmsy9.pfb></usr/local/texlive/2022/texmf-dist
-/fonts/type1/public/amsfonts/symbols/msam10.pfb>
-Output written on IBS_long.pdf (45 pages, 1732397 bytes).
+exlive/2022/texmf-dist/fonts/type1/public/lm/lmsy9.pfb></usr/local/texlive/2022
+/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb>
+Output written on IBS_long2.pdf (46 pages, 1725287 bytes).
 PDF statistics:
  547 PDF objects out of 1000 (max. 8388607)
- 422 compressed objects within 5 object streams
- 104 named destinations out of 1000 (max. 500000)
+ 423 compressed objects within 5 object streams
+ 103 named destinations out of 1000 (max. 500000)
  188 words of extra memory for PDF output out of 10000 (max. 10000000)
 

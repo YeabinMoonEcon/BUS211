@@ -1,0 +1,32 @@
+\begin{table}[htbp]\centering
+		\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+	\begin{adjustbox}{max width=1\textwidth}
+		%	\resizebox{12 cm}{!}{%
+			\begin{tabular}{l*{6}{c}}
+				\hline\hline
+				&\multicolumn{3}{c}{Occupational switching} & 			\multicolumn{3}{c}{Firm switching}\\
+				&\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}\\
+				&\multicolumn{1}{c}{$\le$ 3 years}&\multicolumn{1}{c}{$\le$ 6 years}&\multicolumn{1}{c}{$\le$ 9 years}&\multicolumn{1}{c}{$\le$ 3 years}&\multicolumn{1}{c}{$\le$ 6 years}&\multicolumn{1}{c}{$\le$ 9 years}\\
+				\hline
+				unemployment    &    -0.00238         &     0.00166         &    -0.00216         &      0.0151\sym{***}&      0.0121         &     0.00694         \\
+				&   (0.00595)         &   (0.00842)         &   (0.00939)         &   (0.00398)         &   (0.00949)         &   (0.00774)         \\
+				[1em]
+				female  &     0.00586         &      0.0250         &      0.0108         &      0.0182\sym{*}  &     0.00573         &    -0.00568         \\
+				&   (0.00675)         &    (0.0170)         &    (0.0176)         &   (0.00795)         &    (0.0161)         &    (0.0140)         \\
+				[1em]
+				US bachelor degree     &    0.000261         &    -0.00796         &     -0.0153         &      0.0345\sym{*}  &      0.0243         &     0.00933         \\
+				&   (0.00747)         &    (0.0106)         &    (0.0128)         &    (0.0186)         &    (0.0154)         &    (0.0164)         \\
+				\hline
+				mean(dependent variable)   &        0.1751         &          0.3133       &        0.4180         &        0.3199         &        0.5413         &        0.6912         \\
+				\hline
+				Observations       &        3916         &        3916         &        3916         &        3916         &        3916         &        3916         \\
+				\(R^{2}\)   &       0.019         &       0.021         &       0.015         &       0.023         &       0.017         &       0.014         \\
+				%adj. \(R^{2}\)&       0.006         &       0.009         &       0.002         &       0.010         &       0.005         &       0.001         \\
+				%F           &       0.378         &       2.940         &       1.536         &       13.02         &       2.259         &       0.558         \\
+				\hline\hline
+				\multicolumn{7}{l}{\footnotesize Standard errors in parentheses and are clustered by cohort level.}\\
+				\multicolumn{7}{l}{\footnotesize \sym{*} \(p<0.10\), \sym{**} \(p<.05\), \sym{***} \(p<.01\)}\\
+			\end{tabular}%
+		\end{adjustbox}
+
+	\end{table}
