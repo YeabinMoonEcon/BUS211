@@ -1,0 +1,471 @@
+---
+title: "report"
+author: "WCY"
+date: "2022-11-12"
+output: html_document
+---
+
+```{r}
+library("readr")
+library("dplyr")
+library(lubridate)
+library(tidyverse)
+Patterns <- read_csv("C:/Users/wcy/Downloads/safegraph_data_purchase_sep-20-2022/your_data_sep_20_2022_1149am.csv.gz")
+
+Places <- read_csv("C:/Users/wcy/Downloads/safegraph_data_purchase_sep-11-2022/your_data_sep_11_2022_1145pm.csv.gz")
+df <- left_join(Patterns, Places, by = "placekey")
+df <- left_join(Patterns, Places, by = "placekey")
+head(df)
+df$date_range_start <- as.Date(df$date_range_start,"%d-%m-%Y")
+head(df)
+Sys.setlocale("LC_TIME", "English")
+options(scipen = 20)
+
+```
+
+
+```{r}
+# the number of na in naics column in places dataset
+nacount <- Places[is.na(Places$naics_code),]
+nacount
+
+# the number of na in naics column in df
+nacount2 <- df[is.na(df$naics_code),]
+nacount2
+
+```
+
+
+
+```{r}
+df_filter<- subset(df, naics_code==722513)
+head(df_filter)
+
+count<-df_filter %>% group_by(location_name.x,street_address.x) %>%count()%>%arrange(n)
+count
+
+lessthan10 <-count %>% filter(n<10)
+lessthan10
+tentotwenty <-count %>% filter(n>=10 & n<20)
+tentotwenty
+twentytothirty <-count %>% filter(n>=20 & n<30)
+twentytothirty
+thirtytoforty <-count %>% filter(n>=30 & n<40)
+thirtytoforty
+fortytofifty <-count %>% filter(n>=40 & n<50)
+fortytofifty
+fiftytosixty <-count %>% filter(n>=50 & n<60)
+fiftytosixty
+sixtytoseventy <-count %>% filter(n>=60 & n<=70)
+sixtytoseventy
+```
+
+
+#### The naics code for fast food restaurant is 722513. But pattern dataset do not have the naics code column, so we left join the pattern with places and filter the row whose naics code is 722513. We select 2228 rows whose naics code is 722513. And we want to see the distribution of these restaurant(how many times they occurs). So we use group_by function and count function. As the result shows, we totally filter 248 restaurants. After that, we want to do some filter to decide if we should drop some restaurant brands. So we subset each groups by their occur times. We divide the occur time into 7 groups(1-10,10-20,20-30,30-40,40-50,50-60,60-70),because the highest occur times is 70. And we can find 215 (86.7%) restaurant brands occur less than 10 times, 18 (7.3%) restaurant brand occur between 10 and 20 times. The rest restaurants occur between 20-70 times. The density is so high that we decide to retain all restaurants as fast food restaurants.
+
+#### disadvantages: one of the most disadvantages of this method is that : Because the primary key of the pattern and places dataset can not be fully corresponded to, in the time of left join lost a lot of data: we can see that the number of na in places is 10, but the number of na in df became 688, which indicates that the placekey does not fully correspond.
+
+#### advantages: The most significant advantage of this method is that the naics code is classified in a very strict and standardized way, and there are naics that correspond directly to fast food restaurants, so the results can be obtained more accurately.
+
+### And we want to see the summary of these row visit number to identify whether the results of this method makes sense.
+
+```{r}
+# sum the number of visits to different branches of the same brand
+df_filter_sum <- df_filter %>% group_by(location_name.x) %>% summarise(sum=sum(raw_visit_counts)) %>% arrange(sum)
+df_filter_sum
+```
+
+```{r}
+# see the statistical feature of the raw visit number
+summary(df_filter_sum)
+
+# 3rd Qu.is 1495.0 , so we identify the restaurants whose raw visit number greater than 1500 as first group.
+firstgroup <- subset(df_filter_sum, sum>1500)
+firstgroup
+
+# 1st Qu. is 252.0, so we identify the restaurants whose raw visit number greater than 252 and less than 3000 as second group.
+secondgroup <- subset(df_filter_sum, sum>252 & sum <=3000)
+secondgroup
+
+# we identify the restaurants whose raw visit number less than 252 as third group.
+thirdgroup <- subset(df_filter_sum, sum<252)
+thirdgroup
+
+# detail about Clover Food Lab and Black Seed Cafe & Grill
+Clover <- subset(df_filter, location_name.x == "Clover Food Lab")
+Clover
+Black <- subset(df_filter, location_name.x == "Black Seed Cafe & Grill")
+Black
+
+```
+
+
+
+
+
+
+#### We find some intersting facts after we divide the three groups. In group 1, There seems to be two outliers here: Clover Food Lab（the sum is 279345）;Black Seed Cafe & Grill(the sum is 298609	).They were a bit too big compared to the rest of the first group, so we looked at the details through the filter function, but found no anomalies. We are considering whether we should remove these two data, can you give us some advice?
+
+
+#Continue on Method1: Verification
+
+```{r}
+tail(secondgroup,n=10)
+tail(thirdgroup,n=10)
+tail(firstgroup,n=10)
+
+
+```
+
+##The distance to the store is also a key factor in people's choice to visit. 'distance_from_home' is the distance that visitors travel from their home to the site of visit. This record for each store is the median of the distance traveled by all visitors. We think this data can help us to study the sources of visitors to different stores, for some independent stores, the analysis of this data may help them make the decision to open a branch to attract more customers from the surrounding area. (Reduce the distance visitors move and get more visitors).
+
+
+```{r}
+#Group 3 which has biggest visit number
+Tatte <- subset(df_filter, location_name.x == "Tatte Bakery & Cafe")
+Tatte
+Tatte_d <- Tatte %>% select(distance_from_home) %>% filter(is.na(distance_from_home) != 1)
+Tatte_d_mean <- sapply(Tatte_d,mean)
+Tatte_d_mean #52737.9
+
+
+MOOYAH <- subset(df_filter, location_name.x == "MOOYAH")
+#Delete all NA value in distance from home and only select distance
+MOOYAH_d <- MOOYAH %>% select(distance_from_home) %>% filter(is.na(distance_from_home) != 1)
+MOOYAH_d
+MOOYAH_d_mean <- sapply(MOOYAH_d,mean)
+MOOYAH_d_mean#143564.3
+
+
+B.GOOD <- subset(df_filter, location_name.x == "B.GOOD")
+#Delete all NA value in distance from home and only select distance
+B.GOOD_d <- B.GOOD %>% select(distance_from_home) %>% filter(is.na(distance_from_home) != 1)
+B.GOOD_d <- sapply(B.GOOD_d,mean)
+B.GOOD_d #35398.43
+
+Tasty <- subset(df_filter, location_name.x == "Tasty Burger")
+#Delete all NA value in distance from home and only select distance
+Tasty_d <- Tasty %>% select(distance_from_home) %>% filter(is.na(distance_from_home) != 1)
+Tasty_d <- sapply(Tasty_d,mean)
+Tasty_d #32586.38
+
+McDonald <- subset(df_filter, location_name.x == "McDonald's")
+#Delete all NA value in distance from home and only select distance
+McDonald_d <- McDonald %>% select(distance_from_home) %>% filter(is.na(distance_from_home) != 1)
+McDonald_d <- sapply(McDonald_d,mean)
+McDonald_d # 20230.44
+
+(McDonald_d + Tasty_d + B.GOOD_d+ MOOYAH_d_mean + Tatte_d_mean)/5
+# 56903.5 for this group.
+
+
+
+#Group 2
+Popeyes <- subset(df_filter, location_name.x == "Popeyes Louisiana Kitchen")
+#Delete all NA value in distance from home and only select distance
+Popeyes_d <- Popeyes %>% select(distance_from_home) %>% filter(is.na(distance_from_home) != 1)
+Popeyes_d <- sapply(Popeyes_d,mean)
+Popeyes_d #37737 
+
+
+Fins <- subset(df_filter, location_name.x == "Fins Sushi and Grill")
+#Delete all NA value in distance from home and only select distance
+Fins_d <- Fins %>% select(distance_from_home) %>% filter(is.na(distance_from_home) != 1)
+Fins_d <- sapply(Fins_d,mean)
+Fins_d #92258.75  
+
+
+Anna <- subset(df_filter, location_name.x == "Anna's Taqueria")
+#Delete all NA value in distance from home and only select distance
+Anna_d <- Anna %>% select(distance_from_home) %>% filter(is.na(distance_from_home) != 1)
+Anna_d <- sapply(Anna_d,mean)
+Anna_d #41782.19
+
+
+La <- subset(df_filter, location_name.x == "La Colombe")
+#Delete all NA value in distance from home and only select distance
+La_d <- La %>% select(distance_from_home) %>% filter(is.na(distance_from_home) != 1)
+La_d <- sapply(La_d,mean)
+La_d #24469.62 
+
+Burger <- subset(df_filter, location_name.x == "Burger King")
+#Delete all NA value in distance from home and only select distance
+Burger_d <- Burger %>% select(distance_from_home) %>% filter(is.na(distance_from_home) != 1)
+Burger_d <- sapply(Burger_d,mean)
+Burger_d #9738.25 
+
+(Burger_d + La_d + Anna_d + Fins_d + Popeyes_d) / 5
+
+# Group 2:   41197.16
+
+
+
+
+#Group 1 (Visit number is the smallest)
+Noon <- subset(df_filter, location_name.x == "Noon Mediterranean")
+#Delete all NA value in distance from home and only select distance
+Noon_d <- Noon %>% select(distance_from_home) %>% filter(is.na(distance_from_home) != 1)
+Noon_d
+Noon_d_mean <- sapply(Noon_d,mean)
+Noon_d_mean#28863.75
+
+
+Soup <- subset(df_filter, location_name.x == "Soup Shack")
+#Delete all NA value in distance from home and only select distance
+Soup_d <- Soup %>% select(distance_from_home) %>% filter(is.na(distance_from_home) != 1)
+Soup_d
+Soup_d_mean <- sapply(Soup_d,mean)
+Soup_d_mean#4740.375
+
+Jennifer <- subset(df_filter, location_name.x == "Jennifer Lee's Gourmet Bakery")
+#Delete all NA value in distance from home and only select distance
+Jennifer_d <- Jennifer %>% select(distance_from_home) %>% filter(is.na(distance_from_home) != 1)
+Jennifer_d
+Jennifer_d_mean <- sapply(Jennifer_d,mean)
+Jennifer_d_mean#21580.67
+
+
+
+Scali <- subset(df_filter, location_name.x == "Scali Cafe")
+#Delete all NA value in distance from home and only select distance
+Scali_d <- Scali %>% select(distance_from_home) %>% filter(is.na(distance_from_home) != 1)
+Scali_d <- sapply(Scali_d,mean)
+Scali_d #49526.5
+
+Sushi <- subset(df_filter, location_name.x == "Sushi Kappo")
+#Delete all NA value in distance from home and only select distance
+Sushi_d <- Sushi %>% select(distance_from_home) %>% filter(is.na(distance_from_home) != 1)
+Sushi_d <- sapply(Sushi_d,mean)
+Sushi_d #26724.75 
+
+
+(Sushi_d+ Scali_d+ Jennifer_d_mean + Soup_d_mean+ Noon_d_mean) / 5
+
+#  26287.21 for the first group
+
+```
+
+##We can see that over the nine months, in general, stores with more visitors, the longer the distance they move for visited. Having visitors from further afield, in other words perhaps because these shops are so popular that people are willing to spend more time travelling further to visit them. This may help us to study the source of visitors - whether they are from the area around Boston or from other cities.
+
+
+
+
+
+
+
+#Select the specific branch that needs to be studied, precise to the specific address of a single branch, as in the previous section
+
+##We are not going to use data from Tatte's Distance from home because its numerical value looks suspicious.
+
+#MOOYAH <- subset(df_filter, location_name.x == "MOOYAH")
+```{r}
+Tatte <- subset(df_filter, location_name.x == "Tatte Bakery & Cafe")
+Tatte <- Tatte %>% filter(is.na(distance_from_home) != 1) %>% select(distance_from_home,raw_visit_counts,date_range_start,location_name.x,street_address.x) %>% arrange(date_range_start) %>% filter(street_address.x == "369 Huntington Ave")
+## select address: 369 Huntington Ave
+Tatte
+
+##In January and July, the numbers in August are very large, meaning that guests seem to come from far away, and the numbers in February to June are small, meaning that there are no guests from far away. I think this is not an outlier, because considering that this period is the holiday of the students, they are visiting from a long distance.
+
+
+B.GOOD <- B.GOOD %>% filter(is.na(distance_from_home) != 1) %>% select(distance_from_home,date_range_end,date_range_start,location_name.x,street_address.x) %>% arrange(date_range_start) %>% filter(street_address.x == "359 Huntington Ave")
+B.GOOD
+# select address: 359 Huntington Ave
+#The store has the same trend: January and July, August numbers are very large, meaning customers seem to come from far away, and February to June numbers are small, meaning there are no customers from far away.
+
+
+McDonald <- McDonald %>% filter(is.na(distance_from_home) != 1) %>% select(distance_from_home,date_range_end,date_range_start,location_name.x,street_address.x) %>% arrange(date_range_start) %>% filter(street_address.x == "870 Massachusetts Ave")
+ #select address: 870 Massachusetts Ave
+#
+McDonald
+
+##We do not use the distance data of McDonald's, because there are so many branches of McDonald's that tourists cannot travel so far just to eat McDonald's, and McDonald's data is too noisy.
+
+
+Einstein <- subset(df_filter, location_name.x == "Einstein Brothers")
+Einstein <- Einstein %>% filter(is.na(distance_from_home) != 1) %>% select(distance_from_home,date_range_end,date_range_start,location_name.x,street_address.x) %>% arrange(date_range_start) %>% filter(street_address.x == "725 Commonwealth Ave")
+# select address: 725 Commonwealth Ave
+Einstein
+
+
+Breadwinners <- subset(df_filter, location_name.x == "Breadwinners")
+Breadwinners <- Breadwinners %>% filter(is.na(distance_from_home) != 1) %>% select(distance_from_home,date_range_end,date_range_start,location_name.x,street_address.x) %>% arrange(date_range_start) %>% filter(street_address.x == "595 Commonwealth Ave Fl 2")
+# select address: 595 Commonwealth Ave Fl 2
+Breadwinners 
+
+Subway <- subset(df_filter, location_name.x == "Subway")
+Subway <- Subway %>% filter(is.na(distance_from_home) != 1) %>% select(distance_from_home,date_range_end,date_range_start,location_name.x,street_address.x) %>% arrange(date_range_start) %>% subset(street_address.x == "700 Commonwealth Ave" | street_address.x == "700 Commonwealth Avenue Boston University")
+# select address: 	700 Commonwealth Avenue Boston University & 700 Commonwealth 
+
+##The store changed its name, but we were smart enough to figure it out and figure out how to connect their data
+Subway
+
+
+
+Qdoba <- subset(df_filter, location_name.x == "Qdoba Mexican Grill")
+Qdoba <- Qdoba %>% filter(is.na(distance_from_home) != 1) %>% select(distance_from_home,date_range_end,date_range_start,location_name.x,street_address.x) %>% arrange(date_range_start) %>% filter(street_address.x == "393 Huntington Ave Ste 101")
+# select address: 393 Huntington Ave Ste 101
+Qdoba
+
+
+
+```
+
+##In January and July, the numbers in August are very large, meaning that guests seem to come from far away, and the numbers in February to June are small, meaning that there are no guests from far away. I think this is not an outlier, because considering that this period is the holiday of the students, they are visiting from a long distance.
+
+
+
+```{r}
+library(ggplot2)
+
+pgroup1 <- ggplot() + geom_line(data = B.GOOD, mapping = aes(x=date_range_start,y = distance_from_home,color = "B.GOOD")) + geom_line(data = Einstein, mapping = aes(x=date_range_start,y = distance_from_home,color = "Einstein")) + geom_line(data = Breadwinners, mapping = aes(x=date_range_start,y = distance_from_home,color = "Breadwinners")) + geom_line(data = Subway, mapping = aes(x=date_range_start,y = distance_from_home,color = "Subway")) + geom_line(data = Qdoba, mapping = aes(x=date_range_start,y = distance_from_home,color = "Qdoba")) + ggtitle("Customer access distance for first group") + xlab("Date") + ylab("Distance to their home") + theme_set(theme_bw())
+
+pgroup1
+
+```
+
+
+## On this chart, Subway seems to have a high number in July. After checking the number, I found that the number is 286,790 meters, which means that the customers visiting in this month come from 286 kilometers away. I don't think this is an outlier, but given that the number is calculated based on the distance between the customer's phone and the store in the early morning hours of the day, I think it's because the customer is traveling from home (or flying) to Boston and visiting Subway.
+
+##This picture may inspire us in another aspect: look at the low and high tourist seasons in the Boston area, by looking at where the customers of these restaurants come from
+
+
+
+
+```{r}
+# select address: 779 Centre St
+Soup <- subset(df_filter, location_name.x == "Soup Shack")
+Soup <- Soup %>% filter(is.na(distance_from_home) != 1) %>% select(distance_from_home,date_range_end,date_range_start,location_name.x,street_address.x) %>% arrange(date_range_start) %>% filter(street_address.x == "779 Centre St")
+Soup
+
+
+# select address: 86 Peterborough St
+Sushi1 <- subset(df_filter, location_name.x == "Sushi Kappo")
+Sushi1 <- Sushi %>% filter(is.na(distance_from_home) != 1) %>% select(distance_from_home,date_range_end,date_range_start,location_name.x,street_address.x) %>% arrange(date_range_start) %>% filter(street_address.x == "86 Peterborough St")
+Sushi1
+
+
+# select address: 700 Atlantic Ave
+Angelo <- subset(df_filter, location_name.x == "D'Angelo Grilled Sandwiches")
+Angelo <- Angelo %>% filter(is.na(distance_from_home) != 1) %>% select(distance_from_home,date_range_end,date_range_start,location_name.x,street_address.x) %>% arrange(date_range_start) %>% filter(street_address.x == "700 Atlantic Ave.")
+Angelo
+
+
+# select address: 313 Huntington Ave
+#Poke <- subset(df_filter, location_name.x == "Poke Station and Kitchen")
+#Poke <- Poke %>% filter(is.na(distance_from_home) != 1) %>% select(distance_from_home,date_range_end,date_range_start,location_name.x,street_address.x) %>% arrange(date_range_start) %>% filter(street_address.x == "313 Huntington Ave")
+#Poke
+#Give up because it has only 3 month record.
+
+
+
+
+# select address: 100 Hanover St
+Baking <- subset(df_filter, location_name.x == "Baking with Joy")
+Baking <- Baking %>% filter(is.na(distance_from_home) != 1) %>% select(distance_from_home,date_range_end,date_range_start,location_name.x,street_address.x) %>% arrange(date_range_start) %>% filter(street_address.x == "100 Hanover St")
+Baking
+
+
+
+
+# select address: 230 Congress St
+Kwench <- subset(df_filter, location_name.x == "Kwench Juice Cafe")
+Kwench <- Kwench %>% filter(is.na(distance_from_home) != 1) %>% select(distance_from_home,date_range_end,date_range_start,location_name.x,street_address.x) %>% arrange(date_range_start) %>% filter(street_address.x == "230 Congress St")
+Kwench
+
+
+
+```
+
+```{r}
+
+
+pgroup3 <- ggplot() + geom_line(data = Soup, mapping = aes(x=date_range_start,y = distance_from_home,color = "Soup")) + geom_line(data = Sushi1, mapping = aes(x=date_range_start,y = distance_from_home,color = "Sushi")) + geom_line(data = Angelo, mapping = aes(x=date_range_start,y = distance_from_home,color = "Angelo")) + geom_line(data = Kwench, mapping = aes(x=date_range_start,y = distance_from_home,color = "Kwench")) + geom_line(data = Baking, mapping = aes(x=date_range_start,y = distance_from_home,color = "Baking")) + ggtitle("Customer access distance for third group") + xlab("Date") + ylab("Distance to their home") + theme_set(theme_bw())
+
+pgroup3
+```
+
+
+
+
+
+
+
+
+
+
+```{r}
+#Burger_d + La_d + Anna_d + Fins_d + Popeyes_d
+
+Burger <- Burger %>% filter(is.na(distance_from_home) != 1) %>% select(distance_from_home,date_range_end,date_range_start,location_name.x,street_address.x) %>% arrange(date_range_start) %>% filter(street_address.x == "1 Maverick Sq")
+# select address: 1 Maverick Sq
+Burger
+
+
+La <- La %>% filter(is.na(distance_from_home) != 1) %>% select(distance_from_home,date_range_end,date_range_start,location_name.x,street_address.x) %>% arrange(date_range_start)
+
+
+Anna <- Anna %>% filter(is.na(distance_from_home) != 1) %>% select(distance_from_home,date_range_end,date_range_start,location_name.x,street_address.x) %>% arrange(date_range_start)
+
+
+Fins <- Fins %>% filter(is.na(distance_from_home) != 1) %>% select(distance_from_home,date_range_end,date_range_start,location_name.x,street_address.x) %>% arrange(date_range_start) %>% filter(street_address.x == "240 Cambridge St")
+# select address: 240 Cambridge St	
+
+
+Popeyes <- Popeyes %>% filter(is.na(distance_from_home) != 1) %>% select(distance_from_home,date_range_end,date_range_start,location_name.x,street_address.x) %>% arrange(date_range_start)
+
+
+```
+
+```{r}
+#Sushi_d+ Scali_d+ Jennifer_d_mean + Soup_d_mean+ Noon_d_mean
+Sushi <- Sushi %>% filter(is.na(distance_from_home) != 1) %>% select(distance_from_home,date_range_end,date_range_start,location_name.x,street_address.x) %>% arrange(date_range_start)
+
+
+Scali <- Scali %>% filter(is.na(distance_from_home) != 1) %>% select(distance_from_home,date_range_end,date_range_start,location_name.x,street_address.x) %>% arrange(date_range_start)
+
+
+Jennifer <- Jennifer %>% filter(is.na(distance_from_home) != 1) %>% select(distance_from_home,date_range_end,date_range_start,location_name.x,street_address.x) %>% arrange(date_range_start)
+
+
+Soup <- Soup %>% filter(is.na(distance_from_home) != 1) %>% select(distance_from_home,date_range_end,date_range_start,location_name.x,street_address.x) %>% arrange(date_range_start)
+Soup
+
+
+Noon <- Noon %>% filter(is.na(distance_from_home) != 1) %>% select(distance_from_home,date_range_end,date_range_start,location_name.x,street_address.x) %>% arrange(date_range_start)
+Noon
+
+```
+
+
+
+```{r}
+library(ggplot2)
+pTatte <- ggplot(data = Tatte, mapping = aes(x = date_range_start, y = distance_from_home))
+pTatte + geom_line()
+
+pSushi <- ggplot(data = Sushi, mapping = aes(x = date_range_start, y = distance_from_home))
+pSushi + geom_line()
+
+pMOOYAH <- ggplot(data = MOOYAH, mapping = aes(x = date_range_start, y = distance_from_home))
+pMOOYAH + geom_line()
+
+p
+
+```
+
+
+
+```{r}
+startday <- as.Date("2022-05-01")
+endday<- as.Date("2022-06-02")
+
+Soup <- Soup[which(Soup$date_range_start >= startday & Soup$date_range_end <= endday),]
+Soup
+
+
+Tatte <- Tatte[which(Tatte$date_range_start >= startday & Tatte$date_range_end <= endday),]
+Tatte
+
+
+```
+

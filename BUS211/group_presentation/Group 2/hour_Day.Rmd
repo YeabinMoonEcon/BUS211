@@ -1,0 +1,131 @@
+---
+title: "Untitled"
+author: "Sicheng Yun"
+date: "2022-11-30"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r}
+library("readr")
+library("dplyr")
+library("stringr")
+Places <- read_csv('/Users/sichengyun/Downloads/safegraph_data_purchase_sep-11-2022/places.csv')
+Patterns <- read_csv('/Users/sichengyun/Downloads/safegraph_data_purchase_sep-11-2022/patterns.csv')
+df <- left_join(Patterns, Places, by = "placekey")
+df_filter<- subset(df, naics_code==722513)
+```
+
+```{r}
+# sum the number of visits to different branches of the same brand
+df_filter_sum <- df_filter %>% group_by(location_name.x) %>% summarise(sum=sum(raw_visit_counts)) %>% arrange(sum)
+df_filter_sum
+
+firstgroup <- subset(df_filter_sum, sum>1500)
+firstgroup
+write.csv(firstgroup,"/Users/sichengyun/Downloads/firstgroup.csv", row.names = FALSE)
+secondgroup <- subset(df_filter_sum, sum<=1500)
+secondgroup
+```
+
+```{r}
+#now split the popularity_by_hour column and store each into a seperate column
+df_filter[c('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23')] <- str_split_fixed(df_filter$popularity_by_hour, ',', 24)
+df_split<- df_filter[c('location_name.x', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23')] 
+  
+df_split$`0`<-str_sub(df_split$`0`,start=2L,end=-1L)
+df_split$`23`<-str_sub(df_split$`23`,start=1L,end=-2L)
+
+firstgroup1<- left_join(firstgroup, df_split, by = "location_name.x")
+secondgroup1<- left_join(secondgroup, df_split, by = "location_name.x")
+firstgroup1<-firstgroup1[,-2]
+secondgroup1<-secondgroup1[,-2]
+```
+
+```{r}
+#now I need to sum the hour visits for each shop
+firstgroup1[,1:25] <- sapply(firstgroup1[,1:25],as.numeric)
+df_sum_firstgroup<-sapply(firstgroup1,sum)
+mean_firstgroup<-df_sum_firstgroup/1000
+
+secondgroup1[,1:25] <- sapply(secondgroup1[,1:25],as.numeric)
+df_sum_secondgroup<-sapply(secondgroup1,sum)
+mean_secondgroup<-df_sum_secondgroup/1228
+```
+
+```{r}
+#I found that some shops they actually closed at midnight, but the dataset shows they still have visits, it may because they are visiting some nearby shops and have been wrongly counted, consider this situation, I decide to select part of the hours. After search online, I found that although there are small difference between the open hours, most of the shops open between 8AM to 7PM, so I decide to use these time periods.
+hour=c('NA', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23')
+visit_firstgroup= c(mean_firstgroup)
+visit_secondgroup= c(mean_secondgroup)
+output_firstgroup=data.frame(hour, visit_firstgroup)
+output_secondgroup=data.frame(hour, visit_secondgroup)
+output_firstgroup1<-output_firstgroup[-1,]
+output_secondgroup1<-output_secondgroup[-1,]
+#write.csv(output_firstgroup1,"/Users/sichengyun/Downloads/output_firstgroup1.csv", row.names = FALSE)
+#write.csv(output_secondgroup1,"/Users/sichengyun/Downloads/output_secondgroup1.csv", row.names = FALSE)
+```
+#For group1, they have most of the visits between 9AM to 12PM, I think it meets the time when people on their way to work, they grab a cup of coffee or some breakfasts and have lunch from the shop, so i think sellers can make some special promotion during these hours to further boost the visits, like discount for second item.
+#For group2, they have most of the visits between 12PM to 14PM, it is surprising to see that they are perfectly staggered with the hottest time of group1 , but their average number of hour visit is too small compared to group1, so I think they should try to specialize their items to attract some subdivided groups which value their products and try to higher the price.
+
+
+```{r}
+df_filter[c('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')] <- str_split_fixed(df_filter$popularity_by_day, ',', 7)
+df_split1<- df_filter[c('location_name.x', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')] 
+
+df_split1$`Monday`<-str_sub(df_split1$`Monday`,start=11L,end=-1L)
+df_split1$`Tuesday`<-str_sub(df_split1$`Tuesday`,start=11L,end=-1L)
+df_split1$`Wednesday`<-str_sub(df_split1$`Wednesday`,start=13L,end=-1L)
+df_split1$`Thursday`<-str_sub(df_split1$`Thursday`,start=12L,end=-1L)
+df_split1$`Friday`<-str_sub(df_split1$`Friday`,start=10L,end=-1L)
+df_split1$`Saturday`<-str_sub(df_split1$`Saturday`,start=12L,end=-1L)
+df_split1$`Sunday`<-str_sub(df_split1$`Sunday`,start=10L,end=-2L)
+
+firstgroup2<- left_join(firstgroup, df_split1, by = "location_name.x")
+secondgroup2<- left_join(secondgroup, df_split1, by = "location_name.x")
+
+firstgroup2<-firstgroup2[,-2]
+secondgroup2<-secondgroup2[,-2]
+
+firstgroup2[,1:8] <- sapply(firstgroup2[,1:8],as.numeric)
+df_sum_firstgroup1<-sapply(firstgroup2,sum)
+mean_firstgroup1<-df_sum_firstgroup1/1000
+
+secondgroup2[,1:8] <- sapply(secondgroup2[,1:8],as.numeric)
+df_sum_secondgroup1<-sapply(secondgroup2,sum)
+mean_secondgroup1<-df_sum_secondgroup1/1228
+
+Day=c('NA', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')
+visit_firstgroup1= c(mean_firstgroup1)
+visit_secondgroup1= c(mean_secondgroup1)
+output_firstgroup1=data.frame(Day, visit_firstgroup1)
+output_secondgroup1=data.frame(Day, visit_secondgroup1)
+output_firstgroup2<-output_firstgroup1[-1,]
+output_secondgroup2<-output_secondgroup1[-1,]
+#write.csv(output_firstgroup2,"/Users/sichengyun/Downloads/output_firstgroup2.csv", row.names = FALSE)
+#write.csv(output_secondgroup2,"/Users/sichengyun/Downloads/output_secondgroup2.csv", row.names = FALSE)
+```
+#For group1, it is clear that Monday is the hottest day, it may because people usually have a lot of things to do on Monday, so they don't have much time to wait for the food to be prepared and enjoy their food, so fast food will be their best choice.I recommend that some special promotion can be offered on Monday, or if a shop would like to launch some new products, they can choose Monday.
+#For group2, there is not too much difference between each day, although Saturday has a little more visits. So instead of offer promotion on a certain day, I think they can work with their surrounding shops to make the block hot, so more people will come.
