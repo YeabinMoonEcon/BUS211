@@ -34,121 +34,177 @@
 						<ul>
 							<li class="fragment">investigate the association between advertising and sales of a particular product</li>
 							<li class="fragment">data set consists of the sales of that product	in 200 different markets</li>
-							<li class="fragment">advertising budgets: TV, radio, newspaper</li>
+							
 							<li class="fragment">Your client can control the advertising expenditure in each of the three media</li>
-						
+							<ul>
+								<li class="fragment">advertising budgets: TV, radio, newspaper</li>
+							</ul>
 						</ul>
-						
-						
 						
 					</ul>
 				</section>
 
-				  <section>Our goal is to develop an accurate model <br>that can be used to predict sales <br>on the basis of the three media budgets</section>
-				  <section>I am Yeabin Moon, Ph.D.</section>
-				  <section>Your TA: Yvonne Wang</section>
-
-				  <section>The first class of the college lectures is 
-					<br>very unproductive</section>
-
-				  <section>We are going to do some unproductive stuff today</section>
-				
-
-				  				 
-				  <section>Ok, now we are going to talk about this class</section>					
-				 
-				  <section>But, first, who are you?</section>
-				
-				 <section>Consider the following questions</section>
-				 
-				 <section>If you were to plot the average revenue per seller on the Amazon marketplace, what would the shape of the distribution?</section>
-
-				 <section>Can you answer this question?</section>
-				 <section>There is no single class/book <br>teaching you everything you'd ever face</section>
-				 <section>Is this a methodological question?</section>
-				 <section>What'd we need to learn to answer this question?</section>
-
-				 <section>What is a data analytics?</section>
-				 <section>We'd believe that data has some information</section>
-				 <section>The method is on how to retrieve it</section>
-				 <section>Huge obsession on method and data </section>
-				 
-				 <section>Data analytics $\approx$ Problem solving skills</section>
-				 <section>Have to acknowledge the limitations</section>
-				 <section>Incomplete model:<br>housing price prediction</section>
-				 <section>Inherent ambiguity: I saw her duck<br>
-					<img src="pics/pic1_1.png" width=400 class=""fragment><br>
-				 </section>
-				 <section>Information bias: gender classification</section>
-				
-				 <section>We are going to learn the science of learning</section>
-				 <section>Vast amounts of data are <br>beging generated in many fields</section>
-				 <section>Our job is to make sense of it all:<br>extract important patterns and trends, and understand what the data says</section>
-				 <section>And, we are going to talk about its capabilities</section>
-				 
-
-				 <section>This class is about learning from data using Python</section>
+				<section>
+					<img src="pics/pic2_1.png" width=800 class=""fragment><br>
+					<ul>
+						
+						<ul>
+							<li class="fragment">Advertising budgets are input variables while sales is an output 								variable is an output variable</li>
+							
+							<ul>
+								<li class="fragment">inputs: predictors, independent variables, features $\rightarrow X$ </li>
+								<li class="fragment">outputs: response, target, dependent variables$\rightarrow Y$</li>
+							</ul>
+						</ul>
+						
+					</ul>
+				</section>
+				  
 				 
 				 <section>
 					<ul>
-						<li class="fragment">In most cases</li>
+						<li class="fragment">Suppose we observe $Y$ and $p$ different predictors, $X_1,X_2,...,X_p$</li>
+						
+						<li class="fragment">Assume that there is some relationship between $Y$ and $X = (X_1,X2,...,X_p)$, which can be written
+							in the very general form: $Y=f(X)+\epsilon$</li>
+						
+						
 						<ul>
-						<li class="fragment">have an outcome measurement </li>
-						<ul>
-							<li class="fragment">usaully quantitative or categorical </li>	
-							<li class="fragment">wish to predict based on aset of features</li>
+							<li class="fragment">$f$ is some fixed but unknown function of $X$, and $\epsilon$ is a random
+								error term, which is independent of $X$ and has mean zero</li>	
+								<li class="fragment">$f$ represents the systematic information that $X$ provides about $Y$</li>
 						</ul>
 						
-						<li class="fragment">have a training data</li>
+						
+					</ul>	
+		        </section>
+			  <section> 
+			  		<ul>
+						<li class="fragment">Consider the difference:</li>
 						<ul>
-							<li class="fragment">build a prediction model, or learner</li>	
+							
+							<li class="fragment">$\text{Income} =f(\text{education})+\epsilon$</li>
+							<li class="fragment">$\text{Income in \$} =f(\text{Income in &euro;})+\epsilon$</li>
+						</ul>
+					</ul>
+
+				
+					
+					
+					 </section>
+					
+				
+				<section>Why estimate $f$?</section>
+				<section>There are two main reasons: prediction and inference</section>
+				<section>Let's focus on prediction first</section>
+				<section>
+					<ul>
+						<li class="fragment">In many situations,$X$ are readily available, but $Y$ cannot be easily obtained</li>
+						<li class="fragment">Given the error term averages to zero, predict $Y$ using $\hat{Y}=\hat{f}(X)$</li>
+						<ul>
+							<li class="fragment">$\hat{f}$ represents our estimate for $f$</li>
+							<li class="fragment">often treated as a black box</li>
+							<ul>
+								<li class="fragment">examples?</li>
+							</ul>
+						</ul>
+						
+					</ul>
+				</section>
+				
+				<section>Reducible error: how to improve $\hat{f}$</section>
+				<section>Irreducible error: $\epsilon$ <br>because no matter how well we estimate $f$, we
+					cannot reduce the error introduced by $\epsilon$</section>
+
+				<section>Why is the irreducible error larger than zero?</section>
+				<section>The focus of the most data analysis is on techniques for estimating $f$ with the aim of
+					minimizing the reducible error</section>
+
+
+				<section>Now inference</section>
+				<section>
+
+					<ul>
+						<li class="fragment">We are often interested in understanding the association between $Y$ and $X$</li>
+						<li class="fragment">Still, we wish to estimate $f$, but our goal is not necessarily to make predictions for $Y$</li>
+						<li class="fragment">Now $\hat{f}$ cannot be treated as a black	box, because we need to know its exact form</li>
+						<ul>
+							<li class="fragment">Which media are associated with sales?</li>
+							<li class="fragment">Which media generate the biggest boost in sales?</li>
 							
 						</ul>
-						<li class="fragment">validate its prediction using a test data</li>
-						</ul>
+						
 					</ul>
-					
+				</section>
 		
-              </section>
+				<section>Some modeling could be conducted both for prediction and inference</section>
+		
+				<section>Depending on whether our ultimate goal is prediction, inference, or a
+					combination of the two, different methods for estimating $f$ may be appropriate</section>
+				<section>Simple model vs. Complex model</section>
+				<section>The Trade-Off Between<br> Prediction Accuracy and Model Interpretability</section>
+				
+				<section>Why would we ever choose to use a more restrictive method instead of a very flexible approach?</section>
+				<section>
+					<ul>
+						<li class="fragment">If we are mainly interested in inference, then restrictive (simple) models are much more interpretable</li>
+						<li class="fragment">Still, we wish to estimate $f$, but our goal is not necessarily to make predictions for $Y$</li>
+						<ul>
+							<li class="fragment">linear model</li>
+						</ul>
+						<li class="fragment">Flexible model would produce more accurate estimates but difficult to understand</li>
+						
+					</ul>
+				</section>
+			<section>In some settings, however, we are only interested in prediction, and
+				the interpretability of the predictive model is simply not of interest</section>
+				<section>However, we will often obtain more accurate predictions using a less flexible method</section>
 
 
-				<section>Let's to review the syllabus</section>
+				<section>One of the key aims of this class is to introduce a wide range
+					of learning methods that extend far beyond the standard linear
+					regression approach</section>
+				<section>No one method dominates all others over all possible data sets</section>
+				<section>Selecting the best approach can be one of the most challenging parts of performing statistical learning in
+					practice</section>
 					
-				
-				
-				
-				<section>
-					<ul>
-						<li class="fragment">The class is based on Jupyter Notebook (formerly IPython Notebook)</li>
+					<section>
+						<h4>Assessing Model Accuracy</h4>
 						<ul>
-							<li class="fragment">web-based interactive computational environment for creating, executing, and visualizing Jupyter notebooks</li>
+							<li class="fragment">Measuring a quality of fit depends on the model</li>
+							<li class="fragment"> In the regression setting, the mean squared error (MSE) </li>
+							<ul>
+								<li class="fragment">$\text{MSE}=\frac{1}{n}\sum_{i=1}^{n}(y_i-\hat{f}(x_i)  )^2$</li>
+								<li class="fragment">The MSE will be small if the predicted responses are very close to the true responses</li>
+							</ul>
+							
+							
 						</ul>
-						<li class="fragment">The easiest way to get started coding in Python is by running it in the cloud</li>
-						<li class="fragment">At present <a href="https://colab.research.google.com/">Google Colab</a> seems to be the most reliable</li>
-						
-					</ul>
-				</section>
-				
-				<section>
-					<ul>
-						<li class="fragment">Tutorials on how to get started with Google Colab can be found by searching</li>
-						<li class="fragment">Written examples include</li>
+					</section>
+
+					<section>We are interested in the accuracy of the predictions that we obtain when we apply our method to previously unseen 	data</section>
+
+					<section>
 						<ul>
-							<li class="fragment"><a href="https://pub.towardsai.net/google-colab-tutorial-for-beginners-834595494d44">Google Colab Tutorial for Beginners</a></li>
-							<li class="fragment"><a href="https://levelup.gitconnected.com/google-colab-what-is-it-how-to-use-it-and-why-should-i-care-721bb8a88c90">Intro to Google Colab</a></li>
+							<li class="fragment">Suppose fit the model using the training obs {$(x_1,y_1),...,(x_n,y_n)$} and obtatin $\hat{f}$</li>
+							<li class="fragment">Really not interested in whether $\hat{f}(x_i) \approx y_i$</li>
+							<li class="fragment">Instead, $\hat{f}(x_0) \approx y_0$, where $(x_0,y_0)$  is a previously unseen test observation not used to train
+								the statistical learning method</li>
+							
+							<li class="fragment">We want to choose the method that gives	the lowest test MSE, as opposed to the lowest training MSE</li>
+							
 						</ul>
-						<li class="fragment">If you want the local installation on your machine, The best such distribution is <a href="https://www.anaconda.com/products/distribution">Anaconda</a></li>
-						
-						
-					</ul>
-				</section>
-				
-				<section>
-				You can catch me after class or through <a href="https://calendly.com/ymoon-econ/15min_moon">zoom</a>
-				</section>
-				
-				
-		</div>
+					</section>
+					<section>How can we go about trying to select a method that minimizes the test MSE?</section>
+					<section>In some settings, we may have a test data set available, so choose the model having the lowest test MSE</section>
+					<section>But what if no test observations are available?</section>	
+					<section>How about: select a method<br> that minimizes the training MSE?</section>
+					<section> It might be a sensible approach, since the training MSE and the test MSE appear to be closely related</section>
+			
+					<section>Unfortunately, there
+						is no guarantee that<br> the method with the lowest training MSE<br> will also
+						have the lowest test MSE</section>
+				</div>	
 
 		<script src="../../dist/reveal.js"></script>
 		<script src="../../plugin/notes/notes.js"></script>
