@@ -65,7 +65,7 @@
 					<ul>
 						<li class="fragment">Suppose we observe $Y$ and $p$ different predictors, $X_1,X_2,...,X_p$</li>
 						
-						<li class="fragment">Assume that there is some relationship between $Y$ and $X = (X_1,X2,...,X_p)$, which can be written
+						<li class="fragment">Assume that there is some relationship between $Y$ and $X = (X_1,X_2,...,X_p)$, which can be written
 							in the very general form: $Y=f(X)+\epsilon$</li>
 						
 						
@@ -99,7 +99,7 @@
 				<section>Let's focus on prediction first</section>
 				<section>
 					<ul>
-						<li class="fragment">In many situations,$X$ are readily available, but $Y$ cannot be easily obtained</li>
+						<li class="fragment">In many situations, $X$ are readily available, but $Y$ cannot be easily obtained</li>
 						<li class="fragment">Given the error term averages to zero, predict $Y$ using $\hat{Y}=\hat{f}(X)$</li>
 						<ul>
 							<li class="fragment">$\hat{f}$ represents our estimate for $f$</li>
@@ -158,13 +158,13 @@
 				</section>
 			<section>In some settings, however, we are only interested in prediction, and
 				the interpretability of the predictive model is simply not of interest</section>
-				<section>However, we will often obtain more accurate predictions using a less flexible method</section>
+				<section>But, we will often obtain more accurate predictions using a less flexible method</section>
 
 
 				<section>One of the key aims of this class is to introduce a wide range
 					of learning methods that extend far beyond the standard linear
 					regression approach</section>
-				<section>No one method dominates all others over all possible data sets</section>
+				<section>No one method dominates all others <br>over all possible data sets</section>
 				<section>Selecting the best approach can be one of the most challenging parts of performing statistical learning in
 					practice</section>
 					
@@ -186,7 +186,7 @@
 
 					<section>
 						<ul>
-							<li class="fragment">Suppose fit the model using the training obs {$(x_1,y_1),...,(x_n,y_n)$} and obtatin $\hat{f}$</li>
+							<li class="fragment">Suppose fit the model using the training obs<br> {$(x_1,y_1),...,(x_n,y_n)$} and obtatin $\hat{f}$</li>
 							<li class="fragment">Really not interested in whether $\hat{f}(x_i) \approx y_i$</li>
 							<li class="fragment">Instead, $\hat{f}(x_0) \approx y_0$, where $(x_0,y_0)$  is a previously unseen test observation not used to train
 								the statistical learning method</li>
@@ -204,6 +204,66 @@
 					<section>Unfortunately, there
 						is no guarantee that<br> the method with the lowest training MSE<br> will also
 						have the lowest test MSE</section>
+
+					<section><img src="pics/pic2_2.png" width=500 class=""fragment><br></section>
+
+					<section>
+						<img src="pics/pic2_3.png" width=500 class=""fragment>
+					</section>
+
+					<section>
+						<ul>
+							<li class="fragment">Inverted U shape shows the Bias-variance Trade off</li>
+							<li class="fragment">Goal is to minimize</li>
+							<ul>
+							<li class="fragment">variance of $\hat{f}(x_0)$</li>
+							
+							<li class="fragment">squared bias of $\hat{f}(x_0)$</li>
+							</ul>
+						</ul>
+					</section>
+
+					<section>
+						<ul>
+							<li class="fragment">Variance refers to the amount by which $\hat{f}$ would change if we
+								estimated it using a different training data set</li>
+							
+							<ul>
+							<li class="fragment">different training sets will result in a different $\hat{f}$</li>
+							
+							<li class="fragment">$\hat{f}$ should not vary	too much between training sets</li>
+							</ul>
+
+							<li class="fragment">If a method has high variance
+								then small changes in the training data can result in large changes in $\hat{f}$</li>
+						</ul>
+					</section>
+					<section>
+						<ul>
+							<li class="fragment">Bias refers to the error that is introduced by approximating a real-life problem, which may be extremely complicated, by a much
+								simpler model</li>
+							
+							<ul>
+							<li class="fragment"> linear regression results in high bias if the true model is highly non linear</li>
+							
+							
+							</ul>
+
+							
+						</ul>
+					</section>
+					<section>As a general rule, as we use more flexible methods, the variance will
+						increase and the bias will decrease</section>
+						<section>The relative rate of change of these
+							two quantities determines whether the test MSE increases or decreases</section>
+							<section>
+								<img src="pics/pic2_3.png" width=500 class=""fragment>
+								<ul>
+									<li class="fragment">As
+										we increase the flexibility of a class of methods, the bias tends to initially
+										decrease faster than the variance increases</li>
+								</ul>
+							</section>	
 				</div>	
 
 		<script src="../../dist/reveal.js"></script>
