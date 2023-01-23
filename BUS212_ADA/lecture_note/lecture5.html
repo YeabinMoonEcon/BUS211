@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>BUS212:lecture3</title>
+		<title>BUS212:lecture5</title>
 
 		<link rel="stylesheet" href="../../dist/reset.css">
 		<link rel="stylesheet" href="../../dist/reveal.css">
@@ -19,247 +19,144 @@
 				<section data-markdown>
 					<textarea data-template>
 						## Advanced Data Analytics
-						## Lecture 3 
-						### Objects and Class
+						## Lecture 5
+						### Linear model I
 						
 					</textarea>
 				  </section>
 				  
-				  <section>Let's take a look at some codes</section>
+
+<section>
+	<h4>Linear regression</h4>
+	<ul>
+		<ul>
+			<li class="fragment">A very simple approach for supervised learning</li>
+			<li class="fragment">Useful tool for prediction and inference</li>
+			<ul>
+				<li class="fragment">even compared to the advanced models</li>
+			</ul>
+			<li class="fragment">Many fancy statistical	learning approaches are based on this simple model</li>			
+		</ul>
+	</ul>
+</section>
+
+<section>Let's revisit the question on advertising data</section>
+<section>From the code, let's ask the following questions</section>
 				  
-				  <section>
-					<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
-from sklearn.model_selection import train_test_split
-import mglearn
-from sklearn.neighbors import KNeighborsClassifier
-X, y = mglearn.datasets.make_forge()
-X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=0)
-clf = KNeighborsClassifier(n_neighbors=3)
-clf.fit(X_train, y_train)
-						</code></pre>
-						<ul>
-							<li class="fragment">How do you understand this code?</li>
-						</ul> 	
-				</section>
+<section>
+	
+		<ul>
+			<li class="fragment">Is there a relationship between advertising budget and sales?</li>
+			<ul>
+				<li class="fragment">if yes, which media?</li>
+				<li class="fragment">is the relationship linear?</li>
+			</ul>
+			<li class="fragment">How strong is the relationship between advertising budget and sales?</li>
+			<li class="fragment">How large is the association between each medium and sales?</li>
+			<li class="fragment">How accurately can we predict future sales?</li>			
+			<li class="fragment">How accurately can we predict future sales?</li>			
+			<li class="fragment">How about synergy among the media?</li>			
+		</ul>
+	
+</section>				  
+<section>The code example shows <br> coefficient 7.25 and intercept 0.05</section>
+<section>Consider whether this linear regression approach <br> can answer each of these questions</section>
 
-				<section>
-					<h4>Today</h4>
-					<ul>
-						
-						<ul>
-							<li class="fragment">Understand Objects and Classes</li>
-							<li class="fragment">Object-oriented programming</li>
-							
-						</ul>
-						
-					</ul>
-				</section>
-				  
-				 
-				 <section>
-					<ul>
-						<li class="fragment">Suppose we observe $Y$ and $p$ different predictors, $X_1,X_2,...,X_p$</li>
-						
-						<li class="fragment">Assume that there is some relationship between $Y$ and $X = (X_1,X_2,...,X_p)$, which can be written
-							in the very general form: $Y=f(X)+\epsilon$</li>
-						
-						
-						<ul>
-							<li class="fragment">$f$ is some fixed but unknown function of $X$, and $\epsilon$ is a random
-								error term, which is independent of $X$ and has mean zero</li>	
-								<li class="fragment">$f$ represents the systematic information that $X$ provides about $Y$</li>
-						</ul>
-						
-						
-					</ul>	
-		        </section>
-			  <section> 
-			  		<ul>
-						<li class="fragment">Consider the difference:</li>
-						<ul>
-							
-							<li class="fragment">$\text{Income} =f(\text{education})+\epsilon$</li>
-							<li class="fragment">$\text{Income in \$} =f(\text{Income in &euro;})+\epsilon$</li>
-						</ul>
-					</ul>
-
-				
-					
-					
-					 </section>
-					
-				
-				<section>Why estimate $f$?</section>
-				<section>There are two main reasons: prediction and inference</section>
-				<section>Let's focus on prediction first</section>
-				<section>
-					<ul>
-						<li class="fragment">In many situations, $X$ are readily available, but $Y$ cannot be easily obtained</li>
-						<li class="fragment">Given the error term averages to zero, predict $Y$ using $\hat{Y}=\hat{f}(X)$</li>
-						<ul>
-							<li class="fragment">$\hat{f}$ represents our estimate for $f$</li>
-							<li class="fragment">often treated as a black box</li>
-							<ul>
-								<li class="fragment">examples?</li>
-							</ul>
-						</ul>
-						
-					</ul>
-				</section>
-				
-				<section>Reducible error: how to improve $\hat{f}$</section>
-				<section>Irreducible error: $\epsilon$ <br>because no matter how well we estimate $f$, we
-					cannot reduce the error introduced by $\epsilon$</section>
-
-				<section>Why is the irreducible error larger than zero?</section>
-				<section>The focus of the most data analysis is on techniques for estimating $f$ with the aim of
-					minimizing the reducible error</section>
-
-
-				<section>Now inference</section>
-				<section>
-
-					<ul>
-						<li class="fragment">We are often interested in understanding the association between $Y$ and $X$</li>
-						<li class="fragment">Still, we wish to estimate $f$, but our goal is not necessarily to make predictions for $Y$</li>
-						<li class="fragment">Now $\hat{f}$ cannot be treated as a black	box, because we need to know its exact form</li>
-						<ul>
-							<li class="fragment">Which media are associated with sales?</li>
-							<li class="fragment">Which media generate the biggest boost in sales?</li>
-							
-						</ul>
-						
-					</ul>
-				</section>
-		
-				<section>Some modeling could be conducted both for prediction and inference</section>
-		
-				<section>Depending on whether our ultimate goal is prediction, inference, or a
-					combination of the two, different methods for estimating $f$ may be appropriate</section>
-				<section>Simple model vs. Complex model</section>
-				<section>The Trade-Off Between<br> Prediction Accuracy and Model Interpretability</section>
-				
-				<section>Why would we ever choose to use a more restrictive method instead of a very flexible approach?</section>
-				<section>
-					<ul>
-						<li class="fragment">If we are mainly interested in inference, then restrictive (simple) models are much more interpretable</li>
-						<li class="fragment">Still, we wish to estimate $f$, but our goal is not necessarily to make predictions for $Y$</li>
-						<ul>
-							<li class="fragment">linear model</li>
-						</ul>
-						<li class="fragment">Flexible model would produce more accurate estimates but difficult to understand</li>
-						
-					</ul>
-				</section>
-			<section>In some settings, however, we are only interested in prediction, and
-				the interpretability of the predictive model is simply not of interest</section>
-				<section>But, we will often obtain more accurate predictions using a less flexible method</section>
-
-
-				<section>One of the key aims of this class is to introduce a wide range
-					of learning methods that extend far beyond the standard linear
-					regression approach</section>
-				<section>No one method dominates all others <br>over all possible data sets</section>
-				<section>Selecting the best approach can be one of the most challenging parts of performing statistical learning in
-					practice</section>
-					
-					<section>
-						<h4>Assessing Model Accuracy</h4>
-						<ul>
-							<li class="fragment">Measuring a quality of fit depends on the model</li>
-							<li class="fragment"> In the regression setting, the mean squared error (MSE) </li>
-							<ul>
-								<li class="fragment">$\text{MSE}=\frac{1}{n}\sum_{i=1}^{n}(y_i-\hat{f}(x_i)  )^2$</li>
-								<li class="fragment">The MSE will be small if the predicted responses are very close to the true responses</li>
-							</ul>
-							
-							
-						</ul>
-					</section>
-
-					<section>We are interested in the accuracy of the predictions that we obtain when we apply our method to previously unseen 	data</section>
-
-					<section>
-						<ul>
-							<li class="fragment">Suppose fit the model using the training obs<br> {$(x_1,y_1),...,(x_n,y_n)$} and obtatin $\hat{f}$</li>
-							<li class="fragment">Really not interested in whether $\hat{f}(x_i) \approx y_i$</li>
-							<li class="fragment">Instead, $\hat{f}(x_0) \approx y_0$, where $(x_0,y_0)$  is a previously unseen test observation not used to train
-								the statistical learning method</li>
-							
-							<li class="fragment">We want to choose the method that gives	the lowest test MSE, as opposed to the lowest training MSE</li>
-							
-						</ul>
-					</section>
-					<section>How can we go about trying to select a method that minimizes the test MSE?</section>
-					<section>In some settings, we may have a test data set available, so choose the model having the lowest test MSE</section>
-					<section>But what if no test observations are available?</section>	
-					<section>How about: select a method<br> that minimizes the training MSE?</section>
-					<section> It might be a sensible approach, since the training MSE and the test MSE appear to be closely related</section>
+<section>
+	<h4>Simple Linear Regression</h4>
+	<ul>
+		<li class="fragment">We assume that there is approximately a linear relationship between $X$ and $Y$</li>
+		<ul>
+			<li class="fragment">$Y = \beta_0 + \beta_1 X +\epsilon$</li>
+			<li class="fragment">$Y \approx \beta_0 + \beta_1 X$</li>
+			<li class="fragment">here, $X$ is only one predictor</li>
+			<li class="fragment">In e.g., assume $\text{sales} \approx \beta_0 + \beta_1 TV$</li>
+		</ul>		
+	</ul>
+</section>				  
+<section>
+	<ul>
+		<li class="fragment">Two unkonwns $\beta_0, \beta_1$ are called model parameters</li>
+		<li class="fragment">We want to estimate them using data</li>
+		<ul>
+			<li class="fragment">$\hat{\beta}_0, \hat{\beta}_1$ are the model estimates</li>
+		</ul>
+		<li class="fragment">$\beta_1$ is of the interest for the LR</li>
+		<li class="fragment">In e.g.,</li>
+		<ul>
+			<li class="fragment">$\text{sales} \approx 0.05 + 7.25 TV$</li>
+			<li class="fragment">$ \hat{\beta}_0 = 0.05, \hat{\beta}_1= 7.25 $</li>
 			
-					<section>Unfortunately, there
-						is no guarantee that<br> the method with the lowest training MSE<br> will also
-						have the lowest test MSE</section>
+		</ul>
+	</ul>
+</section>				  
 
-					<section><img src="pics/pic2_2.png" width=500 class=""fragment><br></section>
 
-					<section>
-						<img src="pics/pic2_3.png" width=500 class=""fragment>
-					</section>
+<section>
+	<h4>Estimators and Estimates</h4>
+	<ul>
+		<ul>
+			<li class="fragment">We use data to estimates the parameters</li>
+			<li class="fragment">Suppose $(x_1,y_1),...,(x_n,y_n)$ represent $n$ observations</li>
+			<ul>
+				<li class="fragment">in e.g., there are $n=200$ different markets</li>
+			</ul>		
+			<li class="fragment">Out goal is to obtain $\hat{\beta}_0, \hat{\beta}_1$ such that $y_i\approx \hat{\beta}_0+\hat{\beta}_1 x_i$ for $i=1,...,n$</li>
+		</ul>
+	</ul>
+</section>		
+<section>In other words, we want to find $\hat{\beta}_0$ and $\hat{\beta}_1$ such
+	that the resulting line is as close as possible to our data </section>
+<section>The question is how to define <em>closeness</em>?</section>
+<section>The most common approach is to use least squares</section>
 
-					<section>
-						<ul>
-							<li class="fragment">Inverted U shape shows the Bias-variance Trade off</li>
-							<li class="fragment">Goal is to minimize</li>
-							<ul>
-							<li class="fragment">variance of $\hat{f}(x_0)$</li>
-							
-							<li class="fragment">squared bias of $\hat{f}(x_0)$</li>
-							</ul>
-						</ul>
-					</section>
+<section>
+	
+		<ul>
+			<li class="fragment">See the following notations:</li>
+			<ul>
+				<li class="fragment">$\hat{y}_i = \hat{\beta}_0+\hat{\beta}_1 x_i$</li>
+				<ul>
+					<li class="fragment">predicted value of $y_i$</li>
+				</ul>
+				<li class="fragment">$e_i =y_i- \hat{y}_i$</li>
+				<ul>
+					<li class="fragment">$i$th residual</li>
+				</ul>
+				<li class="fragment">$\text{RSS}=e_{1}^{2}+e_{2}^{2}+\cdots+e_{n}^{2}$</li>
+				<ul>
+					<li class="fragment">RSS stands for the residual sum of squares</li>
+				</ul>
+			</ul>		
+			<li class="fragment">The least squares approach chooses $\hat{\beta}_0, \hat{\beta}_1$ to minimize the RSS</li>
+		</ul>
+	
+</section>	
 
-					<section>
-						<ul>
-							<li class="fragment">Variance refers to the amount by which $\hat{f}$ would change if we
-								estimated it using a different training data set</li>
-							
-							<ul>
-							<li class="fragment">different training sets will result in a different $\hat{f}$</li>
-							
-							<li class="fragment">$\hat{f}$ should not vary	too much between training sets</li>
-							</ul>
+<section>
+	<ul>
+		<li class="fragment">Let's interpret the codes</li>
+		<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+from sklearn import linear_model
+df = pd.read_csv('Advertising.csv',index_col=0)
+lr = linear_model.LinearRegression()
+lr.fit(df[['TV']], df.sales)
+print("lr.coef_:", lr.coef_)
+print("lr.intercept_:", lr.intercept_)
+		</code></pre>	
+	</ul>
+</section>	
 
-							<li class="fragment">If a method has high variance
-								then small changes in the training data can result in large changes in $\hat{f}$</li>
-						</ul>
-					</section>
-					<section>
-						<ul>
-							<li class="fragment">Bias refers to the error that is introduced by approximating a real-life problem, which may be extremely complicated, by a much
-								simpler model</li>
-							
-							<ul>
-							<li class="fragment"> linear regression results in high bias if the true model is highly non linear</li>
-							
-							
-							</ul>
+<section>
+We have just estimated the parameters mechanically: $ \hat{\beta}_0 = 0.0475, \hat{\beta}_1= 7.03 $ (full sample)
+</section>
+<section>
+	An additional $1,000 spent on TV adversing is associated with selling  approximately 47.5 additional units of the product
+</section>
 
-							
-						</ul>
-					</section>
-					<section>As a general rule, as we use more flexible methods, the variance will
-						increase and the bias will decrease</section>
-						<section>The relative rate of change of these
-							two quantities determines whether the test MSE increases or decreases</section>
-							<section>
-								<img src="pics/pic2_3.png" width=500 class=""fragment>
-								<ul>
-									<li class="fragment">As
-										we increase the flexibility of a class of methods, the bias tends to initially
-										decrease faster than the variance increases</li>
-								</ul>
-							</section>	
-				</div>	
+<section>3.1.2</section>
+
+</div>	
 
 		<script src="../../dist/reveal.js"></script>
 		<script src="../../plugin/notes/notes.js"></script>
