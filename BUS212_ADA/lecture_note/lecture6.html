@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>BUS212:lecture5</title>
+		<title>BUS212:lecture6</title>
 
 		<link rel="stylesheet" href="../../dist/reset.css">
 		<link rel="stylesheet" href="../../dist/reveal.css">
@@ -19,13 +19,13 @@
 				<section data-markdown>
 					<textarea data-template>
 						## Advanced Data Analytics
-						## Lecture 5
-						### Linear model I
+						## Lecture 6
+						### Linear model II
 						
 					</textarea>
 				  </section>
 				  
-
+<section>Multi and MSE</section>
 <section>
 	<h4>Linear regression</h4>
 	<ul>
@@ -241,19 +241,7 @@ print("lr.intercept_:", lr.intercept_)
 <section>Once we have rejected the null hypothesis, it is natural to want to quantify the extent to which the model fits the data</section>
 <section>
 	<ul>
-		<li class="fragment">You may learn $R^2$</li>
-		<ul>
-			<li class="fragment">$R^2=1-\frac{\sum_{i}(y_i-\hat{y}_i)^2}{\sum_{i}(y_i-\bar{y})^2}$</li>
-		</ul>
-		<li class="fragment">$R^2$ measures the proportion of variability in $Y$ that can be explained by using $X$</li>
-		<ul>
-			<li class="fragment">higher $R^2$ implies that a large proportion of the variability in the response is
-				explained by the regression</li>
-				<ul>
-					<li class="fragment">challenging to determine what is a good $R^2$ value</li>
-					
-				</ul>
-		</ul>
+		<li class="fragment">Two related quantities: the residual standard error (RSE) and the $R^2$</li>
 	</ul>
 </section>
 
