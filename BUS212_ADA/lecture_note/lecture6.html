@@ -26,238 +26,72 @@
 				  </section>
 				  
 
+<section>Simple linear regression is a useful approach for predicting a response on the basis of a single predictor variable</section>
+
 <section>
-	<h4>Multiple Linear regression</h4>
 	<ul>
+		<li class="fragment">In practice, we often have more than one predictor</li>
 		<ul>
-			<li class="fragment">A very simple approach for supervised learning</li>
-			<li class="fragment">Useful tool for prediction and inference</li>
+			<li class="fragment">Advertising example: examine the relationship between sales and TV ads</li>
 			<ul>
-				<li class="fragment">even compared to the advanced models</li>
+				<li class="fragment">also have radio and news ads spending</li>
 			</ul>
-			<li class="fragment">Many fancy statistical	learning approaches are based on this simple model</li>			
+			
 		</ul>
+		<li class="fragment">How can we extend our analysis of the advertising data in order to accommodate these two additional predictors?</li>			
 	</ul>
 </section>
-<section>We are going to see the end-to-end project for the linear model later</section>
+<section>One option is to run three separate linear regressions</section>
 
-<section>Let's revisit the question on advertising data</section>
+<section>We learned the reasonings behind linear regression, but what makes you think this is unsatisfactory?</section>
 
-<section>From the code, let's ask the following questions</section>
-				  
-<section>
-	
+<section>	
 		<ul>
-			<li class="fragment">Is there a relationship between advertising budget and sales?</li>
+			<li class="fragment">It is unclear how to make a single prediction of sales given the three advertising media budgets</li>
 			<ul>
-				<li class="fragment">if yes, which media?</li>
-				<li class="fragment">is the relationship linear?</li>
+				<li class="fragment">because each of the budgets is associated with a separate regression equation</li>
 			</ul>
-			<li class="fragment">How strong is the relationship between advertising budget and sales?</li>
-			<li class="fragment">How large is the association between each medium and sales?</li>
-			<li class="fragment">How accurately can we predict future sales?</li>			
-			<li class="fragment">How accurately can we predict future sales?</li>			
-			<li class="fragment">How about synergy among the media?</li>			
+			<li class="fragment">Each of the three regression equations ignores the other two media
+				in forming estimates for the regression coefficients</li>
 		</ul>
-	
 </section>				  
-<section>The code example shows <br> coefficient 7.25 and intercept 0.05</section>
-<section>Consider whether this linear regression approach <br> can answer each of these questions</section>
+<section>A better approach is to extend the simple linear regression model so that it can directly accommodate multiple predictors</section>
 
 <section>
-	<h4>Simple Linear Regression</h4>
+	<h4>Multiple Linear Regression</h4>
 	<ul>
-		<li class="fragment">We assume that there is approximately a linear relationship between $X$ and $Y$</li>
+		<li class="fragment">The multiple linear regression model takes the form</li>
 		<ul>
-			<li class="fragment">$Y = \beta_0 + \beta_1 X +\epsilon$</li>
-			<li class="fragment">$Y \approx \beta_0 + \beta_1 X$</li>
-			<li class="fragment">here, $X$ is only one predictor</li>
-			<li class="fragment">In e.g., assume $\text{sales} \approx \beta_0 + \beta_1 TV$</li>
+			<li class="fragment">$Y = \beta_0 + \beta_1 X_1 \cdots+\beta_p X_p+\epsilon$</li>
+			<ul>
+			<li class="fragment">$X_j$ represents the $j$th predictor and $\beta_j$ quantifies its effect on $Y$</li>
+			<li class="fragment">$\beta_j$: average effect on $Y$ of one unit increase in $X_j$, holding all other predictors fixed</li>	
+			</ul>
+			
+			<li class="fragment">$\text{sales}=\beta_0+\beta_1 \text{TV}+\beta_2\text{radio}+\beta_3\text{news paper}+\epsilon $</li>
 		</ul>		
 	</ul>
 </section>				  
+
+<section>As was the case in the simple linear setting, the regression parameters $\beta_1,...,\beta_p$ are unknown,<br> and must be estimated</section>
+<section>Given estimiates $\hat{\beta}_1,...,\hat{\beta}_p$, we can make predictions<br>$\hat{y}=\hat{\beta}_0+\hat{\beta}_1x_1+\hat{\beta}_px_p$</section>
+
+
 <section>
 	<ul>
-		<li class="fragment">Two unkonwns $\beta_0, \beta_1$ are called model parameters</li>
-		<li class="fragment">We want to estimate them using data</li>
+		<li class="fragment">The parameters are estimated using the same least squares approach</li>
+		<li class="fragment">We choose $\hat{\beta}_1,...,\hat{\beta}_p$ to minimize the sum of squared residuals</li>
 		<ul>
-			<li class="fragment">$\hat{\beta}_0, \hat{\beta}_1$ are the model estimates</li>
+			<li class="fragment">$\text{RSS} =\sum_i(y_i-\hat{y}_i)^2=\sum_i(y_i-\hat{\beta}_0-\hat{\beta}_1x_{i1}-\cdots-\hat{\beta}_px_{ip})^2$</li>
 		</ul>
-		<li class="fragment">$\beta_1$ is of the interest for the LR</li>
-		<li class="fragment">In e.g.,</li>
-		<ul>
-			<li class="fragment">$\text{sales} \approx 0.05 + 7.25 TV$</li>
-			<li class="fragment">$ \hat{\beta}_0 = 0.05, \hat{\beta}_1= 7.25 $</li>
-			
-		</ul>
+		
 	</ul>
 </section>				  
 
 
-<section>
-	<h4>Estimators and Estimates</h4>
-	<ul>
-		<ul>
-			<li class="fragment">We use data to estimates the parameters</li>
-			<li class="fragment">Suppose $(x_1,y_1),...,(x_n,y_n)$ represent $n$ observations</li>
-			<ul>
-				<li class="fragment">in e.g., there are $n=200$ different markets</li>
-			</ul>		
-			<li class="fragment">Out goal is to obtain $\hat{\beta}_0, \hat{\beta}_1$ such that<br> $y_i\approx \hat{\beta}_0+\hat{\beta}_1 x_i$ for $i=1,...,n$</li>
-		</ul>
-	</ul>
-</section>		
-<section>In other words, we want to find $\hat{\beta}_0$ and $\hat{\beta}_1$ such
-	that the resulting line is as close as possible to our data </section>
-<section>The question is how to define <em>closeness</em>?</section>
-<section>The most common approach is to use least squares</section>
+<section><img src="pics/pic6_1.png" width=900 class=""fragment></section>
 
-<section>
-		<ul>
-			<li class="fragment">See the following notations:</li>
-			<ul>
-				<li class="fragment">$\hat{y}_i = \hat{\beta}_0+\hat{\beta}_1 x_i$</li>
-				<ul>
-					<li class="fragment">predicted value of $y_i$</li>
-				</ul>
-				<li class="fragment">$e_i =y_i- \hat{y}_i$</li>
-				<ul>
-					<li class="fragment">$i$th residual</li>
-				</ul>
-				<li class="fragment">$\text{RSS}=e_{1}^{2}+e_{2}^{2}+\cdots+e_{n}^{2}$</li>
-				<ul>
-					<li class="fragment">RSS stands for the residual sum of squares</li>
-				</ul>
-			</ul>		
-			<li class="fragment">The least squares approach chooses $\hat{\beta}_0, \hat{\beta}_1$ to minimize the RSS</li>
-		</ul>
-	
-</section>	
-
-<section>
-	<ul>
-		<li class="fragment">Let's interpret the codes</li>
-		<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
-from sklearn import linear_model
-df = pd.read_csv('Advertising.csv',index_col=0)
-lr = linear_model.LinearRegression()
-lr.fit(df[['TV']], df.sales)
-print("lr.coef_:", lr.coef_)
-print("lr.intercept_:", lr.intercept_)
-		</code></pre>	
-	</ul>
-</section>	
-
-<section>
-	<ul>
-		<li class="fragment">We have just estimated the parameters mechanically: $ \hat{\beta}_0 = 0.0475, \hat{\beta}_1= 7.03 $ (full sample)</li>
-		<li class="fragment">An additional $1,000 spent on TV adversing is associated with selling  approximately 47.5 additional units of the product</li>
-		<ul>
-			<li class="fragment">Intutive inference</li>
-		</ul>
-	</ul>
-</section>
-<section>Most models we will learn focus on the prediction</section>
-<section>Focus the inference first</section>
-<section>
-	<ul>
-		<li class="fragment">How do we assess the accuracy of the estimates?</li>
-		<ul>
-			<li class="fragment">This is different from the accuracy of the prediction</li>
-		</ul>
-		<li class="fragment">Focus is on $\hat{Y}$ or $\hat{\beta}$?</li>
-	</ul>
-</section>
-
-
-<section>
-<h4>More on inference</h4>
-	<ul>
-		<li class="fragment">We assume the true relationship as<br>$Y = \beta_0+\beta_1 X+\epsilon$</li>
-		<ul>
-			<li class="fragment">$\epsilon$ is a catch-all for what we miss </li>
-			<li class="fragment">Assume that the error term is independent of $X$</li>
-		</ul>
-		<li class="fragment">$\beta_0, \beta_1$ are unkonwns, but we have estimates $\hat{\beta}_0, \hat{\beta}_1$</li>
-		<li class="fragment">How do we know the accuracy of the estimates?</li>
-	</ul>
-</section>
-
-
-<section>We want to uncover some relationship using a sample</section>
-
-<section>
-	<h4>Example</h4>
-		<ul>
-			<li class="fragment">Suppose we are interseted in knowing the population mean $\mu$ of some random variable $Y$</li>
-			<ul>
-				<li class="fragment">$\mu$ is unknown </li>
-				<li class="fragment">we do have access to $n$ observations: $y_1,...,y_n$</li>
-				<li class="fragment">a resonable estimate is $\hat{\mu}=\bar{y}$</li>
-				
-			</ul>
-			<li class="fragment">Basically, we cannot be certain that $\mu = \bar{y}$</li>
-			<li class="fragment">However, the sample mean will provide a good 	estimate of the population mean</li>
-			
-		</ul>
-</section>
-
-<section>Sample mean is unbiased estimator of the population mean</section>
-<section>What exactly does this mean?</section>
-<section>
-	<ul>
-		<li class="fragment">On the basis of one particular set of observations $y_1,...,y_n$, $\hat{\mu}$ might overestimate $\mu$</li>
-			<ul>
-			<li class="fragment">on the basis of another set of observations, $\hat{\mu}$ might underestimate it</li>
-			</ul>
-		<li class="fragment">But if we could average a huge number of estimates of $\mu$ obtained from a huge number of sets of observations, then this average
-			would exactly equal $\mu$</li>
-		<li class="fragment">$\hat{\beta}$, linear model estimator, is the unbiased estimator of $\beta$</li>		
-	</ul>
-</section>
-<section>This is just a mathematical property</section>
-<section>We have not answered yet on how accurate our estimates are</section>
-<section>Let's go back to statistics 101</section>
-
-<section>We have established that the average of $\hat{\beta}$ over many data sets will be very close to $\beta$, but that a single estimate $\hat{\beta}$ may be a substantial underestimate or overestimate of $\beta$</section>
-<section>How far off will that single estimate of $\hat{\beta}$ be?</section>
-
-<section>Use the standard error of $\hat{\beta}: \sqrt{\text{Var} \hat{(\beta)}}=\text{SE}(\hat{\beta})$</section>
-<section>Standard errors can be used to perform hypothesis tests on $\hat{\beta}$</section>
-<section>
-	<ul>
-		<li class="fragment">$H_0$: there is no relationship between $X$ and $Y$</li>
-		<li class="fragment">$H_a$: there is some relationship between $X$ and $Y$</li>
-			<ul>
-			<li class="fragment">$H_0:\beta_1 = 0$</li>
-			<li class="fragment">$H_1:\beta_1 \ne 0$</li>
-			</ul>
-		
-		<li class="fragment">In practice, we compute a $t$-statistic: $t=\frac{\hat{\beta}_1 -0}{\text{SE}(\hat{\beta}_1)}$</li>		
-	</ul>
-</section>
-<section><img src="pics/pic5_1.png" width=900 class=""fragment></section>
-
-<section>Once we have rejected the null hypothesis, it is natural to want to quantify the extent to which the model fits the data</section>
-<section>
-	<ul>
-		<li class="fragment">You may learn $R^2$</li>
-		<ul>
-			<li class="fragment">$R^2=1-\frac{\sum_{i}(y_i-\hat{y}_i)^2}{\sum_{i}(y_i-\bar{y})^2}$</li>
-		</ul>
-		<li class="fragment">$R^2$ measures the proportion of variability in $Y$ that can be explained by using $X$</li>
-		<ul>
-			<li class="fragment">higher $R^2$ implies that a large proportion of the variability in the response is
-				explained by the regression</li>
-				<ul>
-					<li class="fragment">challenging to determine what is a good $R^2$ value</li>
-					
-				</ul>
-		</ul>
-	</ul>
-</section>
-
-
+<section>3.2.2 and prediction parts add, and then fix the problem sets</section>
 
 
 </div>	
