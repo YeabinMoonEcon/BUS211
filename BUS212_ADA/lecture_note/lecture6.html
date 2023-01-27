@@ -89,9 +89,125 @@
 </section>				  
 
 
-<section><img src="pics/pic6_1.png" width=900 class=""fragment></section>
+<section><img src="pics/pic6_1.png" width=900 class=""fragment>
+	<ul>
+		<li class="fragment">However, interpretation is somewhat tricky</li>
+	</ul>
+</section>
 
-<section>3.2.2 and prediction parts add, and then fix the problem sets</section>
+<section>Let's address four questions</section>
+
+<section>1. Is There a Relationship <br>Between the Response and Predictors?</section>
+<section>
+	<ul>
+		<li class="fragment">In the simple LR, we check whether $\beta_1=0$</li>
+		<li class="fragment">In the multiple LR, we need to check</li>
+		<ul>
+		<li class="fragment">$H_0:\beta_1=\cdots=\beta_p=0$</li>	
+		<li class="fragment">$H_1: \text{at least one }\beta_j \text{ is non-zero}$</li>	
+		<li class="fragment">This hypothesis test is performed by computing the F-statistic</li>		
+	</ul>
+</section>				  
+<section><img src="pics/pic6_1.png" width=700 class=""fragment>
+	<ul>
+		<li class="fragment">How do you interpret the F-stat here?</li>
+	</ul>
+</section>
+
+<section><img src="pics/pic6_1.png" width=700 class=""fragment>
+	<ul>
+		<li class="fragment">Given these individual p-values for each variable, why do we need to look
+			at the overall F-statistic?</li>
+	</ul>
+</section>
+
+<section>If we conclude on the basis of that p-value that at least one of the
+	predictors is related to the response, then it is natural to wonder which are
+	the guilty ones</section>
+
+<section>2. Deciding on Important Variables</section>
+
+<section>
+	<h4>Why this is challenging?</h4>
+	<ul>
+		<li class="fragment">Consider $p=2$: $X_1$ and $X_2$</li>
+		<li class="fragment">How about $p=30$: $2^p$ models</li>
+		<li class="fragment">Come back here when we learn regularization</li>
+	</ul>
+</section>				  
+
+<section>3. Model Fit: What's the problem of $R^2$?</section>
+
+<section>4. A few assumptions: additive and linear model</section>
+<section>
+	$Y = \beta_0 + \beta_1 X_1 \cdots+\beta_p X_p+\epsilon$
+	<ul>
+		<li class="fragment">The additivity assumption </li>
+		<ul>
+		<li class="fragment">the association between $X_j$ and $Y$ does not depend on the values of the other $X$s</li>
+		</ul>
+		<li class="fragment">The linearity assumption</li>
+		<ul>
+			<li class="fragment">the change in $Y$ associated with a one-unit change in $X_j$ is constant, regardless of the value of $X$</li>
+			</ul>
+	</ul>
+</section>				  
+
+<section>We can relax some assumptions, but be careful on interpretation</section>
+
+<section>
+	$Y = \beta_0 + \beta_1 X_1 +\beta_2 X_2+\beta_3 X_1 X_2+\epsilon$<br>
+	$Y = \beta_0 + (\beta_1+\beta_3 X_2)X_1 +\beta_2 X_2+\epsilon$<br>
+	$Y = \beta_0 + \tilde{\beta}_1X_1 +\beta_2 X_2+\epsilon$ <br>where $\tilde{\beta}_1=\beta_1+\beta_3X_2$
+
+</section>				  
+<section>
+$\text{sales} = \beta_0 + \beta_1 \text{TV} +\beta_2 \text{radio}$<br>
+$+\beta_3 (\text{TV}\times \text{radio})+\epsilon$	
+<ul>
+	<li class="fragment"> interpret $\beta_3$ as the increase in the effectiveness of TV advertising
+		associated with a one-unit increase in radio advertising (or vice-versa)</li>
+</ul>
+</section>
+
+<section>
+	<h4>Non-linear Relationships</h4>
+	<ul>
+		<li class="fragment">True relationship between the response and the predictors may be nonlinear</li>
+		<li class="fragment">How do we interpret:</li>
+		<ul>
+		<li class="fragment">$Y = \beta_0 + \beta_1 X_1 +\beta_2 X_2^2+\epsilon$</li>
+		<ul>
+			<li class="fragment">polynomial regression</li>
+			</ul>
+		</ul>
+		
+	</ul>
+</section>				  
+<section>
+	<ul>
+	<li class="fragment">$\text{sales} = \hat{\beta}_0 + 0.06\text{TV} -0.000006 \text{TV}^2$</li>
+			<ul>
+			<li class="fragment">What does this model capture?</li>
+			</ul>
+			<li class="fragment">If including $\text{TV}^2$ led to a big improvement in the model, why not $\text{TV}^3$?</li>
+			<li class="fragment">Revisit later</li>
+		</ul>
+</section>
+
+<section>
+<h4>Summary</h4>
+<ol>
+		<li class="fragment">Is there a relationship between sales and advertising budgets</li>
+		<li class="fragment">How strong is the relationship?</li>
+		<li class="fragment">Which media are associated with sales?</li>
+		<li class="fragment">How large is the association between each medium and sales?</li>
+		<li class="fragment">How accurately can we predict future sales?</li>
+		<li class="fragment">Is the relationship linear?</li>
+		<li class="fragment">Is there synergy among the advertising media?</li>
+		
+		</ol>
+</section>
 
 
 </div>	
