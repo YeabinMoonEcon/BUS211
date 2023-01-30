@@ -41,7 +41,8 @@
 </section>
 <section>We are going to see the end-to-end project for the linear model later</section>
 
-<section>Let's revisit the question on advertising data</section>
+<section>Let's revisit the question on advertising data<br></section>
+
 
 <section>From the code, let's ask the following questions</section>
 				  
@@ -61,8 +62,8 @@
 		</ul>
 	
 </section>				  
-<section>The code example shows <br> coefficient 7.25 and intercept 0.05</section>
-<section>Consider whether this linear regression approach <br> can answer each of these questions</section>
+<section>How do we interpret the estimates?</section>
+
 
 <section>
 	<h4>Simple Linear Regression</h4>
@@ -138,6 +139,7 @@
 	<ul>
 		<li class="fragment">Let's interpret the codes</li>
 		<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+import pandas as pd
 from sklearn import linear_model
 df = pd.read_csv('Advertising.csv',index_col=0)
 lr = linear_model.LinearRegression()
@@ -150,15 +152,15 @@ print("lr.intercept_:", lr.intercept_)
 
 <section>
 	<ul>
-		<li class="fragment">We have just estimated the parameters mechanically: $ \hat{\beta}_0 = 0.0475, \hat{\beta}_1= 7.03 $ (full sample)</li>
+		<li class="fragment">We have just estimated the parameters mechanically: $ \hat{\beta}_0 = 0.0475, \hat{\beta}_1= 7.03 $</li>
 		<li class="fragment">An additional $1,000 spent on TV adversing is associated with selling  approximately 47.5 additional units of the product</li>
 		<ul>
 			<li class="fragment">Intutive inference</li>
 		</ul>
 	</ul>
 </section>
-<section>Most models we will learn focus on the prediction</section>
-<section>Focus the inference first</section>
+<section>Most models we will learn focus on the prediction, but now let's focus on inference as you did in econometrics or stat class</section>
+
 <section>
 	<ul>
 		<li class="fragment">How do we assess the accuracy of the estimates?</li>
@@ -207,9 +209,9 @@ print("lr.intercept_:", lr.intercept_)
 <section>
 	<ul>
 		<li class="fragment">On the basis of one particular set of observations $y_1,...,y_n$, $\hat{\mu}$ might overestimate $\mu$</li>
-			<ul>
-			<li class="fragment">on the basis of another set of observations, $\hat{\mu}$ might underestimate it</li>
-			</ul>
+			
+			<li class="fragment">For another set of observations, $\hat{\mu}$ might underestimate it</li>
+			
 		<li class="fragment">But if we could average a huge number of estimates of $\mu$ obtained from a huge number of sets of observations, then this average
 			would exactly equal $\mu$</li>
 		<li class="fragment">$\hat{\beta}$, linear model estimator, is the unbiased estimator of $\beta$</li>		
