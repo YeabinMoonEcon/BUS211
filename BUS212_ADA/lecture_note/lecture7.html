@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>BUS212:lecture7</title>
+
+		<link rel="stylesheet" href="../../dist/reset.css">
+		<link rel="stylesheet" href="../../dist/reveal.css">
+		<link rel="stylesheet" href="../../dist/theme/white.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="../../plugin/highlight/monokai.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section data-markdown>
+					<textarea data-template>
+						## Advanced Data Analytics
+						## Lecture 7
+						### Algorithm
+						
+					</textarea>
+				  </section>
+				  
+
+				   
+<section>
+	<ul>
+		<li class="fragment">Although the estimates looked the same, Scikit-Learn's LinearRegression class uses SVD appraoch</li>
+		<li class="fragment">Both the Normal equation and the SVD appraoch get very slow when the number of features grows large (for example, 100,000)</li>
+			<ul>
+				<li class="fragment">this is mainly because both methods need to invert $X'X$</li>
+				<li class="fragment">remember how difficult to invert 3 by 3 matrix in hands</li>
+			</ul>
+	</ul>
+</section>
+<section>Now we will look at a very different way to train a linear regression model, which is better suited for cases where there are a large number of features or too many training instances to fit in memory</section>
+
+<section>How to find the minimum of $y=x^2$?</section>
+<section>You may think the derivative of $y$ with respect to $x$</section>
+<section>Another approach would be just plug in the values</section>
+
+
+<section>	
+		<ul>
+			<li class="fragment">For $x=\{-100,-99,...,99,...,100 \}$, find min</li>
+			<ul>
+				<li class="fragment">as long as we have a finer grid and longer range of $x$, possible to approximate the mimnimum</li>
+				<li class="fragment">imagine how the algorithm look like</li>
+				
+			</ul>
+		</ul>
+</section>				  
+<section>Gradient descent is a generic optimization algorithm capable of finding optimal solutions to a wide range of problems</section>
+
+<section>
+	<ul>
+		<li class="fragment">Suppose you are lost in the mountains in a dense fog, and you can only feel the slope of the ground below your feet</li>
+		
+		<li class="fragment">A good strategy to get to the bottom of the valley quickly is to go downhill in the direction of the steepest slope</li>
+		
+	</ul>
+</section>				  
+		  
+
+
+<section><img src="pics/pic7_1.png" width=700 class=""fragment></section>
+<section><img src="pics/pic7_2.png" width=700 class=""fragment></section>
+<section><img src="pics/pic7_3.png" width=700 class=""fragment></section>
+<section><img src="pics/pic7_4.png" width=700 class=""fragment></section>
+
+
+</div>	
+
+		<script src="../../dist/reveal.js"></script>
+		<script src="../../plugin/notes/notes.js"></script>
+		<script src="../../plugin/markdown/markdown.js"></script>
+		<script src="../../plugin/highlight/highlight.js"></script>
+		<script src="../../plugin/math/math.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+				progress: false,
+				touch: true,
+				slideNumber: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX ]
+			});
+		</script>
+	</body>
+</html>
