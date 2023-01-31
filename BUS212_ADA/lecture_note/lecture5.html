@@ -204,7 +204,7 @@ print("lr.intercept_:", lr.intercept_)
 
 <section>
 	<ul>
-		<li class="fragment">We have just estimated the parameters mechanically: $ \hat{\beta}_0 = 0.0475, \hat{\beta}_1= 7.03 $</li>
+		<li class="fragment">We have just estimated the parameters mechanically: $ \hat{\beta}_1 = 0.0475, \hat{\beta}_0= 7.03 $</li>
 		<li class="fragment">An additional $1,000 spent on TV adversing is associated with selling  approximately 47.5 additional units of the product</li>
 		<ul>
 			<li class="fragment">Intutive inference</li>
@@ -277,11 +277,11 @@ print("lr.intercept_:", lr.intercept_)
 <section>How far off will that single estimate of $\hat{\beta}$ be?</section>
 
 <section>Use the standard error of $\hat{\beta}: \sqrt{\text{Var} \hat{(\beta)}}=\text{SE}(\hat{\beta})$</section>
-<section>Standard errors can be used to perform hypothesis tests on $\hat{\beta}$</section>
+<section>Standard errors can be used <br>to perform hypothesis tests on $\hat{\beta}$</section>
 <section>
 	<ul>
 		<li class="fragment">$H_0$: there is no relationship between $X$ and $Y$</li>
-		<li class="fragment">$H_a$: there is some relationship between $X$ and $Y$</li>
+		<li class="fragment">$H_1$: there is some relationship between $X$ and $Y$</li>
 			<ul>
 			<li class="fragment">$H_0:\beta_1 = 0$</li>
 			<li class="fragment">$H_1:\beta_1 \ne 0$</li>
