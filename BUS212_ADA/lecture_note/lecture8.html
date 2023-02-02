@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>BUS212:lecture8</title>
+
+		<link rel="stylesheet" href="../../dist/reset.css">
+		<link rel="stylesheet" href="../../dist/reveal.css">
+		<link rel="stylesheet" href="../../dist/theme/white.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="../../plugin/highlight/monokai.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section data-markdown>
+					<textarea data-template>
+						## Advanced Data Analytics
+						## Lecture 8
+						### Potential concerns on Linear model
+						
+					</textarea>
+				  </section>
+				  
+
+<section>We've learned many great features on Linear models</section>				   
+<section>Any concerns?</section>
+<section>AQR: You are running a multiple regression and you are concerned about multicolinearity among predictors. How will the results of the regression be affected, then? How would you deal with this problem?</section>
+
+<section>Although the linear models are not our primary focus, we need to understand the concerns</section>
+
+<section>
+	<ul>
+		<li class="fragment">For example, the modeling assumptions</li>
+		<li class="fragment">$Y=\beta_0 +\beta_1 X +\epsilon$</li>
+		<ul>
+			<li class="fragment">What do we assume?</li>
+			<li class="fragment">e.g., $\text{sales} \approx \beta_0 + \beta_1 TV$</li>
+		</ul>
+		<li class="fragment">If the true relationship is far from linear, then all of the conclusions are suspect</li>
+		<li class="fragment">Non linear models?</li>
+
+	</ul>
+</section>				  
+
+
+
+<section>
+	<ul>
+		<li class="fragment">Remeber your stat class</li>
+		<ul>
+			<li class="fragment">Indepence assumption</li>
+			<li class="fragment">Non-constant Variance of Error Terms</li>
+			<li class="fragment">Measurment errors</li>
+		</ul>
+		<li class="fragment">A lot of threats to get consistent estimates</li>
+	</ul>
+</section>
+
+<section>The focus of the class is not on the linear model</section>
+<section>Institutional knowledge and some clever ideas would make the linear model appropriate</section>
+<section>Potential outcome framework</section>
+<section>Let's consider a simple example: <br>Do hospitals make people healthier? <br>What's the counter argument?</section>
+
+<section>
+	<ul>
+		<li class="fragment">The National Health Interview Survey (NHIS) contains the information needed to
+			make this comparison</li>
+		<ul>
+			<li class="fragment"><em>Would you say your health in general is excellent, very good, good, fair, poor?</em></li>
+			<li class="fragment">1 to poor health and a 5 to excellent</li>
+		
+		</ul>
+		
+	</ul>
+	
+
+</section>
+
+<section>
+	<img src="pics/pic8_1.png" width=800 class=""fragment>
+	<ul>
+		<li class="fragment">The difference in means is 0.72, a large and highly significant
+			contrast in favor of the nonhospitalized, with a t-statistic of
+			58.9</li>
+			<li class="fragment">How do you interpret this?</li>
+		</ul>
+	</ul>
+</section>
+
+<section>
+	<ul>
+		<li class="fragment">To describe this problem more precisely, use $D_i=\{0,1\}$ in which $D_i=1$ indicates hospital treatment</li>
+		<li class="fragment">The outcome is a measure of health status, $Y_i$</li>
+		<li class="fragment">The question is whether $Y_i$ is affected by hospital care</li>
+	</ul>
+</section>
+
+<section>
+	<ul>
+		<li class="fragment">For any indiviaul there are two potential health variables:</li>
+		<ul>
+		<li class="fragment">$Y_{1i}$ if $D_i=1$ or $Y_{0i}$ if $D_i=0$</li>
+		<li class="fragment">$Y_{1i}$ is the health status of an individual had he
+			not gone to the hospital, irrespective of whether he actually
+			went, while $Y_{1i}$ is the individual's health status if he goes</li>
+			<li class="fragment">that is, $Y_{i}=Y_{0i}+(Y_{1i}-Y_{0i})D_i$</li>
+			<ul><li class="fragment">$Y_{1i}-Y_{0i}$ is the causal effect of hospitalization</li></ul>
+		</ul>
+	</ul>
+</section>
+
+<section>A naive comparison of averages by hospitalization status tells us something about potential outcomes, though not necessarily what we want to know</section>
+
+
+
+</div>	
+
+		<script src="../../dist/reveal.js"></script>
+		<script src="../../plugin/notes/notes.js"></script>
+		<script src="../../plugin/markdown/markdown.js"></script>
+		<script src="../../plugin/highlight/highlight.js"></script>
+		<script src="../../plugin/math/math.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+				progress: false,
+				touch: true,
+				slideNumber: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX ]
+			});
+		</script>
+	</body>
+</html>
