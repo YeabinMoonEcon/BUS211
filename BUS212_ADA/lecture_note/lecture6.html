@@ -33,29 +33,36 @@
 		<li class="fragment">In practice, we often have more than one predictor</li>
 		<ul>
 			<li class="fragment">Advertising example: examine the relationship between sales and TV ads</li>
-			<ul>
-				<li class="fragment">also have radio and news ads spending</li>
-			</ul>
 			
+			<li class="fragment">But also have radio and news ads spending</li>
+			<ul>
+			<li class="fragment">want to know whether either of these two media is associated
+				with sales</li>	
 		</ul>
-		<li class="fragment">How can we extend our analysis of the advertising data in order to accommodate these two additional predictors?</li>			
+		</ul>
+		
 	</ul>
+
 </section>
+<section>
+	How can we extend our analysis of the advertising data in order to accommodate these two additional predictors?
+</section>
+
 <section>One option is to run three separate linear regressions</section>
 
 <section>We learned the reasonings behind linear regression, but what makes you think this is unsatisfactory?</section>
+<section>A better approach is to extend the simple linear regression model so that it can directly accommodate multiple predictors</section>
 
 <section>	
 		<ul>
-			<li class="fragment">It is unclear how to make a single prediction of sales given the three advertising media budgets</li>
-			<ul>
-				<li class="fragment">because each of the budgets is associated with a separate regression equation</li>
-			</ul>
-			<li class="fragment">Each of the three regression equations ignores the other two media
-				in forming estimates for the regression coefficients</li>
+		<li class="">$\text{sale} = \beta_0 +\beta_1 \text{TV}+\beta_2 \text{radio}+\beta_3 \text{news}+\epsilon$</li>
+		<li class="">$\text{sale} = \alpha_0 +\alpha_1 \text{TV}+\gamma$</li>
+		<li class="">$\text{sale} = \theta_0 +\theta_1 \text{radio}+\kappa$</li>
+		<li class="">$\text{sale} = \tau_0 +\tau_1 \text{news}+v$</li>
+		<li class="">Which one would you choose and why?</li>	
 		</ul>
 </section>				  
-<section>A better approach is to extend the simple linear regression model so that it can directly accommodate multiple predictors</section>
+
 
 <section>
 	<h4>Multiple Linear Regression</h4>
@@ -74,7 +81,7 @@
 </section>				  
 
 <section>As was the case in the simple linear setting, the regression parameters $\beta_1,...,\beta_p$ are unknown,<br> and must be estimated</section>
-<section>Given estimiates $\hat{\beta}_1,...,\hat{\beta}_p$, we can make predictions<br>$\hat{y}=\hat{\beta}_0+\hat{\beta}_1x_1+\hat{\beta}_px_p$</section>
+<section>Given estimiates $\hat{\beta}_1,...,\hat{\beta}_p$, we can make predictions<br>$\hat{y}=\hat{\beta}_0+\hat{\beta}_1x_1+\cdots+\hat{\beta}_px_p$</section>
 
 
 <section>
@@ -90,9 +97,7 @@
 
 
 <section><img src="pics/pic6_1.png" width=900 class=""fragment>
-	<ul>
-		<li class="fragment">However, interpretation is somewhat tricky</li>
-	</ul>
+	
 </section>
 
 <section>Let's address four questions</section>
@@ -130,13 +135,17 @@
 <section>
 	<h4>Why this is challenging?</h4>
 	<ul>
+		<li class="fragment">What if there are more than 100 inputs?</li>
+		<ul>
 		<li class="fragment">Consider $p=2$: $X_1$ and $X_2$</li>
 		<li class="fragment">How about $p=30$: $2^p$ models</li>
+		</ul>
 		<li class="fragment">Come back here when we learn regularization</li>
 	</ul>
 </section>				  
 
 <section>3. Model Fit: What's the problem of $R^2$?</section>
+
 
 <section>4. A few assumptions: additive and linear model</section>
 <section>
@@ -208,8 +217,45 @@ $+\beta_3 (\text{TV}\times \text{radio})+\epsilon$
 		</ol>
 </section>
 
-<section>In the linear model setting, what's the meaing of adding complexity?</section>
-<section>What's left?</section>
+<section>Now let's think about when there is no data</section>
+<section><img src="pics/pic2_1.png" width=800 class=""fragment><br>All spendings seem to be associated with sales</section>
+<section>	
+	<ul>
+	<li class="">$\text{sale} = \beta_0 +\beta_1 \text{TV}+\beta_2 \text{radio}+\beta_3 \text{news}+\epsilon$</li>
+	<li class="">$\text{sale} = \alpha_0 +\alpha_1 \text{TV}+\gamma$</li>
+	<li class="">$\text{sale} = \theta_0 +\theta_1 \text{radio}+\kappa$</li>
+	<li class="">$\text{sale} = \tau_0 +\tau_1 \text{news}+v$</li>
+	<li class="">What's the problem when we choose the second?</li>	
+	</ul>
+</section>				  
+
+
+	<section>	
+		<h4>Omitted Variable Bias</h4>
+		<ul>
+		<li class="">$Y_i = \beta_0 + \beta_1 S_i + \gamma A_i+\epsilon_i$</li>
+		<ul>
+		<li class="">$Y_i:\text{income}, S_i:\text{schooling},A_i:\text{ability}$</li>
+		<li class="">If run, $Y_i = \alpha_0 + \alpha_1 S_i + v_i$</li>	
+		<ul>
+			<li class="">$\alpha_1=\beta_1+\gamma \cdot \delta$</li>	
+			<li class="">$\delta$ is the coefficient from regression of $A_i$ on $S_i$</li>	
+		</ul>
+		</ul>
+		</ul>
+	</section>				  
+	
+	<section>
+<ul>
+	<li class="">We can use the OVB formula to get a sense of the likely consequences of omitting ability for schooling coefficients</li>
+	<ul>
+		<li class="">Ability variables have positive effects on wages, and these variables are also likely to be positively correlated with schooling</li>
+		<li class="">Overestimate the effect when $A_i$ omitted</li>
+		
+	</ul>	
+	<li class="">Consider the cases on sales and advertisements</li>
+</ul>
+	</section>
 
 
 </div>	
