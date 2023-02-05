@@ -165,7 +165,124 @@
 </section>
 
 
+<section>
+	<h4>Text vs. Binary Format</h4>
+	<ul>
+		<li class="fragment">CSV and JSON are text files, whereas Parquet files are binary files</li>
+		
+		<ul>
+		<li class="fragment">If you open text files in your text editor, can read the texts in them</li>
+		</ul>
+		<li class="fragment">A binary file consists of 0s and 1s</li>
+		<ul>
+		<li class="fragment">read or used by programs that know how to interpret the raw bytes (Apache Aparquet)</li>
+		<li class="fragment">more compact</li>
+	</ul></ul>
+</section>
 
+<section>AWS recommends using the Parquet format because <em>"the Parquet format is up to 2x faster to unload and consumes up to 6x less storage in Amazon S3, compared to text formats"</em></section>
+
+<section>3. Data Models</section>
+<section>Data models describe how data is represented</section>
+<section>You may not be familiar with data models, <br>but you have heard the relational database</section>
+
+<section>How you choose to represent data not only affects the way your systems are built, but also the problems your systems can solve</section>
+<section>Now, we'll study two types of models that seem opposite to each other but are actually converging: relational models and NoSQL models.</section>
+
+
+<section>
+	<h4>Relational Model</h4>
+	<ul>
+		<li class="fragment">Relational models are among the most persistent ideas in computer science</li>
+		
+		<li class="fragment">Data is organized into relations</li>
+		<ul>
+		<li class="fragment">each relation is a set of tuples</li>
+		<li class="fragment">table is an accepted visual representation of a relation, and each row of a table makes up a tuple</li>
+		<li class="fragment">relations are unordered</li>	
+	</ul>
+		</ul>
+		<img src="pics/pic8_3.png" width=700 class=""fragment>
+</section>
+
+
+<section>
+	
+	<ul>
+		<li class="fragment">Databases built around the relational data model are relational databases</li>
+		<li class="fragment">Once you've put data in your databases, you'll want a way to retrieve it</li>
+		<li class="fragment">The language that you can use to specify the data that you want from a database is called a <em>query language</em></li>
+		<ul>
+		<li class="fragment">SQL is the most popular qurey language for relational database</li>
+		</ul>
+	</ul>
+</section>
+
+<section>
+	<ul>
+		<li class="fragment">With an SQL database, you specify the pattern of data you want</li>
+		<ul>
+		<li class="fragment">the tables you want the data from, the conditions the results must meet, the basic data transformations such as join, sort, group, aggregate, etc.</li>
+		</ul>
+		<li class="fragment">But not how to retrieve the data</li>
+		<ul>
+		<li class="fragment">It is up to the database system to decide how to break the query into different parts, what methods to use to execute each part of the query, and the order in which different parts of the query should be executed</li>
+	</ul>
+	</ul>
+</section>
+
+<section>The relational data model has been able to generalize to a lot of use cases, from ecommerce to finance to social networks</section>
+<section>However, for certain use cases, this model can be restrictive</section>
+
+
+<section>
+	<ul>
+		<li class="fragment">The latest movement against the relational data model is NoSQL</li>
+		<li class="fragment">Originally started as a hashtag for a meetup to discuss nonrelational databases</li>
+		
+		<li class="fragment">NoSQL has been retroactively reinterpreted as Not Only SQL, as many NoSQL data systems also support relational models</li>
+		
+		
+		<ul>
+		
+	</ul>
+	</ul>
+</section>
+<section>One of the major types of nonrelational models is the document model</section>
+<section>
+	<h4>Document model</h4>
+	<ul>
+		<li class="fragment">The document model is built around the concept of <em>document</em></li>
+		<li class="fragment">It is often a single continuous string, encoded as JSON, XML, or a binary format like BSON (Binary JSON)</li>
+		
+		<li class="fragment">All documents in a document database are assumed to be encoded in the same format</li>
+		
+		<li class="fragment">Each document has a unique key that represents that document, which can be used to retrieve it</li>
+		
+		</ul>
+</section>
+
+<section><img src="pics/pic8_4.png" width=700 class=""fragment></section>
+<section>
+	<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+		{
+			"Title": "Harry Potter",
+			"Author": "J .K. Rowling",
+			"Publisher": "Banana Press",
+			"Country": "UK",
+			"Sold as": [
+			  {"Format": "Paperback", "Price": "$20"},
+			  {"Format": "E-book", "Price": "$10"}
+			]
+		} 
+					</code></pre>	
+<ul>
+	<li class="fragment">A collection of documents is much more flexible than a table</li>
+	<li class="fragment">All rows in a table must follow the same schema (e.g., have the same sequence of columns), while documents in the same collection can have completely different schemas</li>
+</ul>
+</section>
+
+<section>What's the downside of document model?</section>
 </div>	
 
 		<script src="../../dist/reveal.js"></script>
