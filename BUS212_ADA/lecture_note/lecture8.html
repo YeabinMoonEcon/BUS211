@@ -27,31 +27,38 @@
 				  
 
 <section>We've learned a direct application of linear models</section>				   
-<section>Today, we'll cover the basics of data engineering we have ignored</section>
+<section>Today, we'll cover the basics of data engineering <br>we have ignored</section>
 
 <section>1. Data Sources</section>
-<section>We'll start with different sources of data that you might work with in a typical ML project</section>
-<section>Each data has different characteristics, can be used for different purposes, and require different processing methods</section>
-<section>What data sources have we used thus far?</section>
+<section>We'll start with different sources of data that<br> you might work with in a typical ML project</section>
+<section>Each data has different characteristics, <br>can be used for different purposes,<br> and require different processing methods</section>
+<section>What data sources have you ever met?</section>
 
 <section>
 	<ul>
-		<li class="fragment">User input data</li>
+		<li class="fragment">User input data (survey or lab data)</li>
 		<ul>
-			<li class="fragment">data explicitly input by users</li>
-			<li class="fragment">error prone</li>
+			<li class="fragment">data explicitly input by users </li>
+			<ul>
+				<li class="fragment">survey methods</li>	
+			</ul>
+			<li class="fragment">panel vs. cross sectional</li>
+			<li class="fragment">measurement errors</li>
 		</ul>
-		<li class="fragment">System-generated data</li>
+		<li class="fragment">System-generated data (CPS)</li>
 			<ul>
 			<li class="fragment">use system logs (record the state and significant events of the system)</li>
 			<li class="fragment">meta data is necessary</li>
-		</ul>
+			</ul>
 		<li class="fragment">Simulated data</li>
+			<ul>
+				<li class="fragment">sampling assumptions</li>
+			</ul>
 	</ul>
 </section>				  
 
 <section>2. Data Formats</section>
-<section>CSV files are most common data formats, but there are a range of formats you will encounter</section>
+<section>CSV files are most common data formats, <br>but there are a range of formats you will encounter</section>
 
 
 <section>
@@ -81,14 +88,14 @@
 			<li class="fragment">human-readable: key-value pair</li>
 			<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
 {
-	"firstName": "Boatie",
-	"lastName": "McBoatFace",
-	"isVibing": true,
-	"age": 12,
+	"firstName": "Yeabin",
+	"lastName": "Moon",
+	"student": false,
+	"gender": male,
 	"address": {
-	  "streetAddress": "12 Ocean Drive",
-	  "city": "Port Royal",
-	  "postalCode": "10021-3100"
+	  "streetAddress": "415 South St S209B",
+	  "city": "Waltham",
+	  "postalCode": "02453"
 	}
 }
 			</code></pre>	
@@ -113,14 +120,13 @@
 	</ul>
 </section>
 
-<section>Because modern computers process sequential data more efficiently than nonsequential data, if a table is row-major, accessing its rows will be faster than accessing its columns in expectation</section>
 
 
 
 <section>
 	<img src="pics/pic8_2.png" width=800 class="fragment">
 	<ul>
-		<li class="fragment">If we consider each example as a row and each feature as a column, as is often the case in ML, then the row-major formats like CSV are better for accessing examples</li>	
+		<li class="fragment">If we consider each example as a row and <br>each feature as a column, as is often the case in ML, then the row-major formats like CSV are better for accessing examples</li>	
 	</ul>
 </section>
 
@@ -143,7 +149,7 @@
 
 <section>
 	<ul>
-		<li class="fragment">pandas is built around DataFrame, a concept inspired by R's Data Frame, which is column-major</li>
+		<li class="fragment">pandas is built around DataFrame, inspired by R's Data Frame, which is column-major</li>
 		<li class="fragment">In NumPy, the major order can be specified</li>
 		<ul>
 		<li class="fragment">When an ndarray is created, it's row-major by default if you don't specify the order</li>
@@ -175,7 +181,7 @@
 		</ul>
 		<li class="fragment">A binary file consists of 0s and 1s</li>
 		<ul>
-		<li class="fragment">read or used by programs that know how to interpret the raw bytes (Apache Aparquet)</li>
+		<li class="fragment">read or used by programs that know how to interpret the raw bytes (Apache Parquet)</li>
 		<li class="fragment">more compact</li>
 	</ul></ul>
 </section>
@@ -232,7 +238,7 @@
 </section>
 
 <section>The relational data model has been able to generalize to a lot of use cases, from ecommerce to finance to social networks</section>
-<section>However, for certain use cases, this model can be restrictive</section>
+<section>However, for certain use cases, <br>this model can be restrictive</section>
 
 
 <section>
@@ -248,7 +254,7 @@
 	</ul>
 	</ul>
 </section>
-<section>One of the major types of nonrelational models is the document model</section>
+<section>One of the major types of nonrelational models is <br>the document model</section>
 <section>
 	<h4>Document model</h4>
 	<ul>
