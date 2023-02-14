@@ -24,10 +24,27 @@
 						
 					</textarea>
 				  </section>
-				  
+
+<section>
+	<h4>Announcement</h4>
+<ul>
+	<li class="fragment">Received some messages regarding homework</li>
+	<li class="fragment">Let's discuss the format</li>
+	<ul>
+	<li class="fragment">what's the reasons to use Jupyter notebook?</li>
+	<li class="fragment">have to use well code block and Markdown block</li>
+	</ul>
+	<li class="fragment">Errors?</li>
+	<ul>
+		<li class="fragment">code errors</li>
+		<li class="fragment">converting PDF errors</li>
+	</ul>
+</ul>
+</section>				   
+
 
 <section>What is the supervised learning?</section>				   
-<section>The most common supervised learning tasks are regression (predicting values) and classification (predicting classes)</section>
+<section>The most common supervised learning tasks are regression (predicting values) and <br>classification (predicting classes)</section>
 <section>What's the difference?</section>
 <section>What's the example of classification problems?</section>
 
@@ -38,14 +55,14 @@
 			discrete or categorical</li>
 		<ul>
 			<li class="fragment">discrete: it takes on a set of discrete numerical values</li>
-			<li class="fragment">categorical: it belongs to a set of categories (also called classes)</li>
+			<li class="fragment">categorical: it belongs to a set of categories <br>(also called classes)</li>
 		</ul>
 		<li class="fragment">Examples</li>
 			<ul>
 			<li class="fragment">Is a credit card user going to default?</li>
 			<li class="fragment">Which product will a consumer buy?</li>
 			<li class="fragment">Which market will a firm enter?</li>
-			<li class="fragment">Which political candidate will an individual vote for?</li>
+			<li class="fragment">Which  candidate will an individual vote for?</li>
 		</ul>
 	</ul>
 </section>
@@ -59,8 +76,8 @@
 	<ul>
 		<li class="fragment">First, the alternatives must be <em>mutually exclusive</em> from the decision maker's perspective</li>
 		<ul>
-			<li class="fragment">Choosing one alternative necessarily implies not choosing any of the other alternatives</li>
-			<li class="fragment">The decision maker chooses only one alternative from the choice set</li>
+			<li class="fragment">Choosing one alternative necessarily implies <br>NOT choosing any of the other alternatives</li>
+			<li class="fragment">The decision maker chooses only ONE option from the choice set</li>
 		</ul>
 	</ul>
 </section>	
@@ -69,11 +86,10 @@
 	<ul>
 		<li class="fragment">Second, the choice set must be <em>exhaustive</em>, in that all possible alternatives are included</li>
 		<ul>
-			<li class="fragment">The decision maker necessarily chooses one of the alternatives</li>			
+			<li class="fragment">The decision maker necessarily chooses one of the entire potential alternatives</li>			
 		</ul>
 		<li class="fragment">Third, the number of alternatives must be finite</li>
-		<ul><li class="fragment">The researcher can count the alternatives and eventually be finished counting</li>			
-		</ul>
+		
 	</ul>
 </section>	
 
@@ -93,7 +109,7 @@
 </section>	
 
 <section>Often the researcher can satisfy these two conditions in several different ways</section>
-<section>The appropriate specification of the choice set in these situations is governed largely by the goals of the research and the data that are available to the researcher</section>
+<section>The appropriate specification of the choice set <br>is governed largely by the goals of the research and <br>the data that are available to the researcher</section>
 <section>Let's continue a thoughtful exercise</section>
 
 <section>
@@ -107,10 +123,10 @@
 		</ul>		
 	</ul>
 </section>	
-<section>The researcher can handle each of these issues in <em>several ways</em></section>
+<section>The researcher can handle each of these issues <br>in <em>several ways</em></section>
 <section>
 	<ul>
-		<li class="fragment">To obtain mutually exclusive alternatives, one approach is to list every possible combination of heating
+		<li class="fragment">To obtain mutually exclusive alternatives, <br>one approach is to list every possible combination of heating
 			fuels as an alternative</li>
 		<ul>
 			<li class="fragment">“electricity alone,” “electricity and natural gas, but no other fuels,” and so on</li>			
@@ -119,11 +135,11 @@
 </section>	
 <section>
 	<ul>
-		<li class="fragment">Another approach is to define the choice as the choice among fuels for the <em>primary</em> heating source</li>
+		<li class="fragment">Another approach is to define the <em>primary</em> heating source among others</li>
 		<ul>
 			<li class="fragment">Under this procedure, the researcher develops
-				a rule for determining which heating fuel is primary when a household
-				uses multiple heating fuels</li>
+				<br>a rule for determining which heating fuel is primary when a household
+				uses multiple fuels</li>
 				
 				<li class="fragment">By definition, only one fuel (electricity, natural gas, oil, or wood) is primary</li>
 		</ul>		
@@ -131,19 +147,24 @@
 </section>	
 <section>
 	<ul>
-		<li class="fragment">The advantage of listing every possible combination is that it avoids the need to define a “primary” fuel</li>
+		<li class="fragment">The advantage of listing every possible combination </li>
 		<ul>
-			<li class="fragment">which is a difficult and somewhat arbitrary distinction</li>
-			
-			
-		</ul>
-		<li class="fragment">Also, with all	combinations considered, the researcher has the ability to examine the
+			<li class="fragment">avoids the need to define a “primary” fuel</li>
+			<ul>
+			<li class="fragment">a difficult and somewhat arbitrary distinction</li>
+			</ul>
+			<li class="fragment">also, we can examine the
 			factors that determine households' use of multiple fuels</li>
-		<li class="fragment">Downside is the increase in data requirment, eg. every cost combo of fuel</li>
+		</ul>
+		
+		<li class="fragment">Downside is the increase in data requirment</li>
+		<ul>
+			<li class="fragment">eg. every cost combo of fuel</li>
+		</ul>
 	</ul>
 </section>
 <section>The researcher will need to take these trade-offs into consideration when specifying the choice set</section>
-<section>The same type of issue arises with regard to exhaustiveness</section>
+<section>The same type of issue arises <br>with regard to exhaustiveness</section>
 <section>Researcher can either include “no heating” as
 	an alternative or can redefine the choice situation as being the choice
 	of heating fuel conditional on having heating</section>
@@ -166,16 +187,17 @@
 
 <section>The problem is in fact on the third condition: <br>the number of alternatives is finite</section>
 <section>This is in which the classfication problem would be different from regression models</section>
-<section>Consider the savings problem: When there is an infinite number of alternatives, classification models cannot be applied</section>
+<section>Consider the savings problem:<br> How much money would you save?</section>  
+<section>If there is an infinite number of alternatives, classification models cannot be applied</section>
 
 <section>Often regression models and classification models are distinguished by saying that regressions examine choices of <em>how much</em> and classification models examine choice of <em>which</em></section>
-<section>This distinction, while perhaps illustrative, is not actually accurate</section>
+<section>This distinction, while perhaps illustrative,<br> is not actually accurate</section>
 <section>
 	<ul>
-		<li class="fragment">Consider households' choice of how many cars to own</li>
+		<li class="fragment">Consider the choice of how many cars to own</li>
 		<ul>
 		<li class="fragment">the alternatives are 0, 1, 2, and so on, up to the largest number that the researcher considers possible (or observes)</li>
-		<li class="fragment">contains a finite number ofmutually exclusive and exhaustive alternatives, appropriate for classification analysis</li>
+		<li class="fragment">contain a finite number of mutually exclusive and exhaustive alternatives, appropriate for classification analysis</li>
 		<li class="fragment">can also define the choice set more succinctly as 0, 1, and 2 or more vehicles</li>
 		</ul>
 	</ul>
@@ -185,7 +207,7 @@
 	can be considered an alternative, and as long as some finite maximum
 	exists, then the choice set fits the criteria for classification choice</section>
 
-<section>Whether to use regression or classification models in these situations is a specification issue that the researcher must consider</section>
+<section>Whether to use regression or classification models in these situations is a specification issue <br>that the researcher must consider</section>
 
 
 
