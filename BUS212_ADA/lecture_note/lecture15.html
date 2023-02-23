@@ -1,0 +1,222 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>BUS212:lecture15</title>
+
+		<link rel="stylesheet" href="../../dist/reset.css">
+		<link rel="stylesheet" href="../../dist/reveal.css">
+		<link rel="stylesheet" href="../../dist/theme/white.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="../../plugin/highlight/monokai.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section data-markdown>
+					<textarea data-template>
+						## Advanced Data Analytics
+						## Lecture 15
+						### Model selection: Shrinkage
+						
+					</textarea>
+				  </section>
+
+<section>
+	<h4>Announcement</h4>
+<ul>
+	<li class="fragment">?</li>
+</ul>
+</section>				   
+
+
+<section>Let's reveiw what we have learned last time</section>				   
+<section>Ridge vs. Lasso?</section>
+<section>The situations matter:<br> a large numger of features and limited observations</section>
+<section>Why do we care of a large number of features?</section>
+<section>Why do we care of the limited observations?</section>
+<section>Note that Ridge and Lasso are linear models</section>
+
+
+<section>
+	<h4>Problems in theory</h4>
+	<ul>
+		<li class="fragment">If the true relationship between the inputs and ouput is linear, the LR will have low bias</li>
+		<ul>
+			<li class="fragment">implicitly assume $n>>p$</li>
+		</ul>
+		<li class="fragment">Consider $n$ is not much larger than $p$</li>
+			<ul>
+				<li class="fragment"> a lot of variability in the least squares fit</li>
+				<ul>
+					<li class="fragment">overfitting and poor prediction on tests</li>
+				</ul>		
+			</ul>
+			<li class="fragment">How about $p>n$?</li>
+			<ul>
+				<li class="fragment">no unique solution </li>
+			</ul>
+	</ul>
+</section>
+
+<section>How do we handle this?</section>
+<section>Choose a subset of features?</section>
+<section>How can we choose important features of data?</section>
+<section>What does it mean <b>important</b>?<br>We will discuss it next class</section>
+
+<section> As an alternative, we can fit a model containing all $p$ using a technique
+	that <b>constrains</b> or <b>regularizes</b> <br>the coefficient estimates, or equivalently, <br>that <b>shrinks</b> the coefficient estimates towards zero</section>
+<section>Let's consider how such a constraint would improve the fit</section>
+
+<section>First, Ridge Regression
+	<img src="pics/pic14_1.png" width=650 class="fragment">
+</section>
+
+<section>
+	<ul>
+		<li class="fragment">Linear model: estimate $\beta_0,...,\beta_p$ minimizing</li>
+		<ul>
+			<li class="fragment">$\text{RSS}=\sum_{i=1}^{n}(y_i-\beta_0-\sum_{j=1}^{p}\beta_j x_{ij})^2$</li>
+		</ul>
+		<li class="fragment">Ridge regression: estimate $\beta_0,...,\beta_p$ minimizing</li>
+		
+			<li class="fragment">$\sum_{i=1}^{n}(y_i-\beta_0-\sum_{j=1}^{p}\beta_j x_{ij})^2 +\alpha \sum_{j=1}^{p}\beta_j^2$</li>
+		<ul>
+			<li class="fragment">that is, $\text{RSS} +\alpha \sum_{j=1}^{p}\beta_j^2$</li>
+			<li class="fragment">$\alpha\ge 0$ is a tuning parameter</li>
+		</ul>
+	</ul>
+</section>	
+
+<section>
+	$$\text{arg min}_{\beta}:\text{RSS} +\alpha \sum_{j=1}^{p}\beta_j^2$$
+	<ul>
+		
+		<li class="fragment">As with LR, ridge regresion seeks estimates that fit data well, by making the RSS small</li>
+		<li class="fragment">However, the second term, <b>shrinkage penalty</b>, is small when $\beta_0,...,\beta_p$ are close to zero</li>
+	</ul>
+</section>	
+
+<section>
+	$$\text{arg min}_{\beta}:\text{RSS} +\alpha \sum_{j=1}^{p}\beta_j^2$$
+	<ul>
+		<li class="fragment">$\alpha$ serves to control the relative impact of these two terms on the regression coefficient estimates</li>
+		<li class="fragment">$\alpha=0$ implies the penalty term has no effect, so the estimates are the same as LR</li>
+		<li class="fragment">As $\alpha$ grows, the estimates will approach zero</li>
+	</ul>
+</section>	
+
+
+<section>
+	<img src="pics/pic14_1.png" width=650 class="fragment">
+</section>
+
+<section>In general, in situations where the relationship between the response
+	and the predictors is close to linear, the least squares estimates will have
+	low bias but may have high variance</section>
+
+<section>
+	This means that a small change in the training data can cause a large change in the least squares coefficient estimates
+</section>
+<section>
+	In particular, when the number of variables $p$ is almost as large
+	as the number of observations $n$ the least squares estimates will be extremely variable
+</section>
+<section>
+	Ridge regression can perform well by trading off a small increase in bias for a large decrease in variance
+</section>
+
+<section>
+	Hence, ridge regression works best in situations where the least squares estimates have high variance
+</section>
+
+<section>Now, the Lasso</section>
+<section>Ridge regression will include <b>all</b> $p$ predictors in the final model</section>
+<section>This may not be a problem for prediction accuracy, <br>but it can create a challenge in model interpretation <br>in settings in
+	which the number of variables $p$ is  large</section>
+
+	<section>
+		<ul>
+			
+			<li class="fragment">Lasso: estimate $\beta_0,...,\beta_p$ minimizing</li>
+			<li class="fragment">$\sum_{i=1}^{n}(y_i-\beta_0-\sum_{j=1}^{p}\beta_j x_{ij})^2 +\alpha \sum_{j=1}^{p}|\beta_j|$</li>
+			<ul>
+				<li class="fragment">that is, $\text{RSS} +\alpha \sum_{j=1}^{p}|\beta_j|$</li>
+				<li class="fragment">$\alpha\ge 0$ is a tuning parameter</li>
+			</ul>
+		</ul>
+	</section>	
+
+
+<section>
+	$$\text{RSS} +\alpha \sum_{j=1}^{p}|\beta_j|$$
+	<ul>
+		<li class="fragment">$\beta_j^2$ in the ridge is replaced by $|\beta_j|$ in lasso penalty</li>
+		<ul>
+		<li class="fragment">lasso uses L1 penalty, and ridge uses L2 </li>
+		<li class="fragment">As with ridge regression, the lasso shrinks the coefficient estimates towards zero</li>
+		</ul>
+	</ul>
+</section>	
+
+<section>However, in the case of the lasso, L1 penalty has the effect of  forcing some of the coefficient estimates to be exactly equal to zero when $\alpha$ is sufficiently large.</section>
+<section>Simplely speaking, for L1 (Lasso), the set of arg min estimates do inlcude 0, but L2 does not.</section>
+<section>The lasso performs <b>variable selection</b>: <br> say that the lasso yields sparse models</section>
+
+<section>
+	<ul>
+		<li class="fragment">Neither ridge regression nor the lasso will universally dominate the other</li>		
+		<li class="fragment">In general, one might expect the lasso to perform better in a setting where a relatively small number of predictors
+			have substantial coefficients, and the remaining predictors have coefficients 			that are very small or that equal zero</li>
+		<li class="fragment">Ridge regression will perform better
+			when the response is a function of many predictors, all with coefficients of
+			roughly equal size</li>
+		
+	</ul>
+</section>	
+
+<section>
+	<ul>
+		<li class="fragment">However, the number of predictors that is related to the 			response is never known a priori for real data sets</li>		
+		<li class="fragment"> A technique such as cross-validation can be used in order to determine which approach is better
+			on a particular data set</li>
+		
+	</ul>
+</section>	
+
+<section>
+	As with ridge regression, when the least squares estimates have excessively high variance, the lasso solution can yield a reduction in variance
+	at the expense of a small increase in bias, and consequently can generate more accurate predictions
+	
+</section>
+
+<section>
+	Unlike ridge regression, the lasso performs
+variable selection, and hence results in models that are easier to interpret
+</section>
+</div>	
+
+		<script src="../../dist/reveal.js"></script>
+		<script src="../../plugin/notes/notes.js"></script>
+		<script src="../../plugin/markdown/markdown.js"></script>
+		<script src="../../plugin/highlight/highlight.js"></script>
+		<script src="../../plugin/math/math.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+				progress: false,
+				touch: true,
+				slideNumber: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX ]
+			});
+		</script>
+	</body>
+</html>
