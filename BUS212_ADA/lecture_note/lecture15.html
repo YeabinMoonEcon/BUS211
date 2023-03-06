@@ -33,165 +33,161 @@
 </section>				   
 
 
-<section>6.4</section>				   
+<section>Most traditional statistical techniques for <br>regression and classification are
+intended <br>for the low-dimensional setting</section>				   
 
 
 
 <section>
-	<h4>Reducing dimensionality</h4>
-	<ul>
-		<li class="fragment">Select features?</li>
-		<ul>
-			<li class="fragment">Consider the MNIST images</li>
-			<ul>
-			<li class="fragment">The pixels on the image borders are almost always white</li>
-			<li class="fragment">Completely drop these pixels from the training set without losing much information</li>
-			<li class="fragment">Need to aware of metadata</li>	
-			</ul>
-			
-		</ul>
-		<li class="fragment">Another representations?</li>
-		<ul>
-		<li class="fragment">what if two neighboring pixels are often highly correlated?</li>
-		</ul>
-	</ul>
-</section>
-
-<section>How do we handle this?</section>
-<section>Choose a subset of features?</section>
-<section>How can we choose important features of data?</section>
-<section>What does it mean <b>important</b>?<br>We will discuss it next class</section>
-
-<section> As an alternative, we can fit a model containing all $p$ using a technique
-	that <b>constrains</b> or <b>regularizes</b> <br>the coefficient estimates, or equivalently, <br>that <b>shrinks</b> the coefficient estimates towards zero</section>
-<section>Let's consider how such a constraint would improve the fit</section>
-
-<section>First, Ridge Regression
-	<img src="pics/pic14_1.png" width=650 class="fragment">
-</section>
-
-<section>
-	<ul>
-		<li class="fragment">Linear model: estimate $\beta_0,...,\beta_p$ minimizing</li>
-		<ul>
-			<li class="fragment">$\text{RSS}=\sum_{i=1}^{n}(y_i-\beta_0-\sum_{j=1}^{p}\beta_j x_{ij})^2$</li>
-		</ul>
-		<li class="fragment">Ridge regression: estimate $\beta_0,...,\beta_p$ minimizing</li>
-		
-			<li class="fragment">$\sum_{i=1}^{n}(y_i-\beta_0-\sum_{j=1}^{p}\beta_j x_{ij})^2 +\alpha \sum_{j=1}^{p}\beta_j^2$</li>
-		<ul>
-			<li class="fragment">that is, $\text{RSS} +\alpha \sum_{j=1}^{p}\beta_j^2$</li>
-			<li class="fragment">$\alpha\ge 0$ is a tuning parameter</li>
-		</ul>
-	</ul>
-</section>	
-
-<section>
-	$$\text{arg min}_{\beta}:\text{RSS} +\alpha \sum_{j=1}^{p}\beta_j^2$$
-	<ul>
-		
-		<li class="fragment">As with LR, ridge regresion seeks estimates that fit data well, by making the RSS small</li>
-		<li class="fragment">However, the second term, <b>shrinkage penalty</b>, is small when $\beta_0,...,\beta_p$ are close to zero</li>
-	</ul>
-</section>	
-
-<section>
-	$$\text{arg min}_{\beta}:\text{RSS} +\alpha \sum_{j=1}^{p}\beta_j^2$$
-	<ul>
-		<li class="fragment">$\alpha$ serves to control the relative impact of these two terms on the regression coefficient estimates</li>
-		<li class="fragment">$\alpha=0$ implies the penalty term has no effect, so the estimates are the same as LR</li>
-		<li class="fragment">As $\alpha$ grows, the estimates will approach zero</li>
-	</ul>
-</section>	
-
-
-<section>
-	<img src="pics/pic14_1.png" width=650 class="fragment">
-</section>
-
-<section>In general, in situations where the relationship between the response
-	and the predictors is close to linear, the least squares estimates will have
-	low bias but may have high variance</section>
-
-<section>
-	This means that a small change in the training data can cause a large change in the least squares coefficient estimates
-</section>
-<section>
-	In particular, when the number of variables $p$ is almost as large
-	as the number of observations $n$ the least squares estimates will be extremely variable
-</section>
-<section>
-	Ridge regression can perform well by trading off a small increase in bias for a large decrease in variance
-</section>
-
-<section>
-	Hence, ridge regression works best in situations where the least squares estimates have high variance
-</section>
-
-<section>Now, the Lasso</section>
-<section>Ridge regression will include <b>all</b> $p$ predictors in the final model</section>
-<section>This may not be a problem for prediction accuracy, <br>but it can create a challenge in model interpretation <br>in settings in
-	which the number of variables $p$ is  large</section>
-
-	<section>
-		<ul>
-			
-			<li class="fragment">Lasso: estimate $\beta_0,...,\beta_p$ minimizing</li>
-			<li class="fragment">$\sum_{i=1}^{n}(y_i-\beta_0-\sum_{j=1}^{p}\beta_j x_{ij})^2 +\alpha \sum_{j=1}^{p}|\beta_j|$</li>
-			<ul>
-				<li class="fragment">that is, $\text{RSS} +\alpha \sum_{j=1}^{p}|\beta_j|$</li>
-				<li class="fragment">$\alpha\ge 0$ is a tuning parameter</li>
-			</ul>
-		</ul>
-	</section>	
-
-
-<section>
-	$$\text{RSS} +\alpha \sum_{j=1}^{p}|\beta_j|$$
-	<ul>
-		<li class="fragment">$\beta_j^2$ in the ridge is replaced by $|\beta_j|$ in lasso penalty</li>
-		<ul>
-		<li class="fragment">lasso uses L1 penalty, and ridge uses L2 </li>
-		<li class="fragment">As with ridge regression, the lasso shrinks the coefficient estimates towards zero</li>
-		</ul>
-	</ul>
-</section>	
-
-<section>However, in the case of the lasso, L1 penalty has the effect of  forcing some of the coefficient estimates to be exactly equal to zero when $\alpha$ is sufficiently large.</section>
-<section>Simplely speaking, for L1 (Lasso), the set of arg min estimates do inlcude 0, but L2 does not.</section>
-<section>The lasso performs <b>variable selection</b>: <br> say that the lasso yields sparse models</section>
-
-<section>
-	<ul>
-		<li class="fragment">Neither ridge regression nor the lasso will universally dominate the other</li>		
-		<li class="fragment">In general, one might expect the lasso to perform better in a setting where a relatively small number of predictors
-			have substantial coefficients, and the remaining predictors have coefficients 			that are very small or that equal zero</li>
-		<li class="fragment">Ridge regression will perform better
-			when the response is a function of many predictors, all with coefficients of
-			roughly equal size</li>
-		
-	</ul>
-</section>	
-
-<section>
-	<ul>
-		<li class="fragment">However, the number of predictors that is related to the 			response is never known a priori for real data sets</li>		
-		<li class="fragment"> A technique such as cross-validation can be used in order to determine which approach is better
-			on a particular data set</li>
-		
-	</ul>
-</section>	
-
-<section>
-	As with ridge regression, when the least squares estimates have excessively high variance, the lasso solution can yield a reduction in variance
-	at the expense of a small increase in bias, and consequently can generate more accurate predictions
 	
+	<ul>
+		<li class="fragment">Traditional prediction problem</li>
+		<ul>
+			<li class="fragment">Blood pressure prediction model</li>
+			<ul>
+			<li class="fragment">Use three features:age, sex, BMI</li>
+			</ul>
+		</ul>	
+		<li class="fragment">The number observation is much great than the number of features</li>
+			<ul>
+			<li class="fragment">$n>>p$, the problem is low-dimensional</li>
+			</ul>
+	</ul>
+</section>
+
+
+<section>
+<h4>Examples</h4>	
+	<ul>
+		<li class="fragment">$p\approx 2,000$ for blood pressure prediction </li>
+		<ul>
+			<li class="fragment">out of $p\approx 600,000$</li>
+			
+		</ul>	
+		<li class="fragment">Language models typically have more than 1,000 features</li>
+			
+	</ul>
+</section>
+
+<section>Data sets containing more features than observations are often referred
+	to as <em>high-dimensional</em>, aka big data</section>
+<section>Classical approaches such as least squares linear highdimensional regression are not appropriate</section>
+
+
+
+<section>What's the problem in High Dimensions?</section>
+
+<section>When the number of features $p$ is as large as, <br>or larger than, the number
+	of observations $n$, <br>least squares cannot be performed</section>
+
+<section>
+	<img src="pics/pic15_1.png" width=690 class="fragment">	
+	<ul>
+		<li class="fragment">When $n>p$, ls line does not perfectly fit the data</li>
+		<ul>
+		<li class="fragment">the regression line seeks to approximate observations as much as possible</li>
+		</ul>
+	</ul>
+</section>
+	
+<section>The problem is simple: when $p>n$ or $p \approx n$, <br> a simple least squares regression line is too flexible and hence overfits the data</section>
+
+<section>
+	See the following: <a href="https://colab.research.google.com/drive/1btTq6EC6zhYf_rSszFQ22EVCVLvNAxYZ?usp=sharing" target="_blank" >link</a>
 </section>
 
 <section>
-	Unlike ridge regression, the lasso performs
-variable selection, and hence results in models that are easier to interpret
+	<img src="pics/pic15_2.png" width=313 class="">	
+	<img src="pics/pic15_3.png" width=313 class="">	
+	<img src="pics/pic15_4.png" width=313 class="">	
+	<ul>
+		<li class="fragment">$n=20$ training obs, $n=20$ test obs</li>
+	</ul>
 </section>
+
+
+
+<section>Many of the methods seen earlier for fitting
+	less flexible least squares models (ridge regresion, the lasso) are particularly
+	useful for performing <br>regression in the high-dimensional setting</section>
+
+
+<section>Let's go back to the code</section>
+
+<section>
+	<ul>
+		<li class="fragment">Takeaway?</li>
+		<ol>
+			<li class="fragment">Regularization or shrinkage plays a key role in high-dimensional problems</li>
+			<li class="fragment">Appropriate tuning parameter selection is crucial for good predictive performance</li>
+			<li class="fragment">The test error tends to increase as the dimensionality of the problem increases, unless the additional
+				features are truly associated with the response $\rightarrow$ curse of dimensionality</li>
+		</ol>
+	</ul>
+</section>
+
+<section> In general, adding additional signal features that are truly associated with the response will improve the fitted model,
+	in the sense of leading to a reduction in test set error</section>
+
+<section>However, adding noise features that are not truly associated with the response will lead
+	to a deterioration in the fitted model, <br>and consequently an increased test
+	set error</section>
+
+<section>Alright. We've done for linear models.<br>Is there any general approach?</section>
+
+<section>Consider the image precessing</section>
+<section>
+	<h4>Too heavy image?</h4>
+	<ul>
+		<li class="fragment">Increase compression rate</li>
+		<ul>
+			<li class="fragment">Raw vs. JPEG</li>
+			<li class="fragment">limit the range of the values</li>
+		</ul>
+		<li class="fragment">Cut the unnecessary parts of images</li>
+		<ul>
+			<li class="fragment">delete some features</li>
+		</ul>
+	</ul>
+</section>
+
+
+<section>
+		<h2>Feature transformation</h2>
+		<table>
+			<thead><tr>
+				<th></th>
+				<th>feature1</th>
+				<th>feature2</th>
+				<th>feature3</th>
+			</tr></thead>
+			<tbody><tr>
+				<td>ind 1</td>
+				<td>1</td>
+				<td>0</td>
+				<td>2</td>
+			</tr>
+			<tbody><tr>
+				<td>ind 2</td>
+				<td>10</td>
+				<td>2</td>
+				<td>22</td>
+			</tr>
+			<tbody><tr>
+				<td>ind 3</td>
+				<td>0</td>
+				<td>1</td>
+				<td>1</td>
+			</tr></tbody>
+		</table>
+		<ul>
+			<li class="fragment">See: $\text{feature 3} = \text{fature 1}\times 2+\text{feature 2} $</li>
+			<li class="fragment">Do we have to keep feature 3?</li>
+			<li class="fragment">If not, how to find feature 3?</li>
+		</ul>
+	</section>
+
+
 </div>	
 
 		<script src="../../dist/reveal.js"></script>
