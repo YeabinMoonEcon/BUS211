@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>BUS212:lecture23</title>
+
+		<link rel="stylesheet" href="../../dist/reset.css">
+		<link rel="stylesheet" href="../../dist/reveal.css">
+		<link rel="stylesheet" href="../../dist/theme/white.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="../../plugin/highlight/monokai.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section data-markdown>
+					<textarea data-template>
+						## Advanced Data Analytics
+						## Lecture 23
+						### Unsupervised Learning
+						
+					</textarea>
+				  </section>
+
+
+<section>Most data analytics course concerns supervised learning methods such as regression and classification</section>				   
+
+<section>They are really good for inference or prediction tasks</section>
+<section>The minimum requirement is a labeled data</section>
+<section>Now, we will focus on <em>unsupervised learning</em>,<br> a set of statistical tools intended for the setting in which we have only a set of features $X_1, X_2,...,X_p$ measured on $n$ observations</section>
+<section>We are not interested 	in prediction, because we do not have an associated response variable $Y$</section>
+<section>Rather, the goal is to discover interesting things about the measurements on $X_1, X_2,...,X_p$</section>
+
+<section>
+	
+	<ul>
+		<li class="fragment">Unsupervised Learning is a difficult subject</li>
+		<ul>
+			<li class="fragment">Supervised learning is a well-understood</li>
+			<ul>
+			<li class="fragment">well developed set of tools for model and their assessments</li>
+			</ul>
+			
+		
+	</ul>
+	<li class="fragment">In contrast, unsupervised learning is rather subjective</li>
+			<ul>
+			<li class="fragment">there is no simple goal for the analysis</li>
+			<li class="fragment">hard to find a standard</li>
+			</ul>
+	</ul>
+</section>
+
+<section>If we fit a predictive model using a supervised
+	learning technique, then it is possible to check our work by seeing how
+	well our model predicts $Y$ on test</section>
+
+<section>However, in unsupervised learning, <br>there is no way to check our
+	work <br>because we don't know the true answer: <br>the problem is unsupervised</section>
+
+<section>Techniques for unsupervised learning are of growing importance in a number of fields</section>
+<section>Most popular: exploratory data analysis (pattern search)</section>
+<section>In NLP, it is about everything</section>
+
+<section>In fact, we have already done: PCA</section>
+
+<section>Another popular application is <em>Clustering</em>:<br> to group similar obs together into clusters</section>
+
+<section>Clustering is a great tool for data analysis, customer segmentation, recommender systems, search engines, image segmentation, semi-supervised learning, dimensionality reduction, and more</section>
+
+<section>We will examine two clustering algorithms:<br> k-means and DBSCAN</section>
+
+
+
+</div>	
+
+		<script src="../../dist/reveal.js"></script>
+		<script src="../../plugin/notes/notes.js"></script>
+		<script src="../../plugin/markdown/markdown.js"></script>
+		<script src="../../plugin/highlight/highlight.js"></script>
+		<script src="../../plugin/math/math.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+				progress: false,
+				touch: true,
+				slideNumber: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX ]
+			});
+		</script>
+	</body>
+</html>
