@@ -1,17 +1,10 @@
-
-This first homework will be relatively easy.  The most important parts
-of this homework are to understand how I do homeworks for the course,
-my coding style, and the level of coding required for the course.
-
-But we still want to do something relevant to the material of the
-course, so we'll be computing [tf-idf
+For this homework, we'll be computing [tf-idf
 representations](https://onlinelibrary.wiley.com/doi/full/10.1002/bult.274)
 of documents.
 
-Big Picture
 =============
 
-The goal here is to create tf-idf representations of documents.  You
+The goal is to create tf-idf representations of documents.  You
 won't do it in this homework "for real", but this allows you to take a
 query and find the closest document.
 
