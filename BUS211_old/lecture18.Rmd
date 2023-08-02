@@ -1,0 +1,88 @@
+---
+title: "Lecture18"
+author: "Yeabin Moon"
+date: "2022-11-02"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+setwd("~/Documents/ibs_course/BUS211/data") # Set your path
+dc_listings <- read_csv('tidy_dc_airbnb.csv')
+```
+
+## 1. Introducing The caret Library
+
+Let's do
+
+1. Load in the caret library.
+2. Use the createDataPartition() function to perform the train/test split on the dc_listings data. More specifically:
+    - allocate 70% of the data to the training set,
+    - make sure to return a vector instead of a list, and
+    - assign the output to the name train_indices
+3. Use the train_indices variable to actually split the dc_listings data. Assign the training set to the variable train_listings and the test set to test_listings
+
+```{r}
+set.seed(1)
+library(caret)
+
+train_indices <- createDataPartition(y = dc_listings[["tidy_price"]],
+                                     p = 0.7,
+                                     list = FALSE)
+train_listings <- dc_listings[train_indices,]
+nrow(train_listings)
+test_listings <- dc_listings[-train_indices,]
+nrow(test_listings)
+nrow(train_listings) / (nrow(train_listings)+ nrow(test_listings))
+```
+
+## 2. Training The Algorithm
+
+```{r}
+# 
+train_control <- trainControl(method = "none")
+```
+
+Create a trained k-nearest neighbors model using the train() function. Assign this trained model to the knn_model variable.
+    - Predict tidy_price from the accommodates and maximum_nights columns.
+    
+```{r}
+knn_model <- train(tidy_price ~ accommodates + maximum_nights, 
+                   data = train_listings, 
+                   method = "knn", 
+                   trControl = train_control)
+```
+
+## 3. Create Predictions On The Test Data
+
+Create predictions for the test_listings. Assign your predictions to the variable test_predictions.
+    - Use both the accommodates and maximum_nights as your features in this algorithm.
+```{r}
+test_predictions <- predict(knn_model, newdata = test_listings)
+```
+
+## 4. Evaluating Predictions
+
+Create a new column in test_listings called error that captures how much the model predictions differ from the actual listing prices.
+
+```{r}
+test_listings <- test_listings %>%
+  mutate(
+    error = tidy_price - test_predictions
+  )
+
+```
+
+## 5. Summarizing Errors Into a Single Metric
+1. First, calculate the squared error based on the original error column that you created on the last screen. Give this column the name squared_error.
+2. Using this new squared_error column, calculate the RMSE. Assign this to the variable rmse.
+```{r}
+test_listings <- test_listings %>%
+  mutate(
+    squared_error = error^2
+  )
+
+rmse <- sqrt(mean(test_listings$squared_error))
+rmse
+```

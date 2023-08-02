@@ -1,0 +1,57 @@
+---
+title: "We need to talk"
+author: "Yeabin Moon"
+date: "2022-11-17"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+setwd("~/Library/CloudStorage/Box-Box/data/SG/Places")
+place <- read_csv('your_data_aug_11_2022_1107am.csv')
+setwd("~/Library/CloudStorage/Box-Box/data/SG/Patterns")
+patterns <- read_csv('your_data_sep_15_2022_0304pm.csv')
+```
+
+## I asked you to check whether you could classify major / independent stores
+
+## How would you approach?
+
+## I want to discuss with you with some errors
+
+## Use top category columns and filter Clothing Stores
+```{r}
+temp <- place %>% select(placekey, naics_code, top_category)
+
+df<-patterns %>% 
+  left_join(temp, by ='placekey')
+
+cloth_df <-df %>% filter(top_category == 'Clothing Stores')
+```
+
+
+## Ok then
+```{r}
+cloth_df %>% count(location_name, sort = T) %>% head(15) 
+print(nrow(cloth_df))
+```
+```{r echo = F}
+cloth_df %>% count(location_name, sort = T) %>% select(n) %>% as.data.frame %>% sapply(as.numeric)%>% hist(main = "Histogram")
+```
+```{r}
+cloth_df %>% group_by(location_name, street_address) %>% count(sort = T) 
+```
+
+## Are there really 17 Victoria's Secret?
+
+```{r}
+cloth_df %>% filter(location_name == "Victoria's Secret") %>% 
+  select(placekey,location_name,street_address,date_range_start) %>%
+  arrange(street_address, date_range_start)
+```
+
+## What's the problem?
+```{r}
+cloth_df %>% filter(location_name == "Victoria's Secret") %>% group_by(street_address) %>% count()
+```

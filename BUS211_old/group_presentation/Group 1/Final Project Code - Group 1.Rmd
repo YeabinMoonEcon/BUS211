@@ -1,0 +1,139 @@
+---
+title: "Final Project Code"
+author: "Group 1"
+date: "2022-12-03"
+output: html_document
+---
+
+## Load packages
+Before we bring in the data we need, we'll load packages to get ready. We will use the tidyverse package for general data loading, cleaning, and manipulating. We will also need the caret package later in the codes to scale data and draw plots. 
+```{r}
+library(tidyverse)
+library(caret)
+```
+
+## Load, join, and explore our data sets 
+We will now perform some basic data loading and joining steps. After loading two SafeGraph data sets we have using read_csv, we can proceed to join the two tables in order to get a joined data set. Since the Patterns data set will be the primary data table in the join, we use left join here to include every row in the primary data table. Use the glimpse function to learn about basic metrics and details about the join table we get from steps above. 
+```{r}
+Places <- read_csv("your_data_sep_05_2022_0308pm.csv")
+Patterns <- read_csv("your_data_sep_21_2022_0909pm.csv")
+
+df <- merge(x = Patterns, y = Places, by = "placekey", all.x = TRUE)
+glimpse(df)
+```
+
+## Chi-square test
+We would like to do the chi-square test on our data to see if the sample we have is biased, in terms of the number of POIs for gas stations and public transportation stations. After learning about the joined table, we know that we can use the top_category column to filter and select the related rows. But before we use the pipeline method to do so, we need to see if we lost some POIs due to incomplete data. 
+
+We will test that by filtering rows that have missing values in the top_category column but have potentially related keywords in their location names. By going through the data, we find that we have a number of (a dozen!) MBTA stations that have missing values in the category field.
+```{r}
+missing <- df %>% 
+  filter(is.na(top_category) &
+         grepl("MBTA",location_name.x)) %>%
+  group_by(top_category, sub_category, location_name.x) %>%
+  count(top_category, sub_category, location_name.x, street_address.x)
+
+head(missing)
+```
+
+Now we can go ahead and try to figure out the sub data set we are going to use when testing the chi-square. Create a new data frame named "biastest" by filtering top_category as well as including MBTA stations we discovered in the step above. After filtering, aggregate the rows up with the count of rows each POI has in the joined data set. 
+```{r}
+biastest <- df %>% 
+  filter(top_category %in% c("Transit and Ground Passenger Transportation",
+                             "Rail Transportation",
+                             "Interurban and Rural Bus Transportation",
+                             "Gasoline Stations") |
+         grepl("MBTA",location_name.x)) %>%
+  count(top_category, sub_category, location_name.x, street_address.x)
+
+head(biastest)
+```
+
+Then, we will create a new data frame based on the biastest data frame. By grouping by category, we are able to count the observed number of POIs in each category. Note that we will have to use "n_distinct" here to count the distint number of street addresses, in which way we can avoid double counting POIs that have rows of observations for each month. 
+
+(You may find the row starting with "Justice.." strange in the observations table. The POI is MBTA Ashmont Station, an actual station in Boston. It's very possible that this station is given an incorrect category.)
+```{r}
+obs <- biastest %>%
+  group_by(top_category) %>%
+  summarise(poicount = n_distinct(street_address.x))
+
+obs
+```
+
+It's time to do some simple math. We are going to assign the observed data to gas_obs, meaning "gas stations observed", and pt_obs, meaning "public transportation observed". 
+```{r}
+gas_obs <- 20
+pt_obs <- (1+1+18+20+12)
+```
+
+What about the expected counts? According to Boston Mayor Michelle Wu's office on May 7, 2022, Boston now has 113 gas stations. MBTA's offiicial website tells us that there are 95 subway stations and 170 bus routes. Note that both in the data sets we get from SafeGraph and the official numbers from MBTA, bus services are measured by routes, not stations. Then we can see that actual number of gas stations and public transportation POIs are 113 and 265 (170+95). We can now calculate the expected counts for the two categories we have here. 
+```{r}
+gas_expected <- (113/(113+265))*(20+52)
+pt_expected <- (265/(113+265))*(20+52)
+```
+
+Calculating the differences, we will get the q values to test using the pchisq function. 
+```{r}
+gas_diff <- (gas_obs - gas_expected)^2 / gas_expected
+pt_diff <- (pt_obs - pt_expected)^2 / pt_expected
+q = gas_diff + pt_diff
+q
+
+p = 1 - pchisq(q, df = 1)
+p
+```
+
+The p-value we get from this test is about 0.69. We will talk about the interpretation of this in our presentation, along with the hypothesis for this test. 
+
+## Scale data for creating plots
+To analysis the trend of visits to the POIs during the time range of our data set, we are going to look at the visits to gas stations and public transportation stations/routes. We'll also adjust the rows with missing top_category by assigning values to the field.
+```{r}
+scaledata <- df %>% 
+  filter(top_category %in% c("Transit and Ground Passenger Transportation",
+                             "Rail Transportation",
+                             "Interurban and Rural Bus Transportation",
+                             "Gasoline Stations") |
+         grepl("MBTA",location_name.x)) %>%
+  group_by(top_category, date_range_start) %>%
+  summarise(total_visit = sum(raw_visit_counts))
+scaledata$top_category[(is.na(scaledata$top_category))] <- "Missing MBTA"
+
+head(scaledata)
+```
+
+Then what we will do is to aggregate the raw visit counts. We need to have a new category field to replace the top_category to make the data cleaner and easier to understand. Create a new column named "Cate" to divide top_category values into "Private" and "Public". We will also translate the date field, "date_range_start" into the corespondent month. 
+```{r}
+scaledf <- scaledata %>%
+  mutate(cate = ifelse(top_category == "Gasoline Stations", "Private", "Public")) %>%
+  mutate(month = substr(date_range_start,6,7)) %>%
+  group_by(month, cate) %>%
+  summarise(total_visit = sum(total_visit))
+min(scaledf$total_visit)
+head(scaledf)
+```
+
+Now we can scale the data before drawing our plots. Following what we learned in class, we can easily do so using the caret package. The two mostly used method are normalization and standardization. It's hard to tell which would be better for our purposes, so we can explore by trying both methods. 
+```{r}
+preEstimates <- preProcess(scaledf, method = c('range')) 
+normalized_data <- predict(preEstimates, scaledf)
+
+head(normalized_data)
+min(normalized_data$total_visit)
+preEstimates_2 <- preProcess(scaledf, method = c('center', 'scale')) 
+standardized_data <- predict(preEstimates_2, scaledf)
+
+head(standardized_data)
+```
+
+By looking at the two outcomes, we agreed that it will be more intuitive to choose normalization in this case. Now our data is good for deeper analysis such as modeling. However, we do have many limitation at this point, which we will talk about in our presentation. So for now, we can use some visual aids to see if we are able to notice some trends in the data. So, finally, we can try to draw the graph using our normalized data set. 
+```{r}
+ggplot(data = normalized_data, aes(x = month, y = total_visit, group = cate)) +
+  geom_line(aes(color = cate)) +
+  geom_point(aes(color = cate)) + 
+  ggtitle("Public versus private transportation") +
+  xlab("Month (starting from January)") + 
+  ylab("Normalized total visits") + 
+  labs(colour = "Categories") + theme(axis.title = element_text(size = 17)) + theme(plot.title = element_text(size = 20)) + theme(legend.title = element_text(size = 17)) + theme(legend.text = element_text(size = 14))   
+```
+
+We will talk about this graph in our presentation.

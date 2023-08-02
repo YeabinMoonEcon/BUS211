@@ -1,0 +1,439 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>BUS211:lecture23</title>
+
+		<link rel="stylesheet" href="../dist/reset.css">
+		<link rel="stylesheet" href="../dist/reveal.css">
+		<link rel="stylesheet" href="../dist/theme/black.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="../plugin/highlight/monokai.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section data-markdown>
+					<textarea data-template>
+						## Lecture 23: <br> Introduction to Model
+						### BUS 211A-3<br>
+					
+					</textarea>
+				</section>
+				
+				<section>
+					<h4>News</h4>
+						<ul>
+							<li class="">All presentations will be on December 6th</li>
+							<ul>
+								<li><a href="https://brandeis.zoom.us/j/96792825451">Zoom link</a></li>
+								<li class="">The presentation order is the same</li>
+								<ul>
+									<li class="">Group 1, 2, 3, 7, 6, 8, 4, 5</li>
+									
+								</ul>
+								
+								
+							
+							</ul>
+							<li class="">Homework 8 is replaced by a reflection paper</li>
+							<ul>
+								<li class="">I will assign what you review on my own after the presentation</li>
+								
+							</ul>
+						</ul>
+				</section>
+					
+				<section>
+					<h4>Grade rubric</h4>
+						<ul>
+							<li class="">60 %: 7 homework + reflection paper</li>
+							<ul>
+								
+								<li class="fragment">all equal weights</li>					
+								<li class="fragment">check your scores</li>					
+							</ul>
+							<li class="fragment">30 %: Group project</li>
+							<ul>
+								<li class="fragment">30 %: Initial report</li>
+								<li class="fragment">70 %: Final presentation</li>
+							</ul>
+							<li class="fragment">10 %: participation + attendance</li>
+						</ul>
+				</section>
+					
+				  
+				<section>
+					<h4>Presentation</h4>
+						<ul>
+							<li class="">Need to submit your slide and the coressponding codes</li>
+							<li class="fragment">Consider who's the main audience </li>
+							<ul>
+								<li class="fragment">all know the data set</li>
+								<li class="fragment">be a serious critic</li>
+								<ul>
+									<li class="fragment">what do you mean?</li>
+									
+								</ul>
+								
+							</ul>
+							
+						</ul>
+				</section>
+
+
+			<section>
+				<img src="pics/lecture23_0.png" class="fragment" width = 500>
+				<ul>
+					<li class="fragment">The goal of a model is to provide a simple low-dimensional summary of a dataset</li>
+					
+				</ul>
+			</section>
+
+			<section>Model is a kind of storyteller</section>	
+			
+			<section>Use models to partition data into<br> patterns and residuals</section>
+			
+			<section>
+				Traditionally, the focus of modelling is on inference, or for confirming that an hypothesis is true
+			</section>
+			
+			<section>
+				<ul>
+					<li class="fragment">Pair of ideas that you must understand in order to do inference correctly</li>
+					<ul>
+						<li class="fragment">Each observation can either be used for exploration or confirmation, not both</li>
+						<li class="fragment">You can use an observation as many times as you like for exploration, but you can only use it once for confirmation</li>
+					</ul>
+				</ul>
+			</section>
+			<section>This is necessary because to confirm a hypothesis you must use data independent of the data that you used to generate the hypothesis</section>
+			<section>If you are serious about doing an confirmatory analysis, one approach is to split your data into some pieces before you begin the analysis:<br> training / test sets</section>
+
+		<section>
+			<h4>Two parts of a model</h4>	
+			<ul>
+				<li class="fragment">Family of models</li>
+				<ul>
+					<li class="fragment">express a precise, but generic, pattern that you want to capture</li>
+					<ul>
+						<li class="fragment">$y=a_1 x + a_2$</li>
+					</ul>		
+				</ul>
+				<li class="fragment">Fitted model</li>
+				<ul>
+					<li class="fragment">find the model from the family that is the closest to your data</li>
+					<ul>
+						<li class="fragment">$y=3 x + 7$</li>
+					</ul>
+				</ul>
+			</ul>
+		</section>
+
+		<section>Need to find some criteria to examine the <em>best</em> model</section>
+
+		<section>The goal of a model is not to uncover truth, but to discover a simple approximation that is still useful</section>
+		
+		
+			<section>
+				
+				<ul>
+					<li class="fragment">Use the modelr package which wraps around base R’s modelling functions to make them work naturally in a pipe</li>
+					
+				</ul>
+				<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+					library(tidyverse)
+
+					library(modelr)
+					options(na.action = na.warn)
+					</code></pre>	
+			</section>
+		
+			<section>
+				<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+					ggplot(sim1, aes(x, y)) + geom_point()
+					</code></pre>	
+					<img src="pics/lecture23_1.png" class="fragment" width = 400>
+					<ul>
+						<li class="fragment">Let's use a model to capture that pattern</li>
+						<li class="fragment">It looks linear</li>
+						<ul>
+							<li class="fragment">$y=a_0+a_1 x$</li>
+						</ul>
+					</ul>
+			</section>
+		
+
+			
+			<section>
+				Assuming not knowing any modeling ideas,<br> generate the set of $(a_0,a_1)$ and<br> compare them against the data points
+			</section>
+
+			<section>
+				<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+					models <- tibble(
+						a1 = runif(250, -20, 40), a2 = runif(250, -5, 5)
+					  )
+					  
+					  ggplot(sim1, aes(x, y)) + 
+						geom_abline(aes(intercept = a1, slope = a2), data = models, alpha = 1/4) +
+						geom_point() 
+
+					</code></pre>	
+					<img src="pics/lecture23_2.png" class="fragment" width = 400>
+					
+			</section>
+		
+			<section>
+				<img src="pics/lecture23_2.png" class="fragment" width = 400>
+				<ul>
+					<li class="fragment">There are 250 models on this plot</li>
+					
+					<ul>
+						<li class="fragment">a lot are pretty bad</li>
+					</ul>
+					<li class="fragment">Need to find the good models by making precise our intuition that a good model is “close” to the data</li>
+				</ul>	
+			</section>
+			<section>
+				
+				<ul>
+					<li class="fragment">One easy place to start is to find the vertical distance between each point and the model, as in the following diagram</li>
+				</ul>	
+				<img src="pics/lecture23_3.png" class="fragment" width = 500>
+				<ul>
+					<li class="fragment">This distance is just the difference between the y value given by the model (the prediction), and the actual y value in the data (the response)</li>
+				</ul>
+			</section>
+
+			<section>
+				
+				<ul>
+					<li class="fragment">To compute this distance, use R function</li>
+					<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+						model1 <- function(a, data){
+							a[1] + data$x * a[2] 
+						}
+						</code></pre>	
+						<ul>
+						<li class="fragment">take the model parameters and data as inputs</li>
+						</ul>
+						<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+						model1(c(7, 1.5), sim1)
+						#>  [1]  8.5  8.5  8.5 10.0 10.0 10.0 11.5 11.5 11.5 13.0 13.0 13.0 14.5 14.5 14.5
+						#> [16] 16.0 16.0 16.0 17.5 17.5 17.5 19.0 19.0 19.0 20.5 20.5 20.5 22.0 22.0 22.0
+							</code></pre>	
+						<li class="fragment">Have 30 distances: how do we collapse that into a single number?</li>
+						
+				</ul>	
+			</section>
+			<section>One common way to do this in statistics to use the <em>root-mean-squared deviation</em></section>
+			
+			<section>
+				<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+					measure_distance <- function(mod, data) {
+						diff <- data$y - model1(mod, data)
+						sqrt(mean(diff ^ 2))
+					  }
+					  measure_distance(c(7, 1.5), sim1)
+					  #> [1] 2.665212
+					</code></pre>	
+					<ul>
+						<li class="fragment">Now we can use purrr to compute the distance for all the models defined before</li>
+						<li class="fragment"> We need a helper function because our distance function expects the model as a numeric vector of length 2</li>
+					</ul>
+			</section>
+			
+			<section>
+				<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+					sim1_dist <- function(a1, a2) {
+						measure_distance(c(a1, a2), sim1)
+					  }
+					  
+					  models <- models %>% 
+						mutate(dist = purrr::map2_dbl(a1, a2, sim1_dist))
+					  models
+					  
+					</code></pre>	
+					<img src="pics/lecture23_4.png" class="fragment" width = 400>
+					<ul>
+					<li class="fragment">Next, let's overlay the 10 best models on to the data</li>
+				</ul>
+			</section>
+			<section>
+				<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+					ggplot(sim1, aes(x, y)) + 
+					geom_point(size = 2, colour = "grey30") + 
+					geom_abline(
+					  aes(intercept = a1, slope = a2, colour = -dist), 
+					  data = filter(models, rank(dist) <= 10)
+					)
+					</code></pre>	
+					<img src="pics/lecture23_5.png" class="fragment" width = 550>
+					<ul>
+						<li class="fragment">ones with the smallest distance get the brighest </li>
+					</ul>
+					
+			</section>
+			<section>We can also think about these models as observations, and visualising with a scatterplot of $a_1$ vs $a_2$, again coloured by -dist</section>
+			<section>
+				<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+					ggplot(models, aes(a1, a2)) +
+  					geom_point(data = filter(models, rank(dist) <= 10), 
+                    			size = 4, colour = "red") +
+  					geom_point(aes(colour = -dist))
+					</code></pre>	
+					<img src="pics/lecture23_6.png" class="fragment" width = 600>
+			</section>
+			<section>Remember, we generate a random set of parameters</section>
+			<section>Instead of trying lots of random models, <br>we could be more systematic and<br> generate an evenly spaced grid of points: <br>this is called a grid search </section>
+			<section>
+				<ul>
+					<li class="fragment">Pick the parameters of the grid roughly by looking at where the best models were in the plot</li>
+				</ul>
+				<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+					grid <- expand.grid(
+  						a1 = seq(-5, 20, length = 25),
+  						a2 = seq(1, 3, length = 25)
+  					  	) %>% 
+  						mutate(dist = purrr::map2_dbl(a1, a2, sim1_dist))
+
+					grid %>% 
+  						ggplot(aes(a1, a2)) +
+  						geom_point(data = filter(grid, rank(dist) <= 10), size = 4, colour = "red") +
+  						geom_point(aes(colour = -dist)) 
+					</code></pre>	
+					
+			</section>
+			<section><img src="pics/lecture23_7.png" class="fragment" width = 600></section>
+			<section>
+				<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+					ggplot(sim1, aes(x, y)) + 
+					geom_point(size = 2, colour = "grey30") + 
+					geom_abline(
+					  aes(intercept = a1, slope = a2, colour = -dist), 
+					  data = filter(grid, rank(dist) <= 10)
+					)
+					</code></pre>	
+					<img src="pics/lecture23_8.png" class="fragment" width = 420>
+			</section>
+			<section>You could imagine iteratively making the grid finer and finer until you narrowed in on the best model</section>
+			<section>There's a better way to tackle that problem: <br>a numerical minimization tool called <br>Newton-Raphson search</section>
+			<section>
+				<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+					best <- optim(c(0, 0), measure_distance, data = sim1)
+					best$par
+					#> [1] 4.222248 2.051204
+					
+					ggplot(sim1, aes(x, y)) + 
+					  geom_point(size = 2, colour = "grey30") + 
+					  geom_abline(intercept = best$par[1], slope = best$par[2])
+					</code></pre>	
+					<img src="pics/lecture23_9.png" class="fragment" width = 420>
+			</section>
+			<section>
+				<ul>
+					<li class="fragment">Don't worry too much about the details of how optim() works</li>
+					<li class="fragment">It's the intuition that's important here</li>
+					<li class="fragment">Lastly, You'd be familiar with a linear regression</li>
+				</ul>
+				<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+					sim1_mod <- lm(y ~ x, data = sim1)
+					coef(sim1_mod)
+					#> (Intercept)           x 
+					#>    4.220822    2.051533
+					</code></pre>	
+					<ul>
+						<li class="fragment">These are exactly the same values we got with optim()</li>
+						<li class="fragment"> lm() doesn't use optim() but instead takes advantage of the mathematical structure of linear models</li>
+						
+					</ul>
+			</section>
+			<section>Now we're going to focus on understanding a model by looking at its predictions</section>
+			
+			<section>It's useful to see what the model doesn't capture, the so-called residuals which are left after subtracting the predictions from the data</section>
+			<section>Residuals are powerful because they allow us to use models to remove striking patterns so we can study the subtler trends that remain</section>
+			<section>Let's visualize it</section>
+
+
+
+			<section>
+				<h4>Predictions</h4>
+				<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+					grid <- sim1 %>% 
+					data_grid(x) 
+				</code></pre>	
+				
+				<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers></code>
+				  grid <- grid %>% 
+				  add_predictions(sim1_mod) 
+				</code></pre>	
+					<img src="pics/lecture23_10.png" class="fragment" width = 180>
+					<img src="pics/lecture23_11.png" class="fragment" width = 170>
+			</section>
+			<section>
+				<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+					ggplot(sim1, aes(x)) +
+					geom_point(aes(y = y)) +
+					geom_line(aes(y = pred), data = grid, 
+										colour = "red", size = 1)				  
+				</code></pre>					
+				<img src="pics/lecture23_12.png" class="fragment" width = 600>
+			</section>
+
+			<section>
+				<h4>Residuals</h4>
+				<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+					sim1 <- sim1 %>% 
+					add_residuals(sim1_mod)
+				</code></pre>	
+				<img src="pics/lecture23_13.png" class="fragment" width = 400>
+				<ul>
+					
+					<li class="fragment">What are you going to do?</li>
+					<li class="fragment">Note that the average of the residual will always be 0</li>
+					
+				</ul>
+			</section>
+			<section>
+				<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+					ggplot(sim1, aes(x, resid)) + 
+					geom_ref_line(h = 0) +
+					geom_point() 			  
+				</code></pre>					
+				<img src="pics/lecture23_14.png" class="fragment" width = 600>
+				
+
+				<ul>
+					
+					<li class="fragment">This looks like random noise, suggesting that our model has done a good job of capturing the patterns in the dataset</li>
+					
+					
+				</ul>
+			</section>
+		</div>
+
+		<script src="../dist/reveal.js"></script>
+		<script src="../plugin/notes/notes.js"></script>
+		<script src="../plugin/markdown/markdown.js"></script>
+		<script src="../plugin/highlight/highlight.js"></script>
+		<script src="../plugin/math/math.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+				progress: false,
+				touch: true,
+				slideNumber: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX ]
+			});
+		</script>
+	</body>
+</html>

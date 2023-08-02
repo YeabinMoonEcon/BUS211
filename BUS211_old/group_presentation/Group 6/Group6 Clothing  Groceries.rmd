@@ -1,0 +1,134 @@
+---
+title: "Group 6 Clothing and Groceries"
+author: "Group 6 Clothing and Groceries"
+date: "2022-12-06"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+
+## Clothing and Groceries ## Map visualization was done on Tableau and MS Excel
+
+library(readr)
+library(dplyr)
+places<-read_csv("D:/MBA Brandeis/Data Analytics/Group 6 project/places_data_aug_30_2022_0819pm.csv")
+pattern<-read_csv("D:/MBA Brandeis/Data Analytics/Patterns data/your_data_sep_15_2022_0714pm.csv")
+
+temp <- places  
+df<-pattern %>% 
+  left_join(temp, by ='placekey')
+colnames(df)
+View(df)
+#Independent local stores across Boston in the clothing and grocery stores segment
+local<-df %>% filter(top_category=="Clothing Stores" |top_category=="Grocery Stores") %>%
+  filter(is.na(brands.x)) %>% group_by(location_name.x) %>% summarise(count=n()) 
+tot_local_stores<-sum(local$count)
+tot_local_stores
+summary(local)
+
+
+#No of raw visitors to the clothing and grocery stores segment
+
+visitors<- df %>% filter(top_category=="Clothing Stores" |top_category=="Grocery Stores") %>%
+  filter(is.na(brands.x)) %>% group_by(location_name.x) %>% summarise(unique_visitors=raw_visitor_counts) 
+View(visitors)
+summary(visitors)
+tot_unique_visitors<-sum(visitors$unique_visitors)
+tot_unique_visitors
+
+
+```
+
+```{r}
+
+#clothing stores code
+cloth_df <-df %>% filter(top_category == 'Clothing Stores')
+cloth_df %>% count(location_name.x, sort = T) %>% head(15)
+cloth_df %>% group_by(location_name.x, street_address.x) %>% count(sort = T) 
+
+cloth_df %>% filter(location_name.x == "Banana Republic") %>% group_by(street_address.x) %>% count()
+#View(cloth_df) ## Banana Republic as we saw that has 2 unique stores after Victoria  secret that has 3 and is wrong when validated externally that has only 1 in Boston , hence we didnot consider it
+
+cloth_df <-df %>% filter(top_category == 'Clothing Stores')
+cloth_df %>% count(location_name.x, sort = T) %>% head(15)
+cloth_df %>% group_by(location_name.x, street_address.x) %>% count(sort = T) 
+
+cloth_df %>% filter(location_name.x == "Banana Republic") %>% group_by(street_address.x) %>% count()
+#View(cloth_df) 
+
+
+```
+
+
+```{r}
+#Grocery stores stores code
+grocery_df <-df %>% filter(top_category == 'Grocery Stores')
+
+grocery_df %>% count(location_name.x, sort = T) %>% head(15) 
+grocery_df %>% group_by(location_name.x, street_address.x) %>% count(sort = T) 
+
+grocery_df %>% filter(location_name.x == "7-Eleven") %>% group_by(street_address.x) %>% count()
+
+#View(grocery_df) ## 7-Eleven comes out on top beacause of its large presence across Boston with 20 locations attracting lot of Traffic .
+
+grocery_df <-df %>% filter(top_category == 'Grocery Stores')
+
+grocery_df %>% count(location_name.x, sort = T) %>% head(15) 
+grocery_df %>% group_by(location_name.x, street_address.x) %>% count(sort = T) 
+
+grocery_df %>% filter(location_name.x == "City Convenience") %>% group_by(street_address.x) %>% count()
+
+## View(grocery_df) ## City Convenience was chosen further as it has 4 unique locations after 7-Eleven and also equivalent customer traffic with 7-Eleven though it has only 4 stores.
+
+```
+
+```{r}
+## Revisit Customer patterns of Clothing and Grocery stores
+
+df_Visits_byCounty <- df %>%  filter(date_range_start == "2022-05-01" ) %>%
+  group_by(postal_code) %>%  summarise(total_raw_visit_counts = sum(raw_visit_counts))
+
+df$raw_visit_counts <- as.integer(df$raw_visit_counts)  
+df$raw_visitor_counts <- as.integer(df$raw_visitor_counts)  
+
+df_Visit <- df %>%  summarise(visit_counts_repeat = (raw_visit_counts-raw_visitor_counts)/raw_visitor_counts)
+View(df_Visit)
+
+View(df_Visit$visit_counts_repeat)
+
+class(pattern$raw_visit_counts)
+
+
+Test<- df %>% filter(top_category=="Clothing Stores" |top_category=="Grocery Stores") %>%  
+  mutate(visit_counts_repeat = (raw_visit_counts-raw_visitor_counts)*100/raw_visitor_counts) %>%  
+arrange(desc(visit_counts_repeat))
+
+#new<-select(Test$visit_counts_repeat,Test$region.x)
+
+new<-Test[, c('visit_counts_repeat','region')]
+View(new)
+
+Test$visit_counts_repeat
+
+## New column was created for the repeated patterns of the customer revisits for the stores to understand how good their locations are and we have chosen to analyze further. Used Tableau and Excel for clear visualization
+
+
+```
+
+```{r}
+
+## We have used Tableu and excel for visualization in a better way across the time period for the POI's that we have chosen and also we have analysed the economic impact of gas,inflation on these business w.r.t customer traffic 
+library(ggplot2)
+
+# 
+ ggplot(grocery_df, aes(x=grocery_df$location_name.x, y=grocery_df$raw_visitor_counts))+ geom_line()
+ 
+ 
+ 
+
+
+```

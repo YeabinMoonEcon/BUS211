@@ -1,0 +1,177 @@
+---
+title: "Group 5_Final Presentation"
+author: "Group 5 - Tianyu Liu, A Zun Mo, Weixin Xu, Yijian Shen"
+output: html_document
+date: "2022-12-06"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+patterns <- read_csv("~/Desktop/Brandeis/Data Analytics/Final Project/Patterns/your_data_sep_16_2022_0449pm.csv.gz")
+places <- read_csv("~/Desktop/Brandeis/Data Analytics/Final Project/Places/your_data_sep_01_2022_0657pm.csv")
+```
+
+```{r}
+temp <- places %>% select(placekey, naics_code)
+df <- patterns%>%
+  left_join(temp, by = 'placekey')
+```
+
+```{r}
+glimpse(df)
+```
+
+```{r}
+nonalcoholic <- places %>%
+  filter(naics_code=='722515', na.rm = TRUE)
+nonalcoholic%>%count(brands)
+```
+
+```{r}
+store_number <- nonalcoholic %>%
+  filter(brands=="Starbucks"|brands=="Dunkin'"|brands=="Caffè Nero")%>%
+  group_by(location_name) %>%
+  count()
+store_number
+```
+
+According to Google, there are 57 Dunkin' and 55 Starbucks in Boston area. We have 18 more Dunkin' store in our data set, this might due to the google define the Boston area as Boston city. There are 4 store less in safe graph data compare to the google data, this might due to shutdown after the data was collected. According to Google, there are exactly 18 Caffe Nero in Boston area.
+```{r}
+s_l<-nonalcoholic%>%
+  filter(brands=="Starbucks")%>%
+  select(latitude,longitude,location_name,street_address)
+summary(s_l)
+
+d_l<-nonalcoholic%>%
+  filter(brands=="Dunkin'")%>%
+  select(latitude,longitude,location_name,street_address)
+summary(d_l)
+
+c_l<-nonalcoholic%>%
+  filter(brands=="Caffè Nero")%>%
+  select(latitude,longitude,location_name,street_address)
+summary(c_l)
+
+o_l<-nonalcoholic%>%
+  filter(brands!="Caffè Nero",brands!="Dunkin'",brands!="Starbucks")%>%
+  select(latitude,longitude,location_name,street_address)
+```
+
+```{r}
+library(ggplot2)
+library(leaflet)
+q1.1<-s_l%>%
+  ggplot(aes(x=longitude, y=latitude))+
+  geom_point(color="darkgreen")
+q1.2<-q1.1+geom_point(data = d_l,
+                      mapping = aes(x = longitude, y = latitude),
+                      color="orange")
+q1.3<-q1.2+geom_point(data = c_l,
+                      mapping = aes(x = longitude, y = latitude),
+                      color="brown")
+q1.4<-q1.3+geom_point(data = o_l, 
+                      mapping = aes(x = longitude, y = latitude),
+                      color="grey")
+q1.4
+q1.5<-q1.3+xlim(-71.15,-71)+ylim(42.25,42.40)
+```
+```{r}
+ggplot(places,aes(x=longitude, y=latitude))+
+  geom_point()
+                      
+```
+
+There are outliers for Starbucks and Dunkin', I would still suggest that the distribution of the stores are quite similar. Therefore, the safegraph data are unbiased and representative for the Starbucks and Dunkin' stores located in Boston area.
+
+```{r}
+snv <- df %>%
+  filter(brands=="Starbucks") %>%
+  group_by(location_name,street_address,date_range_start,date_range_end) %>%
+  count(raw_visit_counts)
+snv
+
+dnv <- df %>%
+  filter(brands=="Dunkin'") %>%
+  group_by(location_name,street_address,date_range_start,date_range_end) %>%
+  count(raw_visit_counts)
+dnv
+
+cnv <- df %>%
+  filter(brands=="Caffè Nero") %>%
+  group_by(location_name,street_address,date_range_start,date_range_end) %>%
+  count(raw_visit_counts)
+cnv
+```
+
+According to the form above, a great number of store have visits less than 100. This could due to there are certain amount of visitors visit without a censurable device or this certain branch was experiencing a shut down or closure. The monthly pattern data from SafeGraph contains the visits information for each branches of Starbucks and Dunkin' from Jan 01, 2022 to Sep 01,2022. Therefore, it is representative for the trafic pattern in the certain time period and for the certain branches that listed. 
+
+```{r}
+library("tidyverse")
+library("patchwork")
+bdf <- patterns %>%
+  filter(brands=="Dunkin'"|brands=="Starbucks"|brands=="Caffè Nero") %>%
+  group_by(location_name,street_address,date_range_start,date_range_end) %>%
+  count(raw_visitor_counts)
+bdf
+```
+
+```{r}
+readings.hist<-ggplot(data=bdf,aes(x=raw_visitor_counts))+
+  geom_histogram(bins = 15,
+                 fill="lightblue",
+                 color="black")+
+  theme_bw()+
+  xlab("Visitor Counts")+
+  ylab("Frequency")+
+  ggtitle("Frequencies of Visitor Counts")
+readings.boxplot<-ggplot(data=bdf,aes(x=raw_visitor_counts, y=""))+
+  geom_violin(trim=FALSE,
+              fill="lightblue")+
+  geom_boxplot(width=0.40,
+               fill="white")+
+  geom_hline(yintercept = 0)+
+  theme_bw()+
+  xlab("Visitor Counts")+
+  ylab("")+
+  ggtitle("Frequencies of Visitor Counts")
+readings.hist + readings.boxplot
+```
+
+```{r}
+set.seed(23)
+alpha <- 0.05
+n <- nrow(bdf)
+R <- 50000
+boot.stats <- rep(NA, R) 
+for(i in 1:R){
+ boot.data <- sample(x = bdf$raw_visitor_counts, size=n, replace = TRUE) 
+ boot.stats[i] <- median(boot.data)
+}
+head(boot.stats)
+```
+
+```{r}
+quantile(boot.stats, probs=c(alpha/2,1-alpha/2))
+```
+
+```{r}
+original.stat <- median(x = bdf$raw_visitor_counts)
+lower.quantile <- quantile(boot.stats, probs=c(alpha/2,1-alpha/2))[1]
+upper.quantile <- quantile(boot.stats, probs=c(alpha/2,1-alpha/2))[2]
+ggdat <- as.data.frame(boot.stats)
+ggplot(ggdat, aes(x=boot.stats))+
+  geom_histogram(bins = 30,
+                 col = "black",
+                 fill = "lightblue")+
+  theme_bw()+
+  xlab("Bootstrap Sample Medians")+
+  ylab("Frequency")+
+  ggtitle("Bootstrap Sampling Distribution")+
+  geom_point(aes(x=original.stat, y=0), color="red")+
+  geom_vline(xintercept=c(lower.quantile,upper.quantile), linetype="dashed", col="blue")
+```
+

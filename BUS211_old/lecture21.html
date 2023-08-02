@@ -1,0 +1,392 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>BUS211:lecture21</title>
+
+		<link rel="stylesheet" href="../dist/reset.css">
+		<link rel="stylesheet" href="../dist/reveal.css">
+		<link rel="stylesheet" href="../dist/theme/black.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="../plugin/highlight/monokai.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section data-markdown>
+					<textarea data-template>
+						## Lecture 21: <br>Multiple categories
+						### BUS 211A-3<br>
+					
+					</textarea>
+				  </section>
+
+				  <section>
+					<h4>Set an office hour</h4>
+					
+					<a href="https://colab.research.google.com/drive/13wg_KHtz6GZskah0cviUSdcuTqRxnxMy?usp=sharing">Presentation date</a>
+					
+					
+				  </section>
+
+
+		
+			<section>In the last lesson, we looked at the gender frequencies of people included in a sample data set on US income</section>	
+			
+			<section>We had an inkling that the amount of data we had on males and females was different from an even split, so we learned how to perform the chi-squared test to put this inkling to the test</section>
+			
+			<section>In the last lesson, we calculated a chi-squared statistic for a single categorical column, such as sex</section>
+
+			<section>
+				In this lesson, we'll learn how to apply this same technique to two-way contingency tables that show how two categorical columns interact
+		</section>
+		<section>The first step we took in calculating the chi-squared statistic for a single categorical variable was calculating the expected value</section>
+		<section>
+			This calculation gets a slightly more complicated when considering multiple categories at once, but we'll walk through an example here
+		</section>		
+		<section>
+			<table>
+				<thead>
+					<tr>
+						<th></th>
+						<th>Male</th>
+						<th>Female</th>
+						<th>Totals</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>$>50$k</td>
+						<td>6662</td>
+						<td>1179</td>
+						<td>7841</td>
+					</tr>
+					<tr>
+						<td>$\le50$k</td>
+						<td>15128</td>
+						<td>9592</td>
+						<td>24720</td>
+					</tr>
+					<tr>
+						<td>Totals</td>
+						<td>21790</td>
+						<td>10771</td>
+						<td>32561</td>
+					</tr>
+				</tbody>
+			</table>
+			<ul>
+				<li class="fragment">On looking at this diagram, you might see a pattern between sex and high_income</li>
+			</ul>
+		</section>
+
+		<section>If two events are independent, then the probability of both of them happening at the same time is just the product of their individual probabilities</section>
+
+		<section>We define independent events two ways</section>
+		<section>The first refers to logical independence</section>
+		<section>For instance, two events occur but there is no reason to believe that the two events affect each other</section>
+		<section>When it is assumed that they do affect each other, this is a logical fallacy called post hoc ergo propter hoc, which is Latin for “after this, therefore because of this"</section>
+		<section>The second definition of an independent event is statistical independence</section>
+		
+			<section>
+				
+				<ul>
+					<li class="fragment">For a deck of 52 cards, what is the probability that the first card will be an ace?</li>
+					<ul>
+						<li class="fragment">$Pr(Ace) = \frac{4}{52} = \frac{1}{13}$</li>
+					
+					</ul>
+					<li class="fragment">Assume that the first card was an ace. Now we ask the question again</li>
+					<li class="fragment">But 2 cases</li>
+					<ul>
+						<li class="fragment">Keep the first card in your hand</li>
+						<ul>
+							<li class="fragment">$Pr(Ace|Card1 = Ace)=\frac{3}{51}$</li>	
+						</ul>
+						<li class="fragment">Put the first card back in the deck</li>
+						<ul>
+							<li class="fragment">$Pr(Ace|Card1 = Ace)=\frac{4}{52}$</li>	
+						</ul>
+					</ul>
+					
+				</ul>
+			</section>
+		
+
+
+			
+			<section>
+				If two events are independent, then the probability of both of them happening at the same time is just the product of their individual probabilities: $$P(A\cap B)=P(A)P(B)$$
+		</section>
+		
+		<section>
+			<table>
+				<thead>
+					<tr>
+						<th></th>
+						<th>Male</th>
+						<th>Female</th>
+						<th>Totals</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>$>50$k</td>
+						<td>0.205</td>
+						<td>0.036</td>
+						<td>0.241</td>
+					</tr>
+					<tr>
+						<td>$\le50$k</td>
+						<td>0.465</td>
+						<td>0.294</td>
+						<td>0.759</td>
+					</tr>
+					<tr>
+						<td>Totals</td>
+						<td>0.67</td>
+						<td>0.33</td>
+						<td>1</td>
+					</tr>
+				</tbody>
+			</table>
+			<ul>
+				<li class="fragment">We can illustrate this by converting our chart</li>
+			</ul>
+		</section>
+
+
+
+		<section>
+			Using this information, we can start calculating out the expected values using the formula
+		</section>
+
+
+		<section>
+				
+			<ul>
+				<li class="fragment">We can use this as our null hypothesis:</li>
+				<ul>
+					<li class="fragment">$H_0:$ gender and earning a high income are independent of each other</li>
+					<li class="fragment">$H_1:$ gender and earning a high income are not independent of each other</li>
+				
+				</ul>
+				<li class="fragment">Saying that the two variables are not independent is another way of saying that the two influence each other</li>
+				<li class="fragment">Calculate following the null hypothesis</li>
+				<ul>
+					<li class="fragment">$P(\text{high income} \cap \text{female})=P(\text{female})P(\text{high income})=0.33*0.241=0.0795$</li>
+					
+				</ul>
+				
+			</ul>
+		</section>
+		
+		<section>
+			<table>
+				<thead>
+					<tr>
+						<th></th>
+						<th>Male</th>
+						<th>Female</th>
+						
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>$>50$k</td>
+						<td>5257.6</td>
+						<td>2589.6</td>
+						
+					</tr>
+					<tr>
+						<td>$\le50$k</td>
+						<td>16558.2</td>
+						<td>8155.6</td>
+						
+					</tr>
+					
+				</tbody>
+			</table>
+			<ul>
+				<li class="fragment">Now that we have our expected values, we can calculate the chi-squared value by using the same principles from the previous lesson</li>
+				<ul>
+					<li class="fragment">Here's the table of our observed values for reference:</li>
+					
+				</ul>
+			</ul>
+			<table>
+				<thead>
+					<tr>
+						<th></th>
+						<th>Male</th>
+						<th>Female</th>
+						
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>$>50$k</td>
+						<td>6662</td>
+						<td>1179</td>
+						
+					</tr>
+					<tr>
+						<td>$\le50$k</td>
+						<td>15128</td>
+						<td>9592</td>
+						
+					</tr>
+					
+				</tbody>
+			</table>
+		</section>
+
+
+
+
+		<section>
+				
+			<ul>
+				<li class="fragment">Subtract the expected value from the observed value</li>
+				
+				<li class="fragment">Square this difference</li>
+				
+				<li class="fragment">Divide the squared difference by the expected value</li>
+				<li class="fragment">Repeat for all the observed and expected values and add up the values</li>
+				
+			
+			</ul>
+		</section>
+		
+
+
+		<section>
+			<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+				chisq_gender_income <- 0
+				observed <- c(6662, 1179, 15128, 9592)
+				expected <- c(5257.6, 2589.6, 16558.2, 8155.6)
+
+				for (i in 1:length(observed)) {
+    				O <- observed[i]
+    				E <- expected[i]
+    				chisq_gender_income <- chisq_gender_income + (O - E)^2 / E
+				}
+				
+				</code></pre>	
+		
+			<ul>
+				<li class="fragment">Now that we've found our chi-squared value, 1520.0</li>
+				
+			</ul>
+		</section>
+
+		<section>We can use the same technique with the chi-squared sampling distribution from the last lesson to find a p-value associated with the chi-squared value</section>
+		<section>Before we can calculate p-value, we need to figure out how many degrees of freedom it has</section>
+		<section>In the last lesson, the degrees of freedom was described as the number of values that contribute to the statistic, minus 1</section>
+		<section>This formula changes somewhat when we consider the interaction between two categorical variables</section>
+		<section> Instead of considering just the number of categories, we only need to count how many different values each category can take</section>
+
+		<section>
+			<ul>
+				<li class="fragment">For a two-way contingency table, we can calculate the degrees of freedom by</li>
+				
+				<ul>
+					<li class="fragment">$df = (r-1)*(c-1)$</li>					
+					<li class="fragment">$r$ represents the number of categories for the variable we are using along the rows, which is high_income in this example</li>
+					<li class="fragment">$c$ represents the number of categories for the variable along the columns, which is sex</li>					
+				</ul>
+				
+			</ul>
+			
+		
+		</section>
+
+		
+		
+		<section>
+		
+			<ul>
+				<li class="fragment">Calculate the p-value for observing a test statistic of 1520 under the null hypothesis</li>
+				<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+					> 1 - pchisq(1520, 1)
+					[1] 0
+					</code></pre>	
+				<li class="fragment">Using the p-value, decide whether or not to reject or fail to reject the null hypothesis</li>
+				
+				<ul>
+					<li class="fragment">Reject the null</li>					
+					
+				</ul>
+				
+			</ul>
+		</section>
+		
+		<section>Over the course of this and the last lesson, we learned how to perform the chi-squared test by hand</section>
+		<section>The chi-squared test is such a common test that R actually has a dedicated function for the test, called <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/chisq.test.html">chisq.test()</a></section>
+		<section>The input to chisq.test() is a data matrix; in this case, it's the contingency table that you use to calculate the test statistic by hand</section>
+		<section>The function takes this matrix and automatically calculates the test statistic, degrees of freedom, and p-value</section>
+		<section>The test uses the null hypothesis that the two categorical variables used are independent of each other</section>
+		
+		<section>
+			<h4>R's built-in chi-squared test function</h4>
+			<ul>
+				<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+					library(readr)
+					income <- read.csv("income.csv")
+					data <- table(income$sex, income$high_income)
+					chisq.test(data)
+					>>
+					Pearson's Chi-squared test with Yates' continuity correction
+
+					data:  data
+					X-squared = 1517.8, df = 1, p-value < 2.2e-16
+					</code></pre>	
+					<ul>
+					<li class="fragment">We use the table() function to take the two categorical variables and convert them into a contingency table</li>
+					<li class="fragment">The test function outputs all of the important characteristics of the test that we've described in a user-friendly format</li>
+				</ul>
+			</ul>
+		</section>
+
+		<section>The reason we don't tell you about this function first is because it's important to become acquainted with the entire process of hypothesis testing</section>
+		<section>With a convenient function like chisq.test(), it's easy to overlook important technical aspects about the test</section>
+		<section>Without knowing what the null and alternative hypotheses, we have no way of knowing how to interpreting the resulting p-value</section>
+		<section>But now that you're equipped with the full process, you can use the function in an informed, responsible manner</section>
+
+		<section>Some caveats</section>
+		<section>Now that we've learned the chi-squared test, you now have the ability to develop a hypothesis about relationshipd between categorical variables and test these hypotheses</section>
+		<section>Finding an insignificant result doesn't mean we can conclude that there is no association between the columns</section>
+		<section>For instance, if we found that the chi-squared test between the sex and race columns returned a p-value of .1, it wouldn't mean that there is no relationship between sex and race</section>
+		<section>It might be the case that the association between the two variables is too small to detect with the data on hand</section>
+		<section>Finding a statistically significant result doesn't imply anything about the strength of the relationship between the two variables</section>
+		<section>For instance, finding that a chi-squared test between sex and race results in a p-value of .01 doesn't mean that the dataset contains too many Females who are White (or too few)</section>
+		<section>A statistically significant finding means that there is some evidence that the two variables are not independent of each other</section>
+		<section>That is to say, having a particular gender can increase or decrease your probability of being a certain race, according to the data set</section>
+		<section>Chi-squared tests work the best when the numbers in each cell of the cross table are large. There is no hard rule, but general rule-of-thumb is that the test is valid if each cell is greater than 5</section>
+		
+	</div>
+
+		<script src="../dist/reveal.js"></script>
+		<script src="../plugin/notes/notes.js"></script>
+		<script src="../plugin/markdown/markdown.js"></script>
+		<script src="../plugin/highlight/highlight.js"></script>
+		<script src="../plugin/math/math.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+				progress: false,
+				touch: true,
+				slideNumber: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX ]
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,282 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>BUS211:lecture2</title>
+
+		<link rel="stylesheet" href="../dist/reset.css">
+		<link rel="stylesheet" href="../dist/reveal.css">
+		<link rel="stylesheet" href="../dist/theme/black.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="../plugin/highlight/monokai.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section data-markdown>
+					<textarea data-template>
+						## Lecture 2 
+						### BUS 211A-3<br>Foundations of Data Analytics
+					
+					</textarea>
+				  </section>
+				  <section>
+					<h2>Some updates</h2>
+					<ul>
+						<li class="fragment">Mask Mandate</li>
+						<li class="fragment">IA (Instructional Assistant) not TA</li>
+						<li class="fragment">Yellow cards</li>
+						<ul><li class="fragment">I am serious</li></ul>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Pause</h2>
+					<ul>
+						<li class="fragment">This is not a programming course</li>
+						<li class="fragment">R is a tool for learning data analytics</li>
+						<li class="fragment">Suppose you want to be a writer</li>
+
+						<ul><li class="fragment">What do you worry about the most?</li></ul>
+					</ul>
+				</section>
+				<section>
+					<h2>One more thing</h2>
+					<ul>
+						<li class="fragment">How to choose a programming language?</li>
+						<ul><li class="fragment">the most popular language?</li></ul>
+						<ul><li class="fragment">the fastest language?</li></ul>
+						<li class="fragment">Could R give me a job?</li>
+						<ul>
+							<li class="fragment">Mark Zuckerberg, Steve Jobs, Bill Gates</li>
+						</ul>
+						
+
+						<li class="fragment">Computer language is transferable!</li>
+					</ul>
+				</section>
+
+				
+				<section>Today, we are going to talk about <br>data analysis pipeline</section>
+				<section>Where do we start?</section>
+										
+				<section>
+					<p class="fragment">Question driven task vs. Data driven task</p>
+					<p class="fragment">This is not exhaustive nor exclusive</p>
+				</section>
+				
+
+				<section>
+					<h4>Feedback loop</h4>
+					<ul>
+						<li class="fragment">Q. Advanced degrees are valuable?</li>
+						<li class="fragment">You have to start a search reliable data</li>
+						<ul><li class="fragment">Really?</li></ul>
+						<li class="fragment">Must think about if the question is answerable</li>
+						<ul>
+							<li class="fragment">Suppose you have big tech HR resources</li>
+							<li class="fragment">data sources would help narrow down</li>
+						</ul>
+						<li class="fragment">Access is always an issue</li>
+						<ul>
+						<li class="fragment">Creativity is a huge plus</li>
+						<li class="fragment">Prior knowledge/experience/research</li></ul>
+					</ul>
+				</section>
+
+				<section>John Siegfried said <br><em>There is no unemployment among Ph.D.s in economics</em></section> 
+                <section><ul>
+					<li class="fragment">Demand for Econ/Bus Ph.D. has been growing fast</li>
+					<li class="fragment">Suppose you are considering this option</li>
+					<ul>
+						<li class="fragment">in fact, gov agencies and firms are wondering this</li>
+					</ul>
+					<li class="fragment">You want to know long-term outcomes</li>
+					<li class="fragment">What would you do?</li>
+					</ul>
+
+				</section>
+
+
+				<section data-markdown>
+					<textarea data-template>
+					 - What I need (blue print):
+					 	* List of Economics/Business Ph.D.s 
+						* Work histories
+						* Monetary / non-monetary outcomes
+						* Demographics
+						* etc.
+					 - Need to examine how much access I will have
+					</textarea>
+				</section>
+				<section>
+					<h4>Data is not given</h4>
+					<ul>
+						<li class="fragment">How to access the list of individuals?</li>
+						<ul><li class="fragment">Ask universities?</li>
+							<li class="fragment">Prior knowledge</li>
+							<ul>
+								<li class="fragment">Dissertation database?</li>
+							</ul>
+						</ul>
+						<li class="fragment">Good, I have access to the list. Then?</li>
+						<ul>
+							<li class="fragment">Always need to go back to the blue print</li>
+							<li class="fragment">need employment histories/any measure of outcomes</li>
+						</ul>
+						<li class="fragment">Google some economists</li>
+						<ul>
+						<li class="fragment">C.V./resumes/Linkedin profiles online</li>
+					</ul>
+				</section>
+				<section>
+					<h4>Define the task</h4>
+					<ul>
+						<li class="fragment">Need to select years and schools</li>
+						<ul>
+							<li class="fragment">determine the range of scope</li>
+							<li class="fragment">redefine the question</li>
+						</ul>
+						<li class="fragment">Consult data science methods</li>	
+						<ul>
+							<li class="fragment">scraping information online</li>
+							<li class="fragment">formatting the information into tables</li>
+						</ul>
+						<li class="fragment">Set up the validation criteria</li>	
+						<li class="fragment">Discuss analysis methods</li>	
+					</ul>
+				</section>                
+                
+                <section>Computing techniques are sometimes overrated</section>  
+
+				<section>Let's talk about SafeGraph</section>
+                <section>
+					<h4>Consumer research 2.0</h4>
+					<ul>
+						<li class="fragment">Measurement is just a matter of imputation</li>	
+						<ul>
+						<li class="fragment">consider: what is GDP?</li>
+						</ul>
+						<li class="fragment">Growing interest on micro consumer data</li>
+						<ul>
+							<li class="fragment">Credit card data</li>
+							<li class="fragment">App ratings data</li>
+							<li class="fragment">Smartphone traking data</li>
+						</ul>
+						<li class="fragment">Conusmer's visiting patterns would approximate purchasing patterns </li>
+						<li class="fragment">Covid situation makes this data popular</li>		
+					</ul>
+				</section>
+
+				<section>
+					
+					<ul>
+						<li class="fragment">SafeGraph is tracking smartphone based on POI</li>	
+						<ul>
+						<li class="fragment">Point of interest (POI) is geograhpical places such as a physcial store</li>
+						<li class="fragment">It idenfities user's home and tracks visiting patterns to POI</li>
+						</ul>
+					</ul>
+				</section>
+				<section>
+					<img src="pics/lecture2_1.png" alt="Almond">  
+				</section>
+
+                <section>What's the limitations?</section>
+                
+				<section>The final project is based on this data set</section>
+                <section>
+					<ul>
+					<li>Let's from the access: <a href="https://www.safegraph.com/academics" target="_blank">Follow the link</a>
+					<li>Fill out the form and use bradeis email account!</li>
+					<li>You will receive an email about <em>Login Credentials</em></li>
+					<ul>
+						<li>you will have a temporary password</li>
+					</ul>
+					<li>Then, visit the following link: <a href="https://shop.safegraph.com/" target="_blank">Follow the link</a></li>
+					<li>Academic access limits the credit</li>
+					<ul><li>follow the instructions carefully</li></ul>	
+				</ul>
+					</section>
+				
+					<section>
+						<img src="pics/lecture2_2.png" alt="Almond">  
+						<p>Type <em>Boston, MA</em></p>
+					</section>
+					<section>
+						<img src="pics/lecture2_4.png" width=300>  
+						<ul>
+							<li>Type <em>Brandeis University</em> and check the boxes</li>
+							<li>Click check out, and then you will receive an email </li>
+						</ul>
+					
+					</section>
+
+                <section>It is your job to understand this data</section>
+                
+				
+
+                <section>What is an algorithm?</section>
+				<section>Some people use it as a block of codes to run, <br></ber>but there is no hard answer</section>
+				<section>An algorithm is a sequence of computational steps that process the input to produce the output</section>
+				
+
+				<section>It describes a specific computational procedure<br> to solve the problem</section>
+				<section>It can be anything</section>
+                <section>
+                    But most data science literature/practitioner <br>
+					focus on efficient algorithms 
+                </section>
+                <section>
+                    How long does an algorithm take to produce its result?
+                </section>
+                <section>
+                    If computers were infinitely fast and computer memory were free, would you have any reason to study algorithms?
+                </section>
+                <section>
+                    Let's try to think about a sorting problem<br>
+					How to sort: 5, 10, 2, 4, 1, 7
+                </section>
+
+                
+                <section>Insertion sort vs. Merge Sort</section>
+                <section>
+					<ul>
+					<li class="fragment">Insertion sort takes time roughly to $a \times n^2$ to sort $n$ numbers</li>
+					<li class="fragment">Merge sort takes time roughly to $b \times n \times \log_2{n}$ to sort $n$ numbers</li>
+					<li class="fragment">Typically $a < b $ </li>
+					<li class="fragment">The input size $n$ will impact on the running time more and more</li>
+					</ul>
+              </section>
+			  
+			  <section>
+				Homework 0: <a href="homework/homework0.html" target="_blank">Follow the link</a>
+				<br>Data: <a href="homework/covid19.csv" target="_blank">Follow the link</a>
+			  </section>
+			</div>
+		</div>
+
+		<script src="../dist/reveal.js"></script>
+		<script src="../plugin/notes/notes.js"></script>
+		<script src="../plugin/markdown/markdown.js"></script>
+		<script src="../plugin/highlight/highlight.js"></script>
+		<script src="../plugin/math/math.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+				progress: false,
+				touch: true,
+				slideNumber: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX ]
+			});
+		</script>
+	</body>
+</html>

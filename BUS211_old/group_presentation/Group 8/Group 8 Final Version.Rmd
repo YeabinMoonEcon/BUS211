@@ -1,0 +1,243 @@
+---
+title: "Coffee Shops in Boston"
+author: 'Group 8: Ana Hatfield, Donika Sollova, Sofiia Tarasiuk, Yuting Wang'
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+### Loading libraries
+```{r}
+library(dplyr)
+library(readr)
+```
+
+### Loading the datasets, places and patterns
+```{r}
+library(readr)
+places <- read_csv("your_data_sep_09_2022_1023pm.csv")
+patterns <- read_csv("your_data_sep_20_2022_0558pm.csv")
+```
+
+### Merging datasets, places and patterns, based on their common variable, placekey into a new dataframe
+```{r}
+data <- left_join(patterns, places, by = "placekey")
+```
+
+### Cleaning the dataset and selecting only the variables needed for our research analysis and assigning the resulting dataset to a new dataframe
+```{r}
+df <- data %>%
+  select(placekey,location_name = location_name.x, postal_code = postal_code.x, date_range_start, date_range_end, raw_visit_counts, naics_code, street_address = street_address.x)
+```
+
+### Filtering all observations using the naics code noted below and assigning the resulting dataset to a new dataframe and then creating new dataframes from it using some of the famous coffee brands as keywords. Then, putting all datasets created using keywords into a new dataframe
+```{r}
+naics <- df %>% 
+  filter(naics_code == 722515)
+Starbucks <- naics %>%
+  filter(str_detect(location_name, 'Starbucks'))
+Coffee <- naics %>%
+  filter(str_detect(location_name, 'Coffee'))
+Cafe <- naics %>%
+  filter(str_detect(location_name, 'Cafe'))
+Nero <- naics %>%
+  filter(str_detect(location_name, 'Nero'))
+Cup <- naics %>% 
+  filter(str_detect(location_name, 'Cup'))
+Espresso <- naics %>%
+  filter(str_detect(location_name, 'Espresso'))
+Dunkin <- naics %>%
+  filter(str_detect(location_name, "Dunkin'"))
+Cappuchino <- naics %>%
+  filter(str_detect(location_name, "Cappuchino"))
+all_shops <- list(Starbucks, Coffee, Cafe, Nero, Cup, Espresso, Dunkin)
+all_shops <- all_shops %>%
+  reduce(full_join)
+view(all_shops)
+```
+
+### Creating a new dataframe that contains a summary of all visits per coffee shop
+```{r}
+shops_visits <- all_shops %>% group_by(location_name) %>% summarise(raw_visits=sum(raw_visit_counts),.groups='drop') %>%
+arrange(desc(raw_visits))
+```
+
+### Creating a new dataframe that contains a summary of all visits as for the top five most visited coffee shops found in the last code
+```{r}
+ top_five_shops <- shops_visits %>%
+  slice(1:5)
+```
+
+### Creating a new dataframe with top five most visited coffee shops and assigning the result to a new dataframe as well as finding summary statistics for the new dataset
+```{r}
+Dunkin <- all_shops %>%
+  filter(str_detect(location_name, "Dunkin'"))
+Starbucks <- all_shops %>%
+  filter(str_detect(location_name, "Starbucks"))
+CaffeNero <- all_shops %>%
+  filter(str_detect(location_name, "Nero"))
+Tatte <- all_shops %>%
+  filter(str_detect(location_name, "Tatte"))
+Cuppacoffee <- all_shops %>%
+  filter(str_detect(location_name, "Cuppacoffee"))
+top5 <- list(Dunkin, Starbucks, CaffeNero, Tatte, Cuppacoffee)
+top5 <- top5 %>%
+  reduce(full_join)
+mean(top5$raw_visit_counts)
+length(unique(top5$postal_code))
+```
+
+### Finding the top five coffee shops based on the number of locations. 
+```{r}
+all_shops %>% group_by(location_name) %>% count() %>% arrange(desc(n))
+Dunkin %>% arrange(street_address, date_range_start)
+length(unique(Dunkin$street_address))
+Starbucks %>% arrange(street_address, date_range_start)
+length(unique(Starbucks$street_address))
+CaffeNero %>% arrange(street_address, date_range_start)
+length(unique(CaffeNero$street_address))
+Tatte %>% arrange(street_address, date_range_start)
+length(unique(Tatte$street_address))
+Flour <- all_shops %>%
+  filter(str_detect(location_name, "Flour"))
+Flour %>% arrange(street_address, date_range_start)
+length(unique(Flour$street_address))
+Cuppacoffee %>% arrange(street_address, date_range_start)
+length(unique(Cuppacoffee$street_address))
+```
+
+When we ran the first code, we noticed that there was a big number of locations per each coffee shops. so, we realized that the data set counted locations of coffee shops per monthly basis, hence, more than once, which inflated the result. so, in order to have the correct number of locations, we counted street addresses instead the variables, location names and placekeys. 
+
+Using this dataset, we wanted to analyze the impact of different factors, such as tourism, inflation and COVID-19 policies in the number of visits in coffee shops in the area of Boston.
+
+Please see questions below for more details.
+
+## Question 1:Did tourism play a role in the number of visits to coffee shops in 2022?
+### Changing the format of the variable that shows the date and then creating a dataframe that contains the number of visits in the three first months of the year, a period during which Boston is visited less by tourists
+```{r}
+top5$date_range_start <- format(top5$date_range_start, "%b")
+no_tourism <- top5 %>%
+  filter(date_range_start == "Jan" | date_range_start == "Feb" | date_range_start == "Mar") %>%
+  group_by(location_name) %>%
+  summarise(visits = sum(raw_visit_counts))
+```
+
+### Creating a dataframe that contains the number of visits in the the months of during which Boston is visited by tourists more
+```{r}
+tourism_season <- top5 %>%
+  filter(date_range_start == "Jun" | date_range_start == "Jul" | date_range_start == "Aug") %>%
+  group_by(location_name) %>%
+  summarise(visits = sum(raw_visit_counts))
+```
+
+To start with tourism, we firstly analyzed visiting patterns during the month of June, July, and August, given that this period of time is known as the touristic season in Boston. Then, in order to see the impact of tourism in visiting patterns, we analyzed the data during the first three months of the year, January, February, and March, given that during these months, there are not that many visitors in Boston. Surprisingly, the data show that during the non-touristic months, there was a higher number of visits in the five coffee shops, which we assume comes as a result that people still are hesitant to travel and be in big crowds given the situation of the global pandemic.
+
+## Question 2. What influences the increase in the consumer demand in coffee shop industry?
+
+Different factors increase consumer demand in the coffee shop industry. As we know, among such factors are the location of coffee shops, advertising and marketing of coffee shops, prices, product quality, social norms, and so on. As seen in previous codes, the most visited coffee shops had also the highest number of locations across Boston, with an exception only - Flour shop. So, we believe that location impacts the number of visits and this data set allows us to capture this effect. Whereas, other factors, such as advertising and marketing cannot be captured by this data set. 
+
+
+## Question 3.What was the impact of COVID-19 policies in consumer demand in the coffee shops industry in the area of Boston?
+
+### Finding the number of visits during the first three months of the year in order to analyze the impact of global pandemic
+
+#### Data for January
+```{r}
+visits_january <- top5 %>%
+  filter(date_range_start == "Jan") %>%
+  group_by(location_name) %>%
+  summarise(visits = sum(raw_visit_counts))
+```
+
+#### Data for February
+```{r}
+visits_feb <- top5 %>%
+  filter(date_range_start == "Feb") %>%
+  group_by(location_name) %>%
+  summarise(visits = sum(raw_visit_counts))
+```
+
+#### Data for March
+```{r}
+visits_mar <- top5 %>%
+  filter(date_range_start == "Mar") %>%
+  group_by(location_name) %>%
+  summarise(visits = sum(raw_visit_counts))
+```
+
+In the beginning of the year there was a higher number of COVID-19 related policies that restricted movement and working hours for coffee shops, then given that the situation improved, those restrictions were removed over a period of time. As such, we compared visits in January, February, and March. In each month, visits are higher, which reflects the lack of restrictions in the most recent months analyzed. 
+
+## Question 4. Did inflation play a role in the consumer demand in the coffee shops industry in the area of Boston?
+
+### Finding the number of visits per each month in order to analyze the impact of inflation 
+
+#### January data
+```{r}
+visits_january <- top5 %>%
+  filter(date_range_start == "Jan") %>%
+  group_by(location_name) %>%
+  summarise(visits = sum(raw_visit_counts))
+```
+
+#### February Data
+```{r}
+visits_feb <- top5 %>%
+  filter(date_range_start == "Feb") %>%
+  group_by(location_name) %>%
+  summarise(visits = sum(raw_visit_counts))
+```
+
+#### March data 
+```{r}
+visits_mar <- top5 %>%
+  filter(date_range_start == "Mar") %>%
+  group_by(location_name) %>%
+  summarise(visits = sum(raw_visit_counts))
+```
+ 
+#### April Data
+```{r}
+visits_apr <- top5 %>%
+  filter(date_range_start == "Apr") %>%
+  group_by(location_name) %>%
+  summarise(visits = sum(raw_visit_counts))
+```
+
+#### May data
+```{r}
+visits_may <- top5 %>%
+  filter(date_range_start == "May") %>%
+  group_by(location_name) %>%
+  summarise(visits = sum(raw_visit_counts))
+```
+
+#### June data
+```{r}
+visits_jun <- top5 %>%
+  filter(date_range_start == "Jun") %>%
+  group_by(location_name) %>%
+  summarise(visits = sum(raw_visit_counts))
+```
+
+#### July data
+```{r}
+visits_jul <- top5 %>%
+  filter(date_range_start == "Jul") %>%
+  group_by(location_name) %>%
+  summarise(visits = sum(raw_visit_counts))
+```
+
+#### August data
+```{r}
+visits_aug <- top5 %>%
+  filter(date_range_start == "Aug") %>%
+  group_by(location_name) %>%
+  summarise(visits = sum(raw_visit_counts))
+```
+
+To end with the impact caused by inflation. So, throughout the year, inflation has been increasing since January and it reached its highest level, above 8%, in May, June, July, and August with a peak in June at 9.1% (Please refer to slide 12 of the presentation for sources). This level of inflation caused a huge increase in prices, including prices of coffees. That said, during these months, we also noticed a lower number of visits, which is illustrated in the second graph. So, we attribute this change in the visiting patterns to inflation.
+

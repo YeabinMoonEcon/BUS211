@@ -1,0 +1,299 @@
+---
+title: "Homework5"
+author: "Yeabin Moon, this is not your name." 
+date: "2022-10-20"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+setwd("~/Documents/ibs_course/BUS211/data")
+```
+
+
+
+Do not overwrite your answer here. <b>You have to write from the scratch</b>. When you write your answer, please use {r echo = T} to show your code on the html file.
+
+# Part I. SRS
+Let's revisit the random sampling. You are going to work with <b>wnba.csv</b> for Part I. You can see the documentation of data <https://www.kaggle.com/datasets/jinxbe/wnba-player-stats-2017>.
+
+
+
+### Question 0:
+Read in the dataset 'wnba.csv' using the read_csv() function. Assign the results to a variable named <b>wnba</b>.
+```{r}
+wnba <- read_csv('wnba.csv')
+```
+
+### Question 1: 
+Take one measure of the sampling error. <b>We have designated set.seed(). What is the role of seed function?</b>
+```{r}
+set.seed(1)
+
+# See the dicussion in class
+# or, https://stat.ethz.ch/R-manual/R-devel/library/base/html/Random.html
+```
+
+
+### Question 2:
+Use the Games_Played column to determine the maximum number of games played by a player in the 2016-2017 season. The dataset contains all the players that had at least one game, so it's a population for our purposes. Find this parameter, and assign the result to a variable named <b>parameter</b>.
+
+```{r}
+parameter <- max(wnba$Games_Played)
+```
+
+
+### Question 3:
+Using the sample() function, randomly sample 30 players from the population. Assign the result to a variable named <b>sample</b>.
+
+```{r}
+sample <- sample(wnba$Games_Played, size = 30)
+```
+
+
+### Question 4:
+Find the maximum number of games played in the <em>sample</em>. Assign the result to a variable named <b>statistic</b>.
+```{r}
+statistic <- max(sample)
+```
+
+
+### Question 5:
+Measure the sampling error by subtracting the statistic from the parameter. Assign the result to a variable named <b>sampling_error</b>.
+
+```{r}
+sampling_error <- parameter - statistic
+```
+
+### Question 6:
+Generate three random samples of size 10 from the PTS column, and calculate the mean for each sample. Use a different random seed value for each sample, as specified below.
+
+1. Set the random seed to 1.
+2. Generate a random sample of the PTS column with a sample size of 10. Calculate the mean. Assign the result to a variable named <b>sample_1</b>.
+3. On a new line, perform a random sample identical to the previous step, but assign this result to a variable named <b>sample_2</b>.
+4. For the final sample, repeat the code from the previous steps, but assign this result to a variable named <b>sample_3</b>.
+
+```{r}
+set.seed(1)
+sample_1 <- mean(sample(wnba$PTS, size = 10))
+sample_2 <- mean(sample(wnba$PTS, size = 10))
+sample_3 <- mean(sample(wnba$PTS, size = 10))
+```
+
+
+### Question 7:
+Generate a vector of 100 random sample means for the PTS column, with a sample size of 10.
+
+1. Set the random seed to 1.
+2. Use replicate() to generate a vector of 100 random sample means of sample size 10.
+    - Use the formula used in the previous screen as the expr function argument.
+    - Save the results of the analysis as <b>mean_points</b>.
+3. Calculate the minimum value of mean_points, and save as <b>minimum</b>.
+4. Calculate the maximum value of mean_points, and save as <b>maximum</b>.
+
+```{r}
+set.seed(1)
+mean_points <- replicate(n = 100, 
+          expr = mean(sample(wnba$PTS, size = 10)))
+minimum <- min(mean_points)
+maximum <- max(mean_points)
+```
+
+
+# Part II. Stratified Sampling
+
+### Question 8:
+Calculate the average age and the average number of games played from a random sample.
+
+1. Designate set.seed(1) to make the results reproducible.
+2. Sample 30 rows from the wnba dataframe. Save the results as <b>thirty_samples</b>.
+3. Calculate the average age of this sample group. Assign the results to <b>mean_age</b>.
+4. Calculate the average number of games played for this sample group. Assign the results to <b>mean_games</b>.
+
+```{r}
+set.seed(1)
+thirty_samples <-  sample_n(wnba, size = 30)
+mean_age <- mean(thirty_samples$Age)
+mean_games <- mean(thirty_samples$Games_Played)
+```
+
+
+### Qusetion 9:
+Perform stratified sampling on a new column, pts_game. Stratify the data set by player position, and then do simple random sampling on every stratum. At the end, use the sample to find which position has the greatest number of points per game, on average.
+
+1. Update the wnba dataframe by using the mutate() function to create a new column <b>pts_game</b> that describes the number of points a player scored per game played during the season.
+    - The number of total points a player scored the entire season is stored in the PTS column, and the number of games played in the Games_Played column.
+    - Assign the results of this operation to the wnba dataframe variable. We will use this new column in future analyses.
+2. Stratify the wnba data set by player position. The Pos column describes a player's position on the field.
+3. Randomly sample 10 observations for each player position.
+4. Within the summarize() function call:
+    - Estimate the average number of points per season as <b>mean_pts_season</b>.
+    - Estimate the average number of points per game as <b>mean_pts_game</b>.
+5. arrange() by player position so that results are displayed in alphabetical order.
+6. Save the results of this analysis as <b>total_points_estimates</b>.
+
+```{r}
+set.seed(1)
+wnba <- wnba %>%
+  mutate(pts_game = PTS/Games_Played) 
+
+total_points_estimates <- wnba %>%
+  group_by(Pos) %>%
+  sample_n(10) %>% 
+  summarise(mean_pts_season = mean(PTS),
+            mean_pts_game = mean(pts_game)) %>% 
+  arrange(Pos)
+```
+
+### Question 10:
+Establish three strata for Games_Played and sample randomly from each strata using the specific proportion defined for each stratum. Combine the results of the random samples from each stratum and calculate the mean points scored per season for the combined group of random samples.
+
+1. Stratify the dataset into three strata by the number of games played in the following way:
+    - Compose the first stratum of players who played 12 games or less. Assign this stratum the value <b>under_12</b>. Take 1 random sample from this stratum.
+    - Compose the second stratum of players who played more than 12 games, but up to 22 (included). Assign this stratum the value <b>btw_13_22</b>. Take 2 random samples from this stratum.
+    - Compose the third stratum of players who played more than 22 games (22 not included). Assign this stratum the value of <b>over_22</b>. Take 7 random samples from this stratum.
+2. Use bind_rows() to combine the output of the three strata into a single dataframe called <b>combined</b>. Enter the name of each stratum as function arguments, in the order they were created above.
+3. Calculate the mean value of the PTS column of the <b>combined</b> dataframe. You do not need to assign this value to an object.
+
+```{r}
+set.seed(1)
+under_12 <- wnba %>% 
+  filter(Games_Played <= 12) %>% 
+  sample_n(1)
+btw_13_22 <- wnba %>% 
+  filter(Games_Played > 12 & Games_Played <= 22) %>% 
+  sample_n(2)
+over_22 <- wnba %>% 
+  filter(Games_Played > 22) %>% 
+  sample_n(7)
+
+combined <- bind_rows(under_12, btw_13_22, over_22)
+mean(combined$PTS)
+```
+
+# Part III
+
+Now you have two data sets from SafeGraph: Places and Patterns.
+
+### Qusetion 11:
+Combine the two data sets using a left join. Note that the baseline data set is Patterns. Assign this dataframe to <b>df</b>.
+
+```{r echo= F}
+setwd("~/Library/CloudStorage/Box-Box/data/SG/Places")
+place <- read_csv('your_data_aug_11_2022_1107am.csv')
+setwd("~/Library/CloudStorage/Box-Box/data/SG/Patterns")
+patterns <- read_csv('your_data_sep_15_2022_0304pm.csv')
+
+```
+
+```{r}
+# load place and pattern data first. 
+# You don't have to follow the suggested solutions here
+
+temp <- place %>% select(placekey, naics_code) # since we only we need naics code
+
+df<-patterns %>% 
+  left_join(temp, by ='placekey')
+
+```
+
+Let's do some basic data cleaning.
+
+### Question 12
+Identify columns that contain a single (unique) value
+    - if you found them, supply your intuition whether you want to keep or remove
+```{r}
+# Note that there are three data types
+glimpse(df)
+
+# numeric columns all have positive variance, so no unique values
+df %>% summarise_if(is.numeric, var, na.rm = T) 
+
+# time variables are inherenetly irrelevant
+
+# Now focus on the character columns
+df_cha <- df %>%
+  select_if(is.character) 
+
+# Note that it has 20 columns
+ncol(df_cha)
+
+# However, all the columns after "brands" are json-type files. So only 9 columns are of interest.
+
+
+# You might run the following codes for all the columns
+df_cha %>% group_by(placekey) %>% count(sort = T)  %>% nrow()
+
+# See the description of the columns
+names(df_cha)
+
+# If you read the data descriptions carefully, only two columns worth to look
+df_cha %>% group_by(city) %>% count(sort = T)  %>% nrow()
+df_cha %>% group_by(region) %>% count(sort = T)  %>% nrow()
+
+```
+
+
+
+### Question 13
+Summarize the percentage of unique values for each column. That is, 100 percent means it consists of only one number; 50 percent means the unique value consists of half of the column (for example [1, 1, 1, 2, 3, 4]) 
+
+
+We have 
+```{r}
+names(df)
+```
+
+Need to think about
+
+1. whether I could calculate it for each column
+2. find the best possible algorithm for 1
+3. automate it? this is totally optional
+
+Focus on placekey first. What do we know?
+
+```{r}
+df %>% group_by(placekey) %>% count(sort = T)
+```
+
+Use we need to find the maximum of the counts and divide it by its total count.
+
+Use summarize()
+
+```{r}
+df %>% count(placekey, sort = T) %>% summarize(most_freq_share = max(n)/ sum(n) * 100)
+```
+
+Need to check using city 
+
+```{r}
+df %>% count(city, sort = T) %>% summarize(most_freq_share = max(n)/ sum(n) * 100)
+```
+
+Even if you did not know any packages or for loop, it should be less than 40 lines of the code.
+
+### Question 14
+Now focus on the columns having the numeric values. Suppose you want to put the variance thresholds on it. Note that the higher the threshold, the fewer features you can keep. Find out the optimal level of the threshold based on your understanding of this data.
+
+```{r}
+names(df_cha)
+```
+
+
+
+```{r}
+df %>% summarise_if(is.numeric, var, na.rm = T) 
+df %>% summarise_if(is.numeric, var, na.rm = T) %>% min()
+```
+Should we care about the normalized columns?
+```{r}
+df_num <- df %>%
+  select_if(is.numeric) 
+
+names(df_num)
+df_num <- df_num %>% select(-normalized_visits_by_state_scaling, -normalized_visits_by_total_visits) %>%
+  select(-normalized_visits_by_region_naics_visits, -normalized_visits_by_region_naics_visitors, -normalized_visits_by_total_visitors)
+
+df_num %>% summarise_if(is.numeric, var, na.rm = T) 
+```

@@ -1,0 +1,242 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>BUS211:lecture22</title>
+
+		<link rel="stylesheet" href="../dist/reset.css">
+		<link rel="stylesheet" href="../dist/reveal.css">
+		<link rel="stylesheet" href="../dist/theme/black.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="../plugin/highlight/monokai.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section data-markdown>
+					<textarea data-template>
+						## Lecture 22: <br> How to Scale Numerical Data
+						### BUS 211A-3<br>
+					
+					</textarea>
+				  </section>
+
+				  <section>
+					<h4>Tuseday class will be on the zoom</h4>
+					
+					
+					
+					
+				  </section>
+
+
+			<section>Why do we scale numerical data?</section>
+			<section>The two most popular techniques for scaling numerical data prior to modeling are normalization and standardization</section>	
+			
+			<section>Normalization scales each input variable<br> separately to the range 0-1</section>
+			
+			<section>Standardization scales each input variable separately by subtracting the mean (called centering) and dividing by the standard deviation to shift the distribution to have a mean of zero and a standard deviation of one</section>
+
+			<section>
+				Most models learn a mapping from input variables to an output variable
+			</section>
+		<section>The scale and distribution of the data drawn from the domain may be different for each variable</section>
+		<section>
+			Input variables may have different units (e.g. feet, kilometers, and hours) that, in turn, may mean the variables have different scales
+		</section>		
+		
+
+
+		<section>
+				
+			<ul>
+				<li class="fragment">Differences in the scales across input variables may increase the diffculty of the problem being modeled</li>
+				<ul>
+					<li class="fragment">some algorithms would not be affected by scaling</li>
+					<ul>
+						<li class="fragment">some algorithms would not be affected by scaling: random forest</li>
+					</ul>
+					<li class="fragment">others would be senstivie to the modeling</li>
+					<ul>
+						<li class="fragment">logistic regression, NLP</li>
+					</ul>
+				
+				
+				</ul>
+				
+			</ul>
+		</section>
+
+		<section>Data Normalization</section>
+
+		<section>Normalization is a rescaling of the data from the original range so that all values are within the new range of 0 and 1</section>
+		<section>Need to accurately estimate min and max</section>
+		
+			<section>
+				
+				<ul>
+					<li class="fragment">A value is normalized as follows:</li>
+					<ul>
+						<li class="fragment">$y = \frac{x -\text{min}}{\text{max}-\text{min}}$</li>
+						<li class="fragment">where the minimum and maximum values pertain to the value $x$ being normalized</li>
+					</ul>
+					
+					<li class="fragment">e.g. observed min, max: -10 and 30</li>
+					<ul>
+						<li class="fragment">Normalize a point 18.8</li>
+						<ul>
+							<li class="fragment">$\frac{18.8 - (-10)}{30-(-10)}=0.72$</li>	
+						</ul>
+						
+					</ul>
+					
+				</ul>
+			</section>
+		
+
+
+			
+			<section>
+				You can see that if an $x$ value is provided that is outside the bounds of the minimum and maximum values, the resulting value will not be in 0 and 1
+		</section>
+		
+		<section>You could check for these observations prior to making predictions and either remove them from the dataset or limit them to the pre-defined maximum or minimum values</section>
+
+		<section>Data Standardization</section>
+		<section>What is standardization?</section>
+
+		<section>Standardizing a dataset involves rescaling the distribution of values so that the mean of observed values is 0 and the standard deviation is 1</section>
+		<section>This can be thought of as subtracting the mean value or centering the data</section>
+		<section>Standardization assumes that your observations fit a Gaussian distribution (bell curve) with a well-behaved mean and standard deviation</section>
+		<section>You can still standardize your data if this expectation is not met, but you may not get reliable results</section>
+		<section>Standardization requires that you know or are able to accurately estimate the mean and standard deviation of observable values</section>
+		<section>Subtracting the mean from the data is called centering, whereas dividing by the standard
+			deviation is called scaling</section>
+		
+
+
+
+		<section>
+				
+			<ul>
+				<li class="fragment">A value is standardized as follows:</li>
+				<ul>
+					<li class="fragment">$y=\frac{x-\text{mean}}{\text{standard deviation}}$</li>
+					<li class="fragment">where mean$=\frac{1}{N}\sum_{i=1}^N x_i$</li>
+					<li class="fragment">and standard deviation$=\sqrt{\frac{\sum_{i=1}^N(x_i-\text{mean})^2}{N-1}}$</li>
+				
+				</ul>
+				
+				
+			</ul>
+		</section>
+		
+		
+		<section>
+			<ul>
+				<li class="fragment">We use the diabetes dataset</li>
+				<ul>
+					<li class="fragment">This dataset classifies patients data as either an onset of diabetes within five years or not</li>
+
+				</ul>
+				<li class="fragment">Let's see the data</li>
+				<img src="pics/lecture22_1.png" class="fragment" width = 500>
+				
+				
+				<li class="fragment">confirms the 7 input variables, one output variable, and 768 rows of data</li>			
+			</ul>
+		</section>
+		
+		<section>
+			<img src="pics/lecture22_2.png" class="fragment" width = 500>
+			<ul>
+				
+				<li class="fragment">Each variable has a very different scale</li>
+				
+				<li class="fragment">Revisit caret package in R</li>
+				
+				
+				
+				
+			</ul>
+		</section>
+		<section>The preProcess class can be used for many operations on predictors, including centering and scaling</section>
+		<section>The function preProcess estimates the required parameters for each operation and predict.preProcess is used to apply them to specific data sets</section>
+		<section>
+			<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+				preEstimates <- preProcess(your_data, method = c('range'))
+				normalized_data <- predict(preEstimates, your_data) 
+				</code></pre>	
+		
+			<ul>
+				<li class="fragment">See the basic syntax</li>
+				<li class="fragment">method = c('range') corresponds to scales the data within 0 and 1</li>
+				<li class="fragment">method = c('center', 'scale') corresponds to Standardization</li>
+				
+			</ul>
+		</section>
+		<section>
+			<img src="pics/lecture22_3.png" class="fragment" width = 700>
+			
+
+		</section>
+		<section><img src="pics/lecture22_4.png" class="fragment" width = 700></section>
+
+		<section>Now consider the distribution</section>
+		<section>
+			<h4>Non scaled distribution</h4>
+			<img src="pics/lecture22_5.png" class="fragment" width = 600>
+		</section>
+		<section>
+			<h4>Histogram Plots of scaled input dist</h4>
+			<img src="pics/lecture22_6.png" class="fragment" width = 600>
+		</section>
+		<section>
+			<h4>Histogram Plots of standardized input dist</h4>
+			<img src="pics/lecture22_7.png" class="fragment" width = 600>
+		</section>
+
+		<section>Should I normalize or standardize?</section>
+		<section>Whether input variables require scaling depends on the specifics of your problem and of each variable</section>
+		<section>
+			<ul>
+				<li class="fragment">You may have a sequence of quantities as inputs, such as prices or temperatures</li>
+				
+				<ul>
+					<li class="fragment">If the distribution of the quantity is normal, then it should be standardized, otherwise, the data should be normalized</li>					
+					<li class="fragment">This applies if the range of quantity values is large (10s, 100s, etc.) or small (0.01, 0.0001)</li>
+					<li class="fragment">If the quantity values are small (near 0-1) and the distribution is limited (e.g. standard deviation near 1), then perhaps you can get away with no scaling of the data</li>					
+				</ul>
+				
+			</ul>
+			
+		
+		</section>
+		<section>Standardization also can give values that are both positive and negative centered around zero</section>
+		
+	</div>
+
+		<script src="../dist/reveal.js"></script>
+		<script src="../plugin/notes/notes.js"></script>
+		<script src="../plugin/markdown/markdown.js"></script>
+		<script src="../plugin/highlight/highlight.js"></script>
+		<script src="../plugin/math/math.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+				progress: false,
+				touch: true,
+				slideNumber: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX ]
+			});
+		</script>
+	</body>
+</html>

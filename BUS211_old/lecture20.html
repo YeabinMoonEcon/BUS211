@@ -1,0 +1,425 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>BUS211:lecture20</title>
+
+		<link rel="stylesheet" href="../dist/reset.css">
+		<link rel="stylesheet" href="../dist/reveal.css">
+		<link rel="stylesheet" href="../dist/theme/black.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="../plugin/highlight/monokai.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section data-markdown>
+					<textarea data-template>
+						## Lecture 20: <br>Categorical Data and The Chi-Squared Test
+						### BUS 211A-3<br>
+					
+					</textarea>
+				  </section>
+
+				  <section>
+					<h4>Group assignments</h4>
+					
+					<ul>Check the deadline</ul>
+					
+					
+				  </section>
+
+
+		
+			<section>In the last lesson, we learned about the two sample independent t-test, which allowed us to compare the means of two groups</section>	
+			
+			<section>In this lesson, we'll learn about how we can perform a hypothesis test on a different data type:<br> categorical data</section>
+			
+			<section>As its name suggests, categorical data is just a collection of categories</section>
+
+				  <section>
+			Categorical data often comes from surveys,<br> where questions may ask participants<br> about their race or income level
+		</section>
+		<section>We'll be working with data on US income and demographics throughout this lesson</section>
+		
+
+			<section>
+				<img src="pics/lecture20_1.png" class="fragment" width = 800>
+				<ul>
+					<li class="fragment">Each row represents a single person who was counted in the 1990 US Census</li>
+					<ul>
+						<li class="fragment">32,561 rows</li>
+						<img src="pics/lecture20_2.png" class="fragment" width = 200>
+					</ul>
+					
+					
+				</ul>
+			</section>
+		
+
+
+			
+			<section>
+				This sample data seems to be somewhat biased, since we would expect the ratio to be more evenly split between the two genders
+		</section>
+		
+		<section>
+			However, we currently don't have anything in our toolkit that will allow us to test if this data is significantly different from what we expect
+		</section>
+
+		<section>
+			As we move through the lesson, <br>we'll slowly develop the intuition behind the hypothesis test for categorical data
+		</section>
+		<section>
+			At the end, we'll learn how to take other datasets and apply the same hypothesis test for future questions<br> we may have about it
+		</section>
+
+		<section>
+				<h4>Observed Data vs Expected Data</h4>
+			<ul>
+				<li class="fragment">We turned our intuition about the data </li>
+				<ul>
+				<li class="fragment">the gender split should be even</li>
+				</ul>
+				<li class="fragment">Given 32,561 rows, expect 16280.5 men and women in the data set</li>
+				<li class="fragment">We can actually calculate how much the data deviates from what we expect from it</li>
+				
+			
+			</ul>
+		</section>
+		
+
+
+		<section>
+			<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+				21790 - 16280.5 # males
+				>> 5509.5
+				
+				10771 - 16280.5 # females
+				>> -5509.5
+				</code></pre>	
+		
+			<ul>
+				<li class="fragment">We would interpret this difference</li>
+				<ul>
+				<li class="fragment">there being 5509.5 more males than what we expect</li>
+				<li class="fragment">5509.5 less females than what we would expect</li>
+				</ul>
+				<li class="fragment">This number is useful, but we would prefer to have a more standardized way of expressing differences</li>
+				<ul>
+					<li class="fragment">percentages</li>
+				
+					</ul>
+				
+			</ul>
+		</section>
+
+		<section>
+			<ul>
+				<li class="fragment">Instead of just the raw differences, we can divide them by the expected values</li>
+				<li class="fragment">Doing so will allow us to say what percentage the data deviates from our expectation</li>
+				<ul>
+					<li class="fragment">$\% \text{deviation} =  \frac{\text{Observed}- \text{Expected}}{\text{Expected}}$</li>					
+				</ul>
+			</ul>
+			<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+				female_diff <- (10771 - 16280.5) / 16280.5
+				male_diff <- (21790 - 16280.5) / 16280.5
+				</code></pre>	
+		
+		</section>
+
+		<section>In hypothesis testing, we're always looking for a good test statistic for us to summarize the data and use to calculate the probability of observing the data we see</section>
+		
+
+		
+		<section>
+			<h4>Dealing With Cancellation</h4>
+			<ul>
+				<li class="fragment">We got -0.338 for the female, and 0.338 for the male % difference</li>
+				<li class="fragment">Sum of the raw deviations in all the categories won't do us any good</li>
+				
+				<ul>
+					<li class="fragment">Why?</li>					
+					
+				</ul>
+				<li class="fragment">One way is to square the difference</li>
+				<ul>
+					<li class="fragment">$\frac{O-E}{E}\rightarrow\frac{(O-E)^2}{E}$</li>					
+					
+				</ul>
+			</ul>
+		</section>
+		
+		<section>
+			<ul>
+				<li class="fragment">$\frac{O-E}{E}\rightarrow\frac{(O-E)^2}{E}$</li>	
+				
+					<li class="fragment">Squaring the difference has other useful mathematical properties</li>
+					<ul>
+					<li class="fragment">prevent deviations from cancelling each other out</li>
+					<li class="fragment">make large deviations from expected values more apparent</li>
+					<li class="fragment">Squaring small values will still create small values, but squaring large numbers will make them grow exponentially larger</li>
+					
+				</ul>
+			</ul>
+				<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+					female_diff_sq <- (10771 - 16280.5)^2 / 16280.5
+					male_diff_sq <- (21790 - 16280.5)^2 / 16280.5
+					squared_diff_sum <- female_diff_sq + male_diff_sq
+					</code></pre>	
+			
+		</section>
+
+
+		<section>
+			
+			<ul>
+				<li class="fragment">Revisit $\% \text{deviation} =  \frac{\text{Observed}- \text{Expected}}{\text{Expected}}$				</li>
+				
+				<li class="fragment">This formula has a similar form to the t-statistic that we computed</li>
+				<ul>
+				<li class="fragment">$t = \frac{x-\mu}{\sigma}\iff \frac{O-E}{E}$</li>
+			</ul>
+				<li class="fragment">Standardizing by the expected value is similar to standardizing by the standard deviation</li>
+				<ul>
+				<li class="fragment">both of these values follow a standard normal distribution</li>
+			</ul>
+			</ul>
+			
+		</section>
+		<section>
+			If we were to look at many, many sample datasets on the census, we would expect to see mostly small deviations from our expectations on the gender counts and get rare large deviations from what we expect
+		</section>
+		<section>
+			If we plotted a probability distribution of these deviations, we would observe a normal distribution
+		</section>
+
+
+
+		<section>
+			
+			<ul>
+				<li class="fragment">Now consider $\frac{O-E}{E}\rightarrow\frac{(O-E)^2}{E}$</li>
+				<ul>
+				<li class="fragment">Squaring a value that comes from a standard normal distribution changes what distribution it comes from</li>
+				<ul>
+				<li class="fragment">Thankfully, this new probability distribution is also well studied</li>
+				<li class="fragment">There's no need to understand the technical details behind this</li>
+				<li class="fragment">but it's good to know that squaring a standard normal distribution produces a chi-squared distribution</li>
+			</ul>	
+			</ul>
+
+			</ul>
+			
+		</section>
+
+
+
+
+		<section>
+			
+			<ul>
+				<li class="fragment">Recall that in the last lecture</li>
+				
+				<ul>
+				<li class="fragment">We took advantage of the fact that the difference in means followed a normal distribution</li>
+				<li class="fragment">Our null hypothesis assumed that the difference in the means was 0</li>
+				<li class="fragment">Afterwards, we looked at how extreme our test statistic was under the null hypothesis, where we assumed the difference in means would be 0</li>
+				
+				<li class="fragment">Finally, we calculated the probability of seeing our test statistic or more extreme statistics under the null hypohthesis and called it our p-value</li>
+				
+				
+				
+
+			</ul>
+			
+			
+		</section>
+
+
+		<section>We have followed almost the same process here with the categorical data</section>
+		<section>We have created a test statistic, the sum of squared deviations, summarizing the amount of deviation in our data</section>
+		<section>This test statistic, as we just found out, follows a chi-squared distribution</section>
+		<section>Our job now is to figure out what our null hypothesis is and then see how extreme our test statistic is under this assumption</section>
+
+
+		<section>
+			<h4>Developing a null hypothesis</h4>
+			<ul>
+				<li class="fragment">We assumed that the data have an even split between males and females</li>
+				<ul>
+					<li class="fragment">$H_0$: the data sample is not different from the Census data based on the gender ratio</li>
+					<li class="fragment">$H_1$: the data sample is different from the Census data based on the gender ratio</li>
+				</ul>
+				<li class="fragment">We already have our test statistic, the sum of squared deviations</li>
+				<ul>
+					<li class="fragment">this test statistic follows a chi-squared distribution</li>
+					<li class="fragment">which chi-squared distribution to use?</li>
+				</ul>
+			</ul>
+		</section>
+		<section>
+			<ul>
+				<li class="fragment">For normal distribution, mean and variance are the parameters</li>
+				<ul>
+					<li class="fragment">most probability distributions have parameters that slightly change how the distribution will look</li>
+				</ul>
+				<li class="fragment">For a chi-squared distribution, the parameter that changes its shape is called its <b>degrees of freedom</b></li>
+				<ul>
+					<li class="fragment">describes how many independent variables are used to calculate the test statistic</li>
+
+				</ul>
+			</ul>
+		</section>
+
+		<section>
+			<ul>
+				<li class="fragment">For a chi-squared distribution, the degrees of freedom is the number of categories we used to sum up to make the test statistic, minus one</li>
+				<li class="fragment">we used two pieces of information</li>
+				<ul>
+					<li class="fragment">the squared difference of the males</li>
+					<li class="fragment">the squared difference of the females</li>
+				</ul>
+				<li class="fragment">Since we used two genders here, the degrees of freedom for the chi-distribution under the null hypothesis would be 1</li>
+				
+			</ul>
+		</section>
+
+		<section>Degrees of freedom is that it influences the chi-squared distribution we use, <br>and it's relatively easy to calculate</section>
+
+		<section>
+			<img src="pics/lecture20_3.png" class="fragment" width = 500>
+			<ul>
+				<li class="fragment">DF is 1, and most of the probability is between 0 and 1 in this chi-squared distribution</li>				
+				<ul>
+					<li class="fragment">Anything bigger than 1 has an extremely low probability</li>				
+					<li class="fragment">already expect that test statistics with high values would most likely have low probabilities</li>				
+				</ul>
+			</ul>
+			
+		</section>
+
+		
+
+		<section>
+			<ul>
+				<li class="fragment">Just so you know how extreme this statistic is, calculate the p-value of this statistic</li>	
+				<li class="fragment">We can use the pchisq() function to calculate the cumulative probability</li>
+				<ul>
+					
+				<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+				> pchisq(1, df = 1)
+				[1] 0.6826895
+				> pchisq(2, df = 1)
+				[1] 0.8427008
+				</code></pre>	
+	
+				
+	
+					<li class="fragment">Calculate the p-value for the test statistic of 3728, and assign it to pvalue</li>
+					<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+						> 1 - pchisq(3728, 1)
+						[1] 0
+						</code></pre>	
+					<li class="fragment">Should we reject the null hypothesis based on this p-value?</li>
+					
+				</ul>
+			</ul>
+		</section>
+	
+			<section>The p-value we calculated in the last screen was so small, so we rejected the null hypothesis</section>
+			<section>Henece, we would have a poor subset of the Census</section>
+
+			<section>Now consider we only received a dataset with 20 rows, but it had the same observed and expected proportions</section>
+			
+
+			<section>
+				<ul>
+					<li class="fragment">$\frac{(13-10)^2}{10} + \frac{(7-10^2)}{10} = 0.9+0.9 = 1.8$</li>
+					<pre data-id="code-animation" class="fragment"><code class="hljs" data-trim data-line-numbers>
+						> 1 - pchisq(1.8, 1)
+						[1] 0.1797125
+						</code></pre>
+					<li class="fragment">The chi-squared distribution is what we call sensitive to small sample sizes</li>
+					<ul>
+						<li class="fragment">if the sample size of our data set was a lot smaller, it might drastically change what the resulting test statistic could be</li>
+						
+					</ul>
+					
+					
+				</ul>
+
+			</section>
+
+		</section>
+
+		<section>
+			<h4>Considering More Categories</h4>
+			<ul>
+				<li class="fragment">Let's consider the race column of the data</li>
+				<li class="fragment">From the full 1990 US Census:</li>
+				<ul>
+					<li class="fragment">White: 80.3 %</li>
+					<li class="fragment">Black: 12.1 %</li>
+					<li class="fragment">Asian-Pac-Islander: 2.9%</li>
+					<li class="fragment">Amer-Indian-Eskimo: .8%</li>
+					<li class="fragment">Other: 3.9%</li>
+
+					
+				</ul>
+				<li class="fragment">Now, we actually observe in the data</li>
+				
+			</ul>
+			<img src="pics/lecture20_4.png" class="fragment" width = 500>
+		</section>
+
+		<section>
+			<ul>
+				<li class="fragment">Our hypotheses become:</li>
+				<ul>
+					<li class="fragment"> $H_0$: The proportions of different races in the data are the same as those in the full Census</li>
+						
+					<li class="fragment">$H_1$: The proportions of different races in the data are not the same as those in the full Census</li>
+					
+					
+				</ul>
+				<li class="fragment">For each category (White, Black, Asian-Pac-Islander, Amer-Indian-Eskimo, and Other):</li>
+				<ul>
+					<li class="fragment">compute the difference between the expected and observed counts,</li>
+					<li class="fragment">square the difference,</li>
+					<li class="fragment">divide by the expected value,</li>
+					<li class="fragment">keep a running sum of the squared differences</li>
+				</ul>
+			</ul>
+			
+		</section>
+
+		<section>What's the degrees of freedom?</section>
+		<section>Reject the null?</section>
+	</div>
+
+		<script src="../dist/reveal.js"></script>
+		<script src="../plugin/notes/notes.js"></script>
+		<script src="../plugin/markdown/markdown.js"></script>
+		<script src="../plugin/highlight/highlight.js"></script>
+		<script src="../plugin/math/math.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+				progress: false,
+				touch: true,
+				slideNumber: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX ]
+			});
+		</script>
+	</body>
+</html>

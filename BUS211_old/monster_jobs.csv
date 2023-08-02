@@ -1,0 +1,87 @@
+job_id,job_title,job_type,location,sector,salary_min,salary_max,payment_period
+1,Accountant job in Dallas,Full Time Employee,"Dallas, TX 75201",Accounting/Finance/Insurance,50000,60000,year
+2,APQP Quality Engineering Manager Job in Marlborough,"Full Time , Employee","Marlborough, MA",NA,90000,120000,year
+3,Business Intelligence Analyst Job in Cincinnati,Full Time Employee,"Cincinnati, OH 45242",IT/Software Development,80000,90000,year
+4,Business Systems Analyst Job in Philadelphia,Full Time,"Philadelphia, PA 19106",Experienced (Non-Manager),50000,60000,year
+5,Computer Operator Job in Cleveland,"Full Time, Temporary/Contract/Project","Cleveland, OH 44131",Experienced (Non-Manager),23,23,hour
+6,Computer Systems Analyst Job in Dallas,"Full Time, Employee","Dallas, TX",IT/Software Development,0,38000,year
+7,Contract Benefits Associate Job in Chicago,Full Time Temporary/Contract/Project,"Chicago, IL 60602",Human Resources,26,26,hour
+8,Data Analyst - Excel,Full Time Temporary/Contract/Project,"Irving, TX",IT/Software Development,20,25,hour
+9,Data Analyst (Intelligence Analyst) at USPIS Job in New York,Full Time Employee,"New York, NY 10007",Security/Protective Services,26.92,26.92,hour
+10,Data Analyst Job in Charlottesville,Full Time,"Charlottesville, VA 22901",Entry Level,0,42500,year
+11,Data Analyst Job in Dallas,"Full Time , Employee","Dallas, TX 75201",Experienced (Non-Manager),90000,95000,year
+12,Data Analyst Job in Fort Wayne,Full Time,"Fort Wayne, IN 46825",Entry Level,38000,46000,year
+13,Database/Applications Administrator Job in Clearwater,Full Time,"Clearwater, FL 33760",Experienced (Non-Manager),51708.8,81475.47,year
+14,Developer III Job in Leawood,Temporary/Contract/Project,"Leawood, KS 66211",Experienced (Non-Manager),0,55,hour
+15,Digital Product Manager - Data Analytics Job in Dallas,Full Time Employee,"Dallas, TX 75235",Marketing/Product,95000,105000,year
+16,Documentation Control Specialist - BOM/Labeling Changes/Purchasing Orders Job in Somerville,Full Time Temporary/Contract/Project,"Somerville, NJ 08876",NA,22,32,hour
+17,Enrollment Data Analyst Job in Irving,Full Time Employee,"Irving, TX 75039",NA,22.66,22.66,hour
+18,Environmental,Full Time Temporary/Contract/Project,"Environmental, Health and Safety Technician",Quality Assurance/Safety,1,1,hour
+19,Environmental,Full Time Temporary/Contract/Project,"Environmental, Health and Safety Technician",Quality Assurance/Safety,1,1,hour
+20,Epidemiologist - EDC Job in Portsmouth,"Full Time, Employee","Portsmouth, VA 23708",Biotech/R&D/Science,55000,60000,year
+21,Epidemiologist - Health Analysis Job in Portsmouth,"Full Time, Employee","Portsmouth, VA 23708",Biotech/R&D/Science,70000,75000,year
+22,Finance Manager Job in Northridge,Full Time Employee,"Northridge, CA 91325",Accounting/Finance/Insurance,110000,120000,year
+23,Finance Manager- Real Estate Job in Dallas,Full Time,"Dallas, TX",Experienced (Non-Manager),0,100000,year
+24,Financial Model Validation Job in Dallas,"Full Time, Employee","Dallas, TX",Accounting/Finance/Insurance,100000,130000,year
+25,Fraud Product Manager Job in San Francisco,Full Time Employee,"San Francisco, CA 94107",Accounting/Finance/Insurance,107000,135000,year
+26,HRIS Workday Professional Job in Dallas,Full Time,"Dallas, TX 75204",Experienced (Non-Manager),0,100000,year
+27,Intelligence Analyst / Records Examiner Analyst at DEA Job in Cedar Rapids,Full Time Employee,"Cedar Rapids, IA 52404",Security/Protective Services,19.5,19.5,hour
+28,Junior Accountant Job - Pleasanton,Full Time Temporary/Contract/Project,"Pleasanton, CA 94588",Accounting/Finance/Insurance,18,22,hour
+29,Junior Analyst/Assistant Project Manager Job in Crafton,Full Time,"Crafton, PA 15205",Entry Level,35000,40000,year
+30,Lab Manager - Textile/Lab Supervisor/Test Job in Atlanta,Full Time Employee,"Atlanta, GA 30328",NA,80000,100000,year
+31,Lead Data Analyst Job in Dallas,"Full Time, Temporary/Contract/Project","Dallas, TX 75226",Manager (Manager/Supervisor of Staff),16,16,hour
+32,Lead Database Administrator Job in Cincinnati,Full Time Employee,"Cincinnati, OH",Database Development/Administration,40,60,hour
+33,Master Black Belt Job in Boston,"Full Time, Temporary/Contract/Project",Boston   MA,NA,80,100,hour
+34,Material Control Specialist Job in Greer,Full Time,"Greer, SC 29651",Experienced (Non-Manager),20,31,hour
+35,Material Control Specialist Job in Greer,Full Time,"Greer, SC 29651",Experienced (Non-Manager),20,31,hour
+36,Mgr Quality Job in Carrollton,Full Time,"Carrollton, TX 75006",NA,0,109000,year
+37,MS SQL Server DBA Job in Dallas,Full Time,"Dallas, TX",NA,90000,90000,year
+38,NPD Quality Engineering Job in Waltham,"Full Time , Employee","Waltham, MA",NA,90000,120000,year
+39,NPD Quality Engineering Manager Job in Marlborough,"Full Time , Employee","Marlborough, MA",NA,90000,120000,year
+40,Policy Administrator Job in Tallahassee,Full Time,"Tallahassee, FL 32301",NA,0,65000,year
+41,Population Health Traveling Consultant Job in Dallas,Full Time Employee,"Dallas, TX",Systems Analysis - IT,100000,100000,year
+42,Procurement Analyst I Job in Horn Lake,Full Time Employee,Horn LakeMS,Project/Program Management,0,35,hour
+43,Program Assistant / Analyst at EOUSA Office of Legal and Victim Programs Job in Washington,Full Time Employee,"Washington, DC 20530",Administrative/Clerical,26.47,26.47,hour
+44,Program Manager - Manufacturing Excellence /Manufacturing Job in Beaumont,Full Time Employee,"Beaumont, TX 77657",NA,85000,115000,year
+45,Project Engineer - Project Controls/Construction / School/Budget / Cost Job in Los Angeles,Full Time Temporary/Contract/Project,"Los Angeles, CA 90001",NA,30,38,hour
+46,Quality Control Lead Job in Oxnard,NA,"Oxnard, CA 93030",Experienced (Non-Manager),0,15,hour
+47,Quality Control Lead Job in Oxnard,NA,"Oxnard, CA 93030",Experienced (Non-Manager),0,15,hour
+48,Quality Control Lead Job in Oxnard,NA,"Oxnard, CA 93030",Experienced (Non-Manager),0,15,hour
+49,Quality Control Lead Job in Oxnard,NA,"Oxnard, CA 93030",Experienced (Non-Manager),0,15,hour
+50,Quality Control Lead Job in Oxnard,NA,"Oxnard, CA 93030",Experienced (Non-Manager),0,15,hour
+51,Quality Engineer - Software/Electrical/Corrective Action Job in East Moline,Full Time Temporary/Contract/Project,"East Moline, IL 61244",NA,24,35,hour
+52,Quality Engineer - Software/Electrical/Corrective Action Job in East Moline,Full Time Temporary/Contract/Project,"East Moline, IL 61244",NA,24,35,hour
+53,Quality Engineer – tier- Automotive Parts Manufacturer (TN/RD#//) Job in Nashville,Full Time,"Nashville, TN",NA,50000,70000,year
+54,Quality Manager - Automotive - GA/JBU/ Job in Atlanta,Full Time,"Atlanta, GA",NA,65000,75000,year
+55,Quality Manager-Direct Hire Job in Lancaster,Full Time Employee,Quality Manager-Direct Hire,Quality Assurance/Safety,1,2,year
+56,Salesforce Marketing Specialist Job in Las Vegas,Full Time,"Las Vegas, NV 89144",Experienced (Non-Manager),0,50000,year
+57,SAS/Statistician,"Full Time, Employee","Westwood, NJ 07677",Biotech/R&D/Science,80000,220000,year
+58,SAS/Statistician/remote,"Full Time, Employee","Warren, NJ 07059",Biotech/R&D/Science,80000,220000,year
+59,SAS/Statistician/remote,"Full Time, Employee","Warren, NJ 07059",Biotech/R&D/Science,80000,220000,year
+60,Senior Digital Product Manager Job in Dallas,Full Time Employee,"Dallas, TX",Marketing/Product,90000,105000,year
+61,Senior Internal Audit - Limited Travel (Up to $k) Job in Boston,Full Time Employee,"Boston, MA",Accounting/Finance/Insurance,0,110000,year
+62,Senior Internal Auditor - work/life balance Job in Boston,Full Time Employee,"Boston, MA",Accounting/Finance/Insurance,90000,110000,year
+63,Senior Internal Auditor / IT Audit Job in Boston,Full Time Employee,"Boston, MA",Accounting/Finance/Insurance,0,90000,year
+64,Senior Manager,"Full Time , Employee","Dallas, TX 75201",Manager (Manager/Supervisor of Staff),90000,100000,year
+65,Senior Oracle Programmer / Analyst Job in Dallas,"Full Time , Employee","Dallas, TX 75201",Experienced (Non-Manager),110000,120000,year
+66,Senior Project Quality Engineer - NPD Job in Newton,"Full Time , Employee","Newton, MA",NA,100000,125000,year
+67,Senior Project Quality Engineer - NPD Job in Newton,"Full Time , Employee","Newton, MA",NA,100000,125000,year
+68,SQL Server Consultant,Full Time,"Dallas, TX 75235",Experienced (Non-Manager),60000,80000,year
+69,Sr. Functional Software Tester Job in Plano  function wrap(EL,Full Time,Plano 75024,Experienced (Non-Manager),34,43.75,hour
+70,Sr. New Product Quality Engineer - Consumer Goods Job in Framingham,"Full Time , Employee","Framingham, MA",NA,75000,110000,year
+71,Sr. Product Quality Engineer Job in Waltham,"Full Time , Employee","Waltham, MA",NA,90000,120000,year
+72,Sr. Quality Assurance Specalist (Medical Devices) Job in Tucson,Full Time,"Tucson, AZ 85741",Experienced (Non-Manager),0,75000,year
+73,Staff Accountant Job in Bethesda,Full Time Employee,"Bethesda, MD 20814",Experienced (Non-Manager),70000,80000,year
+74,Staff Accountant Job in Dallas,Full Time,"Dallas, TX",NA,45000,50000,year
+75,Staff Accountant Job in Dallas,Full Time,"Dallas, TX",NA,45000,50000,year
+76,Statistician/Bayesian,"Full Time, Employee","Bridgewater, NJ 08807",Biotech/R&D/Science,80000,220000,year
+77,SVP Mobile Advertising Sales Job in San Francisco,Full Time Employee,SVP Mobile Advertising Sales,Sales/Retail/Business Development,120000,130000,year
+78,Systems Support Specialist Job in Cincinnati,Full Time,"Cincinnati, OH 45240",Experienced (Non-Manager),17,18.5,hour
+79,Team lead Healthcare Analyst Job in Boston,"Full Time , Employee","Boston, MA",NA,850000,950000,year
+80,Team lead Healthcare Analyst Job in Boston,"Full Time , Employee","Boston, MA",NA,850000,950000,year
+81,Three Six Sigma Black Belts AND a MBB – Transactional - See Video Job in Baltimore,Full Time Employee,"4060BER Three Six Sigma Black Belts AND a MBB – Transactional Location: Baltimore, MD Salary: $100,000 to $130,000CLICK HERE TO WATCH THE VIDEO Our client is looking to add THREE BLACK BELTS AND ONE MASTER BLABK BELT to their team in the Baltimore, MD area. As a Six Sigma Blackbelt you will use a variety of skills to identify, analyze and implement opportunities for process improvement within the finance, operations, commercial operations, and information technology areas of the company. YOU WILL BE RESPONSIBLE TO: *Lead identified improvement efforts through all stages of the six sigma process (DMAIC, Lean, DMADV etc) *Provide leadership, guidance & coaching to people involved in the projects *Word directly with clients to develop solutions and resolve client specific issues. *Document via flowcharting existing processes and identify fail points and develop solutions *Conduct data analysis to determine root causes of service performance failure *Research, identify, and conceptualize process and system improvements *Develop improvement timelines, milestones and resource needs *Calculate and manage process improvement implantation, escalations, cost, scope, validation & sustainabilityTHE RIGHT CANDIDATE WILL HAVE: *Master’s Degree in business or a related field *Certified Lean Six Sigma Black Belt and proven experience *Experience with Minitab statistical software *Ability to understand business processes and systems impact *Ability to interact and develop working relationships with all levels and areas of the organization Interviews are being done quickly and are happening now! Don’t hesitate….send me your resume today and let’s get started! KEYWORDS: six sigma, 6 sigma, 6sigma, lean, operational excellence, continuous improvement, process improvement, BB, MBB, BLACK BELT, BLACKBELT, MASTER BLACKBELT, MASTER BLACK BELT, TECHNOLOGY, IT, INFORMATION TECHNOLOGY, ACCOUNTING, OPERATIONS, FINANCE, FINANCIALSubmit your information to Bill Ritchie for consideration at bercontact1@gmail.com or Click here, ONLINE APPLICATION to apply for this job.“As a Lean Transformation / Lean Manufacturing Recruiter at Management Recruiters-Indianapolis-North I have helped place many operations and deployment candidates into critical Lean Transformation / Lean Manufacturing jobs.”Visit us at www.mrindianapolis.com for more information to help you in your job search.Desk Identifiers: mri indy-north ber.mr.industry",Quality Assurance/Safety,100000,130000,year
+82,Validation Engineer Job in Santa Clara,Full Time,"Santa Clara, CA 95054",Experienced (Non-Manager),55,60,hour
+83,Validation Engineer Job in Santa Clara,Full Time,"Santa Clara, CA 95054",Experienced (Non-Manager),55,60,hour
+84,Vice President of Marketing Job in Austin,"Full Time, Employee","Austin, TX 78759","Executive (SVP, VP, Department Head, etc)",110000,150000,year
+85,VP,"Full Time , Employee","Dallas, TX 75201","Executive (SVP, VP, Department Head, etc)",185000,195000,year
+86,VP of Engineering Job in Atlanta,Full Time Employee,"Atlanta, GA",IT/Software Development,125000,175000,year
